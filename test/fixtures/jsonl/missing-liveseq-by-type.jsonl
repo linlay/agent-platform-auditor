@@ -1,0 +1,7 @@
+{"chatId":"chat-1","runId":"run-missing-live","updatedAt":1780837893831,"query":{"requestId":"req-1","chatId":"chat-1","role":"user","message":"hello","runId":"run-missing-live"},"_type":"query"}
+{"chatId":"chat-1","runId":"run-missing-live","updatedAt":1780837894831,"messages":[{"role":"assistant","content":[{"type":"text","text":"working"}]}],"_type":"react","seq":1}
+{"chatId":"chat-1","runId":"run-missing-live","updatedAt":1780837895831,"_type":"event","event":{"type":"run.start","timestamp":1780837895831,"chatId":"chat-1","runId":"run-missing-live"}}
+{"chatId":"chat-1","runId":"run-missing-live","updatedAt":1780837896831,"_type":"steer","steer":{"requestId":"req-steer-1","chatId":"chat-1","runId":"run-missing-live","steerId":"steer-1","message":"continue","role":"user"}}
+{"chatId":"chat-1","runId":"run-missing-live","updatedAt":1780837897831,"_type":"planning","event":{"type":"planning.snapshot","planningId":"plan-1","chatId":"chat-1","runId":"run-missing-live","timestamp":1780837897831,"text":"plan text"}}
+{"_type":"system","chatId":"chat-1","agentKey":"coder","runId":"run-missing-live","createdAt":1780837898831,"fingerprint":"sha256:test","systemMessage":{"role":"system","content":"You are helpful"},"tools":[]}
+{"chatId":"chat-1","runId":"run-missing-live","updatedAt":1780837899831,"_type":"step","messages":[{"role":"assistant","content":[{"type":"text","text":"legacy"}]}],"_stage":"react","_seq":1}

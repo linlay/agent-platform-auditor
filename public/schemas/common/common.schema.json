@@ -1,0 +1,271 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json",
+  "definitions": {
+    "role": {
+      "type": "string",
+      "enum": ["user", "assistant", "system", "tool"]
+    },
+    "positiveInteger": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "accessLevel": {
+      "type": "string",
+      "enum": ["default", "admin", "owner"]
+    },
+    "taskStatus": {
+      "type": "string",
+      "enum": ["running", "completed", "failed", "cancelled", "pending"]
+    },
+    "planExecuteStage": {
+      "type": "string",
+      "enum": ["plan", "execute", "summary"]
+    },
+    "streamEventType": {
+      "type": "string",
+      "enum": [
+        "request.query",
+        "awaiting.ask",
+        "awaiting.answer",
+        "request.submit",
+        "request.steer",
+        "chat.start",
+        "run.start",
+        "debug.preCall",
+        "debug.postCall",
+        "usage.snapshot",
+        "memory.write",
+        "memory.read",
+        "memory.search",
+        "memory.update",
+        "memory.forget",
+        "memory.timeline",
+        "memory.promote",
+        "memory.consolidate",
+        "run.complete",
+        "run.cancel",
+        "run.error",
+        "reasoning.start",
+        "reasoning.delta",
+        "reasoning.end",
+        "reasoning.snapshot",
+        "content.start",
+        "content.delta",
+        "content.end",
+        "content.snapshot",
+        "tool.start",
+        "tool.args",
+        "tool.end",
+        "tool.snapshot",
+        "tool.result",
+        "source.publish",
+        "action.start",
+        "action.args",
+        "action.end",
+        "action.snapshot",
+        "action.result",
+        "plan.create",
+        "plan.update",
+        "planning.delta",
+        "planning.snapshot",
+        "task.start",
+        "task.complete",
+        "task.cancel",
+        "task.error",
+        "artifact.publish"
+      ]
+    },
+    "queryPayload": {
+      "type": "object",
+      "required": ["requestId", "chatId", "role", "message", "runId"],
+      "additionalProperties": false,
+      "properties": {
+        "requestId": { "type": "string" },
+        "chatId": { "type": "string" },
+        "role": { "$ref": "#/definitions/role" },
+        "message": { "type": "string" },
+        "runId": { "type": "string" },
+        "agentKey": { "type": "string" },
+        "teamId": {},
+        "model": { "type": "object", "additionalProperties": true },
+        "accessLevel": { "$ref": "#/definitions/accessLevel" },
+        "liveSeq": { "$ref": "#/definitions/positiveInteger" },
+        "references": {},
+        "params": {},
+        "scene": {},
+        "stream": { "type": "boolean" },
+        "planningMode": { "type": "boolean" }
+      }
+    },
+    "contextWindow": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "actualSize": { "type": "number" },
+        "estimatedSize": { "type": "number" },
+        "maxSize": { "type": "number" },
+        "modelKey": { "type": "string" },
+        "reasoningEffort": { "type": "string" }
+      }
+    },
+    "usage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "modelKey": { "type": "string" },
+        "promptTokens": { "type": "number", "minimum": 0 },
+        "completionTokens": { "type": "number", "minimum": 0 },
+        "totalTokens": { "type": "number", "minimum": 0 },
+        "llmChatCompletionCount": { "type": "number", "minimum": 0 },
+        "toolCallCount": { "type": "number", "minimum": 0 },
+        "reasoningEffort": { "type": "string" },
+        "promptTokensDetails": { "type": "object", "additionalProperties": true },
+        "completionTokensDetails": { "type": "object", "additionalProperties": true }
+      }
+    },
+    "toolCallFunction": {
+      "type": "object",
+      "required": ["name", "arguments"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "arguments": { "type": "string" }
+      }
+    },
+    "toolCall": {
+      "type": "object",
+      "required": ["id", "type", "function"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string", "enum": ["function"] },
+        "function": { "$ref": "#/definitions/toolCallFunction" }
+      }
+    },
+    "message": {
+      "type": "object",
+      "required": ["role"],
+      "additionalProperties": false,
+      "properties": {
+        "role": { "$ref": "#/definitions/role" },
+        "content": { "type": "array" },
+        "ts": { "type": "number" },
+        "tool_calls": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/toolCall" }
+        },
+        "name": { "type": "string" },
+        "tool_call_id": { "type": "string" },
+        "reasoning_content": { "type": "array" },
+        "approval": { "type": "object", "additionalProperties": true },
+        "_reasoningId": { "type": "string" },
+        "_contentId": { "type": "string" },
+        "_msgId": { "type": "string" },
+        "_toolId": { "type": "string" },
+        "_actionId": { "type": "string" },
+        "_liveSeq": { "$ref": "#/definitions/positiveInteger" }
+      }
+    },
+    "awaitingItem": {
+      "type": "object",
+      "required": [
+        "awaitingId",
+        "mode",
+        "type",
+        "runId",
+        "agentKey",
+        "timestamp",
+        "timeout",
+        "viewportType",
+        "viewportKey"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "awaitingId": { "type": "string" },
+        "mode": { "type": "string" },
+        "type": { "type": "string" },
+        "runId": { "type": "string" },
+        "agentKey": { "type": "string" },
+        "timestamp": { "type": "number" },
+        "timeout": { "type": "number" },
+        "viewportType": { "type": "string" },
+        "viewportKey": { "type": "string" },
+        "questions": { "type": "array" },
+        "approvals": { "type": "array" },
+        "forms": { "type": "array" },
+        "plan": {}
+      }
+    },
+    "planningEvent": {
+      "type": "object",
+      "required": ["type", "planningId", "chatId", "runId", "timestamp"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "$ref": "#/definitions/streamEventType" },
+        "planningId": { "type": "string" },
+        "chatId": { "type": "string" },
+        "runId": { "type": "string" },
+        "timestamp": { "type": "number" },
+        "planningFile": { "type": "string" },
+        "text": { "type": "string" }
+      }
+    },
+    "eventPayload": {
+      "type": "object",
+      "required": ["type", "timestamp"],
+      "additionalProperties": true,
+      "properties": {
+        "type": { "$ref": "#/definitions/streamEventType" },
+        "timestamp": { "type": "number" },
+        "seq": { "$ref": "#/definitions/positiveInteger" },
+        "chatId": { "type": "string" },
+        "runId": { "type": "string" },
+        "requestId": { "type": "string" },
+        "agentKey": { "type": "string" },
+        "taskId": { "type": "string" }
+      }
+    },
+    "steerPayload": {
+      "type": "object",
+      "required": ["requestId", "chatId", "runId", "steerId", "message", "role"],
+      "additionalProperties": true,
+      "properties": {
+        "requestId": { "type": "string" },
+        "chatId": { "type": "string" },
+        "runId": { "type": "string" },
+        "steerId": { "type": "string" },
+        "message": { "type": "string" },
+        "role": { "$ref": "#/definitions/role" },
+        "timestamp": { "type": "number" }
+      }
+    },
+    "systemMessage": {
+      "type": "object",
+      "required": ["role", "content"],
+      "additionalProperties": false,
+      "properties": {
+        "role": { "$ref": "#/definitions/role" },
+        "content": {
+          "anyOf": [
+            { "type": "string" },
+            { "type": "array" }
+          ]
+        },
+        "name": { "type": "string" }
+      }
+    },
+    "stringMap": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "messageArray": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/message" }
+    },
+    "awaitingArray": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/awaitingItem" }
+    }
+  }
+}

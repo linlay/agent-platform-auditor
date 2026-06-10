@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://zenmind.local/platform-auditor/schemas/jsonl/query.schema.json",
+  "type": "object",
+  "required": ["chatId", "runId", "updatedAt", "query", "_type"],
+  "additionalProperties": false,
+  "properties": {
+    "chatId": { "type": "string" },
+    "runId": { "type": "string" },
+    "updatedAt": { "type": "number" },
+    "liveSeq": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/positiveInteger"
+    },
+    "taskId": { "type": "string" },
+    "taskName": { "type": "string" },
+    "taskToolId": { "type": "string" },
+    "subAgentKey": { "type": "string" },
+    "query": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/queryPayload"
+    },
+    "_type": { "type": "string", "enum": ["query"] },
+    "systems": { "type": "array" },
+    "hidden": { "type": "boolean" }
+  }
+}

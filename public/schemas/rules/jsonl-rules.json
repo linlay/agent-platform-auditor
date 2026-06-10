@@ -1,0 +1,67 @@
+{
+  "$schema": "https://zenmind.local/platform-auditor/schemas/rules/jsonl-rules.schema.json",
+  "version": "2026-06-08.jsonl-rules-v1",
+  "recordRules": [
+    {
+      "id": "legacy-step",
+      "op": "legacyStep",
+      "severity": "info"
+    },
+    {
+      "id": "usage-token-sum",
+      "op": "sumEquals",
+      "whenType": ["react", "plan-execute"],
+      "left": ["usage.promptTokens", "usage.completionTokens"],
+      "right": "usage.totalTokens",
+      "severity": "warning",
+      "code": "USAGE_TOKEN_SUM",
+      "title": "usage token 合计不匹配",
+      "path": "usage.totalTokens",
+      "expected": "promptTokens + completionTokens"
+    },
+    {
+      "id": "context-window-max",
+      "op": "lessThanOrEqual",
+      "whenType": ["react", "plan-execute"],
+      "left": "contextWindow.actualSize",
+      "right": "contextWindow.maxSize",
+      "severity": "warning",
+      "code": "CONTEXT_OVERFLOW",
+      "title": "contextWindow 超限",
+      "path": "contextWindow.actualSize"
+    },
+    {
+      "id": "awaiting-mode-payload",
+      "op": "requiredWhen",
+      "whenType": ["react", "plan-execute"],
+      "arrayPath": "awaiting",
+      "selector": "mode",
+      "cases": {
+        "approval": { "required": "approvals", "type": "array" },
+        "question": { "required": "questions", "type": "array" },
+        "form": { "required": "forms", "type": "array" },
+        "plan": { "required": "plan" }
+      }
+    },
+    {
+      "id": "awaiting-nested-cursor",
+      "op": "forbiddenAny",
+      "whenType": ["react", "plan-execute"],
+      "arrayPath": "awaiting",
+      "fields": ["liveSeq", "seq"],
+      "severity": "info",
+      "code": "NESTED_LIVESEQ",
+      "title": "awaiting 内含旧 cursor 字段",
+      "expected": "top-level liveSeq"
+    }
+  ],
+  "crossRecordRules": [
+    {
+      "id": "jsonl-live-seq-by-run",
+      "op": "liveSeqByRun",
+      "severity": "warning",
+      "typesExpectingLiveSeq": ["query", "react", "plan-execute", "submit", "event", "steer"],
+      "skipMissingTypes": ["planning", "system", "step"]
+    }
+  ]
+}

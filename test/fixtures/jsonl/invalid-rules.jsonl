@@ -1,0 +1,3 @@
+{"chatId":"chat-1","runId":"run-rules","updatedAt":1780837893831,"liveSeq":1,"messages":[{"role":"assistant","content":[]}],"usage":{"promptTokens":10,"completionTokens":5,"totalTokens":99},"contextWindow":{"actualSize":2000,"maxSize":1000},"awaiting":[{"awaitingId":"aw-1","mode":"question","type":"awaiting.ask","runId":"run-rules","agentKey":"coder","timestamp":1780837893831,"timeout":60,"viewportType":"chat","viewportKey":"main","seq":12}],"_type":"react","seq":1}
+{"chatId":"chat-1","runId":"run-rules","updatedAt":1780837894831,"liveSeq":1,"query":{"requestId":"req-2","chatId":"chat-1","role":"user","message":"dup","runId":"run-rules"},"_type":"query"}
+{"chatId":"chat-1","runId":"run-rules","updatedAt":1780837895831,"_type":"submit","submit":{"ok":true}}

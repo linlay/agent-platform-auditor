@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://zenmind.local/platform-auditor/schemas/jsonl/step.schema.json",
+  "type": "object",
+  "required": ["chatId", "runId", "updatedAt", "_type"],
+  "additionalProperties": false,
+  "properties": {
+    "chatId": { "type": "string" },
+    "runId": { "type": "string" },
+    "updatedAt": { "type": "number" },
+    "liveSeq": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/positiveInteger"
+    },
+    "_type": { "type": "string", "enum": ["step"] },
+    "messages": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/messageArray"
+    },
+    "system": { "type": "object", "additionalProperties": true },
+    "_stage": { "type": "string" },
+    "_seq": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/positiveInteger"
+    }
+  }
+}

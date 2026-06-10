@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://zenmind.local/platform-auditor/schemas/jsonl/system.schema.json",
+  "type": "object",
+  "required": [
+    "_type",
+    "chatId",
+    "agentKey",
+    "runId",
+    "createdAt",
+    "fingerprint",
+    "systemMessage",
+    "tools"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "_type": { "type": "string", "enum": ["system"] },
+    "chatId": { "type": "string" },
+    "agentKey": { "type": "string" },
+    "runId": { "type": "string" },
+    "createdAt": { "type": "number" },
+    "fingerprint": { "type": "string" },
+    "cacheKey": { "type": "string" },
+    "mode": { "type": "string" },
+    "stage": { "type": "string" },
+    "systemMessage": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/systemMessage"
+    },
+    "tools": {
+      "type": "array",
+      "items": { "type": "object", "additionalProperties": true }
+    }
+  }
+}

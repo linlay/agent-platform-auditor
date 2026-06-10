@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://zenmind.local/platform-auditor/schemas/jsonl/plan-execute.schema.json",
+  "type": "object",
+  "required": ["chatId", "runId", "updatedAt", "messages", "_type"],
+  "additionalProperties": false,
+  "properties": {
+    "chatId": { "type": "string" },
+    "runId": { "type": "string" },
+    "updatedAt": { "type": "number" },
+    "liveSeq": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/positiveInteger"
+    },
+    "messages": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/messageArray"
+    },
+    "_type": { "type": "string", "enum": ["plan-execute"] },
+    "seq": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/positiveInteger"
+    },
+    "systemRef": { "type": "object", "additionalProperties": true },
+    "system": { "type": "object", "additionalProperties": true },
+    "contextWindow": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/contextWindow"
+    },
+    "usage": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/usage"
+    },
+    "awaiting": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/awaitingArray"
+    },
+    "stage": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/planExecuteStage"
+    },
+    "plan": {},
+    "artifacts": {},
+    "debug": { "type": "object", "additionalProperties": true },
+    "taskId": { "type": "string" },
+    "taskStatus": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/taskStatus"
+    },
+    "taskSubAgentKey": { "type": "string" }
+  }
+}
