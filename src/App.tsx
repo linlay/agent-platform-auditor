@@ -5,6 +5,7 @@ import { getJsonlTypes, isSchemaRegistryLoaded, loadSchemaRegistry } from "./dom
 import type { AuditResult, DetectedMode, ParsedRecord, Strictness } from "./domain/types";
 import { DetailTabs } from "./components/DetailTabs";
 import { InputPanel } from "./components/InputPanel";
+import { IssuesPanel } from "./components/IssuesPanel";
 import { OverviewPanel } from "./components/OverviewPanel";
 import { TimelinePanel } from "./components/TimelinePanel";
 import { TopBar } from "./components/TopBar";
@@ -82,6 +83,7 @@ export default function App() {
     setRecords(parsed.records);
     setAuditResult(result);
     setSelectedRecordIndex(null);
+    setTypeFilter([]);
   }, [strictness]);
 
   useEffect(() => {
@@ -101,7 +103,7 @@ export default function App() {
       });
   }, [runParseAndAudit]);
 
-  const typeOptions = useMemo(() => getJsonlTypes(), [schemaState]);
+  const typeOptions = useMemo(() => records.length > 0 ? recordTypeOptions(records) : getJsonlTypes(), [records, schemaState]);
 
   const selectedRecord = selectedRecordIndex !== null ? records[selectedRecordIndex] ?? null : null;
 
@@ -163,6 +165,14 @@ export default function App() {
             onFileError={setFileError}
           />
           <OverviewPanel auditResult={auditResult} schemaState={schemaState} schemaError={schemaError} />
+          {auditResult ? (
+            <IssuesPanel
+              issues={auditResult.allIssues}
+              records={records}
+              filters={{ severity: severityFilter, typeFilter, searchQuery }}
+              onSelectRecord={setSelectedRecordIndex}
+            />
+          ) : null}
         </aside>
 
         <section className="middle-panel">
@@ -177,12 +187,16 @@ export default function App() {
           <DetailTabs
             record={selectedRecord}
             allIssues={auditResult?.allIssues ?? []}
-            records={records}
-            filters={{ severity: severityFilter, typeFilter, searchQuery }}
-            onSelectRecord={setSelectedRecordIndex}
           />
         </aside>
       </main>
     </>
   );
+}
+
+function recordTypeOptions(records: ParsedRecord[]): string[] {
+  const types = records
+    .map((record) => record.lineType || record.normalizedType || record.eventType || record.frame || record.kind)
+    .filter((type): type is string => Boolean(type));
+  return [...new Set(types)];
 }

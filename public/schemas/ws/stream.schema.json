@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://zenmind.local/platform-auditor/schemas/ws/stream.schema.json",
+  "type": "object",
+  "required": ["frame", "id", "streamId"],
+  "additionalProperties": false,
+  "properties": {
+    "frame": { "const": "stream" },
+    "id": { "type": "string" },
+    "streamId": { "type": "string" },
+    "event": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "seq": { "type": "integer", "minimum": 0 },
+        "type": { "type": "string" },
+        "timestamp": { "type": "number" }
+      }
+    },
+    "reason": { "type": "string" },
+    "lastSeq": { "type": "integer", "minimum": 0 }
+  }
+}

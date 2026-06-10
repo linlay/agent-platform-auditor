@@ -33,14 +33,14 @@ export function InputPanel(props: Props) {
         id="paste-area"
         value={props.raw}
         onChange={(event) => props.onRawChange(event.target.value)}
-        placeholder="粘贴 chatId.jsonl、SSE 原始文本、或 WebSocket JSON frame 日志..."
+        placeholder="粘贴 chatId.jsonl、SSE 原始文本、WebSocket JSON frame 日志或 HAR 抓包..."
       />
       <div className="btn-row">
         <button type="button" className="btn btn-primary" onClick={props.onParse} disabled={props.disabled}>解析并审计</button>
         <button type="button" className="btn" onClick={() => fileInputRef.current?.click()} disabled={props.disabled}>选择文件</button>
         <button type="button" className="btn" onClick={props.onLoadSample} disabled={props.disabled}>加载示例</button>
       </div>
-      <input ref={fileInputRef} className="visually-hidden" aria-label="选择日志文件" type="file" accept=".jsonl,.txt,.log,.json" onChange={handleFileChange} />
+      <input ref={fileInputRef} className="visually-hidden" aria-label="选择日志文件" type="file" accept=".jsonl,.txt,.log,.json,.har" onChange={handleFileChange} />
       {props.fileError ? <div className="input-error">文件读取失败：{props.fileError}</div> : null}
     </div>
   );

@@ -10,6 +10,10 @@
       "type": "integer",
       "minimum": 1
     },
+    "nonNegativeInteger": {
+      "type": "integer",
+      "minimum": 0
+    },
     "accessLevel": {
       "type": "string",
       "enum": ["default", "admin", "owner"]
@@ -122,6 +126,50 @@
         "reasoningEffort": { "type": "string" },
         "promptTokensDetails": { "type": "object", "additionalProperties": true },
         "completionTokensDetails": { "type": "object", "additionalProperties": true }
+      }
+    },
+    "reactUsage": {
+      "type": "object",
+      "required": ["promptTokens", "completionTokens", "totalTokens"],
+      "additionalProperties": false,
+      "properties": {
+        "modelKey": { "type": "string" },
+        "promptTokens": { "$ref": "#/definitions/nonNegativeInteger" },
+        "completionTokens": { "$ref": "#/definitions/nonNegativeInteger" },
+        "totalTokens": { "$ref": "#/definitions/nonNegativeInteger" },
+        "llmChatCompletionCount": { "$ref": "#/definitions/nonNegativeInteger" },
+        "toolCallCount": { "$ref": "#/definitions/nonNegativeInteger" },
+        "reasoningEffort": { "type": "string" },
+        "promptTokensDetails": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "cacheHitTokens": { "$ref": "#/definitions/nonNegativeInteger" },
+            "cacheMissTokens": { "$ref": "#/definitions/nonNegativeInteger" }
+          }
+        },
+        "completionTokensDetails": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "reasoningTokens": { "$ref": "#/definitions/nonNegativeInteger" }
+          }
+        }
+      }
+    },
+    "reactContextWindow": {
+      "type": "object",
+      "required": ["actualSize", "maxSize"],
+      "additionalProperties": false,
+      "properties": {
+        "actualSize": { "$ref": "#/definitions/nonNegativeInteger" },
+        "estimatedSize": { "$ref": "#/definitions/nonNegativeInteger" },
+        "maxSize": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "modelKey": { "type": "string" },
+        "reasoningEffort": { "type": "string" }
       }
     },
     "toolCallFunction": {

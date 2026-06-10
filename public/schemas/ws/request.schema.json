@@ -1,0 +1,191 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://zenmind.local/platform-auditor/schemas/ws/request.schema.json",
+  "type": "object",
+  "required": ["frame", "type", "id"],
+  "additionalProperties": false,
+  "properties": {
+    "frame": { "const": "request" },
+    "type": { "type": "string" },
+    "id": { "type": "string" },
+    "payload": {}
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "type": { "const": "/api/query" } }, "required": ["type"] },
+      "then": { "required": ["payload"], "properties": { "payload": { "$ref": "#/definitions/queryPayload" } } }
+    },
+    {
+      "if": { "properties": { "type": { "const": "/api/attach" } }, "required": ["type"] },
+      "then": { "required": ["payload"], "properties": { "payload": { "$ref": "#/definitions/attachPayload" } } }
+    },
+    {
+      "if": { "properties": { "type": { "const": "/api/detach" } }, "required": ["type"] },
+      "then": { "required": ["payload"], "properties": { "payload": { "$ref": "#/definitions/detachPayload" } } }
+    },
+    {
+      "if": { "properties": { "type": { "const": "/api/submit" } }, "required": ["type"] },
+      "then": { "required": ["payload"], "properties": { "payload": { "$ref": "#/definitions/submitPayload" } } }
+    },
+    {
+      "if": { "properties": { "type": { "const": "/api/steer" } }, "required": ["type"] },
+      "then": { "required": ["payload"], "properties": { "payload": { "$ref": "#/definitions/steerPayload" } } }
+    },
+    {
+      "if": { "properties": { "type": { "const": "/api/interrupt" } }, "required": ["type"] },
+      "then": { "required": ["payload"], "properties": { "payload": { "$ref": "#/definitions/interruptPayload" } } }
+    },
+    {
+      "if": { "properties": { "type": { "const": "/api/access-level" } }, "required": ["type"] },
+      "then": { "required": ["payload"], "properties": { "payload": { "$ref": "#/definitions/accessLevelPayload" } } }
+    }
+  ],
+  "definitions": {
+    "queryRole": {
+      "type": "string",
+      "enum": ["user", "assistant", "automation", "system"]
+    },
+    "accessLevel": {
+      "type": "string",
+      "enum": ["default", "auto_approve", "full_access"]
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string" },
+        "name": { "type": "string" },
+        "mimeType": { "type": "string" },
+        "sizeBytes": { "type": "integer", "minimum": 0 },
+        "url": { "type": "string" },
+        "sha256": { "type": "string" },
+        "sandboxPath": { "type": "string" },
+        "meta": { "type": "object", "additionalProperties": true }
+      }
+    },
+    "scene": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "url": { "type": "string" },
+        "title": { "type": "string" }
+      }
+    },
+    "queryModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "key": { "type": "string" },
+        "modelId": { "type": "string" },
+        "reasoningEffort": { "type": "string" }
+      }
+    },
+    "queryPayload": {
+      "type": "object",
+      "required": ["message"],
+      "additionalProperties": false,
+      "properties": {
+        "requestId": { "type": "string" },
+        "runId": { "type": "string" },
+        "chatId": { "type": "string" },
+        "agentKey": { "type": "string" },
+        "teamId": { "type": "string" },
+        "role": { "$ref": "#/definitions/queryRole" },
+        "message": { "type": "string" },
+        "references": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/reference" }
+        },
+        "params": { "type": "object", "additionalProperties": true },
+        "scene": { "$ref": "#/definitions/scene" },
+        "stream": { "type": "boolean" },
+        "planningMode": { "type": "boolean" },
+        "accessLevel": { "$ref": "#/definitions/accessLevel" },
+        "model": { "$ref": "#/definitions/queryModel" }
+      }
+    },
+    "attachPayload": {
+      "type": "object",
+      "required": ["runId", "agentKey"],
+      "additionalProperties": false,
+      "properties": {
+        "runId": { "type": "string" },
+        "agentKey": { "type": "string" },
+        "lastSeq": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "detachPayload": {
+      "type": "object",
+      "required": ["runId", "agentKey"],
+      "additionalProperties": false,
+      "properties": {
+        "runId": { "type": "string" },
+        "agentKey": { "type": "string" },
+        "reason": { "type": "string" }
+      }
+    },
+    "submitPayload": {
+      "type": "object",
+      "required": ["runId", "agentKey", "awaitingId", "params"],
+      "additionalProperties": false,
+      "properties": {
+        "chatId": { "type": "string" },
+        "runId": { "type": "string" },
+        "agentKey": { "type": "string" },
+        "awaitingId": { "type": "string" },
+        "submitId": { "type": "string" },
+        "params": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "minProperties": 1,
+            "additionalProperties": true
+          }
+        }
+      }
+    },
+    "steerPayload": {
+      "type": "object",
+      "required": ["runId", "agentKey", "message"],
+      "additionalProperties": false,
+      "properties": {
+        "requestId": { "type": "string" },
+        "chatId": { "type": "string" },
+        "runId": { "type": "string" },
+        "steerId": { "type": "string" },
+        "agentKey": { "type": "string" },
+        "teamId": { "type": "string" },
+        "message": { "type": "string" }
+      }
+    },
+    "interruptPayload": {
+      "type": "object",
+      "required": ["runId", "agentKey"],
+      "additionalProperties": false,
+      "properties": {
+        "requestId": { "type": "string" },
+        "chatId": { "type": "string" },
+        "runId": { "type": "string" },
+        "agentKey": { "type": "string" },
+        "teamId": { "type": "string" },
+        "message": { "type": "string" },
+        "source": { "type": "string" },
+        "reason": { "type": "string" },
+        "detail": { "type": "string" }
+      }
+    },
+    "accessLevelPayload": {
+      "type": "object",
+      "required": ["runId", "agentKey", "accessLevel"],
+      "additionalProperties": false,
+      "properties": {
+        "requestId": { "type": "string" },
+        "runId": { "type": "string" },
+        "agentKey": { "type": "string" },
+        "accessLevel": { "$ref": "#/definitions/accessLevel" },
+        "reason": { "type": "string" }
+      }
+    }
+  }
+}

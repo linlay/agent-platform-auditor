@@ -7,43 +7,93 @@ interface Props {
 }
 
 export function TimelinePanel({ timeline, selectedIndex, onSelect }: Props) {
-  if (timeline.length === 0) return <div className="timeline-empty">暂无时间线数据</div>;
+  if (timeline.length === 0) return <div className="timeline-panel"><div className="timeline-empty">暂无时间线数据</div></div>;
 
   const groups = groupTimeline(timeline);
   return (
-    <div className="timeline">
-      {groups.map(([groupKey, entries]) => (
-        <div className="timeline-group" key={groupKey}>
-          <div className="timeline-group-title">{groupKey}</div>
-          <div className="tl-header">
-            <span className="tl-h-time">Time</span>
-            <span className="tl-h-seq">Seq</span>
-            <span className="tl-h-live-seq">LiveSeq</span>
-            <span className="tl-h-type">Type</span>
-            <span className="tl-h-summary">Summary</span>
-          </div>
-          {entries.map((entry) => (
-            <button
-              type="button"
-              key={`${entry.recordIndex}-${entry.typeLabel}`}
-              className={`tl-entry ${entry.recordIndex === selectedIndex ? "selected" : ""}`}
-              onClick={() => onSelect(entry.recordIndex)}
-              title={[formatFullTime(entry.time), entry.seq || "", entry.liveSeq || "", entry.typeLabel, entry.summary].filter(Boolean).join(" · ")}
-            >
-              <span className="tl-time">{formatShortTime(entry.time)}</span>
-              <span className="tl-seq">{entry.seq || ""}</span>
-              <span className={`tl-live-seq${(entry.liveSeq || "").length > 1 ? " tl-live-seq-pill" : ""}`}>{entry.liveSeq || ""}</span>
-              <span className="tl-type">{entry.typeLabel}</span>
-              <span className="tl-summary">{entry.summary}</span>
-            </button>
-          ))}
-        </div>
+    <div className="timeline-panel">
+      <div className="timeline">
+        {groups.map(([groupKey, entries]) => (
+          isWsGroup(entries)
+            ? <WsTimelineGroup groupKey={groupKey} entries={entries} selectedIndex={selectedIndex} onSelect={onSelect} key={groupKey} />
+            : <DefaultTimelineGroup groupKey={groupKey} entries={entries} selectedIndex={selectedIndex} onSelect={onSelect} key={groupKey} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function DefaultTimelineGroup({ groupKey, entries, selectedIndex, onSelect }: { groupKey: string; entries: TimelineEntry[]; selectedIndex: number | null; onSelect: (index: number) => void }) {
+  return (
+    <div className="timeline-group">
+      <div className="timeline-group-title">{groupKey}</div>
+      <div className="tl-header tl-header-default">
+        <span className="tl-h-time">Time</span>
+        <span className="tl-h-seq">Seq</span>
+        <span className="tl-h-live-seq">LiveSeq</span>
+        <span className="tl-h-type">Type</span>
+        <span className="tl-h-summary">Summary</span>
+      </div>
+      {entries.map((entry) => (
+        <button
+          type="button"
+          key={`${entry.recordIndex}-${entry.typeLabel}`}
+          className={`tl-entry tl-entry-default ${entry.recordIndex === selectedIndex ? "selected" : ""}`}
+          onClick={() => onSelect(entry.recordIndex)}
+          title={[formatFullTime(entry.time), entry.seq || "", entry.liveSeq || "", entry.typeLabel, entry.summary].filter(Boolean).join(" · ")}
+        >
+          <span className="tl-time">{formatShortTime(entry.time)}</span>
+          <span className="tl-seq">{entry.seq || ""}</span>
+          <span className={`tl-live-seq${(entry.liveSeq || "").length > 1 ? " tl-live-seq-pill" : ""}`}>{entry.liveSeq || ""}</span>
+          <span className="tl-type">{entry.typeLabel}</span>
+          <span className="tl-summary">{entry.summary}</span>
+        </button>
       ))}
     </div>
   );
 }
 
+function WsTimelineGroup({ groupKey, entries, selectedIndex, onSelect }: { groupKey: string; entries: TimelineEntry[]; selectedIndex: number | null; onSelect: (index: number) => void }) {
+  return (
+    <div className="timeline-group timeline-group-ws">
+      <div className="timeline-group-title">{groupKey}</div>
+      <div className="tl-header tl-header-ws">
+        <span className="tl-h-time">Time</span>
+        <span className="tl-h-dir">Dir</span>
+        <span className="tl-h-frame">Frame</span>
+        <span className="tl-h-type">Type</span>
+        <span className="tl-h-id">ID</span>
+        <span className="tl-h-summary">Summary</span>
+      </div>
+      {entries.map((entry) => (
+        <button
+          type="button"
+          key={`${entry.recordIndex}-${entry.wsFrame || entry.typeLabel}`}
+          className={`tl-entry tl-entry-ws ${entry.recordIndex === selectedIndex ? "selected" : ""}`}
+          onClick={() => onSelect(entry.recordIndex)}
+          title={[formatFullTime(entry.time), entry.wsDirection || "", entry.wsFrame || "", entry.wsType || "", entry.wsId || "", entry.summary].filter(Boolean).join(" · ")}
+        >
+          <span className="tl-time">{formatShortTime(entry.time)}</span>
+          <span className="tl-ws-dir">{entry.wsDirection || ""}</span>
+          <span className="tl-ws-frame">{entry.wsFrame || entry.typeLabel}</span>
+          <span className="tl-ws-type">{entry.wsType || ""}</span>
+          <span className="tl-ws-id">{entry.wsId || ""}</span>
+          <span className="tl-summary">{entry.summary}</span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function isWsGroup(entries: TimelineEntry[]): boolean {
+  return entries.length > 0 && entries.every((entry) => entry.kind === "ws");
+}
+
 function groupTimeline(timeline: TimelineEntry[]): [string, TimelineEntry[]][] {
+  if (timeline.length > 0 && timeline.every((entry) => entry.kind === "ws")) {
+    return [["WebSocket Frames", timeline]];
+  }
+
   const groups = new Map<string, TimelineEntry[]>();
   timeline.forEach((entry) => {
     const key = entry.runId || entry.chatId || "_ungrouped";

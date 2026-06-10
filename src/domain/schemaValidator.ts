@@ -1,6 +1,6 @@
 import type { ErrorObject } from "ajv";
 import type { AuditIssue, JsonValue, ParsedRecord, Strictness } from "./types";
-import { getJsonlTypes, isKnownJsonlType, isSchemaRegistryLoaded, resolveJsonl } from "./schemaRegistry";
+import { getJsonlTypes, getWsFrameTypes, isKnownJsonlType, isKnownWsFrame, isSchemaRegistryLoaded, resolveJsonl, resolveWs } from "./schemaRegistry";
 import { makeIssue, shortJson, valueAtPath } from "./utils";
 
 export function validateJsonl(record: ParsedRecord, strictness: Strictness = "balanced"): AuditIssue[] {
@@ -52,7 +52,73 @@ export function validateJsonl(record: ParsedRecord, strictness: Strictness = "ba
     .filter((issue): issue is AuditIssue => Boolean(issue));
 }
 
+export function validateWs(record: ParsedRecord, strictness: Strictness = "balanced"): AuditIssue[] {
+  const issues: AuditIssue[] = [];
+  const data = record.data;
+  if (!data) return issues;
+
+  const frame = wsFrame(data);
+  if (!isSchemaRegistryLoaded()) {
+    issues.push(
+      makeIssue(
+        "error",
+        "SCHEMA_NOT_LOADED",
+        "JSON Schema 未加载",
+        record.index,
+        "",
+        "loaded WS schema registry",
+        "not loaded",
+        "schema registry 尚未加载，无法执行 WS 结构校验"
+      )
+    );
+    return issues;
+  }
+
+  if (!frame) {
+    issues.push(
+      makeIssue(
+        "error",
+        "MISSING_FRAME",
+        "WS 消息缺少 frame",
+        record.index,
+        "frame",
+        getWsFrameTypes().join(", "),
+        "undefined",
+        "WebSocket JSON 消息应包含 frame 字段"
+      )
+    );
+    return issues;
+  }
+
+  if (!isKnownWsFrame(frame)) {
+    issues.push(
+      makeIssue(
+        "error",
+        "INVALID_FRAME",
+        "frame 值无效",
+        record.index,
+        "frame",
+        getWsFrameTypes().join(", "),
+        JSON.stringify(frame),
+        `frame '${frame}' 不在合法 frame 类型中`
+      )
+    );
+    return issues;
+  }
+
+  const resolved = resolveWs(data);
+  if (!resolved || resolved.freeform || !resolved.validate) return issues;
+
+  const valid = resolved.validate(data);
+  if (valid) return issues;
+
+  return (resolved.validate.errors ?? [])
+    .map((err) => ajvErrorToIssue(err, data, record.index, strictness))
+    .filter((issue): issue is AuditIssue => Boolean(issue));
+}
+
 function ajvErrorToIssue(err: ErrorObject, data: JsonValue, idx: number, strictness: Strictness): AuditIssue | null {
+  if (err.keyword === "if") return null;
   if (err.keyword === "additionalProperties") {
     return unknownFieldIssue(err, data, idx);
   }
@@ -75,10 +141,12 @@ function ajvErrorToIssue(err: ErrorObject, data: JsonValue, idx: number, strictn
     title = `类型错误 ${path}`;
     expected = String((err.params as { type?: string }).type ?? "");
     actual = actualTypeText(valueAtPath(data, path));
-  } else if (err.keyword === "enum") {
+  } else if (err.keyword === "enum" || err.keyword === "const") {
     code = "INVALID_ENUM";
     title = `枚举值无效 ${path}`;
-    expected = ((err.params as { allowedValues?: unknown[] }).allowedValues ?? []).join(", ");
+    expected = err.keyword === "const"
+      ? shortJson((err.params as { allowedValue?: unknown }).allowedValue)
+      : ((err.params as { allowedValues?: unknown[] }).allowedValues ?? []).join(", ");
     actual = shortJson(valueAtPath(data, path));
   } else if (err.keyword === "minimum") {
     code = "VALUE_OUT_OF_RANGE";
@@ -139,4 +207,10 @@ function jsonlType(data: JsonValue): string | null {
   if (!data || typeof data !== "object" || Array.isArray(data)) return null;
   const type = data._type;
   return typeof type === "string" ? type : null;
+}
+
+function wsFrame(data: JsonValue): string | null {
+  if (!data || typeof data !== "object" || Array.isArray(data)) return null;
+  const frame = data.frame;
+  return typeof frame === "string" ? frame : null;
 }

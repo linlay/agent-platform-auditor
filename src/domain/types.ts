@@ -26,6 +26,11 @@ export interface ParsedRecord {
   legacy?: boolean;
   event?: JsonValue;
   isTerminal?: boolean;
+  wsDirection?: string | null;
+  wsOpcode?: number | null;
+  wsTime?: number | null;
+  wsEntryIndex?: number;
+  wsMessageIndex?: number;
 }
 
 export interface AuditIssue {
@@ -55,6 +60,10 @@ export interface TimelineEntry {
   kind: RecordKind;
   runId: string | null;
   chatId: string | null;
+  wsDirection?: string | null;
+  wsFrame?: string | null;
+  wsType?: string | null;
+  wsId?: string | null;
 }
 
 export interface AuditSummary {

@@ -1,7 +1,7 @@
 import type { AuditIssue, AuditResult, AuditSummary, JsonObject, JsonValue, ParsedRecord, Strictness, TimelineEntry } from "./types";
-import { EVENT_PAYLOAD_SCHEMAS, STREAM_EVENT_TYPES, TERMINAL_EVENTS, WS_FRAMES } from "./schema";
+import { EVENT_PAYLOAD_SCHEMAS, STREAM_EVENT_TYPES, TERMINAL_EVENTS } from "./schema";
 import { evaluateJsonl } from "./rulesEngine";
-import { validateJsonl } from "./schemaValidator";
+import { validateJsonl, validateWs } from "./schemaValidator";
 import { compactText, hasValue, isPlainObject, makeIssue, shortJson } from "./utils";
 
 export function auditRecords(records: ParsedRecord[], options: { strictness?: Strictness; parseIssues?: AuditIssue[] } = {}): AuditResult {
@@ -75,39 +75,19 @@ function auditSSERecord(rec: ParsedRecord, idx: number, issues: AuditIssue[], al
 
 function auditWSRecord(rec: ParsedRecord, issues: AuditIssue[], strictness: Strictness): void {
   if (!isPlainObject(rec.data)) return;
+  issues.push(...validateWs(rec, strictness));
   const data = rec.data;
   const frame = stringValue(data.frame);
 
-  if (!frame) {
-    issues.push(makeIssue("error", "MISSING_FRAME", "WS 消息缺少 frame", rec.index, "frame", "request|response|stream|push|error", "undefined", "WebSocket JSON 消息应包含 frame 字段"));
-    return;
-  }
-  if (!WS_FRAMES.includes(frame as never)) {
-    issues.push(makeIssue("error", "INVALID_FRAME", "frame 值无效", rec.index, "frame", WS_FRAMES.join(", "), JSON.stringify(frame), `frame '${frame}' 不在合法 frame 类型中`));
-    return;
-  }
-
-  if ((frame === "request" || frame === "response" || frame === "stream") && !data.id) {
-    issues.push(makeIssue("error", "MISSING_ID", `${frame} frame 缺少 id`, rec.index, "id", "string (必需)", "undefined", `${frame} frame 应包含 id 字段`));
-  }
+  if (!frame || !["request", "response", "stream", "push", "error"].includes(frame)) return;
 
   if (frame === "stream") {
-    if (!data.streamId) {
-      issues.push(makeIssue("warning", "MISSING_STREAM_ID", "stream frame 缺少 streamId", rec.index, "streamId", "string (推荐)", "undefined", "stream frame 建议包含 streamId"));
-    }
     if (isPlainObject(data.event)) {
-      auditLiveEventData(data.event, rec.index, issues, strictness, true);
+      auditWSStreamEventData(data.event, rec.index, issues);
     } else if (!data.reason && data.lastSeq === undefined) {
       issues.push(makeIssue("warning", "MISSING_EVENT_OR_TERMINAL", "stream frame 无 event 也无结束标记", rec.index, "event", "event 对象 或 reason/lastSeq", "undefined", "非 terminal stream frame 应包含 event；terminal 应包含 reason/lastSeq"));
     }
     if (data.reason || data.lastSeq !== undefined) rec.isTerminal = true;
-  }
-
-  if ((frame === "response" || frame === "error") && data.code === undefined) {
-    issues.push(makeIssue("warning", "MISSING_CODE", `${frame} frame 缺少 code`, rec.index, "code", "number (推荐)", "undefined", `${frame} frame 建议包含 code 字段`));
-  }
-  if ((frame === "response" || frame === "error") && !data.msg) {
-    issues.push(makeIssue("warning", "MISSING_MSG", `${frame} frame 缺少 msg`, rec.index, "msg", "string (推荐)", "undefined", `${frame} frame 建议包含 msg`));
   }
 }
 
@@ -147,6 +127,18 @@ function auditLiveEventData(data: JsonObject, idx: number, issues: AuditIssue[],
   }
 }
 
+function auditWSStreamEventData(data: JsonObject, idx: number, issues: AuditIssue[]): void {
+  if (data.type === undefined) {
+    issues.push(makeIssue("error", "MISSING_TYPE", "stream event 缺少 type", idx, "event.type", "string (必需)", "undefined", "stream event 应包含 type 字段"));
+  }
+  if (data.seq === undefined) {
+    issues.push(makeIssue("error", "MISSING_SEQ", "stream event 缺少 seq", idx, "event.seq", "number (必需)", "undefined", "stream event 应包含 seq 字段"));
+  }
+  if (data.timestamp === undefined) {
+    issues.push(makeIssue("warning", "MISSING_TIMESTAMP", "stream event 缺少 timestamp", idx, "event.timestamp", "number (推荐)", "undefined", "建议包含 timestamp 字段"));
+  }
+}
+
 function crossRecordValidation(records: ParsedRecord[], issues: AuditIssue[]): void {
   const runGroups: Record<string, { idx: number; rec: ParsedRecord }[]> = {};
   records.forEach((rec, i) => {
@@ -175,15 +167,47 @@ export function buildTimelineEntry(rec: ParsedRecord): TimelineEntry | null {
   const type = inferTypeLabel(rec);
   return {
     recordIndex: rec.index,
-    time: d ? numberOrString(d.updatedAt) ?? numberOrString(d.timestamp) : null,
+    time: inferTime(rec),
     seq: inferSeq(data),
     liveSeq: inferLiveSeq(data),
     typeLabel: type,
     summary: buildTimelineSummary(rec),
     kind: rec.kind,
-    runId: d && typeof d.runId === "string" ? d.runId : null,
-    chatId: d && typeof d.chatId === "string" ? d.chatId : null
+    runId: inferRunId(d),
+    chatId: inferChatId(d),
+    wsDirection: rec.kind === "ws" ? rec.wsDirection ?? null : null,
+    wsFrame: rec.kind === "ws" ? rec.frame ?? stringValue(d?.frame) : null,
+    wsType: rec.kind === "ws" ? inferWsType(d) : null,
+    wsId: rec.kind === "ws" ? stringValue(d?.id) : null
   };
+}
+
+function inferTime(rec: ParsedRecord): number | string | null {
+  const d = isPlainObject(rec.data) ? rec.data : null;
+  if (!d) return rec.wsTime ?? null;
+  return numberOrString(d.updatedAt)
+    ?? numberOrString(d.timestamp)
+    ?? (isPlainObject(d.event) ? numberOrString(d.event.timestamp) : null)
+    ?? rec.wsTime
+    ?? null;
+}
+
+function inferRunId(data: JsonObject | null): string | null {
+  if (!data) return null;
+  if (typeof data.runId === "string") return data.runId;
+  if (isPlainObject(data.event) && typeof data.event.runId === "string") return data.event.runId;
+  if (isPlainObject(data.payload) && typeof data.payload.runId === "string") return data.payload.runId;
+  if (isPlainObject(data.data) && typeof data.data.runId === "string") return data.data.runId;
+  return null;
+}
+
+function inferChatId(data: JsonObject | null): string | null {
+  if (!data) return null;
+  if (typeof data.chatId === "string") return data.chatId;
+  if (isPlainObject(data.event) && typeof data.event.chatId === "string") return data.event.chatId;
+  if (isPlainObject(data.payload) && typeof data.payload.chatId === "string") return data.payload.chatId;
+  if (isPlainObject(data.data) && typeof data.data.chatId === "string") return data.data.chatId;
+  return null;
 }
 
 function buildTimelineSummary(rec: ParsedRecord): string {
@@ -208,8 +232,7 @@ function buildTimelineSummary(rec: ParsedRecord): string {
     return summarizeObject(selectPayloadObject(data));
   }
   if (rec.kind === "ws") {
-    if (isPlainObject(data.event)) return summarizeObject(selectPayloadObject(data.event));
-    return summarizeObject(data);
+    return summarizeWsRecord(data);
   }
   if (rec.kind === "live-events") return summarizeObject(selectPayloadObject(data));
   return summarizeObject(data);
@@ -221,6 +244,12 @@ function inferTypeLabel(rec: ParsedRecord): string {
   if (rec.kind === "sse") return rec.lineType === "done" ? "[DONE]" : stringValue(d?.type) || rec.eventType || "sse-event";
   if (rec.kind === "ws") return rec.frame || stringValue(d?.frame) || "ws";
   return stringValue(d?.type) || "live-event";
+}
+
+function inferWsType(data: JsonObject | null): string | null {
+  if (!data) return null;
+  if (isPlainObject(data.event)) return stringValue(data.event.type) || stringValue(data.type);
+  return stringValue(data.type);
 }
 
 function inferSeq(data: JsonValue): string | null {
@@ -296,6 +325,27 @@ function summarizeObject(obj: unknown, preferredKeys: string[] = ["message", "te
   });
 
   return parts.join(" · ") || compactText(obj, 160) || "no summary fields";
+}
+
+function summarizeWsRecord(data: JsonObject): string {
+  const frame = stringValue(data.frame);
+  if (frame === "stream") {
+    const parts = [
+      stringValue(data.streamId) ? `streamId: ${compactText(data.streamId, 60)}` : "",
+      isPlainObject(data.event) && hasValue(data.event.seq) ? `seq: ${data.event.seq}` : "",
+      hasValue(data.lastSeq) ? `lastSeq: ${data.lastSeq}` : "",
+      stringValue(data.reason) ? `reason: ${compactText(data.reason, 60)}` : ""
+    ].filter(Boolean);
+    const payloadSummary = isPlainObject(data.event) ? summarizeObject(selectPayloadObject(data.event)) : "";
+    return [...parts, payloadSummary].filter(Boolean).join(" · ") || summarizeObject(data);
+  }
+  if (frame === "request") {
+    return isPlainObject(data.payload) ? summarizeObject(data.payload) : summarizeObject(data);
+  }
+  if (frame === "response" || frame === "push" || frame === "error") {
+    return isPlainObject(data.data) ? summarizeObject(data.data) : summarizeObject(data);
+  }
+  return summarizeObject(data);
 }
 
 function summarizeRoleCounts(messages: JsonValue[]): string {

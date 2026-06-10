@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, test, vi } from "vitest";
 import fs from "node:fs";
 import path from "node:path";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "./App";
 import { resetSchemaRegistryForTest } from "./domain/schemaRegistry";
@@ -35,7 +35,7 @@ beforeEach(() => {
 describe("App file import", () => {
   test("single file replaces textarea and auto parses", async () => {
     const user = userEvent.setup();
-    render(<App />);
+    const { container } = render(<App />);
     await screen.findByText("JSONL (聊天记录)");
 
     const fileRecord = {
@@ -61,12 +61,95 @@ describe("App file import", () => {
       expect(screen.getByText("run-file")).toBeTruthy();
       expect(screen.getByText((content, element) => element?.className === "tl-type" && content === "query")).toBeTruthy();
       expect(screen.getByText("hello from file")).toBeTruthy();
+      expect(container.querySelector(".tl-header-default .tl-h-seq")?.textContent).toBe("Seq");
+      expect(container.querySelector(".tl-header-default .tl-h-live-seq")?.textContent).toBe("LiveSeq");
     });
+  });
+
+  test("HAR WebSocket file uses WS timeline columns", async () => {
+    const user = userEvent.setup();
+    const { container } = render(<App />);
+    await screen.findByText("JSONL (聊天记录)");
+
+    const harRaw = fs.readFileSync(path.join(root, "test/fixtures/ws/har-websocket.json"), "utf8");
+    const file = new File([harRaw], "capture.har", { type: "application/json" });
+
+    await user.upload(screen.getByLabelText("选择日志文件"), file);
+
+    await screen.findByText("WebSocket Frame 日志");
+    await waitFor(() => expect(container.querySelectorAll(".tl-entry-ws")).toHaveLength(5));
+
+    expect(container.querySelector(".timeline-panel .timeline")).toBeTruthy();
+    expect(container.querySelector(".tl-header-ws .tl-h-dir")?.textContent).toBe("Dir");
+    expect(container.querySelector(".tl-header-ws .tl-h-frame")?.textContent).toBe("Frame");
+    expect(container.querySelector(".tl-header-ws .tl-h-type")?.textContent).toBe("Type");
+    expect(container.querySelector(".tl-header-ws .tl-h-id")?.textContent).toBe("ID");
+    expect(container.querySelector(".tl-header-ws .tl-h-seq")).toBeNull();
+    expect(container.querySelector(".tl-header-ws .tl-h-live-seq")).toBeNull();
+    expect(screen.queryByText("LiveSeq")).toBeNull();
+
+    const dirs = Array.from(container.querySelectorAll(".tl-ws-dir")).map((element) => element.textContent);
+    const frames = Array.from(container.querySelectorAll(".tl-ws-frame")).map((element) => element.textContent);
+    const types = Array.from(container.querySelectorAll(".tl-ws-type")).map((element) => element.textContent);
+    const ids = Array.from(container.querySelectorAll(".tl-ws-id")).map((element) => element.textContent);
+
+    expect(dirs).toEqual(["send", "receive", "receive", "receive", "receive"]);
+    expect(frames).toEqual(["request", "push", "response", "stream", "stream"]);
+    expect(types).toContain("/api/query");
+    expect(types).toContain("connected");
+    expect(types).toContain("content.delta");
+    expect(ids).toContain("req-1");
+  });
+
+  test("global issues render below overview and select their record", async () => {
+    const user = userEvent.setup();
+    const { container } = render(<App />);
+    await screen.findByText("JSONL (聊天记录)");
+
+    const issueRecord = {
+      chatId: "chat-issues",
+      runId: "run-issues",
+      updatedAt: 1780837893831,
+      liveSeq: 1,
+      query: {
+        requestId: "req-issues",
+        chatId: "chat-issues",
+        role: "user",
+        message: "issue selection target",
+        runId: "run-issues"
+      },
+      _type: "query",
+      extraTop: "boom"
+    };
+    const file = new File([JSON.stringify(issueRecord)], "issues.jsonl", { type: "application/jsonl" });
+
+    await user.upload(screen.getByLabelText("选择日志文件"), file);
+
+    const leftPanel = container.querySelector(".left-panel") as HTMLElement;
+    const rightPanel = container.querySelector(".right-panel") as HTMLElement;
+    expect(within(rightPanel).queryByRole("button", { name: "问题" })).toBeNull();
+    expect(within(rightPanel).getByRole("button", { name: "属性" })).toBeTruthy();
+    expect(within(rightPanel).getByRole("button", { name: "原始json" })).toBeTruthy();
+
+    expect(await within(leftPanel).findByText("错误 (1)")).toBeTruthy();
+    expect(within(leftPanel).getByText("UNKNOWN_FIELD")).toBeTruthy();
+    expect(within(leftPanel).getByText("未知字段 extraTop")).toBeTruthy();
+
+    const issueButton = within(leftPanel).getByText("UNKNOWN_FIELD").closest("button");
+    expect(issueButton).toBeTruthy();
+    await user.click(issueButton as HTMLButtonElement);
+
+    expect(await screen.findByText("属性校验 #1 (query)")).toBeTruthy();
   });
 
   test("raw JSON tab searches, highlights, reports misses, and copies full text", async () => {
     const user = userEvent.setup();
     const writeText = installClipboardMock();
+    const scrollIntoView = vi.fn();
+    Object.defineProperty(Element.prototype, "scrollIntoView", {
+      configurable: true,
+      value: scrollIntoView
+    });
     const { container } = render(<App />);
     await screen.findByText("JSONL (聊天记录)");
 
@@ -98,6 +181,7 @@ describe("App file import", () => {
     expect(screen.getByText("命中 1")).toBeTruthy();
     expect(container.querySelectorAll("mark.raw-json-highlight")).toHaveLength(1);
     expect(container.querySelector("mark.raw-json-highlight")?.textContent).toBe("requestId");
+    await waitFor(() => expect(scrollIntoView).toHaveBeenCalledWith({ block: "center", inline: "nearest" }));
 
     await user.clear(screen.getByPlaceholderText("搜索原始 JSON..."));
     await user.type(screen.getByPlaceholderText("搜索原始 JSON..."), "missing-value");

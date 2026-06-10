@@ -1,36 +1,25 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { ReactNode } from "react";
+import type { MutableRefObject, ReactNode } from "react";
 import type { AuditIssue, JsonObject, JsonValue, ParsedRecord } from "../domain/types";
-
-interface Filters {
-  severity: string;
-  typeFilter: string[];
-  searchQuery: string;
-}
 
 interface Props {
   record: ParsedRecord | null;
   allIssues: AuditIssue[];
-  records: ParsedRecord[];
-  filters: Filters;
-  onSelectRecord: (index: number) => void;
 }
 
-type TabId = "property" | "issues" | "raw";
+type TabId = "property" | "raw";
 
-export function DetailTabs({ record, allIssues, records, filters, onSelectRecord }: Props) {
+export function DetailTabs({ record, allIssues }: Props) {
   const [activeTab, setActiveTab] = useState<TabId>("property");
 
   return (
     <>
       <div className="right-tabs">
         <TabButton id="property" label="属性" activeTab={activeTab} onClick={setActiveTab} />
-        <TabButton id="issues" label="问题" activeTab={activeTab} onClick={setActiveTab} />
         <TabButton id="raw" label="原始json" activeTab={activeTab} onClick={setActiveTab} />
       </div>
       <div className="right-content">
         {activeTab === "property" ? <PropertyPanel record={record} allIssues={allIssues} /> : null}
-        {activeTab === "issues" ? <IssuesPanel issues={allIssues} records={records} filters={filters} onSelectRecord={onSelectRecord} /> : null}
         {activeTab === "raw" ? <RawPanel record={record} /> : null}
       </div>
     </>
@@ -190,47 +179,17 @@ function NestedRows({
   );
 }
 
-function IssuesPanel({ issues, records, filters, onSelectRecord }: { issues: AuditIssue[]; records: ParsedRecord[]; filters: Filters; onSelectRecord: (index: number) => void }) {
-  const filtered = useMemo(() => filterIssues(issues, records, filters), [issues, records, filters]);
-  if (issues.length === 0) return <div className="panel active"><div className="issues-empty">没有发现问题</div></div>;
-
-  const groups = {
-    error: filtered.filter((issue) => issue.severity === "error"),
-    warning: filtered.filter((issue) => issue.severity === "warning"),
-    info: filtered.filter((issue) => issue.severity === "info")
-  };
-
-  return (
-    <div className="panel active">
-      <div className="issues-list">
-        {(["error", "warning", "info"] as const).map((severity) => {
-          const list = groups[severity];
-          if (list.length === 0) return null;
-          return (
-            <div className="issues-group" key={severity}>
-              <div className={`issues-group-title severity-${severity}`}>{severityLabel(severity)} ({list.length})</div>
-              {list.map((issue, index) => (
-                <button type="button" className={`issue-item severity-${issue.severity}`} onClick={() => issue.recordIndex >= 0 && onSelectRecord(issue.recordIndex)} key={`${issue.code}-${issue.path}-${index}`}>
-                  <span className="issue-code">{issue.code}</span>
-                  <span className="issue-title">{issue.title}</span>
-                  <span className="issue-path">{issue.path}</span>
-                  {issue.recordIndex >= 0 ? <span className="issue-record"> #{issue.recordIndex + 1}</span> : null}
-                  <span className="issue-detail">{issue.message}</span>
-                </button>
-              ))}
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
 function RawPanel({ record }: { record: ParsedRecord | null }) {
   const [copied, setCopied] = useState(false);
   const [search, setSearch] = useState("");
+  const firstMatchRef = useRef<HTMLElement | null>(null);
   const text = record?.data ? JSON.stringify(record.data, null, 2) : record?.raw || "无数据";
-  const searchResult = useMemo(() => buildHighlightedText(text, search), [text, search]);
+  const searchResult = useMemo(() => buildHighlightedText(text, search, firstMatchRef), [text, search]);
+
+  useEffect(() => {
+    if (!search.trim() || searchResult.count === 0) return;
+    firstMatchRef.current?.scrollIntoView({ block: "center", inline: "nearest" });
+  }, [search, searchResult.count]);
 
   if (!record) return <div className="panel active"><div className="raw-empty">请选择一条记录查看原始 JSON</div></div>;
 
@@ -258,7 +217,7 @@ function RawPanel({ record }: { record: ParsedRecord | null }) {
   );
 }
 
-function buildHighlightedText(text: string, query: string): { nodes: ReactNode[]; count: number } {
+function buildHighlightedText(text: string, query: string, firstMatchRef: MutableRefObject<HTMLElement | null>): { nodes: ReactNode[]; count: number } {
   const normalizedQuery = query.trim().toLowerCase();
   if (!normalizedQuery) return { nodes: [text], count: 0 };
 
@@ -272,29 +231,13 @@ function buildHighlightedText(text: string, query: string): { nodes: ReactNode[]
     if (index === -1) break;
     if (index > cursor) nodes.push(text.slice(cursor, index));
     const end = index + normalizedQuery.length;
-    nodes.push(<mark className="raw-json-highlight" key={`${index}-${count}`}>{text.slice(index, end)}</mark>);
+    nodes.push(<mark className="raw-json-highlight" key={`${index}-${count}`} ref={count === 0 ? firstMatchRef : undefined}>{text.slice(index, end)}</mark>);
     count += 1;
     cursor = end;
   }
 
   if (cursor < text.length) nodes.push(text.slice(cursor));
   return { nodes: nodes.length > 0 ? nodes : [text], count };
-}
-
-function filterIssues(issues: AuditIssue[], records: ParsedRecord[], filters: Filters): AuditIssue[] {
-  return issues.filter((issue) => {
-    if (filters.severity !== "all" && issue.severity !== filters.severity) return false;
-    if (filters.typeFilter.length > 0 && issue.recordIndex >= 0) {
-      const record = records[issue.recordIndex];
-      const type = record?.lineType || record?.normalizedType || record?.eventType || record?.frame || record?.kind;
-      if (!type || !filters.typeFilter.includes(type)) return false;
-    }
-    if (filters.searchQuery) {
-      const q = filters.searchQuery.toLowerCase();
-      return [issue.path, issue.message, issue.title, issue.code].some((part) => part.toLowerCase().includes(q));
-    }
-    return true;
-  });
 }
 
 function removeDescendantPaths(paths: Set<string>, path: string): void {

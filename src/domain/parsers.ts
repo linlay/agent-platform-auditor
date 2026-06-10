@@ -8,6 +8,7 @@ export function detectMode(raw: string): DetectedMode {
 
   const first = lines[0].trim();
   if (first.charAt(0) === "{" && /"_type"\s*:/.test(first)) return "jsonl";
+  if (/"_webSocketMessages"\s*:/.test(raw)) return "ws";
   if (/"frame"\s*:/.test(first)) return "ws";
   if (lines.some((line) => /^event:/i.test(line.trim()) || /^data:/i.test(line.trim()))) return "sse";
 
@@ -160,6 +161,19 @@ function parseSSE(raw: string, records: ParsedRecord[], issues: AuditIssue[]): v
 
 function parseWS(raw: string, records: ParsedRecord[], issues: AuditIssue[]): void {
   const trimmed = raw.trim();
+  const wholeParsed = tryParseJson(trimmed);
+  if (wholeParsed && (Array.isArray(wholeParsed) || isPlainObject(wholeParsed))) {
+    const harMessages = extractHarWebSocketMessages(wholeParsed);
+    if (harMessages.length > 0) {
+      harMessages.forEach((message) => parseHarWebSocketMessage(message, records, issues));
+      return;
+    }
+    if (Array.isArray(wholeParsed)) {
+      wholeParsed.forEach((frame, i) => parseOneWSFrame(frame, records, i + 1, i + 1));
+      return;
+    }
+  }
+
   if (trimmed.charAt(0) === "[") {
     const parsed = tryParseJson(trimmed);
     if (Array.isArray(parsed)) {
@@ -192,12 +206,88 @@ function parseWS(raw: string, records: ParsedRecord[], issues: AuditIssue[]): vo
   });
 }
 
-function parseOneWSFrame(value: JsonValue, records: ParsedRecord[], startLine: number, endLine: number): void {
+interface HarWebSocketMessage {
+  message: JsonObject;
+  entryIndex: number;
+  messageIndex: number;
+}
+
+function extractHarWebSocketMessages(value: JsonValue): HarWebSocketMessage[] {
+  const messages: HarWebSocketMessage[] = [];
+  let entryIndex = 0;
+
+  const walk = (node: JsonValue): void => {
+    if (Array.isArray(node)) {
+      node.forEach(walk);
+      return;
+    }
+    if (!isPlainObject(node)) return;
+
+    if (Array.isArray(node._webSocketMessages)) {
+      const currentEntryIndex = entryIndex;
+      entryIndex += 1;
+      node._webSocketMessages.forEach((message, messageIndex) => {
+        if (isPlainObject(message)) {
+          messages.push({ message, entryIndex: currentEntryIndex, messageIndex });
+        }
+      });
+    }
+
+    Object.keys(node).forEach((key) => {
+      if (key === "_webSocketMessages") return;
+      walk(node[key]);
+    });
+  };
+
+  walk(value);
+  return messages;
+}
+
+function parseHarWebSocketMessage(message: HarWebSocketMessage, records: ParsedRecord[], issues: AuditIssue[]): void {
+  const data = message.message.data;
+  const rawData = typeof data === "string" ? data.trim() : JSON.stringify(data) ?? "";
+  let parsed: JsonValue | null = null;
+
+  if (typeof data === "string") {
+    parsed = tryParseJson(data.trim());
+  } else if (isPlainObject(data)) {
+    parsed = data;
+  }
+
+  if (parsed === null) {
+    issues.push(
+      makeIssue(
+        "error",
+        "WS_DATA_PARSE_JSON",
+        "HAR WS data JSON 解析失败",
+        -1,
+        "data",
+        "valid JSON string",
+        rawData.substring(0, 80),
+        `第 ${message.entryIndex + 1} 个 _webSocketMessages 数组的第 ${message.messageIndex + 1} 条 data 不是合法 JSON`
+      )
+    );
+    return;
+  }
+
+  if (!isPlainObject(parsed) || parsed.frame === undefined) return;
+
+  parseOneWSFrame(parsed, records, 1, 1, rawData, {
+    wsDirection: stringValue(message.message.type),
+    wsOpcode: numberValue(message.message.opcode),
+    wsTime: normalizeWsTime(numberValue(message.message.time)),
+    wsEntryIndex: message.entryIndex,
+    wsMessageIndex: message.messageIndex
+  });
+}
+
+function parseOneWSFrame(value: JsonValue, records: ParsedRecord[], startLine: number, endLine: number, rawValue?: string, extras: Partial<ParsedRecord> = {}): void {
   const frame = isPlainObject(value) && typeof value.frame === "string" ? value.frame : "unknown";
   records.push(
-    makeRecord("ws", records.length, startLine, endLine, JSON.stringify(value), value, {
+    makeRecord("ws", records.length, startLine, endLine, rawValue ?? JSON.stringify(value), value, {
       frame,
-      event: isPlainObject(value) && frame === "stream" ? value.event : undefined
+      event: isPlainObject(value) && frame === "stream" ? value.event : undefined,
+      ...extras
     })
   );
 }
@@ -256,4 +346,13 @@ function tryParseJson(value: string): JsonValue | null {
 
 function stringValue(value: JsonValue | undefined): string | null {
   return typeof value === "string" ? value : null;
+}
+
+function numberValue(value: JsonValue | undefined): number | null {
+  return typeof value === "number" ? value : null;
+}
+
+function normalizeWsTime(value: number | null): number | null {
+  if (value === null) return null;
+  return value < 1000000000000 ? Math.round(value * 1000) : value;
 }

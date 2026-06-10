@@ -1,0 +1,53 @@
+{
+  "log": {
+    "version": "1.2",
+    "entries": [
+      {
+        "_resourceType": "websocket",
+        "_webSocketMessages": [
+          {
+            "type": "receive",
+            "time": 1781103135.492829,
+            "opcode": 1,
+            "data": "{\"type\":\"hot\"}"
+          },
+          {
+            "type": "send",
+            "time": 1781103136.1,
+            "opcode": 1,
+            "data": "{\"frame\":\"request\",\"type\":\"/api/query\",\"id\":\"req-1\",\"payload\":{\"message\":\"hello\",\"agentKey\":\"coder\",\"chatId\":\"chat-1\",\"stream\":true}}"
+          },
+          {
+            "type": "receive",
+            "time": 1781103136.2,
+            "opcode": 1,
+            "data": "{\"frame\":\"push\",\"type\":\"connected\",\"data\":{\"sessionId\":\"ws_1\"}}\n"
+          }
+        ]
+      },
+      {
+        "_resourceType": "websocket",
+        "_webSocketMessages": [
+          {
+            "type": "receive",
+            "time": 1781103136.3,
+            "opcode": 1,
+            "data": "{\"frame\":\"response\",\"type\":\"/api/query\",\"id\":\"req-1\",\"code\":0,\"msg\":\"success\",\"data\":{\"runId\":\"run-1\",\"chatId\":\"chat-1\"}}"
+          },
+          {
+            "type": "receive",
+            "time": 1781103136.4,
+            "opcode": 1,
+            "data": "{\"frame\":\"stream\",\"id\":\"req-1\",\"streamId\":\"run-1\",\"event\":{\"seq\":1,\"type\":\"content.delta\",\"delta\":\"hi\",\"timestamp\":1781103136400}}"
+          },
+          {
+            "type": "receive",
+            "time": 1781103136.5,
+            "opcode": 1,
+            "data": "{\"frame\":\"stream\",\"id\":\"req-1\",\"streamId\":\"run-1\",\"reason\":\"done\",\"lastSeq\":1}"
+          }
+        ]
+      }
+    ]
+  }
+}

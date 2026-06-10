@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://zenmind.local/platform-auditor/schemas/ws/error.schema.json",
+  "type": "object",
+  "required": ["frame", "type", "code", "msg"],
+  "additionalProperties": false,
+  "properties": {
+    "frame": { "const": "error" },
+    "type": { "type": "string" },
+    "id": { "type": "string" },
+    "code": { "type": "integer" },
+    "msg": { "type": "string" },
+    "data": {}
+  }
+}

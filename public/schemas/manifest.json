@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema#",
-  "version": "2026-06-08.jsonl-v1",
+  "version": "2026-06-10.ws-har-v1",
   "draft": "http://json-schema.org/draft-07/schema#",
   "formats": {
     "jsonl": {
@@ -34,8 +34,21 @@
       "schemas": {}
     },
     "ws": {
-      "reserved": true,
-      "schemas": {}
+      "discriminator": "frame",
+      "schemaPaths": [
+        "schemas/ws/request.schema.json",
+        "schemas/ws/response.schema.json",
+        "schemas/ws/stream.schema.json",
+        "schemas/ws/push.schema.json",
+        "schemas/ws/error.schema.json"
+      ],
+      "schemas": {
+        "request": "https://zenmind.local/platform-auditor/schemas/ws/request.schema.json",
+        "response": "https://zenmind.local/platform-auditor/schemas/ws/response.schema.json",
+        "stream": "https://zenmind.local/platform-auditor/schemas/ws/stream.schema.json",
+        "push": "https://zenmind.local/platform-auditor/schemas/ws/push.schema.json",
+        "error": "https://zenmind.local/platform-auditor/schemas/ws/error.schema.json"
+      }
     },
     "live-events": {
       "reserved": true,
