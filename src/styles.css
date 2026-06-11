@@ -85,7 +85,6 @@ button { color: inherit; }
   background: var(--bg2);
   color: var(--text);
 }
-.filter-group select[multiple] { min-width: 140px; height: 28px; overflow-y: auto; }
 #search-input { width: 160px; }
 #strictness-select { width: 90px; }
 

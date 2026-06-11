@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { auditRecords } from "./domain/auditor";
 import { parseInput } from "./domain/parsers";
-import { getJsonlTypes, isSchemaRegistryLoaded, loadSchemaRegistry } from "./domain/schemaRegistry";
+import { isSchemaRegistryLoaded, loadSchemaRegistry } from "./domain/schemaRegistry";
 import type { AuditResult, DetectedMode, ParsedRecord, Strictness } from "./domain/types";
 import { DetailTabs } from "./components/DetailTabs";
 import { InputPanel } from "./components/InputPanel";
@@ -39,8 +39,10 @@ const sampleRaw = [
       { role: "assistant", content: [{ type: "text", text: "Let me analyze..." }], ts: 1780837895908, _reasoningId: "r_1", _msgId: "m_1", _liveSeq: 43 },
       { role: "assistant", content: [{ type: "text", text: "Starting investigation..." }], ts: 1780837896000, _msgId: "m_2", _liveSeq: 64, tool_calls: [{ id: "tc_1", type: "function", function: { name: "file_read", arguments: "{\"file_path\":\"test\"}" } }] }
     ],
-    usage: { modelKey: "th-deepseek-v4-pro", promptTokens: 100, completionTokens: 50, totalTokens: 150, llmChatCompletionCount: 1 },
-    contextWindow: { actualSize: 500, estimatedSize: 450, maxSize: 32000, modelKey: "th-deepseek-v4-pro", reasoningEffort: "HIGH" },
+    usage: { promptTokens: 100, completionTokens: 50, totalTokens: 150, llmChatCompletionCount: 1 },
+    contextWindow: { actualSize: 500, estimatedSize: 450, maxSize: 32000 },
+    modelKey: "th-deepseek-v4-pro",
+    reasoningEffort: "HIGH",
     systemRef: { cacheKey: "coder:plan", fingerprint: "sha256:abc123" },
     _type: "react",
     seq: 2
@@ -62,7 +64,6 @@ export default function App() {
   const [auditResult, setAuditResult] = useState<AuditResult | null>(null);
   const [selectedRecordIndex, setSelectedRecordIndex] = useState<number | null>(null);
   const [severityFilter, setSeverityFilter] = useState("all");
-  const [typeFilter, setTypeFilter] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [strictness, setStrictness] = useState<Strictness>("balanced");
   const [schemaState, setSchemaState] = useState<"loading" | "ready" | "error">("loading");
@@ -83,7 +84,6 @@ export default function App() {
     setRecords(parsed.records);
     setAuditResult(result);
     setSelectedRecordIndex(null);
-    setTypeFilter([]);
   }, [strictness]);
 
   useEffect(() => {
@@ -102,8 +102,6 @@ export default function App() {
         setSchemaError(error instanceof Error ? error.message : String(error));
       });
   }, [runParseAndAudit]);
-
-  const typeOptions = useMemo(() => records.length > 0 ? recordTypeOptions(records) : getJsonlTypes(), [records, schemaState]);
 
   const selectedRecord = selectedRecordIndex !== null ? records[selectedRecordIndex] ?? null : null;
 
@@ -142,9 +140,6 @@ export default function App() {
         detectedMode={schemaState === "ready" ? detectedMode : "unknown"}
         severityFilter={severityFilter}
         onSeverityFilterChange={setSeverityFilter}
-        typeOptions={typeOptions}
-        typeFilter={typeFilter}
-        onTypeFilterChange={setTypeFilter}
         searchQuery={searchQuery}
         onSearchQueryChange={setSearchQuery}
         strictness={strictness}
@@ -168,8 +163,7 @@ export default function App() {
           {auditResult ? (
             <IssuesPanel
               issues={auditResult.allIssues}
-              records={records}
-              filters={{ severity: severityFilter, typeFilter, searchQuery }}
+              filters={{ severity: severityFilter, searchQuery }}
               onSelectRecord={setSelectedRecordIndex}
             />
           ) : null}
@@ -192,11 +186,4 @@ export default function App() {
       </main>
     </>
   );
-}
-
-function recordTypeOptions(records: ParsedRecord[]): string[] {
-  const types = records
-    .map((record) => record.lineType || record.normalizedType || record.eventType || record.frame || record.kind)
-    .filter((type): type is string => Boolean(type));
-  return [...new Set(types)];
 }

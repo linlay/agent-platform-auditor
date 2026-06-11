@@ -18,8 +18,6 @@ interface Rule {
   left?: string | string[];
   right?: string;
   arrayPath?: string;
-  selector?: string;
-  cases?: Record<string, { required: string; type?: string }>;
   fields?: string[];
   typesExpectingLiveSeq?: string[];
   skipMissingTypes?: string[];
@@ -49,7 +47,6 @@ function applyRecordRule(rule: Rule, rec: ParsedRecord, issues: AuditIssue[], st
   if (rule.op === "legacyStep") applyLegacyStepRule(rule, rec, issues);
   if (rule.op === "sumEquals") applySumEqualsRule(rule, rec, issues);
   if (rule.op === "lessThanOrEqual") applyLessThanOrEqualRule(rule, rec, issues);
-  if (rule.op === "requiredWhen") applyRequiredWhenRule(rule, rec, issues);
   if (rule.op === "forbiddenAny") applyForbiddenAnyRule(rule, rec, issues, strictness);
 }
 
@@ -118,30 +115,6 @@ function applyLessThanOrEqualRule(rule: Rule, rec: ParsedRecord, issues: AuditIs
       `实际大小 ${left} 超过最大限制 ${right}`
     )
   );
-}
-
-function applyRequiredWhenRule(rule: Rule, rec: ParsedRecord, issues: AuditIssue[]): void {
-  if (!rule.arrayPath || !rule.selector) return;
-  const arr = valueAtPath(rec.data, rule.arrayPath);
-  if (!Array.isArray(arr)) return;
-
-  arr.forEach((item, i) => {
-    if (!isPlainObject(item)) return;
-    const selectorValue = item[rule.selector!];
-    if (typeof selectorValue !== "string") return;
-    const ruleCase = rule.cases?.[selectorValue];
-    if (!ruleCase) return;
-
-    const path = `${rule.arrayPath}[${i}].${ruleCase.required}`;
-    const actual = item[ruleCase.required];
-    if (actual === undefined) {
-      issues.push(makeIssue("error", "MISSING_REQUIRED", `${selectorValue} awaiting 缺少 ${ruleCase.required}`, rec.index, path, `${ruleCase.type || "value"} (必需)`, "undefined", `mode=${selectorValue} 的 awaiting.ask 应包含 ${ruleCase.required} 字段`));
-      return;
-    }
-    if (ruleCase.type === "array" && !Array.isArray(actual)) {
-      issues.push(makeIssue("error", "TYPE_MISMATCH", `awaiting ${ruleCase.required} 类型错误`, rec.index, path, "array", typeof actual, `mode=${selectorValue} 的 awaiting.${ruleCase.required} 应为数组`));
-    }
-  });
 }
 
 function applyForbiddenAnyRule(rule: Rule, rec: ParsedRecord, issues: AuditIssue[], _strictness: Strictness): void {

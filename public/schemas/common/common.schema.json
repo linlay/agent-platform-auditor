@@ -14,6 +14,10 @@
       "type": "integer",
       "minimum": 0
     },
+    "nonNegativeNumber": {
+      "type": "number",
+      "minimum": 0
+    },
     "accessLevel": {
       "type": "string",
       "enum": ["default", "admin", "owner"]
@@ -108,24 +112,32 @@
       "properties": {
         "actualSize": { "type": "number" },
         "estimatedSize": { "type": "number" },
-        "maxSize": { "type": "number" },
-        "modelKey": { "type": "string" },
-        "reasoningEffort": { "type": "string" }
+        "maxSize": { "type": "number" }
+      }
+    },
+    "estimatedCost": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "currency": { "type": "string" },
+        "inputCacheHit": { "$ref": "#/definitions/nonNegativeNumber" },
+        "inputCacheMiss": { "$ref": "#/definitions/nonNegativeNumber" },
+        "output": { "$ref": "#/definitions/nonNegativeNumber" },
+        "total": { "$ref": "#/definitions/nonNegativeNumber" }
       }
     },
     "usage": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "modelKey": { "type": "string" },
         "promptTokens": { "type": "number", "minimum": 0 },
         "completionTokens": { "type": "number", "minimum": 0 },
         "totalTokens": { "type": "number", "minimum": 0 },
         "llmChatCompletionCount": { "type": "number", "minimum": 0 },
         "toolCallCount": { "type": "number", "minimum": 0 },
-        "reasoningEffort": { "type": "string" },
         "promptTokensDetails": { "type": "object", "additionalProperties": true },
-        "completionTokensDetails": { "type": "object", "additionalProperties": true }
+        "completionTokensDetails": { "type": "object", "additionalProperties": true },
+        "estimatedCost": { "$ref": "#/definitions/estimatedCost" }
       }
     },
     "reactUsage": {
@@ -133,13 +145,11 @@
       "required": ["promptTokens", "completionTokens", "totalTokens"],
       "additionalProperties": false,
       "properties": {
-        "modelKey": { "type": "string" },
         "promptTokens": { "$ref": "#/definitions/nonNegativeInteger" },
         "completionTokens": { "$ref": "#/definitions/nonNegativeInteger" },
         "totalTokens": { "$ref": "#/definitions/nonNegativeInteger" },
         "llmChatCompletionCount": { "$ref": "#/definitions/nonNegativeInteger" },
         "toolCallCount": { "$ref": "#/definitions/nonNegativeInteger" },
-        "reasoningEffort": { "type": "string" },
         "promptTokensDetails": {
           "type": "object",
           "additionalProperties": false,
@@ -154,7 +164,8 @@
           "properties": {
             "reasoningTokens": { "$ref": "#/definitions/nonNegativeInteger" }
           }
-        }
+        },
+        "estimatedCost": { "$ref": "#/definitions/estimatedCost" }
       }
     },
     "reactContextWindow": {
@@ -167,9 +178,7 @@
         "maxSize": {
           "type": "integer",
           "minimum": 1
-        },
-        "modelKey": { "type": "string" },
-        "reasoningEffort": { "type": "string" }
+        }
       }
     },
     "toolCallFunction": {
@@ -229,20 +238,101 @@
         "viewportKey"
       ],
       "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "required": ["mode"],
+            "properties": {
+              "mode": { "const": "approval" }
+            }
+          },
+          "then": {
+            "required": ["approvals"]
+          }
+        },
+        {
+          "if": {
+            "required": ["mode"],
+            "properties": {
+              "mode": { "const": "question" }
+            }
+          },
+          "then": {
+            "required": ["questions"]
+          }
+        },
+        {
+          "if": {
+            "required": ["mode"],
+            "properties": {
+              "mode": { "const": "form" }
+            }
+          },
+          "then": {
+            "required": ["forms"]
+          }
+        },
+        {
+          "if": {
+            "required": ["mode"],
+            "properties": {
+              "mode": { "const": "plan" }
+            }
+          },
+          "then": {
+            "required": ["plan"]
+          }
+        }
+      ],
       "properties": {
         "awaitingId": { "type": "string" },
-        "mode": { "type": "string" },
-        "type": { "type": "string" },
+        "mode": { "type": "string", "enum": ["approval", "question", "form", "plan"] },
+        "type": { "type": "string", "enum": ["awaiting.ask"] },
         "runId": { "type": "string" },
         "agentKey": { "type": "string" },
         "timestamp": { "type": "number" },
         "timeout": { "type": "number" },
         "viewportType": { "type": "string" },
         "viewportKey": { "type": "string" },
-        "questions": { "type": "array" },
-        "approvals": { "type": "array" },
-        "forms": { "type": "array" },
-        "plan": {}
+        "questions": { "$ref": "#/definitions/awaitingObjectArray" },
+        "approvals": { "$ref": "#/definitions/awaitingObjectArray" },
+        "forms": { "$ref": "#/definitions/awaitingObjectArray" },
+        "plan": { "$ref": "#/definitions/awaitingPlan" }
+      }
+    },
+    "awaitingObjectArray": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "awaitingPlan": {
+      "type": "object",
+      "required": ["id", "title", "options"],
+      "additionalProperties": true,
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "planningFile": { "type": "string" },
+        "planningId": { "type": "string" },
+        "options": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/awaitingPlanOption" }
+        }
+      }
+    },
+    "awaitingPlanOption": {
+      "type": "object",
+      "required": ["decision", "label"],
+      "additionalProperties": true,
+      "properties": {
+        "decision": { "type": "string" },
+        "label": { "type": "string" },
+        "input": {
+          "type": "object",
+          "additionalProperties": true
+        }
       }
     },
     "planningEvent": {

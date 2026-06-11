@@ -5,9 +5,6 @@ interface Props {
   detectedMode: DetectedMode;
   severityFilter: string;
   onSeverityFilterChange: (value: string) => void;
-  typeOptions: string[];
-  typeFilter: string[];
-  onTypeFilterChange: (value: string[]) => void;
   searchQuery: string;
   onSearchQueryChange: (value: string) => void;
   strictness: Strictness;
@@ -28,21 +25,6 @@ export function TopBar(props: Props) {
           <option value="error">错误</option>
           <option value="warning">警告</option>
           <option value="info">提示</option>
-        </select>
-      </div>
-
-      <div className="filter-group">
-        <label htmlFor="type-filter">类型</label>
-        <select
-          id="type-filter"
-          multiple
-          value={props.typeFilter}
-          disabled={props.disabled}
-          onChange={(event) => props.onTypeFilterChange(Array.from(event.currentTarget.selectedOptions).map((option) => option.value))}
-        >
-          {props.typeOptions.map((type) => (
-            <option key={type} value={type}>{type}</option>
-          ))}
         </select>
       </div>
 

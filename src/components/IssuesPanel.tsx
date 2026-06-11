@@ -1,21 +1,19 @@
 import { useMemo } from "react";
-import type { AuditIssue, ParsedRecord } from "../domain/types";
+import type { AuditIssue } from "../domain/types";
 
 export interface IssueFilters {
   severity: string;
-  typeFilter: string[];
   searchQuery: string;
 }
 
 interface Props {
   issues: AuditIssue[];
-  records: ParsedRecord[];
   filters: IssueFilters;
   onSelectRecord: (index: number) => void;
 }
 
-export function IssuesPanel({ issues, records, filters, onSelectRecord }: Props) {
-  const filtered = useMemo(() => filterIssues(issues, records, filters), [issues, records, filters]);
+export function IssuesPanel({ issues, filters, onSelectRecord }: Props) {
+  const filtered = useMemo(() => filterIssues(issues, filters), [issues, filters]);
   if (issues.length === 0) return <div className="issues-panel panel active"><div className="issues-empty">没有发现问题</div></div>;
   if (filtered.length === 0) return <div className="issues-panel panel active"><div className="issues-empty">没有符合筛选的问题</div></div>;
 
@@ -51,14 +49,9 @@ export function IssuesPanel({ issues, records, filters, onSelectRecord }: Props)
   );
 }
 
-function filterIssues(issues: AuditIssue[], records: ParsedRecord[], filters: IssueFilters): AuditIssue[] {
+function filterIssues(issues: AuditIssue[], filters: IssueFilters): AuditIssue[] {
   return issues.filter((issue) => {
     if (filters.severity !== "all" && issue.severity !== filters.severity) return false;
-    if (filters.typeFilter.length > 0 && issue.recordIndex >= 0) {
-      const record = records[issue.recordIndex];
-      const type = record?.lineType || record?.normalizedType || record?.eventType || record?.frame || record?.kind;
-      if (!type || !filters.typeFilter.includes(type)) return false;
-    }
     if (filters.searchQuery) {
       const q = filters.searchQuery.toLowerCase();
       return [issue.path, issue.message, issue.title, issue.code].some((part) => part.toLowerCase().includes(q));

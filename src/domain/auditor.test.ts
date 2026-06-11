@@ -33,23 +33,28 @@ describe("JSONL auditing", () => {
           completionTokens: 147,
           completionTokensDetails: { reasoningTokens: 38 },
           llmChatCompletionCount: 1,
-          modelKey: "th-deepseek-v4-pro",
           promptTokens: 19737,
           promptTokensDetails: {
             cacheHitTokens: 10240,
             cacheMissTokens: 9497
           },
-          reasoningEffort: "HIGH",
           toolCallCount: 3,
-          totalTokens: 19884
+          totalTokens: 19884,
+          estimatedCost: {
+            currency: "CNY",
+            inputCacheHit: 0,
+            inputCacheMiss: 0.014451,
+            output: 0.001158,
+            total: 0.015609
+          }
         },
         contextWindow: {
           actualSize: 19737,
           estimatedSize: 19884,
-          maxSize: 1048576,
-          modelKey: "th-deepseek-v4-pro",
-          reasoningEffort: "HIGH"
+          maxSize: 1048576
         },
+        modelKey: "th-deepseek-v4-pro",
+        reasoningEffort: "HIGH",
         _type: "react",
         seq: 1
       }),
@@ -72,6 +77,36 @@ describe("JSONL auditing", () => {
         seq: 2
       })
     ].join("\n"));
+
+    expect(issues.filter((issue) => issue.severity === "error")).toHaveLength(0);
+    expect(issues.filter((issue) => issue.severity === "warning")).toHaveLength(0);
+  });
+
+  test("plan-execute usage accepts estimatedCost through the common schema", () => {
+    const issues = auditRaw(JSON.stringify({
+      chatId: "chat-1",
+      runId: "run-plan-usage",
+      updatedAt: 1780837895831,
+      liveSeq: 1,
+      messages: [{ role: "assistant", content: [] }],
+      usage: {
+        promptTokens: 1,
+        completionTokens: 2,
+        totalTokens: 3,
+        estimatedCost: {
+          currency: "CNY",
+          inputCacheHit: 0.00012480000000000002,
+          inputCacheMiss: 0.0192,
+          output: 0.001158,
+          total: 0.0204828
+        }
+      },
+      modelKey: "th-deepseek-v4-pro",
+      reasoningEffort: "HIGH",
+      _type: "plan-execute",
+      stage: "plan",
+      seq: 1
+    }));
 
     expect(issues.filter((issue) => issue.severity === "error")).toHaveLength(0);
     expect(issues.filter((issue) => issue.severity === "warning")).toHaveLength(0);
@@ -130,7 +165,14 @@ describe("JSONL auditing", () => {
           promptTokens: -1,
           completionTokens: 1.5,
           totalTokens: "2",
-          llmChatCompletionCount: -1
+          llmChatCompletionCount: -1,
+          estimatedCost: {
+            currency: "CNY",
+            inputCacheHit: -0.01,
+            inputCacheMiss: "0.01",
+            output: 0,
+            total: 0
+          }
         },
         contextWindow: {
           actualSize: "3",
@@ -147,16 +189,28 @@ describe("JSONL auditing", () => {
         liveSeq: 2,
         messages: [{ role: "assistant", content: [] }],
         usage: {
+          modelKey: "th-deepseek-v4-pro",
           promptTokens: 1,
           promptTokensDetails: { cacheHitTokens: 1, extraPromptDetail: true },
           completionTokens: 2,
           completionTokensDetails: { reasoningTokens: 1, extraCompletionDetail: true },
+          reasoningEffort: "HIGH",
+          estimatedCost: {
+            currency: "CNY",
+            inputCacheHit: 0,
+            inputCacheMiss: 0,
+            output: 0,
+            total: 0,
+            extraField: true
+          },
           totalTokens: 3,
           extraUsage: true
         },
         contextWindow: {
           actualSize: 3,
           maxSize: 10,
+          modelKey: "th-deepseek-v4-pro",
+          reasoningEffort: "HIGH",
           extraContext: true
         },
         _type: "react",
@@ -168,12 +222,19 @@ describe("JSONL auditing", () => {
     expect(issues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "usage.completionTokens")).toBe(true);
     expect(issues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "usage.totalTokens")).toBe(true);
     expect(issues.some((issue) => issue.code === "VALUE_OUT_OF_RANGE" && issue.path === "usage.llmChatCompletionCount")).toBe(true);
+    expect(issues.some((issue) => issue.code === "VALUE_OUT_OF_RANGE" && issue.path === "usage.estimatedCost.inputCacheHit")).toBe(true);
+    expect(issues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "usage.estimatedCost.inputCacheMiss")).toBe(true);
     expect(issues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "contextWindow.actualSize")).toBe(true);
     expect(issues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "contextWindow.estimatedSize")).toBe(true);
     expect(issues.some((issue) => issue.code === "VALUE_OUT_OF_RANGE" && issue.path === "contextWindow.maxSize")).toBe(true);
     expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "usage.extraUsage")).toBe(true);
+    expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "usage.modelKey")).toBe(true);
+    expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "usage.reasoningEffort")).toBe(true);
+    expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "usage.estimatedCost.extraField")).toBe(true);
     expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "usage.promptTokensDetails.extraPromptDetail")).toBe(true);
     expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "usage.completionTokensDetails.extraCompletionDetail")).toBe(true);
+    expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "contextWindow.modelKey")).toBe(true);
+    expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "contextWindow.reasoningEffort")).toBe(true);
     expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "contextWindow.extraContext")).toBe(true);
   });
 
@@ -193,11 +254,134 @@ describe("JSONL auditing", () => {
     const issues = auditFixture("invalid-rules.jsonl", "balanced");
     expect(issues.some((issue) => issue.code === "USAGE_TOKEN_SUM")).toBe(true);
     expect(issues.some((issue) => issue.code === "CONTEXT_OVERFLOW")).toBe(true);
-    expect(issues.some((issue) => issue.code === "MISSING_REQUIRED" && issue.path === "awaiting[0].questions")).toBe(true);
+    expect(issues.some((issue) => issue.code === "MISSING_REQUIRED" && issue.path === "awaiting.0.questions")).toBe(true);
     expect(issues.some((issue) => issue.code === "NESTED_LIVESEQ")).toBe(true);
     expect(issues.some((issue) => issue.code === "LIVESEQ_DUPLICATE")).toBe(true);
     expect(issues.some((issue) => issue.code === "LIVESEQ_DECREASE")).toBe(true);
     expect(issues.some((issue) => issue.code === "MISSING_LIVESEQ")).toBe(true);
+  });
+
+  test("awaiting plan payload validates through JSON Schema", () => {
+    const issues = auditRaw(JSON.stringify(reactRecordWithAwaiting({
+      awaitingId: "mq97x6ji_coder_plan_confirm_1",
+      mode: "plan",
+      type: "awaiting.ask",
+      runId: "mq97x6ji",
+      agentKey: "coder-1780997036997",
+      timestamp: 1781165515440,
+      timeout: 0,
+      viewportType: "builtin",
+      viewportKey: "plan",
+      plan: {
+        id: "confirm",
+        title: "实施此计划？",
+        planningFile: "/Users/linlay/Project/zenmind/zenmind-env/chats/fd04b06a-57e8-4a46-8aa7-0b312ed8c5d1/.tools/plans/mq97x6ji_planning_1.md",
+        planningId: "mq97x6ji_planning_1",
+        options: [
+          { decision: "approve", label: "是，实施此计划" },
+          {
+            decision: "reject",
+            label: "否，请告知如何调整",
+            input: {
+              placeholder: "请告知如何调整",
+              required: false,
+              type: "text"
+            }
+          }
+        ]
+      }
+    })));
+
+    expect(issues.filter((issue) => issue.severity === "error")).toHaveLength(0);
+    expect(issues.filter((issue) => issue.severity === "warning")).toHaveLength(0);
+  });
+
+  test("awaiting plan payload schema reports invalid plan shapes", () => {
+    const issues = auditRaw([
+      JSON.stringify(reactRecordWithAwaiting({
+        awaitingId: "await-missing-plan",
+        mode: "plan",
+        type: "awaiting.ask",
+        runId: "run-awaiting-schema",
+        agentKey: "coder",
+        timestamp: 1780837893831,
+        timeout: 60,
+        viewportType: "builtin",
+        viewportKey: "plan"
+      }, 1)),
+      JSON.stringify(reactRecordWithAwaiting({
+        awaitingId: "await-options-type",
+        mode: "plan",
+        type: "awaiting.ask",
+        runId: "run-awaiting-schema",
+        agentKey: "coder",
+        timestamp: 1780837894831,
+        timeout: 60,
+        viewportType: "builtin",
+        viewportKey: "plan",
+        plan: {
+          id: "confirm",
+          title: "实施此计划？",
+          options: "approve"
+        }
+      }, 2)),
+      JSON.stringify(reactRecordWithAwaiting({
+        awaitingId: "await-option-required",
+        mode: "plan",
+        type: "awaiting.ask",
+        runId: "run-awaiting-schema",
+        agentKey: "coder",
+        timestamp: 1780837895831,
+        timeout: 60,
+        viewportType: "builtin",
+        viewportKey: "plan",
+        plan: {
+          id: "confirm",
+          title: "实施此计划？",
+          options: [
+            { label: "是，实施此计划" },
+            { decision: "reject" }
+          ]
+        }
+      }, 3))
+    ].join("\n"));
+
+    expect(issues.some((issue) => issue.code === "MISSING_REQUIRED" && issue.path === "awaiting.0.plan")).toBe(true);
+    expect(issues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "awaiting.0.plan.options")).toBe(true);
+    expect(issues.some((issue) => issue.code === "MISSING_REQUIRED" && issue.path === "awaiting.0.plan.options.0.decision")).toBe(true);
+    expect(issues.some((issue) => issue.code === "MISSING_REQUIRED" && issue.path === "awaiting.0.plan.options.1.label")).toBe(true);
+  });
+
+  test("awaiting mode and event type are schema enums", () => {
+    const issues = auditRaw([
+      JSON.stringify(reactRecordWithAwaiting({
+        awaitingId: "await-invalid-mode",
+        mode: "review",
+        type: "awaiting.ask",
+        runId: "run-awaiting-schema",
+        agentKey: "coder",
+        timestamp: 1780837893831,
+        timeout: 60,
+        viewportType: "chat",
+        viewportKey: "main",
+        questions: []
+      }, 1)),
+      JSON.stringify(reactRecordWithAwaiting({
+        awaitingId: "await-invalid-type",
+        mode: "question",
+        type: "awaiting.answer",
+        runId: "run-awaiting-schema",
+        agentKey: "coder",
+        timestamp: 1780837894831,
+        timeout: 60,
+        viewportType: "chat",
+        viewportKey: "main",
+        questions: []
+      }, 2))
+    ].join("\n"));
+
+    expect(issues.some((issue) => issue.code === "INVALID_ENUM" && issue.path === "awaiting.0.mode")).toBe(true);
+    expect(issues.some((issue) => issue.code === "INVALID_ENUM" && issue.path === "awaiting.0.type")).toBe(true);
   });
 
   test("JSONL routing requires top-level _type and ignores top-level type fallback", () => {
@@ -389,6 +573,21 @@ function auditAnyRaw(raw: string, strictness: "balanced" | "strict" | "explorato
 function recordFrom(data: JsonObject): ParsedRecord {
   const parsed = parseInput(JSON.stringify(data), "jsonl");
   return parsed.records[0];
+}
+
+function reactRecordWithAwaiting(awaiting: JsonObject, seq = 1): JsonObject {
+  return {
+    chatId: "chat-1",
+    runId: "run-awaiting-schema",
+    updatedAt: 1780837893000 + seq,
+    liveSeq: seq,
+    messages: [{ role: "assistant", content: [] }],
+    usage: { promptTokens: 1, completionTokens: 2, totalTokens: 3 },
+    contextWindow: { actualSize: 3, maxSize: 10 },
+    awaiting: [awaiting],
+    _type: "react",
+    seq
+  };
 }
 
 function hydrateTestSchemas() {
