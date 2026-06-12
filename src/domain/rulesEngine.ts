@@ -145,6 +145,58 @@ function applyForbiddenAnyRule(rule: Rule, rec: ParsedRecord, issues: AuditIssue
 
 function applyCrossRecordRule(rule: Rule, records: ParsedRecord[], issues: AuditIssue[]): void {
   if (rule.op === "liveSeqByRun") applyLiveSeqByRunRule(rule, records, issues);
+  if (rule.op === "reactToolSeqMatchesPreviousReact") applyReactToolSeqMatchesPreviousReactRule(rule, records, issues);
+}
+
+function applyReactToolSeqMatchesPreviousReactRule(rule: Rule, records: ParsedRecord[], issues: AuditIssue[]): void {
+  const lastReactByRun: Record<string, { idx: number; seq: number }> = {};
+
+  records.forEach((rec, idx) => {
+    if (!rec || rec.kind !== "jsonl" || !isPlainObject(rec.data) || rec.parseError) return;
+    const runId = rec.data.runId;
+    if (typeof runId !== "string" || !runId) return;
+
+    const type = jsonlType(rec.data);
+    const seq = rec.data.seq;
+    if (type === "react") {
+      if (isPositiveInteger(seq)) lastReactByRun[runId] = { idx, seq };
+      return;
+    }
+
+    if (type !== "react-tool" || !isPositiveInteger(seq)) return;
+
+    const prevReact = lastReactByRun[runId];
+    if (!prevReact) {
+      issues.push(
+        makeIssue(
+          rule.severity || "error",
+          rule.code || "REACT_TOOL_SEQ_MISMATCH",
+          rule.title || "react-tool seq 未匹配上个 react",
+          idx,
+          rule.path || "seq",
+          rule.expected || "previous react seq",
+          shortJson(seq),
+          `runId=${runId} 的 react-tool.seq=${seq} 找不到之前的 react.seq`
+        )
+      );
+      return;
+    }
+
+    if (seq !== prevReact.seq) {
+      issues.push(
+        makeIssue(
+          rule.severity || "error",
+          rule.code || "REACT_TOOL_SEQ_MISMATCH",
+          rule.title || "react-tool seq 未匹配上个 react",
+          idx,
+          rule.path || "seq",
+          `react.seq=${prevReact.seq} at record ${prevReact.idx}`,
+          shortJson(seq),
+          `runId=${runId} 的 react-tool.seq=${seq} 应等于上个 react.seq=${prevReact.seq}`
+        )
+      );
+    }
+  });
 }
 
 function applyLiveSeqByRunRule(rule: Rule, records: ParsedRecord[], issues: AuditIssue[]): void {
@@ -198,4 +250,8 @@ function validateLiveSeqGroup(rule: Rule, runId: string, group: { idx: number; r
 function jsonlType(data: JsonObject): string {
   const type = data._type;
   return typeof type === "string" ? type : "unknown";
+}
+
+function isPositiveInteger(value: JsonValue | undefined): value is number {
+  return typeof value === "number" && Number.isInteger(value) && value > 0;
 }

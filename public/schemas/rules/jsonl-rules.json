@@ -47,8 +47,17 @@
       "id": "jsonl-live-seq-by-run",
       "op": "liveSeqByRun",
       "severity": "warning",
-      "typesExpectingLiveSeq": ["query", "react", "plan-execute", "submit", "event", "steer"],
+      "typesExpectingLiveSeq": ["query", "react", "react-tool", "plan-execute", "submit", "event", "steer"],
       "skipMissingTypes": ["planning", "system", "step"]
+    },
+    {
+      "id": "react-tool-seq-matches-previous-react",
+      "op": "reactToolSeqMatchesPreviousReact",
+      "severity": "error",
+      "code": "REACT_TOOL_SEQ_MISMATCH",
+      "title": "react-tool seq 未匹配上个 react",
+      "path": "seq",
+      "expected": "previous react seq"
     }
   ]
 }

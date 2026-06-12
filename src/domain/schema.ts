@@ -1,6 +1,7 @@
 export const JSONL_TYPES = [
   "query",
   "react",
+  "react-tool",
   "plan-execute",
   "submit",
   "planning",

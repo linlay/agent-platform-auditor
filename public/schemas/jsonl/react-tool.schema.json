@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://zenmind.local/platform-auditor/schemas/jsonl/react-tool.schema.json",
+  "type": "object",
+  "required": ["chatId", "runId", "updatedAt", "messages", "_type", "seq"],
+  "additionalProperties": false,
+  "properties": {
+    "chatId": { "type": "string" },
+    "runId": { "type": "string" },
+    "updatedAt": { "type": "number" },
+    "liveSeq": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/positiveInteger"
+    },
+    "messages": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/messageArray"
+    },
+    "_type": { "type": "string", "enum": ["react-tool"] },
+    "seq": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/positiveInteger"
+    }
+  }
+}

@@ -217,7 +217,7 @@ function buildTimelineSummary(rec: ParsedRecord): string {
   if (rec.kind === "jsonl") {
     const type = stringValue(data._type) || "?";
     if (type === "query") return compactText(isPlainObject(data.query) ? data.query.message : "query", 160);
-    if (type === "react" || type === "plan-execute" || type === "step") return summarizeMessagesRecord(data);
+    if (type === "react" || type === "react-tool" || type === "plan-execute" || type === "step") return summarizeMessagesRecord(data);
     if (type === "planning") {
       const event = isPlainObject(data.event) ? data.event : {};
       const parts = [stringValue(event.type), stringValue(event.text) ? compactText(event.text, 140) : "", stringValue(event.planningFile) ? `file ${compactText(event.planningFile, 80)}` : ""].filter(Boolean);
@@ -383,7 +383,9 @@ function extractContentText(content: unknown): string {
 function collectToolNames(messages: JsonValue[]): string[] {
   const seen = new Set<string>();
   messages.forEach((msg) => {
-    if (!isPlainObject(msg) || !Array.isArray(msg.tool_calls)) return;
+    if (!isPlainObject(msg)) return;
+    if (typeof msg.name === "string") seen.add(msg.name);
+    if (!Array.isArray(msg.tool_calls)) return;
     msg.tool_calls.forEach((call) => {
       if (!isPlainObject(call) || !isPlainObject(call.function) || typeof call.function.name !== "string") return;
       seen.add(call.function.name);

@@ -82,6 +82,49 @@ describe("JSONL auditing", () => {
     expect(issues.filter((issue) => issue.severity === "warning")).toHaveLength(0);
   });
 
+  test("react-tool accepts tool messages without usage or contextWindow when seq matches previous react", () => {
+    const issues = auditRaw([
+      JSON.stringify(reactRecord("run-react-tool", 1, 6)),
+      JSON.stringify({
+        chatId: "chat-1",
+        runId: "run-react-tool",
+        updatedAt: 1780837894331,
+        liveSeq: 2,
+        _type: "submit",
+        submit: { ok: true }
+      }),
+      JSON.stringify(reactToolRecord("run-react-tool", 3, 6))
+    ].join("\n"));
+
+    expect(issues.filter((issue) => issue.severity === "error")).toHaveLength(0);
+    expect(issues.filter((issue) => issue.severity === "warning")).toHaveLength(0);
+  });
+
+  test("react-tool seq must match the previous react in the same run", () => {
+    const issues = auditRaw([
+      JSON.stringify(reactRecord("run-react-tool-mismatch", 1, 6)),
+      JSON.stringify(reactToolRecord("run-react-tool-mismatch", 2, 5))
+    ].join("\n"));
+
+    expect(issues.some((issue) => issue.code === "REACT_TOOL_SEQ_MISMATCH" && issue.path === "seq" && issue.recordIndex === 1)).toBe(true);
+  });
+
+  test("react-tool requires a previous react in the same run", () => {
+    const issues = auditRaw(JSON.stringify(reactToolRecord("run-react-tool-orphan", 1, 1)));
+
+    expect(issues.some((issue) => issue.code === "REACT_TOOL_SEQ_MISMATCH" && issue.path === "seq" && issue.recordIndex === 0)).toBe(true);
+  });
+
+  test("react-tool missing liveSeq is reported by existing liveSeq rule", () => {
+    const issues = auditRaw([
+      JSON.stringify(reactRecord("run-react-tool-missing-live", 1, 1)),
+      JSON.stringify(reactToolRecord("run-react-tool-missing-live", undefined, 1))
+    ].join("\n"));
+
+    expect(issues.some((issue) => issue.code === "MISSING_LIVESEQ" && issue.path === "liveSeq" && issue.recordIndex === 1)).toBe(true);
+    expect(issues.some((issue) => issue.code === "REACT_TOOL_SEQ_MISMATCH")).toBe(false);
+  });
+
   test("plan-execute usage accepts estimatedCost through the common schema", () => {
     const issues = auditRaw(JSON.stringify({
       chatId: "chat-1",
@@ -551,6 +594,18 @@ describe("timeline fields", () => {
     expect(entry.summary).not.toContain("seq=1");
     expect(entry.summary).not.toContain("liveSeq");
   });
+
+  test("react-tool exposes seq, liveSeq, type label, and message summary", () => {
+    const record = recordFrom(reactToolRecord("run-react-tool-timeline", 11, 6));
+
+    const entry = buildTimelineEntry(record)!;
+    expect(entry.seq).toBe("6");
+    expect(entry.liveSeq).toBe("11");
+    expect(entry.typeLabel).toBe("react-tool");
+    expect(entry.summary).toContain("messages 1");
+    expect(entry.summary).toContain("tool x1");
+    expect(entry.summary).toContain("ask_user_question");
+  });
 });
 
 function auditFixture(fixture: string, strictness: "balanced" | "strict" | "exploratory" = "balanced") {
@@ -586,6 +641,41 @@ function reactRecordWithAwaiting(awaiting: JsonObject, seq = 1): JsonObject {
     contextWindow: { actualSize: 3, maxSize: 10 },
     awaiting: [awaiting],
     _type: "react",
+    seq
+  };
+}
+
+function reactRecord(runId: string, liveSeq: number, seq: number): JsonObject {
+  return {
+    chatId: "chat-1",
+    runId,
+    updatedAt: 1780837893831 + liveSeq,
+    liveSeq,
+    messages: [{ role: "assistant", content: [{ type: "text", text: "working" }] }],
+    usage: { promptTokens: 1, completionTokens: 2, totalTokens: 3 },
+    contextWindow: { actualSize: 3, maxSize: 10 },
+    _type: "react",
+    seq
+  };
+}
+
+function reactToolRecord(runId: string, liveSeq: number | undefined, seq: number): JsonObject {
+  return {
+    chatId: "chat-1",
+    runId,
+    updatedAt: 1780837894831 + (liveSeq ?? 0),
+    ...(liveSeq === undefined ? {} : { liveSeq }),
+    messages: [
+      {
+        role: "tool",
+        content: [{ type: "text", text: "[{\"id\":\"q1\",\"answers\":[\"测试指南\",\"Schema 架构说明\",\"审计错误码参考\"]}]" }],
+        name: "ask_user_question",
+        tool_call_id: "call_00_i2x6JApYatZaE9JdLMKn9423",
+        ts: 1780837894831,
+        _toolId: "call_00_i2x6JApYatZaE9JdLMKn9423"
+      }
+    ],
+    _type: "react-tool",
     seq
   };
 }

@@ -9,6 +9,7 @@
         "schemas/common/common.schema.json",
         "schemas/jsonl/query.schema.json",
         "schemas/jsonl/react.schema.json",
+        "schemas/jsonl/react-tool.schema.json",
         "schemas/jsonl/plan-execute.schema.json",
         "schemas/jsonl/submit.schema.json",
         "schemas/jsonl/event.schema.json",
@@ -20,6 +21,7 @@
       "schemas": {
         "query": "https://zenmind.local/platform-auditor/schemas/jsonl/query.schema.json",
         "react": "https://zenmind.local/platform-auditor/schemas/jsonl/react.schema.json",
+        "react-tool": "https://zenmind.local/platform-auditor/schemas/jsonl/react-tool.schema.json",
         "plan-execute": "https://zenmind.local/platform-auditor/schemas/jsonl/plan-execute.schema.json",
         "submit": "https://zenmind.local/platform-auditor/schemas/jsonl/submit.schema.json",
         "event": "https://zenmind.local/platform-auditor/schemas/jsonl/event.schema.json",
