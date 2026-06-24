@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { MutableRefObject, ReactNode } from "react";
 import type { AuditIssue, JsonObject, JsonValue, ParsedRecord } from "../domain/types";
+import { formatIssueCopyText, severityLabel } from "./issueFormatting";
 
 interface Props {
   record: ParsedRecord | null;
@@ -56,6 +57,7 @@ function PropertyPanel({ record, allIssues }: { record: ParsedRecord | null; all
 function PropertyTree({ value, issueMap }: { value: JsonValue; issueMap: Map<string, AuditIssue[]> }) {
   const [expandedPaths, setExpandedPaths] = useState<Set<string>>(() => new Set());
   const [copiedPath, setCopiedPath] = useState<string | null>(null);
+  const [copiedIssueKey, setCopiedIssueKey] = useState<string | null>(null);
   const copyTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -78,8 +80,25 @@ function PropertyTree({ value, issueMap }: { value: JsonValue; issueMap: Map<str
     if (!navigator.clipboard) return;
     navigator.clipboard.writeText(formatCopyValue(nodeValue)).then(() => {
       setCopiedPath(path);
+      setCopiedIssueKey(null);
       if (copyTimerRef.current !== null) window.clearTimeout(copyTimerRef.current);
-      copyTimerRef.current = window.setTimeout(() => setCopiedPath(null), 1500);
+      copyTimerRef.current = window.setTimeout(() => {
+        setCopiedPath(null);
+        setCopiedIssueKey(null);
+      }, 1500);
+    }).catch(() => undefined);
+  };
+
+  const copyIssue = (issue: AuditIssue, issueKey: string) => {
+    if (!navigator.clipboard) return;
+    navigator.clipboard.writeText(formatIssueCopyText(issue)).then(() => {
+      setCopiedIssueKey(issueKey);
+      setCopiedPath(null);
+      if (copyTimerRef.current !== null) window.clearTimeout(copyTimerRef.current);
+      copyTimerRef.current = window.setTimeout(() => {
+        setCopiedPath(null);
+        setCopiedIssueKey(null);
+      }, 1500);
     }).catch(() => undefined);
   };
 
@@ -90,8 +109,10 @@ function PropertyTree({ value, issueMap }: { value: JsonValue; issueMap: Map<str
       issueMap={issueMap}
       expandedPaths={expandedPaths}
       copiedPath={copiedPath}
+      copiedIssueKey={copiedIssueKey}
       onToggleExpanded={toggleExpanded}
       onCopyNode={copyNode}
+      onCopyIssue={copyIssue}
     />
   );
 }
@@ -102,16 +123,20 @@ function NestedRows({
   issueMap,
   expandedPaths,
   copiedPath,
+  copiedIssueKey,
   onToggleExpanded,
-  onCopyNode
+  onCopyNode,
+  onCopyIssue
 }: {
   value: JsonValue;
   prefix: string;
   issueMap: Map<string, AuditIssue[]>;
   expandedPaths: Set<string>;
   copiedPath: string | null;
+  copiedIssueKey: string | null;
   onToggleExpanded: (path: string) => void;
   onCopyNode: (path: string, value: JsonValue) => void;
+  onCopyIssue: (issue: AuditIssue, issueKey: string) => void;
 }) {
   if (!value || typeof value !== "object") return null;
   const entries = childEntries(value);
@@ -151,11 +176,7 @@ function NestedRows({
               </button>
               <div className="prop-issues">
                 {issues.map((issue, index) => (
-                  <div className={`prop-issue severity-${issue.severity}`} title={issue.message} key={`${issue.code}-${index}`}>
-                    [{severityLabel(issue.severity)}] {issue.message || issue.title}
-                    {issue.expected ? <><br /><span className="iss-expected">期望: {issue.expected}</span></> : null}
-                    {issue.actual ? <><br /><span className="iss-actual">实际: {issue.actual}</span></> : null}
-                  </div>
+                  <PropertyIssue issue={issue} issueKey={`${path}-${issue.code}-${index}`} copiedIssueKey={copiedIssueKey} onCopyIssue={onCopyIssue} key={`${issue.code}-${index}`} />
                 ))}
               </div>
             </div>
@@ -167,8 +188,10 @@ function NestedRows({
                   issueMap={issueMap}
                   expandedPaths={expandedPaths}
                   copiedPath={copiedPath}
+                  copiedIssueKey={copiedIssueKey}
                   onToggleExpanded={onToggleExpanded}
                   onCopyNode={onCopyNode}
+                  onCopyIssue={onCopyIssue}
                 />
               </div>
             ) : null}
@@ -176,6 +199,23 @@ function NestedRows({
         );
       })}
     </>
+  );
+}
+
+function PropertyIssue({ issue, issueKey, copiedIssueKey, onCopyIssue }: { issue: AuditIssue; issueKey: string; copiedIssueKey: string | null; onCopyIssue: (issue: AuditIssue, issueKey: string) => void }) {
+  const copied = copiedIssueKey === issueKey;
+
+  return (
+    <div className={`prop-issue severity-${issue.severity}`} title={issue.message}>
+      <div className="prop-issue-body">
+        [{severityLabel(issue.severity)}] {issue.message || issue.title}
+        {issue.expected ? <><br /><span className="iss-expected">期望: {issue.expected}</span></> : null}
+        {issue.actual ? <><br /><span className="iss-actual">实际: {issue.actual}</span></> : null}
+      </div>
+      <button type="button" className="prop-issue-copy-btn" onClick={() => onCopyIssue(issue, issueKey)} aria-label={`${copied ? "已复制" : "复制"}问题 ${issue.code} ${issue.path || "root"}`}>
+        {copied ? "已复制" : "复制"}
+      </button>
+    </div>
   );
 }
 
@@ -282,8 +322,4 @@ function valueSummary(value: JsonValue): string {
   } catch {
     return String(value);
   }
-}
-
-function severityLabel(severity: AuditIssue["severity"]): string {
-  return { error: "错误", warning: "警告", info: "提示" }[severity] || severity;
 }

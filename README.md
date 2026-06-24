@@ -153,7 +153,7 @@ npm install && npm test && npm run build
 规则配置在 `public/schemas/rules/jsonl-rules.json` 中，主要包含：
 
 - **Token 校验**：`usage.totalTokens` = `promptTokens + completionTokens`
-- **Context Window**：`actualSize` ≤ `maxSize`
+- **Context Window**：`currentSize` ≤ `maxSize`
 - **liveSeq 审计**：同一 `runId` 下 liveSeq 递增且不重复
 - **react-tool seq 审计**：`react-tool.seq` 须等于同 `runId` 最近一条 `react.seq`
 - **chatId 一致性**：同一 `runId` 的记录 chatId 须一致

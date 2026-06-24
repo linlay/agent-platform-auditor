@@ -1,4 +1,4 @@
-{"chatId":"chat-1","runId":"run-missing-live","updatedAt":1780837893831,"query":{"requestId":"req-1","chatId":"chat-1","role":"user","message":"hello","runId":"run-missing-live"},"_type":"query"}
+{"chatId":"chat-1","runId":"run-missing-live","updatedAt":1780837893831,"query":{"requestId":"req-1","chatId":"chat-1","role":"user","message":"hello","runId":"run-missing-live"},"messages":[{"role":"user","content":"hello"}],"systems":[{"toolChoice":"auto","requestOptions":{"stream":true,"stream_options":{"include_usage":true},"temperature":0}}],"_type":"query"}
 {"chatId":"chat-1","runId":"run-missing-live","updatedAt":1780837894831,"messages":[{"role":"assistant","content":[{"type":"text","text":"working"}]}],"_type":"react","seq":1}
 {"chatId":"chat-1","runId":"run-missing-live","updatedAt":1780837895831,"_type":"event","event":{"type":"run.start","timestamp":1780837895831,"chatId":"chat-1","runId":"run-missing-live"}}
 {"chatId":"chat-1","runId":"run-missing-live","updatedAt":1780837896831,"_type":"steer","steer":{"requestId":"req-steer-1","chatId":"chat-1","runId":"run-missing-live","steerId":"steer-1","message":"continue","role":"user"}}

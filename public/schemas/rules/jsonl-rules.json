@@ -23,12 +23,12 @@
       "id": "context-window-max",
       "op": "lessThanOrEqual",
       "whenType": ["react", "plan-execute"],
-      "left": "contextWindow.actualSize",
+      "left": "contextWindow.currentSize",
       "right": "contextWindow.maxSize",
       "severity": "warning",
       "code": "CONTEXT_OVERFLOW",
       "title": "contextWindow 超限",
-      "path": "contextWindow.actualSize"
+      "path": "contextWindow.currentSize"
     },
     {
       "id": "awaiting-nested-cursor",

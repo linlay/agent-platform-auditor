@@ -103,6 +103,7 @@ describe("App file import", () => {
 
   test("global issues render below overview and select their record", async () => {
     const user = userEvent.setup();
+    const writeText = installClipboardMock();
     const { container } = render(<App />);
     await screen.findByText("JSONL (聊天记录)");
 
@@ -131,15 +132,23 @@ describe("App file import", () => {
     expect(within(rightPanel).getByRole("button", { name: "属性" })).toBeTruthy();
     expect(within(rightPanel).getByRole("button", { name: "原始json" })).toBeTruthy();
 
-    expect(await within(leftPanel).findByText("错误 (1)")).toBeTruthy();
+    expect(await within(leftPanel).findByText((content, element) => element?.className === "issues-group-title severity-error" && content.startsWith("错误 ("))).toBeTruthy();
     expect(within(leftPanel).getByText("UNKNOWN_FIELD")).toBeTruthy();
     expect(within(leftPanel).getByText("未知字段 extraTop")).toBeTruthy();
+
+    await user.click(within(leftPanel).getByRole("button", { name: "复制问题 UNKNOWN_FIELD extraTop" }));
+
+    expect(writeText).toHaveBeenCalledWith(expect.stringContaining("Code: UNKNOWN_FIELD"));
+    expect(writeText).toHaveBeenCalledWith(expect.stringContaining("Path: extraTop"));
 
     const issueButton = within(leftPanel).getByText("UNKNOWN_FIELD").closest("button");
     expect(issueButton).toBeTruthy();
     await user.click(issueButton as HTMLButtonElement);
 
     expect(await screen.findByText("属性校验 #1 (query)")).toBeTruthy();
+    await user.click(within(rightPanel).getByRole("button", { name: "复制问题 UNKNOWN_FIELD extraTop" }));
+
+    expect(writeText).toHaveBeenLastCalledWith(expect.stringContaining("字段 'extraTop' 不在 schema 定义中"));
   });
 
   test("raw JSON tab searches, highlights, reports misses, and copies full text", async () => {

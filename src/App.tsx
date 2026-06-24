@@ -27,7 +27,20 @@ const sampleRaw = [
       model: { key: "th-deepseek-v4-pro", reasoningEffort: "HIGH" },
       planningMode: true
     },
-    systems: [],
+    messages: [{ role: "user", content: "Platform Auditor 前端审计器需求" }],
+    systems: [{
+      cacheKey: "react:main",
+      fingerprint: "sha256:sample",
+      systemMessage: { role: "system", content: "You are helpful" },
+      tools: [],
+      model: { key: "th-deepseek-v4-pro", reasoningEffort: "HIGH" },
+      toolChoice: "auto",
+      requestOptions: {
+        stream: true,
+        stream_options: { include_usage: true },
+        temperature: 0
+      }
+    }],
     _type: "query"
   }),
   JSON.stringify({
@@ -40,7 +53,7 @@ const sampleRaw = [
       { role: "assistant", content: [{ type: "text", text: "Starting investigation..." }], ts: 1780837896000, _msgId: "m_2", _liveSeq: 64, tool_calls: [{ id: "tc_1", type: "function", function: { name: "file_read", arguments: "{\"file_path\":\"test\"}" } }] }
     ],
     usage: { promptTokens: 100, completionTokens: 50, totalTokens: 150, llmChatCompletionCount: 1 },
-    contextWindow: { actualSize: 500, estimatedSize: 450, maxSize: 32000 },
+    contextWindow: { maxSize: 32000, currentSize: 500, estimatedNextCallSize: 450 },
     modelKey: "th-deepseek-v4-pro",
     reasoningEffort: "HIGH",
     systemRef: { cacheKey: "coder:plan", fingerprint: "sha256:abc123" },

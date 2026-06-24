@@ -300,7 +300,7 @@ function summarizeMessagesRecord(data: JsonObject): string {
   if (tools.length > 0) parts.push(`tools ${tools.slice(0, 4).join(", ")}`);
   if (isPlainObject(data.usage) && hasValue(data.usage.totalTokens)) parts.push(`tokens ${data.usage.totalTokens}`);
   if (isPlainObject(data.contextWindow)) {
-    const actual = data.contextWindow.actualSize || data.contextWindow.estimatedSize;
+    const actual = data.contextWindow.currentSize;
     const max = data.contextWindow.maxSize;
     if (hasValue(actual) && hasValue(max)) parts.push(`ctx ${actual}/${max}`);
     else if (hasValue(actual)) parts.push(`ctx ${actual}`);

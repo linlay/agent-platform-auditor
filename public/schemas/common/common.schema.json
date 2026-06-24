@@ -6,6 +6,10 @@
       "type": "string",
       "enum": ["user", "assistant", "system", "tool"]
     },
+    "queryRole": {
+      "type": "string",
+      "enum": ["user", "assistant", "automation", "system"]
+    },
     "positiveInteger": {
       "type": "integer",
       "minimum": 1
@@ -91,7 +95,7 @@
       "properties": {
         "requestId": { "type": "string" },
         "chatId": { "type": "string" },
-        "role": { "$ref": "#/definitions/role" },
+        "role": { "$ref": "#/definitions/queryRole" },
         "message": { "type": "string" },
         "runId": { "type": "string" },
         "agentKey": { "type": "string" },
@@ -110,9 +114,9 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "actualSize": { "type": "number" },
-        "estimatedSize": { "type": "number" },
-        "maxSize": { "type": "number" }
+        "maxSize": { "type": "number" },
+        "currentSize": { "type": "number" },
+        "estimatedNextCallSize": { "type": "number" }
       }
     },
     "estimatedCost": {
@@ -135,8 +139,21 @@
         "totalTokens": { "type": "number", "minimum": 0 },
         "llmChatCompletionCount": { "type": "number", "minimum": 0 },
         "toolCallCount": { "type": "number", "minimum": 0 },
-        "promptTokensDetails": { "type": "object", "additionalProperties": true },
-        "completionTokensDetails": { "type": "object", "additionalProperties": true },
+        "promptTokensDetails": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "cacheHitTokens": { "$ref": "#/definitions/nonNegativeNumber" },
+            "cacheMissTokens": { "$ref": "#/definitions/nonNegativeNumber" }
+          }
+        },
+        "completionTokensDetails": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "reasoningTokens": { "$ref": "#/definitions/nonNegativeNumber" }
+          }
+        },
         "estimatedCost": { "$ref": "#/definitions/estimatedCost" }
       }
     },
@@ -170,15 +187,15 @@
     },
     "reactContextWindow": {
       "type": "object",
-      "required": ["actualSize", "maxSize"],
+      "required": ["currentSize", "maxSize"],
       "additionalProperties": false,
       "properties": {
-        "actualSize": { "$ref": "#/definitions/nonNegativeInteger" },
-        "estimatedSize": { "$ref": "#/definitions/nonNegativeInteger" },
         "maxSize": {
           "type": "integer",
           "minimum": 1
-        }
+        },
+        "currentSize": { "$ref": "#/definitions/nonNegativeInteger" },
+        "estimatedNextCallSize": { "$ref": "#/definitions/nonNegativeInteger" }
       }
     },
     "toolCallFunction": {
@@ -200,6 +217,61 @@
         "function": { "$ref": "#/definitions/toolCallFunction" }
       }
     },
+    "llmChatRole": {
+      "type": "string",
+      "enum": ["system", "developer", "user", "assistant", "tool"]
+    },
+    "llmChatMessageContent": {
+      "anyOf": [
+        { "type": "string" },
+        { "type": "array" },
+        { "type": "null" }
+      ]
+    },
+    "llmChatMessage": {
+      "type": "object",
+      "required": ["role", "content"],
+      "additionalProperties": true,
+      "properties": {
+        "role": { "$ref": "#/definitions/llmChatRole" },
+        "content": { "$ref": "#/definitions/llmChatMessageContent" },
+        "name": { "type": "string" },
+        "tool_call_id": { "type": "string" },
+        "tool_calls": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/toolCall" }
+        }
+      }
+    },
+    "llmChatMessages": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/llmChatMessage" }
+    },
+    "llmToolChoice": {
+      "anyOf": [
+        { "type": "string", "enum": ["auto", "none", "required"] },
+        { "type": "object", "additionalProperties": true }
+      ]
+    },
+    "llmStreamOptions": {
+      "type": "object",
+      "required": ["include_usage"],
+      "additionalProperties": true,
+      "properties": {
+        "include_usage": { "type": "boolean" }
+      }
+    },
+    "llmRequestOptions": {
+      "type": "object",
+      "required": ["stream", "stream_options", "temperature"],
+      "additionalProperties": true,
+      "properties": {
+        "stream": { "type": "boolean" },
+        "stream_options": { "$ref": "#/definitions/llmStreamOptions" },
+        "temperature": { "type": "number" }
+      }
+    },
     "message": {
       "type": "object",
       "required": ["role"],
@@ -208,6 +280,7 @@
         "role": { "$ref": "#/definitions/role" },
         "content": { "type": "array" },
         "ts": { "type": "number" },
+        "durationMs": { "$ref": "#/definitions/nonNegativeNumber" },
         "tool_calls": {
           "type": "array",
           "items": { "$ref": "#/definitions/toolCall" }

@@ -7,6 +7,11 @@ import { hydrateSchemaRegistry, resetSchemaRegistryForTest } from "./schemaRegis
 import type { JsonObject, ParsedRecord } from "./types";
 
 const root = path.resolve(__dirname, "../..");
+const legacyActualContextSizeKey = ["actual", "Size"].join("");
+const legacyEstimatedContextSizeKey = ["estimated", "Size"].join("");
+const legacyCachedTokensKey = ["cached", "Tokens"].join("");
+const legacyPromptCacheHitTokensKey = ["promptCacheHit", "Tokens"].join("");
+const legacyPromptCacheMissTokensKey = ["promptCacheMiss", "Tokens"].join("");
 
 beforeEach(() => {
   resetSchemaRegistryForTest();
@@ -19,6 +24,54 @@ describe("JSONL auditing", () => {
     expect(issues.filter((issue) => issue.severity === "error")).toHaveLength(0);
     expect(issues.filter((issue) => issue.severity === "warning")).toHaveLength(0);
     expect(issues.filter((issue) => issue.code === "LEGACY_STEP").length).toBeGreaterThanOrEqual(1);
+  });
+
+  test("query accepts raw messages and nested system LLM request metadata", () => {
+    const validIssues = auditRaw(JSON.stringify(queryRecord("run-query-valid", "hello")));
+    expect(validIssues.filter((issue) => issue.severity === "error")).toHaveLength(0);
+    expect(validIssues.filter((issue) => issue.severity === "warning")).toHaveLength(0);
+
+    const automationIssues = auditRaw(JSON.stringify(queryRecord("run-query-automation", "scheduled task", "automation")));
+    expect(automationIssues.filter((issue) => issue.severity === "error")).toHaveLength(0);
+    expect(automationIssues.filter((issue) => issue.severity === "warning")).toHaveLength(0);
+
+    const complete = queryRecord("run-query-missing", "hello");
+    const { messages, ...missingRecord } = complete;
+    expect(messages).toBeDefined();
+
+    const missingIssues = auditRaw(JSON.stringify(missingRecord));
+    expect(missingIssues.some((issue) => issue.code === "MISSING_REQUIRED" && issue.path === "messages")).toBe(true);
+    expect(missingIssues.some((issue) => issue.code === "MISSING_REQUIRED" && issue.path === "toolChoice")).toBe(false);
+    expect(missingIssues.some((issue) => issue.code === "MISSING_REQUIRED" && issue.path === "requestOptions")).toBe(false);
+
+    const nestedMetadataRecord = queryRecord("run-query-nested-metadata", "hello");
+
+    const nestedIssues = auditRaw(JSON.stringify(nestedMetadataRecord));
+    expect(nestedIssues.filter((issue) => issue.severity === "error")).toHaveLength(0);
+    expect(nestedIssues.filter((issue) => issue.severity === "warning")).toHaveLength(0);
+
+    const invalidIssues = auditRaw(JSON.stringify({
+      ...queryRecord("run-query-invalid", "hello"),
+      messages: [
+        { role: "bot", content: "hello" },
+        { role: "user", content: 42 }
+      ],
+      systems: [{
+        toolChoice: "manual",
+        requestOptions: {
+          stream: "true",
+          stream_options: { include_usage: "true" },
+          temperature: "0"
+        }
+      }]
+    }));
+
+    expect(invalidIssues.some((issue) => issue.code === "INVALID_ENUM" && issue.path === "messages.0.role")).toBe(true);
+    expect(invalidIssues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "messages.1.content")).toBe(true);
+    expect(invalidIssues.some((issue) => issue.code === "INVALID_ENUM" && issue.path === "systems.0.toolChoice")).toBe(true);
+    expect(invalidIssues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "systems.0.requestOptions.stream")).toBe(true);
+    expect(invalidIssues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "systems.0.requestOptions.stream_options.include_usage")).toBe(true);
+    expect(invalidIssues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "systems.0.requestOptions.temperature")).toBe(true);
   });
 
   test("react usage and contextWindow accept complete and minimal core shapes", () => {
@@ -49,9 +102,9 @@ describe("JSONL auditing", () => {
           }
         },
         contextWindow: {
-          actualSize: 19737,
-          estimatedSize: 19884,
-          maxSize: 1048576
+          maxSize: 1048576,
+          currentSize: 19737,
+          estimatedNextCallSize: 19884
         },
         modelKey: "th-deepseek-v4-pro",
         reasoningEffort: "HIGH",
@@ -70,7 +123,7 @@ describe("JSONL auditing", () => {
           totalTokens: 3
         },
         contextWindow: {
-          actualSize: 3,
+          currentSize: 3,
           maxSize: 10
         },
         _type: "react",
@@ -100,6 +153,23 @@ describe("JSONL auditing", () => {
     expect(issues.filter((issue) => issue.severity === "warning")).toHaveLength(0);
   });
 
+  test("react-tool accepts non-negative tool message durationMs in milliseconds", () => {
+    const validIssues = auditRaw([
+      JSON.stringify(reactRecord("run-react-tool-duration", 1, 6)),
+      JSON.stringify(reactToolRecord("run-react-tool-duration", 2, 6, { durationMs: 3 }))
+    ].join("\n"));
+
+    expect(validIssues.filter((issue) => issue.severity === "error")).toHaveLength(0);
+    expect(validIssues.filter((issue) => issue.severity === "warning")).toHaveLength(0);
+
+    const invalidIssues = auditRaw([
+      JSON.stringify(reactRecord("run-react-tool-negative-duration", 1, 6)),
+      JSON.stringify(reactToolRecord("run-react-tool-negative-duration", 2, 6, { durationMs: -1 }))
+    ].join("\n"));
+
+    expect(invalidIssues.some((issue) => issue.code === "VALUE_OUT_OF_RANGE" && issue.path === "messages.0.durationMs")).toBe(true);
+  });
+
   test("react-tool seq must match the previous react in the same run", () => {
     const issues = auditRaw([
       JSON.stringify(reactRecord("run-react-tool-mismatch", 1, 6)),
@@ -125,7 +195,7 @@ describe("JSONL auditing", () => {
     expect(issues.some((issue) => issue.code === "REACT_TOOL_SEQ_MISMATCH")).toBe(false);
   });
 
-  test("plan-execute usage accepts estimatedCost through the common schema", () => {
+  test("plan-execute usage accepts final details and rejects old aliases through the common schema", () => {
     const issues = auditRaw(JSON.stringify({
       chatId: "chat-1",
       runId: "run-plan-usage",
@@ -134,7 +204,14 @@ describe("JSONL auditing", () => {
       messages: [{ role: "assistant", content: [] }],
       usage: {
         promptTokens: 1,
+        promptTokensDetails: {
+          cacheHitTokens: 0.5,
+          cacheMissTokens: 0.5
+        },
         completionTokens: 2,
+        completionTokensDetails: {
+          reasoningTokens: 1
+        },
         totalTokens: 3,
         estimatedCost: {
           currency: "CNY",
@@ -153,6 +230,31 @@ describe("JSONL auditing", () => {
 
     expect(issues.filter((issue) => issue.severity === "error")).toHaveLength(0);
     expect(issues.filter((issue) => issue.severity === "warning")).toHaveLength(0);
+
+    const aliasIssues = auditRaw(JSON.stringify({
+      chatId: "chat-1",
+      runId: "run-plan-usage-alias",
+      updatedAt: 1780837895831,
+      liveSeq: 1,
+      messages: [{ role: "assistant", content: [] }],
+      usage: {
+        promptTokens: 1,
+        promptTokensDetails: {
+          [legacyCachedTokensKey]: 1
+        },
+        completionTokens: 2,
+        totalTokens: 3,
+        [legacyPromptCacheHitTokensKey]: 1,
+        [legacyPromptCacheMissTokensKey]: 0
+      },
+      _type: "plan-execute",
+      stage: "plan",
+      seq: 1
+    }));
+
+    expect(aliasIssues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === `usage.promptTokensDetails.${legacyCachedTokensKey}`)).toBe(true);
+    expect(aliasIssues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === `usage.${legacyPromptCacheHitTokensKey}`)).toBe(true);
+    expect(aliasIssues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === `usage.${legacyPromptCacheMissTokensKey}`)).toBe(true);
   });
 
   test("react requires top-level usage and contextWindow plus core nested fields", () => {
@@ -163,7 +265,7 @@ describe("JSONL auditing", () => {
         updatedAt: 1780837893831,
         liveSeq: 1,
         messages: [{ role: "assistant", content: [] }],
-        contextWindow: { actualSize: 1, maxSize: 10 },
+        contextWindow: { currentSize: 1, maxSize: 10 },
         _type: "react",
         seq: 1
       }),
@@ -184,7 +286,7 @@ describe("JSONL auditing", () => {
         liveSeq: 3,
         messages: [{ role: "assistant", content: [] }],
         usage: { promptTokens: 1, completionTokens: 2 },
-        contextWindow: { actualSize: 3 },
+        contextWindow: { currentSize: 3 },
         _type: "react",
         seq: 3
       })
@@ -218,8 +320,8 @@ describe("JSONL auditing", () => {
           }
         },
         contextWindow: {
-          actualSize: "3",
-          estimatedSize: 2.5,
+          currentSize: "3",
+          estimatedNextCallSize: 2.5,
           maxSize: 0
         },
         _type: "react",
@@ -250,8 +352,10 @@ describe("JSONL auditing", () => {
           extraUsage: true
         },
         contextWindow: {
-          actualSize: 3,
+          currentSize: 3,
           maxSize: 10,
+          [legacyActualContextSizeKey]: 3,
+          [legacyEstimatedContextSizeKey]: 4,
           modelKey: "th-deepseek-v4-pro",
           reasoningEffort: "HIGH",
           extraContext: true
@@ -267,8 +371,8 @@ describe("JSONL auditing", () => {
     expect(issues.some((issue) => issue.code === "VALUE_OUT_OF_RANGE" && issue.path === "usage.llmChatCompletionCount")).toBe(true);
     expect(issues.some((issue) => issue.code === "VALUE_OUT_OF_RANGE" && issue.path === "usage.estimatedCost.inputCacheHit")).toBe(true);
     expect(issues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "usage.estimatedCost.inputCacheMiss")).toBe(true);
-    expect(issues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "contextWindow.actualSize")).toBe(true);
-    expect(issues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "contextWindow.estimatedSize")).toBe(true);
+    expect(issues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "contextWindow.currentSize")).toBe(true);
+    expect(issues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "contextWindow.estimatedNextCallSize")).toBe(true);
     expect(issues.some((issue) => issue.code === "VALUE_OUT_OF_RANGE" && issue.path === "contextWindow.maxSize")).toBe(true);
     expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "usage.extraUsage")).toBe(true);
     expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "usage.modelKey")).toBe(true);
@@ -276,6 +380,8 @@ describe("JSONL auditing", () => {
     expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "usage.estimatedCost.extraField")).toBe(true);
     expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "usage.promptTokensDetails.extraPromptDetail")).toBe(true);
     expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "usage.completionTokensDetails.extraCompletionDetail")).toBe(true);
+    expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === `contextWindow.${legacyActualContextSizeKey}`)).toBe(true);
+    expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === `contextWindow.${legacyEstimatedContextSizeKey}`)).toBe(true);
     expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "contextWindow.modelKey")).toBe(true);
     expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "contextWindow.reasoningEffort")).toBe(true);
     expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "contextWindow.extraContext")).toBe(true);
@@ -468,7 +574,7 @@ describe("JSONL auditing", () => {
       liveSeq: 0,
       messages: [{ role: "assistant", content: [], _liveSeq: 0 }],
       usage: { promptTokens: 1, completionTokens: 2, totalTokens: 3 },
-      contextWindow: { actualSize: 3, maxSize: 10 },
+      contextWindow: { currentSize: 3, maxSize: 10 },
       _type: "react",
       seq: 1.5
     }));
@@ -630,6 +736,40 @@ function recordFrom(data: JsonObject): ParsedRecord {
   return parsed.records[0];
 }
 
+function queryRecord(runId: string, message: string, role = "user"): JsonObject {
+  return {
+    chatId: "chat-1",
+    runId,
+    updatedAt: 1780837893831,
+    liveSeq: 1,
+    query: {
+      requestId: `req-${runId}`,
+      chatId: "chat-1",
+      role,
+      message,
+      runId,
+      agentKey: "coder",
+      accessLevel: "default",
+      stream: true
+    },
+    messages: [{ role: "user", content: message }],
+    systems: [{
+      cacheKey: "react:main",
+      fingerprint: "sha256:test",
+      systemMessage: { role: "system", content: "You are helpful" },
+      tools: [],
+      model: { key: "th-minimax", protocol: "OPENAI" },
+      toolChoice: "auto",
+      requestOptions: {
+        stream: true,
+        stream_options: { include_usage: true },
+        temperature: 0
+      }
+    }],
+    _type: "query"
+  };
+}
+
 function reactRecordWithAwaiting(awaiting: JsonObject, seq = 1): JsonObject {
   return {
     chatId: "chat-1",
@@ -638,7 +778,7 @@ function reactRecordWithAwaiting(awaiting: JsonObject, seq = 1): JsonObject {
     liveSeq: seq,
     messages: [{ role: "assistant", content: [] }],
     usage: { promptTokens: 1, completionTokens: 2, totalTokens: 3 },
-    contextWindow: { actualSize: 3, maxSize: 10 },
+    contextWindow: { currentSize: 3, maxSize: 10 },
     awaiting: [awaiting],
     _type: "react",
     seq
@@ -653,13 +793,13 @@ function reactRecord(runId: string, liveSeq: number, seq: number): JsonObject {
     liveSeq,
     messages: [{ role: "assistant", content: [{ type: "text", text: "working" }] }],
     usage: { promptTokens: 1, completionTokens: 2, totalTokens: 3 },
-    contextWindow: { actualSize: 3, maxSize: 10 },
+    contextWindow: { currentSize: 3, maxSize: 10 },
     _type: "react",
     seq
   };
 }
 
-function reactToolRecord(runId: string, liveSeq: number | undefined, seq: number): JsonObject {
+function reactToolRecord(runId: string, liveSeq: number | undefined, seq: number, messageExtras: JsonObject = {}): JsonObject {
   return {
     chatId: "chat-1",
     runId,
@@ -672,6 +812,7 @@ function reactToolRecord(runId: string, liveSeq: number | undefined, seq: number
         name: "ask_user_question",
         tool_call_id: "call_00_i2x6JApYatZaE9JdLMKn9423",
         ts: 1780837894831,
+        ...messageExtras,
         _toolId: "call_00_i2x6JApYatZaE9JdLMKn9423"
       }
     ],

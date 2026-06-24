@@ -339,7 +339,32 @@ button { color: inherit; }
 }
 .object-value, .array-value { color: var(--accent); }
 .prop-issues { width: 100%; margin-top: 2px; }
-.prop-issue { font-size: 11px; padding: 1px 4px; margin: 1px 0; border-radius: 3px; }
+.prop-issue {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 11px;
+  padding: 3px 4px;
+  margin: 1px 0;
+  border-radius: 3px;
+}
+.prop-issue-body { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.prop-issue-copy-btn {
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 3px;
+  background: var(--bg2);
+  color: var(--text2);
+  cursor: pointer;
+  font-size: 10px;
+  line-height: 1.3;
+  padding: 2px 5px;
+}
+.prop-issue-copy-btn:hover,
+.prop-issue-copy-btn:focus {
+  color: var(--accent);
+  background: var(--bg3);
+}
 .severity-error { background: var(--error-bg); color: var(--error); }
 .severity-warning { background: var(--warning-bg); color: var(--warning); }
 .severity-info { background: var(--info-bg); color: var(--info); }
@@ -353,10 +378,11 @@ button { color: inherit; }
 .issues-group { margin-bottom: 8px; }
 .issues-group-title { font-size: 12px; font-weight: 600; padding: 4px 8px; border-radius: var(--radius); margin-bottom: 4px; }
 .issue-item {
-  display: block;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
   width: 100%;
   padding: 4px 8px;
-  cursor: pointer;
   border: 0;
   border-radius: 3px;
   margin: 2px 0;
@@ -369,6 +395,35 @@ button { color: inherit; }
 .issue-item.severity-error { border-left: 3px solid var(--error); }
 .issue-item.severity-warning { border-left: 3px solid var(--warning); }
 .issue-item.severity-info { border-left: 3px solid var(--info); }
+.issue-main {
+  display: block;
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  line-height: 1.35;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+.issue-main:disabled { cursor: default; }
+.issue-copy-btn {
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 3px;
+  background: var(--bg2);
+  color: var(--text2);
+  cursor: pointer;
+  font-size: 10px;
+  line-height: 1.3;
+  padding: 2px 5px;
+}
+.issue-copy-btn:hover,
+.issue-copy-btn:focus {
+  color: var(--accent);
+  background: var(--bg3);
+}
 .issue-code, .issue-path { font-family: var(--mono); font-size: 10px; color: var(--text2); margin-right: 6px; }
 .issue-title { font-weight: 500; margin-right: 6px; }
 .issue-record { font-size: 10px; color: var(--accent); }

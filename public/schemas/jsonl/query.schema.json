@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://zenmind.local/platform-auditor/schemas/jsonl/query.schema.json",
   "type": "object",
-  "required": ["chatId", "runId", "updatedAt", "query", "_type"],
+  "required": ["chatId", "runId", "updatedAt", "query", "messages", "_type"],
   "additionalProperties": false,
   "properties": {
     "chatId": { "type": "string" },
@@ -18,8 +18,25 @@
     "query": {
       "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/queryPayload"
     },
+    "messages": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/llmChatMessages"
+    },
     "_type": { "type": "string", "enum": ["query"] },
-    "systems": { "type": "array" },
+    "systems": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "toolChoice": {
+            "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/llmToolChoice"
+          },
+          "requestOptions": {
+            "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/llmRequestOptions"
+          }
+        }
+      }
+    },
     "hidden": { "type": "boolean" }
   }
 }
