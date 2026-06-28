@@ -82,22 +82,23 @@ export default function App() {
   const [schemaState, setSchemaState] = useState<"loading" | "ready" | "error">("loading");
   const [schemaError, setSchemaError] = useState("");
   const [fileError, setFileError] = useState("");
+  const [selectedMode, setSelectedMode] = useState<DetectedMode | "auto">("auto");
   const initializedSample = useRef(false);
 
-  const runParseAndAudit = useCallback((nextRaw: string, nextStrictness: Strictness = strictness) => {
+  const runParseAndAudit = useCallback((nextRaw: string, nextStrictness: Strictness = strictness, nextMode: DetectedMode | "auto" = selectedMode) => {
     if (!isSchemaRegistryLoaded()) {
       setSchemaState("error");
       setSchemaError("schema registry 尚未加载");
       return;
     }
     if (!nextRaw.trim()) return;
-    const parsed = parseInput(nextRaw);
+    const parsed = nextMode === "auto" ? parseInput(nextRaw) : parseInput(nextRaw, nextMode);
     const result = auditRecords(parsed.records, { strictness: nextStrictness, parseIssues: parsed.parseIssues });
     setDetectedMode(parsed.detectedMode);
     setRecords(parsed.records);
     setAuditResult(result);
     setSelectedRecordIndex(null);
-  }, [strictness]);
+  }, [strictness, selectedMode]);
 
   useEffect(() => {
     loadSchemaRegistry({ basePath: import.meta.env.BASE_URL })
@@ -131,7 +132,7 @@ export default function App() {
   const handleStrictnessChange = (value: Strictness) => {
     setStrictness(value);
     if (records.length > 0) {
-      const reparsed = parseInput(raw);
+      const reparsed = selectedMode === "auto" ? parseInput(raw) : parseInput(raw, selectedMode);
       const result = auditRecords(reparsed.records, { strictness: value, parseIssues: reparsed.parseIssues });
       setRecords(reparsed.records);
       setAuditResult(result);
@@ -171,6 +172,8 @@ export default function App() {
             disabled={schemaState !== "ready"}
             fileError={fileError}
             onFileError={setFileError}
+            selectedMode={selectedMode}
+            onModeChange={setSelectedMode}
           />
           <OverviewPanel auditResult={auditResult} schemaState={schemaState} schemaError={schemaError} />
           {auditResult ? (

@@ -76,7 +76,7 @@ describe("App file import", () => {
 
     await user.upload(screen.getByLabelText("选择日志文件"), file);
 
-    await screen.findByText("WebSocket Frame 日志");
+    await screen.findByText("WebSocket Frame 日志", { selector: ".mode-badge" });
     await waitFor(() => expect(container.querySelectorAll(".tl-entry-ws")).toHaveLength(5));
 
     expect(container.querySelector(".timeline-panel .timeline")).toBeTruthy();

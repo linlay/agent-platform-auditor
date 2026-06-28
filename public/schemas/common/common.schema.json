@@ -130,6 +130,14 @@
         "total": { "$ref": "#/definitions/nonNegativeNumber" }
       }
     },
+    "usageTiming": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "firstTokenLatencyMs": { "$ref": "#/definitions/nonNegativeInteger" },
+        "generationDurationMs": { "$ref": "#/definitions/nonNegativeInteger" }
+      }
+    },
     "usage": {
       "type": "object",
       "additionalProperties": false,
@@ -154,7 +162,8 @@
             "reasoningTokens": { "$ref": "#/definitions/nonNegativeNumber" }
           }
         },
-        "estimatedCost": { "$ref": "#/definitions/estimatedCost" }
+        "estimatedCost": { "$ref": "#/definitions/estimatedCost" },
+        "timing": { "$ref": "#/definitions/usageTiming" }
       }
     },
     "reactUsage": {
@@ -182,7 +191,8 @@
             "reasoningTokens": { "$ref": "#/definitions/nonNegativeInteger" }
           }
         },
-        "estimatedCost": { "$ref": "#/definitions/estimatedCost" }
+        "estimatedCost": { "$ref": "#/definitions/estimatedCost" },
+        "timing": { "$ref": "#/definitions/usageTiming" }
       }
     },
     "reactContextWindow": {

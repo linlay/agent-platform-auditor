@@ -1,4 +1,5 @@
 import { type ChangeEvent, useRef } from "react";
+import type { DetectedMode } from "../domain/types";
 
 interface Props {
   raw: string;
@@ -9,6 +10,8 @@ interface Props {
   disabled: boolean;
   fileError: string;
   onFileError: (value: string) => void;
+  selectedMode: DetectedMode | "auto";
+  onModeChange: (mode: DetectedMode | "auto") => void;
 }
 
 export function InputPanel(props: Props) {
@@ -29,6 +32,21 @@ export function InputPanel(props: Props) {
 
   return (
     <div className="paste-section">
+      <div className="mode-select-row">
+        <label htmlFor="mode-select">格式</label>
+        <select
+          id="mode-select"
+          value={props.selectedMode}
+          onChange={(event) => props.onModeChange(event.target.value as DetectedMode | "auto")}
+          disabled={props.disabled}
+        >
+          <option value="auto">自动识别</option>
+          <option value="jsonl">JSONL (聊天记录)</option>
+          <option value="sse">SSE (实时事件流)</option>
+          <option value="ws">WebSocket Frame 日志</option>
+          <option value="live-events">Live Events</option>
+        </select>
+      </div>
       <textarea
         id="paste-area"
         value={props.raw}

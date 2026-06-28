@@ -99,6 +99,10 @@ describe("JSONL auditing", () => {
             inputCacheMiss: 0.014451,
             output: 0.001158,
             total: 0.015609
+          },
+          timing: {
+            firstTokenLatencyMs: 2717,
+            generationDurationMs: 837
           }
         },
         contextWindow: {
@@ -317,6 +321,10 @@ describe("JSONL auditing", () => {
             inputCacheMiss: "0.01",
             output: 0,
             total: 0
+          },
+          timing: {
+            firstTokenLatencyMs: -1,
+            generationDurationMs: 1.5
           }
         },
         contextWindow: {
@@ -348,6 +356,11 @@ describe("JSONL auditing", () => {
             total: 0,
             extraField: true
           },
+          timing: {
+            firstTokenLatencyMs: 1,
+            generationDurationMs: 2,
+            extraTiming: true
+          },
           totalTokens: 3,
           extraUsage: true
         },
@@ -371,6 +384,8 @@ describe("JSONL auditing", () => {
     expect(issues.some((issue) => issue.code === "VALUE_OUT_OF_RANGE" && issue.path === "usage.llmChatCompletionCount")).toBe(true);
     expect(issues.some((issue) => issue.code === "VALUE_OUT_OF_RANGE" && issue.path === "usage.estimatedCost.inputCacheHit")).toBe(true);
     expect(issues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "usage.estimatedCost.inputCacheMiss")).toBe(true);
+    expect(issues.some((issue) => issue.code === "VALUE_OUT_OF_RANGE" && issue.path === "usage.timing.firstTokenLatencyMs")).toBe(true);
+    expect(issues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "usage.timing.generationDurationMs")).toBe(true);
     expect(issues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "contextWindow.currentSize")).toBe(true);
     expect(issues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "contextWindow.estimatedNextCallSize")).toBe(true);
     expect(issues.some((issue) => issue.code === "VALUE_OUT_OF_RANGE" && issue.path === "contextWindow.maxSize")).toBe(true);
@@ -378,6 +393,7 @@ describe("JSONL auditing", () => {
     expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "usage.modelKey")).toBe(true);
     expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "usage.reasoningEffort")).toBe(true);
     expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "usage.estimatedCost.extraField")).toBe(true);
+    expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "usage.timing.extraTiming")).toBe(true);
     expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "usage.promptTokensDetails.extraPromptDetail")).toBe(true);
     expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "usage.completionTokensDetails.extraCompletionDetail")).toBe(true);
     expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === `contextWindow.${legacyActualContextSizeKey}`)).toBe(true);
