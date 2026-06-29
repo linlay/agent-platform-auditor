@@ -152,8 +152,6 @@ export default function App() {
       <TopBar
         detectedModeLabel={schemaState === "loading" ? "加载 schema..." : schemaState === "error" ? "schema 加载失败" : modeLabels[detectedMode] || detectedMode}
         detectedMode={schemaState === "ready" ? detectedMode : "unknown"}
-        severityFilter={severityFilter}
-        onSeverityFilterChange={setSeverityFilter}
         searchQuery={searchQuery}
         onSearchQueryChange={setSearchQuery}
         strictness={strictness}
@@ -180,6 +178,7 @@ export default function App() {
             <IssuesPanel
               issues={auditResult.allIssues}
               filters={{ severity: severityFilter, searchQuery }}
+              onSeverityFilterChange={setSeverityFilter}
               onSelectRecord={setSelectedRecordIndex}
             />
           ) : null}
@@ -188,6 +187,7 @@ export default function App() {
         <section className="middle-panel">
           <TimelinePanel
             timeline={auditResult?.timeline ?? []}
+            issues={auditResult?.allIssues ?? []}
             selectedIndex={selectedRecordIndex}
             onSelect={setSelectedRecordIndex}
           />

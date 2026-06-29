@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { AuditIssue } from "../domain/types";
+import type { AuditIssue, Severity } from "../domain/types";
 import { formatIssueCopyText, severityLabel } from "./issueFormatting";
 
 export interface IssueFilters {
@@ -10,13 +10,22 @@ export interface IssueFilters {
 interface Props {
   issues: AuditIssue[];
   filters: IssueFilters;
+  onSeverityFilterChange: (value: string) => void;
   onSelectRecord: (index: number) => void;
 }
 
-export function IssuesPanel({ issues, filters, onSelectRecord }: Props) {
+const SEVERITY_FILTER_OPTIONS: ReadonlyArray<{ value: string; severity: Severity | null; label: string }> = [
+  { value: "all", severity: null, label: "全部" },
+  { value: "error", severity: "error", label: "错误" },
+  { value: "warning", severity: "warning", label: "警告" },
+  { value: "info", severity: "info", label: "提示" }
+];
+
+export function IssuesPanel({ issues, filters, onSeverityFilterChange, onSelectRecord }: Props) {
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
   const copyTimerRef = useRef<number | null>(null);
   const filtered = useMemo(() => filterIssues(issues, filters), [issues, filters]);
+  const severityCounts = useMemo(() => countBySeverity(issues), [issues]);
 
   useEffect(() => {
     return () => {
@@ -32,8 +41,42 @@ export function IssuesPanel({ issues, filters, onSelectRecord }: Props) {
     }).catch(() => undefined);
   };
 
-  if (issues.length === 0) return <div className="issues-panel panel active"><div className="issues-empty">没有发现问题</div></div>;
-  if (filtered.length === 0) return <div className="issues-panel panel active"><div className="issues-empty">没有符合筛选的问题</div></div>;
+  const filterRow = (
+    <div className="issues-severity-filter">
+      {SEVERITY_FILTER_OPTIONS.map((option) => {
+        const count = option.severity === null ? issues.length : severityCounts[option.severity];
+        const active = filters.severity === option.value;
+        return (
+          <button
+            type="button"
+            key={option.value}
+            className={`filter-btn${active ? " active" : ""}`}
+            onClick={() => onSeverityFilterChange(option.value)}
+            aria-pressed={active}
+          >
+            {option.label} {count}
+          </button>
+        );
+      })}
+    </div>
+  );
+
+  if (issues.length === 0) {
+    return (
+      <div className="issues-panel panel active">
+        {filterRow}
+        <div className="issues-empty">没有发现问题</div>
+      </div>
+    );
+  }
+  if (filtered.length === 0) {
+    return (
+      <div className="issues-panel panel active">
+        {filterRow}
+        <div className="issues-empty">没有符合筛选的问题</div>
+      </div>
+    );
+  }
 
   const groups = {
     error: filtered.filter((issue) => issue.severity === "error"),
@@ -43,6 +86,7 @@ export function IssuesPanel({ issues, filters, onSelectRecord }: Props) {
 
   return (
     <div className="issues-panel panel active">
+      {filterRow}
       <div className="issues-list">
         {(["error", "warning", "info"] as const).map((severity) => {
           const list = groups[severity];
@@ -85,4 +129,12 @@ function filterIssues(issues: AuditIssue[], filters: IssueFilters): AuditIssue[]
     }
     return true;
   });
+}
+
+function countBySeverity(issues: AuditIssue[]): Record<Severity, number> {
+  const counts: Record<Severity, number> = { error: 0, warning: 0, info: 0 };
+  for (const issue of issues) {
+    counts[issue.severity] += 1;
+  }
+  return counts;
 }

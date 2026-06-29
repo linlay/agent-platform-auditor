@@ -599,6 +599,44 @@ describe("JSONL auditing", () => {
     expect(issues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "seq")).toBe(true);
     expect(issues.some((issue) => issue.code === "VALUE_OUT_OF_RANGE" && issue.path === "messages.0._liveSeq")).toBe(true);
   });
+
+  test("assistant tool_calls accept _toolId at tool-call level", () => {
+    const issues = auditRaw(JSON.stringify({
+      chatId: "chat-1",
+      runId: "run-toolcall-toolid",
+      updatedAt: 1780837893831,
+      liveSeq: 1,
+      query: {
+        requestId: "req-1",
+        chatId: "chat-1",
+        role: "user",
+        message: "call",
+        runId: "run-toolcall-toolid",
+        agentKey: "coder",
+        accessLevel: "default",
+        stream: true
+      },
+      messages: [
+        { role: "user", content: "call" },
+        {
+          role: "assistant",
+          content: [{ type: "text", text: "calling" }],
+          tool_calls: [
+            {
+              id: "call_00_ArosXyz",
+              type: "function",
+              function: { name: "file_read", arguments: "{}" },
+              _toolId: "call_00_ArosXyz"
+            }
+          ]
+        }
+      ],
+      _type: "query"
+    }));
+
+    expect(issues.filter((issue) => issue.severity === "error")).toHaveLength(0);
+    expect(issues.filter((issue) => issue.severity === "warning")).toHaveLength(0);
+  });
 });
 
 describe("WebSocket auditing", () => {

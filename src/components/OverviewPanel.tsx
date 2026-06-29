@@ -17,9 +17,6 @@ export function OverviewPanel({ auditResult, schemaState, schemaError }: Props) 
       <OverviewItem label="错误" value={auditResult.summary.errorCount} />
       <OverviewItem label="警告" value={auditResult.summary.warningCount} />
       <OverviewItem label="提示" value={auditResult.summary.infoCount} />
-      {Object.entries(auditResult.summary.byKind).map(([kind, count]) => (
-        <OverviewItem key={kind} label={kind} value={count} />
-      ))}
     </div>
   );
 }

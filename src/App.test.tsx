@@ -58,11 +58,18 @@ describe("App file import", () => {
 
     await waitFor(() => {
       expect(screen.getByDisplayValue(JSON.stringify(fileRecord))).toBeTruthy();
-      expect(screen.getByText("run-file")).toBeTruthy();
+      expect(screen.getByText((content, element) => element?.className === "timeline-group-title" && content === "runId = run-file")).toBeTruthy();
       expect(screen.getByText((content, element) => element?.className === "tl-type" && content === "query")).toBeTruthy();
       expect(screen.getByText("hello from file")).toBeTruthy();
       expect(container.querySelector(".tl-header-default .tl-h-seq")?.textContent).toBe("Seq");
       expect(container.querySelector(".tl-header-default .tl-h-live-seq")?.textContent).toBe("LiveSeq");
+      expect(container.querySelector(".tl-header-default .tl-h-issues")?.textContent).toBe("ISSUES");
+      const defaultHeaderChildren = Array.from(container.querySelectorAll(".tl-header-default > span"));
+      const issuesIndex = defaultHeaderChildren.findIndex((el) => el.classList.contains("tl-h-issues"));
+      const timeIndex = defaultHeaderChildren.findIndex((el) => el.classList.contains("tl-h-time"));
+      expect(issuesIndex).toBeGreaterThanOrEqual(0);
+      expect(timeIndex).toBeGreaterThanOrEqual(0);
+      expect(issuesIndex).toBeLessThan(timeIndex);
     });
   });
 
@@ -86,6 +93,7 @@ describe("App file import", () => {
     expect(container.querySelector(".tl-header-ws .tl-h-id")?.textContent).toBe("ID");
     expect(container.querySelector(".tl-header-ws .tl-h-seq")).toBeNull();
     expect(container.querySelector(".tl-header-ws .tl-h-live-seq")).toBeNull();
+    expect(container.querySelector(".tl-header-ws .tl-h-issues")?.textContent).toBe("ISSUES");
     expect(screen.queryByText("LiveSeq")).toBeNull();
 
     const dirs = Array.from(container.querySelectorAll(".tl-ws-dir")).map((element) => element.textContent);
@@ -276,5 +284,157 @@ describe("App file import", () => {
 
     expect(await screen.findByRole("button", { name: "0" })).toBeTruthy();
     expect(screen.queryByText("\"system\"")).toBeNull();
+  });
+
+  test("top bar no longer has severity dropdown", async () => {
+    render(<App />);
+    await screen.findByText("JSONL (聊天记录)");
+
+    expect(screen.queryByLabelText("严重度")).toBeNull();
+    expect(screen.queryByRole("combobox", { name: "严重度" })).toBeNull();
+    expect(screen.getByPlaceholderText("path / value...")).toBeTruthy();
+  });
+
+  test("overview no longer shows byKind counts", async () => {
+    const user = userEvent.setup();
+    const { container } = render(<App />);
+    await screen.findByText("JSONL (聊天记录)");
+
+    const issueRecord = {
+      chatId: "chat-overview",
+      runId: "run-overview",
+      updatedAt: 1780837893831,
+      liveSeq: 1,
+      query: {
+        requestId: "req-overview",
+        chatId: "chat-overview",
+        role: "user",
+        message: "overview target",
+        runId: "run-overview"
+      },
+      _type: "query"
+    };
+    const file = new File([JSON.stringify(issueRecord)], "overview.jsonl", { type: "application/jsonl" });
+    await user.upload(screen.getByLabelText("选择日志文件"), file);
+
+    const leftPanel = container.querySelector(".left-panel") as HTMLElement;
+    await waitFor(() => {
+      const overview = leftPanel.querySelector(".overview-panel");
+      expect(overview).toBeTruthy();
+    });
+    const overview = leftPanel.querySelector(".overview-panel") as HTMLElement;
+    const labels = Array.from(overview.querySelectorAll(".ov-label")).map((el) => el.textContent);
+    expect(labels).toEqual(["记录数", "错误", "警告", "提示"]);
+    expect(overview.textContent).not.toContain("jsonl");
+    expect(overview.textContent).not.toContain("ws");
+  });
+
+  test("severity filter buttons live above issues list", async () => {
+    const user = userEvent.setup();
+    const { container } = render(<App />);
+    await screen.findByText("JSONL (聊天记录)");
+
+    const issueRecord = {
+      chatId: "chat-filter",
+      runId: "run-filter",
+      updatedAt: 1780837893831,
+      liveSeq: 1,
+      query: {
+        requestId: "req-filter",
+        chatId: "chat-filter",
+        role: "user",
+        message: "filter target",
+        runId: "run-filter"
+      },
+      _type: "query",
+      extraTop: "boom"
+    };
+    const file = new File([JSON.stringify(issueRecord)], "filter.jsonl", { type: "application/jsonl" });
+    await user.upload(screen.getByLabelText("选择日志文件"), file);
+
+    const leftPanel = container.querySelector(".left-panel") as HTMLElement;
+    const filterRow = await within(leftPanel).findByRole("button", { name: /全部/ });
+    expect(filterRow.classList.contains("active")).toBe(true);
+
+    const allBtn = within(leftPanel).getByRole("button", { name: "全部 2" });
+    const errorBtn = within(leftPanel).getByRole("button", { name: "错误 2" });
+    const warningBtn = within(leftPanel).getByRole("button", { name: "警告 0" });
+    const infoBtn = within(leftPanel).getByRole("button", { name: "提示 0" });
+    expect(allBtn).toBeTruthy();
+    expect(errorBtn).toBeTruthy();
+    expect(warningBtn).toBeTruthy();
+    expect(infoBtn).toBeTruthy();
+
+    await user.click(errorBtn);
+    expect(errorBtn.classList.contains("active")).toBe(true);
+    expect(within(leftPanel).getByText("UNKNOWN_FIELD")).toBeTruthy();
+
+    await user.click(warningBtn);
+    expect(warningBtn.classList.contains("active")).toBe(true);
+    expect(within(leftPanel).getByText("没有符合筛选的问题")).toBeTruthy();
+
+    await user.click(allBtn);
+    expect(allBtn.classList.contains("active")).toBe(true);
+    expect(within(leftPanel).getByText("UNKNOWN_FIELD")).toBeTruthy();
+  });
+
+  test("timeline groups show runId label and per-row issue badges", async () => {
+    const user = userEvent.setup();
+    const { container } = render(<App />);
+    await screen.findByText("JSONL (聊天记录)");
+
+    const cleanRecord = {
+      chatId: "chat-clean",
+      runId: "run-clean",
+      updatedAt: 1780837893831,
+      liveSeq: 1,
+      query: {
+        requestId: "req-clean",
+        chatId: "chat-clean",
+        role: "user",
+        message: "clean record",
+        runId: "run-clean"
+      },
+      _type: "query"
+    };
+    const dirtyRecord = {
+      chatId: "chat-dirty",
+      runId: "run-dirty",
+      updatedAt: 1780837893832,
+      liveSeq: 2,
+      query: {
+        requestId: "req-dirty",
+        chatId: "chat-dirty",
+        role: "user",
+        message: "dirty record",
+        runId: "run-dirty"
+      },
+      _type: "query",
+      extraTop: "boom",
+      extraTop2: 42
+    };
+    const raw = [JSON.stringify(cleanRecord), JSON.stringify(dirtyRecord)].join("\n");
+    const file = new File([raw], "mixed.jsonl", { type: "application/jsonl" });
+    await user.upload(screen.getByLabelText("选择日志文件"), file);
+
+    const titles = Array.from(container.querySelectorAll(".timeline-group-title")).map((el) => el.textContent);
+    expect(titles).toContain("runId = run-clean");
+    expect(titles).toContain("runId = run-dirty");
+
+    await waitFor(() => {
+      const entries = Array.from(container.querySelectorAll(".tl-entry-default"));
+      expect(entries.length).toBeGreaterThanOrEqual(2);
+    });
+
+    const entries = Array.from(container.querySelectorAll(".tl-entry-default")) as HTMLElement[];
+
+    const dirtyByBadge = entries.find((entry) => entry.querySelector(".tl-issue-pill.severity-error"));
+    expect(dirtyByBadge).toBeTruthy();
+    const dirtyErrorPill = dirtyByBadge?.querySelector(".tl-issue-pill.severity-error");
+    expect(Number(dirtyErrorPill?.textContent)).toBeGreaterThanOrEqual(1);
+
+    const cleanEntry = entries.find((entry) => !entry.querySelector(".tl-issue-pill"));
+    expect(cleanEntry).toBeTruthy();
+    expect(cleanEntry?.querySelector(".tl-issues")?.childElementCount ?? 0).toBe(0);
   });
 });

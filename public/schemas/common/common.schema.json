@@ -24,7 +24,7 @@
     },
     "accessLevel": {
       "type": "string",
-      "enum": ["default", "admin", "owner"]
+      "enum": ["default", "auto_approve", "full_access"]
     },
     "taskStatus": {
       "type": "string",
@@ -224,7 +224,8 @@
       "properties": {
         "id": { "type": "string" },
         "type": { "type": "string", "enum": ["function"] },
-        "function": { "$ref": "#/definitions/toolCallFunction" }
+        "function": { "$ref": "#/definitions/toolCallFunction" },
+        "_toolId": { "type": "string" }
       }
     },
     "llmChatRole": {

@@ -3,8 +3,6 @@ import type { DetectedMode, Strictness } from "../domain/types";
 interface Props {
   detectedModeLabel: string;
   detectedMode: DetectedMode;
-  severityFilter: string;
-  onSeverityFilterChange: (value: string) => void;
   searchQuery: string;
   onSearchQueryChange: (value: string) => void;
   strictness: Strictness;
@@ -17,16 +15,6 @@ export function TopBar(props: Props) {
     <header className="top-bar">
       <h1>🛡 Auditor</h1>
       <span className={`mode-badge mode-${props.detectedMode}`}>{props.detectedModeLabel}</span>
-
-      <div className="filter-group">
-        <label htmlFor="severity-filter">严重度</label>
-        <select id="severity-filter" value={props.severityFilter} onChange={(event) => props.onSeverityFilterChange(event.target.value)}>
-          <option value="all">全部</option>
-          <option value="error">错误</option>
-          <option value="warning">警告</option>
-          <option value="info">提示</option>
-        </select>
-      </div>
 
       <div className="filter-group">
         <label htmlFor="search-input">搜索</label>
