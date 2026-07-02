@@ -17,6 +17,13 @@
     "_type": { "type": "string", "enum": ["react-tool"] },
     "seq": {
       "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/positiveInteger"
+    },
+    "plan": {},
+    "sources": {
+      "anyOf": [
+        { "type": "array" },
+        { "type": "object", "additionalProperties": true }
+      ]
     }
   }
 }

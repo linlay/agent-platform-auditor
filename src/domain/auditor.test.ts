@@ -157,6 +157,49 @@ describe("JSONL auditing", () => {
     expect(issues.filter((issue) => issue.severity === "warning")).toHaveLength(0);
   });
 
+  test("react-tool accepts top-level plan and sources payloads", () => {
+    const issues = auditRaw([
+      JSON.stringify(reactRecord("run-react-tool-plan-sources", 1, 8)),
+      JSON.stringify({
+        ...reactToolRecord("run-react-tool-plan-sources", 2, 8),
+        plan: {
+          planId: "mr3ku2sf_plan",
+          tasks: [
+            {
+              taskId: "task_1783001211548_1",
+              description: "合并重复的 make build 小节，在测试之后统一为一个构建小节",
+              status: "in_progress"
+            },
+            {
+              taskId: "task_1783001211548_2",
+              description: "压缩专题文档索引，将 33 条逐项列表改为概述 + docs/ 链接",
+              status: "init"
+            }
+          ]
+        },
+        sources: [
+          {
+            id: "source-1",
+            title: "Schema 架构说明",
+            url: "https://example.test/schema"
+          }
+        ]
+      }),
+      JSON.stringify({
+        ...reactToolRecord("run-react-tool-plan-sources", 3, 8),
+        sources: {
+          kind: "search",
+          items: [{ title: "审计错误码参考" }]
+        }
+      })
+    ].join("\n"));
+
+    expect(issues.filter((issue) => issue.severity === "error")).toHaveLength(0);
+    expect(issues.filter((issue) => issue.severity === "warning")).toHaveLength(0);
+    expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "plan")).toBe(false);
+    expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "sources")).toBe(false);
+  });
+
   test("react-tool accepts non-negative tool message durationMs in milliseconds", () => {
     const validIssues = auditRaw([
       JSON.stringify(reactRecord("run-react-tool-duration", 1, 6)),
@@ -426,36 +469,58 @@ describe("JSONL auditing", () => {
     expect(issues.some((issue) => issue.code === "MISSING_LIVESEQ")).toBe(true);
   });
 
-  test("awaiting plan payload validates through JSON Schema", () => {
-    const issues = auditRaw(JSON.stringify(reactRecordWithAwaiting({
-      awaitingId: "mq97x6ji_coder_plan_confirm_1",
-      mode: "plan",
-      type: "awaiting.ask",
-      runId: "mq97x6ji",
-      agentKey: "coder-1780997036997",
-      timestamp: 1781165515440,
-      timeout: 0,
-      viewportType: "builtin",
-      viewportKey: "plan",
-      plan: {
-        id: "confirm",
-        title: "实施此计划？",
-        planningFile: "/Users/linlay/Project/zenmind/zenmind-env/chats/fd04b06a-57e8-4a46-8aa7-0b312ed8c5d1/.tools/plans/mq97x6ji_planning_1.md",
-        planningId: "mq97x6ji_planning_1",
-        options: [
-          { decision: "approve", label: "是，实施此计划" },
-          {
-            decision: "reject",
-            label: "否，请告知如何调整",
-            input: {
-              placeholder: "请告知如何调整",
-              required: false,
-              type: "text"
+  test("awaiting plan payload accepts current and legacy option labels", () => {
+    const issues = auditRaw([
+      JSON.stringify(reactRecordWithAwaiting({
+        awaitingId: "call_019f222e1de57fd392d073be",
+        mode: "plan",
+        type: "awaiting.ask",
+        runId: "mr3b14lq",
+        agentKey: "coder-thjhwf",
+        timestamp: 1782984876265,
+        timeout: 0,
+        viewportType: "builtin",
+        viewportKey: "plan",
+        plan: {
+          id: "confirm",
+          planningFile: "/Users/linlay/Project/zenmind/zenmind-env/chats/3712436e-6bda-467e-8eb8-400441def079/.tools/plans/mr3b14lq_planning_1.md",
+          planningId: "mr3b14lq_planning_1",
+          options: [
+            { decision: "approve" },
+            { decision: "reject" }
+          ]
+        }
+      }, 1)),
+      JSON.stringify(reactRecordWithAwaiting({
+        awaitingId: "mq97x6ji_coder_plan_confirm_1",
+        mode: "plan",
+        type: "awaiting.ask",
+        runId: "mq97x6ji",
+        agentKey: "coder-1780997036997",
+        timestamp: 1781165515440,
+        timeout: 0,
+        viewportType: "builtin",
+        viewportKey: "plan",
+        plan: {
+          id: "confirm",
+          title: "实施此计划？",
+          planningFile: "/Users/linlay/Project/zenmind/zenmind-env/chats/fd04b06a-57e8-4a46-8aa7-0b312ed8c5d1/.tools/plans/mq97x6ji_planning_1.md",
+          planningId: "mq97x6ji_planning_1",
+          options: [
+            { decision: "approve", label: "是，实施此计划" },
+            {
+              decision: "reject",
+              label: "否，请告知如何调整",
+              input: {
+                placeholder: "请告知如何调整",
+                required: false,
+                type: "text"
+              }
             }
-          }
-        ]
-      }
-    })));
+          ]
+        }
+      }, 2))
+    ].join("\n"));
 
     expect(issues.filter((issue) => issue.severity === "error")).toHaveLength(0);
     expect(issues.filter((issue) => issue.severity === "warning")).toHaveLength(0);
@@ -514,7 +579,7 @@ describe("JSONL auditing", () => {
     expect(issues.some((issue) => issue.code === "MISSING_REQUIRED" && issue.path === "awaiting.0.plan")).toBe(true);
     expect(issues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "awaiting.0.plan.options")).toBe(true);
     expect(issues.some((issue) => issue.code === "MISSING_REQUIRED" && issue.path === "awaiting.0.plan.options.0.decision")).toBe(true);
-    expect(issues.some((issue) => issue.code === "MISSING_REQUIRED" && issue.path === "awaiting.0.plan.options.1.label")).toBe(true);
+    expect(issues.some((issue) => issue.code === "MISSING_REQUIRED" && issue.path.endsWith(".label"))).toBe(false);
   });
 
   test("awaiting mode and event type are schema enums", () => {

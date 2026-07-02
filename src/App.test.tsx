@@ -395,6 +395,7 @@ describe("App file import", () => {
         message: "clean record",
         runId: "run-clean"
       },
+      messages: [{ role: "user", content: "clean record" }],
       _type: "query"
     };
     const dirtyRecord = {
@@ -409,6 +410,7 @@ describe("App file import", () => {
         message: "dirty record",
         runId: "run-dirty"
       },
+      messages: [{ role: "user", content: "dirty record" }],
       _type: "query",
       extraTop: "boom",
       extraTop2: 42

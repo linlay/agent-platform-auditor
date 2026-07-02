@@ -393,7 +393,7 @@
     },
     "awaitingPlan": {
       "type": "object",
-      "required": ["id", "title", "options"],
+      "required": ["id", "options"],
       "additionalProperties": true,
       "properties": {
         "id": { "type": "string" },
@@ -408,7 +408,7 @@
     },
     "awaitingPlanOption": {
       "type": "object",
-      "required": ["decision", "label"],
+      "required": ["decision"],
       "additionalProperties": true,
       "properties": {
         "decision": { "type": "string" },
