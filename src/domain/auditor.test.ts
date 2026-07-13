@@ -56,22 +56,22 @@ describe("JSONL auditing", () => {
         { role: "bot", content: "hello" },
         { role: "user", content: 42 }
       ],
-      systems: [{
+      system: {
         toolChoice: "manual",
         requestOptions: {
           stream: "true",
           stream_options: { include_usage: "true" },
           temperature: "0"
         }
-      }]
+      }
     }));
 
     expect(invalidIssues.some((issue) => issue.code === "INVALID_ENUM" && issue.path === "messages.0.role")).toBe(true);
     expect(invalidIssues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "messages.1.content")).toBe(true);
-    expect(invalidIssues.some((issue) => issue.code === "INVALID_ENUM" && issue.path === "systems.0.toolChoice")).toBe(true);
-    expect(invalidIssues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "systems.0.requestOptions.stream")).toBe(true);
-    expect(invalidIssues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "systems.0.requestOptions.stream_options.include_usage")).toBe(true);
-    expect(invalidIssues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "systems.0.requestOptions.temperature")).toBe(true);
+    expect(invalidIssues.some((issue) => issue.code === "INVALID_ENUM" && issue.path === "system.toolChoice")).toBe(true);
+    expect(invalidIssues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "system.requestOptions.stream")).toBe(true);
+    expect(invalidIssues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "system.requestOptions.stream_options.include_usage")).toBe(true);
+    expect(invalidIssues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "system.requestOptions.temperature")).toBe(true);
   });
 
   test("react usage and contextWindow accept complete and minimal core shapes", () => {
@@ -872,7 +872,7 @@ function queryRecord(runId: string, message: string, role = "user"): JsonObject 
       stream: true
     },
     messages: [{ role: "user", content: message }],
-    systems: [{
+    system: {
       cacheKey: "react:main",
       fingerprint: "sha256:test",
       systemMessage: { role: "system", content: "You are helpful" },
@@ -884,7 +884,7 @@ function queryRecord(runId: string, message: string, role = "user"): JsonObject 
         stream_options: { include_usage: true },
         temperature: 0
       }
-    }],
+    },
     _type: "query"
   };
 }

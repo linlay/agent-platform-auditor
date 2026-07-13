@@ -212,7 +212,7 @@ describe("App file import", () => {
     expect(writeText).toHaveBeenCalledWith(JSON.stringify(fileRecord, null, 2));
   });
 
-  test("property panel expands array entries as a tree", async () => {
+  test("property panel expands a system object as a tree", async () => {
     const user = userEvent.setup();
     const writeText = installClipboardMock();
     render(<App />);
@@ -230,39 +230,29 @@ describe("App file import", () => {
         message: "message with systems",
         runId: "run-systems"
       },
-      systems: [
-        {
-          role: "system",
-          content: "follow repo conventions",
-          meta: {
-            source: "plan"
-          }
+      system: {
+        role: "system",
+        content: "follow repo conventions",
+        meta: {
+          source: "plan"
         }
-      ],
+      },
       _type: "query"
     };
-    const file = new File([JSON.stringify(fileRecord)], "systems.jsonl", { type: "application/jsonl" });
+    const file = new File([JSON.stringify(fileRecord)], "system.jsonl", { type: "application/jsonl" });
 
     await user.upload(screen.getByLabelText("选择日志文件"), file);
     await user.click(await screen.findByText("message with systems"));
 
     expect(await screen.findByText("属性校验 #1 (query)")).toBeTruthy();
-    expect(screen.getByText("[1 项]")).toBeTruthy();
-    expect(screen.queryByRole("button", { name: "0" })).toBeNull();
     expect(screen.queryByText("\"system\"")).toBeNull();
 
-    await user.hover(screen.getByRole("button", { name: "systems" }));
-    await user.click(screen.getByRole("button", { name: "复制 systems" }));
+    await user.hover(screen.getByRole("button", { name: "system" }));
+    await user.click(screen.getByRole("button", { name: "复制 system" }));
 
-    expect(writeText).toHaveBeenCalledWith(JSON.stringify(fileRecord.systems, null, 2));
+    expect(writeText).toHaveBeenCalledWith(JSON.stringify(fileRecord.system, null, 2));
 
-    await user.click(screen.getByRole("button", { name: "systems" }));
-
-    expect(await screen.findByRole("button", { name: "0" })).toBeTruthy();
-    expect(screen.queryByText("\"system\"")).toBeNull();
-    expect(screen.queryByRole("button", { name: "meta" })).toBeNull();
-
-    await user.click(screen.getByRole("button", { name: "0" }));
+    await user.click(screen.getByRole("button", { name: "system" }));
 
     expect(screen.getByText("\"system\"")).toBeTruthy();
     expect(screen.getByText("\"follow repo conventions\"")).toBeTruthy();
@@ -270,20 +260,17 @@ describe("App file import", () => {
     expect(screen.queryByText("\"plan\"")).toBeNull();
 
     await user.hover(screen.getByText("\"system\""));
-    await user.click(screen.getByRole("button", { name: "复制 systems.0.role" }));
+    await user.click(screen.getByRole("button", { name: "复制 system.role" }));
 
     expect(writeText).toHaveBeenCalledWith("\"system\"");
 
-    await user.click(screen.getByRole("button", { name: "systems" }));
+    await user.click(screen.getByRole("button", { name: "system" }));
 
-    expect(screen.queryByRole("button", { name: "0" })).toBeNull();
     expect(screen.queryByText("\"system\"")).toBeNull();
-    expect(screen.getByText("[1 项]")).toBeTruthy();
 
-    await user.click(screen.getByRole("button", { name: "systems" }));
+    await user.click(screen.getByRole("button", { name: "system" }));
 
-    expect(await screen.findByRole("button", { name: "0" })).toBeTruthy();
-    expect(screen.queryByText("\"system\"")).toBeNull();
+    expect(await screen.findByText("\"system\"")).toBeTruthy();
   });
 
   test("top bar no longer has severity dropdown", async () => {

@@ -22,18 +22,15 @@
       "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/llmChatMessages"
     },
     "_type": { "type": "string", "enum": ["query"] },
-    "systems": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "additionalProperties": true,
-        "properties": {
-          "toolChoice": {
-            "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/llmToolChoice"
-          },
-          "requestOptions": {
-            "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/llmRequestOptions"
-          }
+    "system": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "toolChoice": {
+          "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/llmToolChoice"
+        },
+        "requestOptions": {
+          "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/llmRequestOptions"
         }
       }
     },

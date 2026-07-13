@@ -28,7 +28,7 @@ const sampleRaw = [
       planningMode: true
     },
     messages: [{ role: "user", content: "Platform Auditor 前端审计器需求" }],
-    systems: [{
+    system: {
       cacheKey: "react:main",
       fingerprint: "sha256:sample",
       systemMessage: { role: "system", content: "You are helpful" },
@@ -40,7 +40,7 @@ const sampleRaw = [
         stream_options: { include_usage: true },
         temperature: 0
       }
-    }],
+    },
     _type: "query"
   }),
   JSON.stringify({
