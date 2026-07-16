@@ -109,5 +109,5 @@ export const EVENT_PAYLOAD_SCHEMAS: Record<string, Record<string, string>> = {
   "task.complete": { taskId: "string" },
   "task.cancel": { taskId: "string", reason: "string" },
   "task.error": { taskId: "string", error: "string" },
-  "artifact.publish": { chatId: "string", runId: "string", artifactCount: "number", artifacts: "array" }
+  "artifact.publish": { chatId: "string", runId: "string", toolId: "string", taskId: "string", artifactCount: "number", artifacts: "array" }
 };

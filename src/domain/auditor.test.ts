@@ -200,6 +200,60 @@ describe("JSONL auditing", () => {
     expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "sources")).toBe(false);
   });
 
+  test("react-tool accepts per-publication artifact audit sidecars", () => {
+    const issues = auditRaw([
+      JSON.stringify(reactRecord("run-react-tool-artifacts", 1, 8)),
+      JSON.stringify({
+        ...reactToolRecord("run-react-tool-artifacts", 2, 8),
+        artifacts: {
+          items: [
+            {
+              toolId: "call_artifact",
+              runId: "run-react-tool-artifacts",
+              taskId: "task-1",
+              artifactCount: 1,
+              artifacts: [{ artifactId: "artifact-1", name: "report.md" }],
+              timestamp: 1783001211548,
+              liveSeq: 2
+            }
+          ]
+        }
+      })
+    ].join("\n"));
+
+    expect(issues.filter((issue) => issue.severity === "error")).toHaveLength(0);
+    expect(issues.filter((issue) => issue.severity === "warning")).toHaveLength(0);
+    expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "artifacts")).toBe(false);
+  });
+
+  test("only react-tool records allow artifacts and sources sidecars", () => {
+    const issues = auditRaw([
+      JSON.stringify({
+        ...reactRecord("run-react-artifacts", 1, 1),
+        artifacts: { items: [] }
+      }),
+      JSON.stringify({
+        ...reactRecord("run-react-sources", 1, 1),
+        sources: []
+      }),
+      JSON.stringify({
+        chatId: "chat-1",
+        runId: "run-plan-execute-artifacts",
+        updatedAt: 1783001211548,
+        liveSeq: 1,
+        messages: [{ role: "assistant", content: [] }],
+        _type: "plan-execute",
+        stage: "plan",
+        seq: 1,
+        artifacts: { items: [] }
+      })
+    ].join("\n"));
+
+    expect(issues.some((issue) => issue.recordIndex === 0 && issue.code === "UNKNOWN_FIELD" && issue.path === "artifacts")).toBe(true);
+    expect(issues.some((issue) => issue.recordIndex === 1 && issue.code === "UNKNOWN_FIELD" && issue.path === "sources")).toBe(true);
+    expect(issues.some((issue) => issue.recordIndex === 2 && issue.code === "UNKNOWN_FIELD" && issue.path === "artifacts")).toBe(true);
+  });
+
   test("react-tool accepts non-negative tool message durationMs in milliseconds", () => {
     const validIssues = auditRaw([
       JSON.stringify(reactRecord("run-react-tool-duration", 1, 6)),

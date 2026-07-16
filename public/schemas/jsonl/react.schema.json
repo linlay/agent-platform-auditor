@@ -35,7 +35,6 @@
       "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/planExecuteStage"
     },
     "plan": {},
-    "artifacts": {},
     "debug": { "type": "object", "additionalProperties": true },
     "taskId": { "type": "string" },
     "taskStatus": {
