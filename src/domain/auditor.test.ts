@@ -523,19 +523,18 @@ describe("JSONL auditing", () => {
     expect(issues.some((issue) => issue.code === "MISSING_LIVESEQ")).toBe(true);
   });
 
-  test("awaiting plan payload accepts current and legacy option labels", () => {
+  test("awaiting planning payload accepts option labels without timeout", () => {
     const issues = auditRaw([
       JSON.stringify(reactRecordWithAwaiting({
         awaitingId: "call_019f222e1de57fd392d073be",
-        mode: "plan",
+        mode: "planning",
         type: "awaiting.ask",
         runId: "mr3b14lq",
         agentKey: "coder-thjhwf",
         timestamp: 1782984876265,
-        timeout: 0,
         viewportType: "builtin",
-        viewportKey: "plan",
-        plan: {
+        viewportKey: "planning",
+        planning: {
           id: "confirm",
           planningFile: "/Users/linlay/Project/zenmind/zenmind-env/chats/3712436e-6bda-467e-8eb8-400441def079/.tools/plans/mr3b14lq_planning_1.md",
           planningId: "mr3b14lq_planning_1",
@@ -547,15 +546,14 @@ describe("JSONL auditing", () => {
       }, 1)),
       JSON.stringify(reactRecordWithAwaiting({
         awaitingId: "mq97x6ji_coder_plan_confirm_1",
-        mode: "plan",
+        mode: "planning",
         type: "awaiting.ask",
         runId: "mq97x6ji",
         agentKey: "coder-1780997036997",
         timestamp: 1781165515440,
-        timeout: 0,
         viewportType: "builtin",
-        viewportKey: "plan",
-        plan: {
+        viewportKey: "planning",
+        planning: {
           id: "confirm",
           title: "实施此计划？",
           planningFile: "/Users/linlay/Project/zenmind/zenmind-env/chats/fd04b06a-57e8-4a46-8aa7-0b312ed8c5d1/.tools/plans/mq97x6ji_planning_1.md",
@@ -580,30 +578,56 @@ describe("JSONL auditing", () => {
     expect(issues.filter((issue) => issue.severity === "warning")).toHaveLength(0);
   });
 
-  test("awaiting plan payload schema reports invalid plan shapes", () => {
+  test("current planning awaiting record does not report legacy schema errors", () => {
+    const issues = auditRaw(JSON.stringify(reactRecordWithAwaiting({
+      agentKey: "coder-tilxy6",
+      awaitingId: "call_019f8cf55f7777b0bfafe15b",
+      mode: "planning",
+      planning: {
+        id: "confirm",
+        options: [
+          { decision: "approve" },
+          { decision: "reject" }
+        ],
+        planningFile: "/Users/linlay/Project/zenmind/zenmind-env/chats/dad6ce17-7758-4f4c-82de-089b9978e71c/.tools/planning/mrwxmgvv_planning_1.md",
+        planningId: "mrwxmgvv_planning_1"
+      },
+      runId: "mrwxmgvv",
+      timestamp: 1784776344354,
+      type: "awaiting.ask",
+      viewportKey: "planning",
+      viewportType: "builtin"
+    })));
+
+    expect(issues.some((issue) => issue.code === "INVALID_ENUM" && issue.path === "awaiting.0.mode")).toBe(false);
+    expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "awaiting.0.planning")).toBe(false);
+    expect(issues.some((issue) => issue.code === "MISSING_REQUIRED" && issue.path === "awaiting.0.timeout")).toBe(false);
+    expect(issues.filter((issue) => issue.severity === "error")).toHaveLength(0);
+    expect(issues.filter((issue) => issue.severity === "warning")).toHaveLength(0);
+  });
+
+  test("awaiting planning payload schema reports invalid planning shapes", () => {
     const issues = auditRaw([
       JSON.stringify(reactRecordWithAwaiting({
-        awaitingId: "await-missing-plan",
-        mode: "plan",
+        awaitingId: "await-missing-planning",
+        mode: "planning",
         type: "awaiting.ask",
         runId: "run-awaiting-schema",
         agentKey: "coder",
         timestamp: 1780837893831,
-        timeout: 60,
         viewportType: "builtin",
-        viewportKey: "plan"
+        viewportKey: "planning"
       }, 1)),
       JSON.stringify(reactRecordWithAwaiting({
         awaitingId: "await-options-type",
-        mode: "plan",
+        mode: "planning",
         type: "awaiting.ask",
         runId: "run-awaiting-schema",
         agentKey: "coder",
         timestamp: 1780837894831,
-        timeout: 60,
         viewportType: "builtin",
-        viewportKey: "plan",
-        plan: {
+        viewportKey: "planning",
+        planning: {
           id: "confirm",
           title: "实施此计划？",
           options: "approve"
@@ -611,15 +635,14 @@ describe("JSONL auditing", () => {
       }, 2)),
       JSON.stringify(reactRecordWithAwaiting({
         awaitingId: "await-option-required",
-        mode: "plan",
+        mode: "planning",
         type: "awaiting.ask",
         runId: "run-awaiting-schema",
         agentKey: "coder",
         timestamp: 1780837895831,
-        timeout: 60,
         viewportType: "builtin",
-        viewportKey: "plan",
-        plan: {
+        viewportKey: "planning",
+        planning: {
           id: "confirm",
           title: "实施此计划？",
           options: [
@@ -630,10 +653,50 @@ describe("JSONL auditing", () => {
       }, 3))
     ].join("\n"));
 
-    expect(issues.some((issue) => issue.code === "MISSING_REQUIRED" && issue.path === "awaiting.0.plan")).toBe(true);
-    expect(issues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "awaiting.0.plan.options")).toBe(true);
-    expect(issues.some((issue) => issue.code === "MISSING_REQUIRED" && issue.path === "awaiting.0.plan.options.0.decision")).toBe(true);
+    expect(issues.some((issue) => issue.code === "MISSING_REQUIRED" && issue.path === "awaiting.0.planning")).toBe(true);
+    expect(issues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "awaiting.0.planning.options")).toBe(true);
+    expect(issues.some((issue) => issue.code === "MISSING_REQUIRED" && issue.path === "awaiting.0.planning.options.0.decision")).toBe(true);
     expect(issues.some((issue) => issue.code === "MISSING_REQUIRED" && issue.path.endsWith(".label"))).toBe(false);
+  });
+
+  test("non-planning awaiting modes still require timeout", () => {
+    const issues = auditRaw([
+      JSON.stringify(reactRecordWithAwaiting({
+        awaitingId: "await-question",
+        mode: "question",
+        type: "awaiting.ask",
+        runId: "run-awaiting-schema",
+        agentKey: "coder",
+        timestamp: 1780837893831,
+        viewportType: "chat",
+        viewportKey: "main",
+        questions: []
+      }, 1)),
+      JSON.stringify(reactRecordWithAwaiting({
+        awaitingId: "await-approval",
+        mode: "approval",
+        type: "awaiting.ask",
+        runId: "run-awaiting-schema",
+        agentKey: "coder",
+        timestamp: 1780837894832,
+        viewportType: "builtin",
+        viewportKey: "approval",
+        approvals: []
+      }, 2)),
+      JSON.stringify(reactRecordWithAwaiting({
+        awaitingId: "await-form",
+        mode: "form",
+        type: "awaiting.ask",
+        runId: "run-awaiting-schema",
+        agentKey: "coder",
+        timestamp: 1780837893833,
+        viewportType: "html",
+        viewportKey: "form",
+        forms: []
+      }, 3))
+    ].join("\n"));
+
+    expect(issues.filter((issue) => issue.code === "MISSING_REQUIRED" && issue.path === "awaiting.0.timeout").map((issue) => issue.recordIndex)).toEqual([0, 1, 2]);
   });
 
   test("awaiting mode and event type are schema enums", () => {
@@ -661,11 +724,30 @@ describe("JSONL auditing", () => {
         viewportType: "chat",
         viewportKey: "main",
         questions: []
-      }, 2))
+      }, 2)),
+      JSON.stringify(reactRecordWithAwaiting({
+        awaitingId: "await-legacy-plan",
+        mode: "plan",
+        type: "awaiting.ask",
+        runId: "run-awaiting-schema",
+        agentKey: "coder",
+        timestamp: 1780837895831,
+        viewportType: "builtin",
+        viewportKey: "plan",
+        plan: {
+          id: "confirm",
+          options: [
+            { decision: "approve" },
+            { decision: "reject" }
+          ]
+        }
+      }, 3))
     ].join("\n"));
 
     expect(issues.some((issue) => issue.code === "INVALID_ENUM" && issue.path === "awaiting.0.mode")).toBe(true);
     expect(issues.some((issue) => issue.code === "INVALID_ENUM" && issue.path === "awaiting.0.type")).toBe(true);
+    expect(issues.some((issue) => issue.recordIndex === 2 && issue.code === "INVALID_ENUM" && issue.path === "awaiting.0.mode")).toBe(true);
+    expect(issues.some((issue) => issue.recordIndex === 2 && issue.code === "UNKNOWN_FIELD" && issue.path === "awaiting.0.plan")).toBe(true);
   });
 
   test("JSONL routing requires top-level _type and ignores top-level type fallback", () => {
@@ -753,6 +835,50 @@ describe("JSONL auditing", () => {
       _type: "query"
     }));
 
+    expect(issues.filter((issue) => issue.severity === "error")).toHaveLength(0);
+    expect(issues.filter((issue) => issue.severity === "warning")).toHaveLength(0);
+  });
+});
+
+describe("Live Events auditing", () => {
+  test("awaiting ask and answer recognize planning payloads", () => {
+    const issues = auditAnyRaw([
+      JSON.stringify({
+        seq: 1,
+        type: "awaiting.ask",
+        timestamp: 1784776344354,
+        awaitingId: "await-planning",
+        mode: "planning",
+        viewportType: "builtin",
+        viewportKey: "planning",
+        runId: "run-planning",
+        agentKey: "coder",
+        planning: {
+          id: "confirm",
+          planningId: "run-planning_planning_1",
+          options: [
+            { decision: "approve" },
+            { decision: "reject" }
+          ]
+        }
+      }),
+      JSON.stringify({
+        seq: 2,
+        type: "awaiting.answer",
+        timestamp: 1784776345354,
+        awaitingId: "await-planning",
+        mode: "planning",
+        status: "answered",
+        submitId: "submit-planning",
+        planning: {
+          id: "confirm",
+          planningId: "run-planning_planning_1",
+          decision: "approve"
+        }
+      })
+    ].join("\n"));
+
+    expect(issues.filter((issue) => issue.code === "UNKNOWN_PAYLOAD_FIELD")).toHaveLength(0);
     expect(issues.filter((issue) => issue.severity === "error")).toHaveLength(0);
     expect(issues.filter((issue) => issue.severity === "warning")).toHaveLength(0);
   });

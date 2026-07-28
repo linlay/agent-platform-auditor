@@ -317,7 +317,6 @@
         "runId",
         "agentKey",
         "timestamp",
-        "timeout",
         "viewportType",
         "viewportKey"
       ],
@@ -331,7 +330,7 @@
             }
           },
           "then": {
-            "required": ["approvals"]
+            "required": ["approvals", "timeout"]
           }
         },
         {
@@ -342,7 +341,7 @@
             }
           },
           "then": {
-            "required": ["questions"]
+            "required": ["questions", "timeout"]
           }
         },
         {
@@ -353,24 +352,24 @@
             }
           },
           "then": {
-            "required": ["forms"]
+            "required": ["forms", "timeout"]
           }
         },
         {
           "if": {
             "required": ["mode"],
             "properties": {
-              "mode": { "const": "plan" }
+              "mode": { "const": "planning" }
             }
           },
           "then": {
-            "required": ["plan"]
+            "required": ["planning"]
           }
         }
       ],
       "properties": {
         "awaitingId": { "type": "string" },
-        "mode": { "type": "string", "enum": ["approval", "question", "form", "plan"] },
+        "mode": { "type": "string", "enum": ["approval", "question", "form", "planning"] },
         "type": { "type": "string", "enum": ["awaiting.ask"] },
         "runId": { "type": "string" },
         "agentKey": { "type": "string" },
@@ -381,7 +380,7 @@
         "questions": { "$ref": "#/definitions/awaitingObjectArray" },
         "approvals": { "$ref": "#/definitions/awaitingObjectArray" },
         "forms": { "$ref": "#/definitions/awaitingObjectArray" },
-        "plan": { "$ref": "#/definitions/awaitingPlan" }
+        "planning": { "$ref": "#/definitions/awaitingPlanning" }
       }
     },
     "awaitingObjectArray": {
@@ -391,7 +390,7 @@
         "additionalProperties": true
       }
     },
-    "awaitingPlan": {
+    "awaitingPlanning": {
       "type": "object",
       "required": ["id", "options"],
       "additionalProperties": true,
@@ -402,11 +401,11 @@
         "planningId": { "type": "string" },
         "options": {
           "type": "array",
-          "items": { "$ref": "#/definitions/awaitingPlanOption" }
+          "items": { "$ref": "#/definitions/awaitingPlanningOption" }
         }
       }
     },
-    "awaitingPlanOption": {
+    "awaitingPlanningOption": {
       "type": "object",
       "required": ["decision"],
       "additionalProperties": true,

@@ -70,8 +70,8 @@ export const WS_FRAMES = ["request", "response", "stream", "push", "error"] as c
 
 export const EVENT_PAYLOAD_SCHEMAS: Record<string, Record<string, string>> = {
   "request.query": { requestId: "string", chatId: "string", role: "string", message: "string", agentKey: "string", teamId: "string", references: "any", params: "any", scene: "any", stream: "boolean" },
-  "awaiting.ask": { awaitingId: "string", mode: "string", viewportType: "string", viewportKey: "string", timeout: "number", runId: "string", agentKey: "string", questions: "array", approvals: "array", forms: "array", plan: "any" },
-  "awaiting.answer": { awaitingId: "string", mode: "string", status: "string", submitId: "string", answers: "any", approvals: "array", forms: "array", plan: "any", error: "string" },
+  "awaiting.ask": { awaitingId: "string", mode: "string", viewportType: "string", viewportKey: "string", timeout: "number", runId: "string", agentKey: "string", questions: "array", approvals: "array", forms: "array", planning: "any" },
+  "awaiting.answer": { awaitingId: "string", mode: "string", status: "string", submitId: "string", answers: "any", approvals: "array", forms: "array", planning: "any", error: "string" },
   "request.submit": { requestId: "string", chatId: "string", runId: "string", awaitingId: "string", submitId: "string", params: "any" },
   "request.steer": { requestId: "string", chatId: "string", runId: "string", steerId: "string", message: "string", role: "string" },
   "chat.start": { chatId: "string", chatName: "string" },
