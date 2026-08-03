@@ -13,7 +13,20 @@
     },
     "_type": { "type": "string", "enum": ["event"] },
     "event": {
-      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/eventPayload"
+      "allOf": [
+        {
+          "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/eventPayload"
+        },
+        {
+          "not": {
+            "type": "object",
+            "required": ["type"],
+            "properties": {
+              "type": { "const": "request.steer" }
+            }
+          }
+        }
+      ]
     }
   }
 }

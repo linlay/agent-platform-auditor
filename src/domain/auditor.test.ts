@@ -769,12 +769,27 @@ describe("JSONL auditing", () => {
     expect(issues.some((issue) => issue.code === "INVALID_TYPE" && issue.path === "_type")).toBe(true);
   });
 
-  test("event and steer JSONL records use envelope schemas", () => {
+  test("steer JSONL hard-cuts to the dedicated payload while live event types stay separate", () => {
     const issues = auditFixture("invalid-event-steer.jsonl", "balanced");
-    expect(issues.some((issue) => issue.code === "MISSING_REQUIRED" && issue.path === "event")).toBe(true);
-    expect(issues.some((issue) => issue.code === "MISSING_REQUIRED" && issue.path === "steer")).toBe(true);
-    expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "type" && issue.severity === "error")).toBe(true);
-    expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "extraTop" && issue.severity === "error")).toBe(true);
+    expect(issues.some((issue) => issue.recordIndex === 0 && issue.code === "MISSING_REQUIRED" && issue.path === "event")).toBe(true);
+    expect(issues.some((issue) => issue.recordIndex === 0 && issue.code === "UNKNOWN_FIELD" && issue.path === "type" && issue.severity === "error")).toBe(true);
+    expect(issues.some((issue) => issue.recordIndex === 1 && issue.code === "MISSING_REQUIRED" && issue.path === "steer")).toBe(true);
+    expect(issues.some((issue) => issue.recordIndex === 2 && issue.code === "UNKNOWN_FIELD" && issue.path === "extraTop" && issue.severity === "error")).toBe(true);
+
+    expect(issues.some((issue) => issue.recordIndex === 3 && issue.code === "MISSING_REQUIRED" && issue.path === "steer")).toBe(true);
+    expect(issues.some((issue) => issue.recordIndex === 3 && issue.code === "UNKNOWN_FIELD" && issue.path === "event")).toBe(true);
+    expect(issues.some((issue) => issue.recordIndex === 4 && issue.code === "NOT_ALLOWED" && issue.path === "event")).toBe(true);
+
+    expect(issues.some((issue) => issue.recordIndex === 5 && issue.code === "UNKNOWN_FIELD" && issue.path === "steer.type")).toBe(true);
+    expect(issues.some((issue) => issue.recordIndex === 5 && issue.code === "UNKNOWN_FIELD" && issue.path === "steer.timestamp")).toBe(true);
+    expect(issues.some((issue) => issue.recordIndex === 5 && issue.code === "UNKNOWN_FIELD" && issue.path === "steer.seq")).toBe(true);
+    expect(issues.some((issue) => issue.recordIndex === 5 && issue.code === "UNKNOWN_FIELD" && issue.path === "steer.liveSeq")).toBe(true);
+    expect(issues.some((issue) => issue.recordIndex === 5 && issue.code === "VALUE_TOO_SHORT" && issue.path === "steer.requestId")).toBe(true);
+    expect(issues.some((issue) => issue.recordIndex === 5 && issue.code === "VALUE_TOO_SHORT" && issue.path === "steer.steerId")).toBe(true);
+    expect(issues.some((issue) => issue.recordIndex === 5 && issue.code === "VALUE_TOO_SHORT" && issue.path === "steer.message")).toBe(true);
+    expect(issues.some((issue) => issue.recordIndex === 5 && issue.code === "INVALID_ENUM" && issue.path === "steer.role")).toBe(true);
+    expect(issues.some((issue) => issue.recordIndex === 5 && issue.code === "STEER_CHATID_MISMATCH" && issue.path === "steer.chatId")).toBe(true);
+    expect(issues.some((issue) => issue.recordIndex === 5 && issue.code === "STEER_RUNID_MISMATCH" && issue.path === "steer.runId")).toBe(true);
   });
 
   test("liveSeq missing is enforced by _type even when the run has no liveSeq", () => {
@@ -841,6 +856,24 @@ describe("JSONL auditing", () => {
 });
 
 describe("Live Events auditing", () => {
+  test("request.steer remains a flat live event", () => {
+    const issues = auditAnyRaw(JSON.stringify({
+      seq: 15,
+      type: "request.steer",
+      requestId: "req-id",
+      chatId: "chat-id",
+      runId: "run-id",
+      steerId: "steer-id",
+      message: "补充要求",
+      role: "user",
+      liveSeq: 8,
+      timestamp: 1785734522182
+    }));
+
+    expect(issues.filter((issue) => issue.severity === "error")).toHaveLength(0);
+    expect(issues.filter((issue) => issue.severity === "warning")).toHaveLength(0);
+  });
+
   test("awaiting ask and answer recognize planning payloads", () => {
     const issues = auditAnyRaw([
       JSON.stringify({

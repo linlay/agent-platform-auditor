@@ -48,6 +48,7 @@ function applyRecordRule(rule: Rule, rec: ParsedRecord, issues: AuditIssue[], st
   if (rule.op === "sumEquals") applySumEqualsRule(rule, rec, issues);
   if (rule.op === "lessThanOrEqual") applyLessThanOrEqualRule(rule, rec, issues);
   if (rule.op === "forbiddenAny") applyForbiddenAnyRule(rule, rec, issues, strictness);
+  if (rule.op === "equals") applyEqualsRule(rule, rec, issues);
 }
 
 function applyLegacyStepRule(rule: Rule, rec: ParsedRecord, issues: AuditIssue[]): void {
@@ -141,6 +142,26 @@ function applyForbiddenAnyRule(rule: Rule, rec: ParsedRecord, issues: AuditIssue
       );
     });
   });
+}
+
+function applyEqualsRule(rule: Rule, rec: ParsedRecord, issues: AuditIssue[]): void {
+  if (!rule.left || Array.isArray(rule.left) || !rule.right) return;
+  const left = valueAtPath(rec.data, rule.left);
+  const right = valueAtPath(rec.data, rule.right);
+  if (left === undefined || right === undefined || left === right) return;
+
+  issues.push(
+    makeIssue(
+      rule.severity || "error",
+      rule.code || "VALUE_MISMATCH",
+      rule.title || "字段值不一致",
+      rec.index,
+      rule.path || rule.left,
+      rule.expected || rule.right,
+      shortJson(left),
+      `${rule.left}=${shortJson(left)}，应与 ${rule.right}=${shortJson(right)} 一致`
+    )
+  );
 }
 
 function applyCrossRecordRule(rule: Rule, records: ParsedRecord[], issues: AuditIssue[]): void {

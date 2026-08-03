@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema#",
-  "version": "2026-06-10.ws-har-v1",
+  "version": "2026-08-03.steer-hard-cut-v1",
   "draft": "http://json-schema.org/draft-07/schema#",
   "formats": {
     "jsonl": {

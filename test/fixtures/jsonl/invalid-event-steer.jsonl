@@ -1,3 +1,6 @@
 {"chatId":"chat-1","runId":"run-event","updatedAt":1780837893831,"liveSeq":1,"_type":"event","type":"run.start","timestamp":1780837893831}
 {"chatId":"chat-1","runId":"run-event","updatedAt":1780837894831,"liveSeq":2,"_type":"steer"}
 {"chatId":"chat-1","runId":"run-event","updatedAt":1780837895831,"liveSeq":3,"_type":"event","event":{"type":"run.start","timestamp":1780837895831},"extraTop":true}
+{"chatId":"chat-1","runId":"run-old-steer","updatedAt":1780837896831,"liveSeq":1,"_type":"steer","event":{"type":"request.steer","timestamp":1780837896831,"requestId":"req-old","chatId":"chat-1","runId":"run-old-steer","steerId":"steer-old","message":"old wrapper","role":"user"}}
+{"chatId":"chat-1","runId":"run-event-steer","updatedAt":1780837897831,"liveSeq":1,"_type":"event","event":{"type":"request.steer","timestamp":1780837897831,"requestId":"req-event","chatId":"chat-1","runId":"run-event-steer","steerId":"steer-event","message":"wrong event type","role":"user"}}
+{"chatId":"chat-1","runId":"run-invalid-steer","updatedAt":1780837898831,"liveSeq":1,"_type":"steer","steer":{"requestId":"","chatId":"chat-other","runId":"run-other","steerId":"","message":"","role":"assistant","type":"request.steer","timestamp":1780837898831,"seq":9,"liveSeq":9}}

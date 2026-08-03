@@ -4,7 +4,7 @@
 {"chatId":"chat-1","runId":"run-1","updatedAt":1780837895831,"liveSeq":4,"messages":[{"role":"assistant","content":[{"type":"text","text":"plan"}],"ts":1780837895831}],"_type":"plan-execute","stage":"plan","seq":2}
 {"chatId":"chat-1","runId":"run-1","updatedAt":1780837896831,"liveSeq":5,"_type":"submit","submit":{"ok":true}}
 {"chatId":"chat-1","runId":"run-1","updatedAt":1780837897331,"liveSeq":6,"_type":"event","event":{"type":"run.start","timestamp":1780837897331,"chatId":"chat-1","runId":"run-1","agentKey":"coder"}}
-{"chatId":"chat-1","runId":"run-1","updatedAt":1780837897631,"liveSeq":7,"_type":"steer","steer":{"requestId":"req-steer-1","chatId":"chat-1","runId":"run-1","steerId":"steer-1","message":"continue","role":"user"}}
+{"chatId":"chat-1","runId":"run-1","updatedAt":1780837897631,"liveSeq":7,"_type":"steer","steer":{"chatId":"chat-1","runId":"run-1","steerId":"steer-1","message":"continue","role":"user"}}
 {"chatId":"chat-1","runId":"run-1","updatedAt":1780837897831,"_type":"planning","event":{"type":"planning.snapshot","planningId":"plan-1","chatId":"chat-1","runId":"run-1","timestamp":1780837897831,"text":"plan text"}}
 {"_type":"system","chatId":"chat-1","agentKey":"coder","runId":"run-1","createdAt":1780837898831,"fingerprint":"sha256:test","systemMessage":{"role":"system","content":"You are helpful"},"tools":[]}
 {"chatId":"chat-1","runId":"run-1","updatedAt":1780837899831,"liveSeq":8,"_type":"step","messages":[{"role":"assistant","content":[{"type":"text","text":"legacy"}]}],"_stage":"react","_seq":1}

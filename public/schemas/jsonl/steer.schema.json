@@ -5,8 +5,8 @@
   "required": ["chatId", "runId", "updatedAt", "_type", "steer"],
   "additionalProperties": false,
   "properties": {
-    "chatId": { "type": "string" },
-    "runId": { "type": "string" },
+    "chatId": { "type": "string", "minLength": 1 },
+    "runId": { "type": "string", "minLength": 1 },
     "updatedAt": { "type": "number" },
     "liveSeq": {
       "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/positiveInteger"

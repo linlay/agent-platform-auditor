@@ -1,6 +1,6 @@
 {
   "$schema": "https://zenmind.local/platform-auditor/schemas/rules/jsonl-rules.schema.json",
-  "version": "2026-06-08.jsonl-rules-v1",
+  "version": "2026-08-03.steer-hard-cut-v1",
   "recordRules": [
     {
       "id": "legacy-step",
@@ -40,6 +40,30 @@
       "code": "NESTED_LIVESEQ",
       "title": "awaiting 内含旧 cursor 字段",
       "expected": "top-level liveSeq"
+    },
+    {
+      "id": "steer-chat-id-matches-envelope",
+      "op": "equals",
+      "whenType": ["steer"],
+      "left": "steer.chatId",
+      "right": "chatId",
+      "severity": "error",
+      "code": "STEER_CHATID_MISMATCH",
+      "title": "steer.chatId 与顶层 chatId 不一致",
+      "path": "steer.chatId",
+      "expected": "top-level chatId"
+    },
+    {
+      "id": "steer-run-id-matches-envelope",
+      "op": "equals",
+      "whenType": ["steer"],
+      "left": "steer.runId",
+      "right": "runId",
+      "severity": "error",
+      "code": "STEER_RUNID_MISMATCH",
+      "title": "steer.runId 与顶层 runId 不一致",
+      "path": "steer.runId",
+      "expected": "top-level runId"
     }
   ],
   "crossRecordRules": [

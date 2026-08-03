@@ -128,6 +128,8 @@ npm install && npm test && npm run build
 | | `system` | 系统消息 |
 | 兼容 | `step` | 旧格式（兼容） |
 
+`_type:"steer"` 使用与 `query` 对称的专用 `steer` payload；`requestId` 可省略，`chatId/runId/steerId/message/role` 必填，`role` 固定为 `user`。顶层仅接受 `chatId/runId/updatedAt/liveSeq/steer/_type`，`steer` 内不接受 `type/timestamp/seq/liveSeq`。旧的 `_type:"steer" + event` 以及 `_type:"event" + event.type:"request.steer"` 都会按硬切协议报错；SSE、WebSocket 和 Live Events 中扁平的 `type:"request.steer"` 不受影响。
+
 ### WebSocket Frame 日志
 
 支持两种输入形式：逐行 JSON Frame 或 HAR 文件（自动提取 `_webSocketMessages` 数组）。
@@ -157,6 +159,7 @@ npm install && npm test && npm run build
 - **liveSeq 审计**：同一 `runId` 下 liveSeq 递增且不重复
 - **react-tool seq 审计**：`react-tool.seq` 须等于同 `runId` 最近一条 `react.seq`
 - **chatId 一致性**：同一 `runId` 的记录 chatId 须一致
+- **steer 身份一致性**：`steer.chatId/runId` 须分别等于顶层 `chatId/runId`
 - **旧格式检测**：`_type=step` 提示升级
 - **awaiting 旧字段**：检测 `awaiting` 数组中的嵌套 `liveSeq`/`seq`
 
@@ -260,7 +263,7 @@ npx vitest run --reporter=verbose  # 详细输出
 | `test/fixtures/jsonl/valid-all-types.jsonl` | 所有合法类型示例 |
 | `test/fixtures/jsonl/invalid-schema.jsonl` | Schema 校验失败用例 |
 | `test/fixtures/jsonl/invalid-rules.jsonl` | 规则审计失败用例 |
-| `test/fixtures/jsonl/invalid-event-steer.jsonl` | event/steer 类型校验 |
+| `test/fixtures/jsonl/invalid-event-steer.jsonl` | event/steer 硬切、字段白名单与身份一致性校验 |
 | `test/fixtures/jsonl/missing-liveseq-by-type.jsonl` | liveSeq 缺失检测 |
 | `test/fixtures/ws/har-websocket.json` | HAR WebSocket 抓包示例 |
 

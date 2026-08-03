@@ -153,6 +153,16 @@ function ajvErrorToIssue(err: ErrorObject, data: JsonValue, idx: number, strictn
     title = `值超出范围 ${path}`;
     expected = `>= ${(err.params as { limit?: number }).limit}`;
     actual = shortJson(valueAtPath(data, path));
+  } else if (err.keyword === "minLength") {
+    code = "VALUE_TOO_SHORT";
+    title = `字符串过短 ${path}`;
+    expected = `length >= ${(err.params as { limit?: number }).limit}`;
+    actual = shortJson(valueAtPath(data, path));
+  } else if (err.keyword === "not") {
+    code = "NOT_ALLOWED";
+    title = `不允许的值 ${path}`;
+    expected = "不得匹配禁用的 schema";
+    actual = shortJson(valueAtPath(data, path));
   } else {
     actual = shortJson(valueAtPath(data, path));
   }

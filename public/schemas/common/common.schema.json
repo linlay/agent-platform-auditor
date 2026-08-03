@@ -449,16 +449,15 @@
     },
     "steerPayload": {
       "type": "object",
-      "required": ["requestId", "chatId", "runId", "steerId", "message", "role"],
-      "additionalProperties": true,
+      "required": ["chatId", "runId", "steerId", "message", "role"],
+      "additionalProperties": false,
       "properties": {
-        "requestId": { "type": "string" },
-        "chatId": { "type": "string" },
-        "runId": { "type": "string" },
-        "steerId": { "type": "string" },
-        "message": { "type": "string" },
-        "role": { "$ref": "#/definitions/role" },
-        "timestamp": { "type": "number" }
+        "requestId": { "type": "string", "minLength": 1 },
+        "chatId": { "type": "string", "minLength": 1 },
+        "runId": { "type": "string", "minLength": 1 },
+        "steerId": { "type": "string", "minLength": 1 },
+        "message": { "type": "string", "minLength": 1 },
+        "role": { "type": "string", "const": "user" }
       }
     },
     "systemMessage": {

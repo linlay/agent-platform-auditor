@@ -73,7 +73,7 @@ export const EVENT_PAYLOAD_SCHEMAS: Record<string, Record<string, string>> = {
   "awaiting.ask": { awaitingId: "string", mode: "string", viewportType: "string", viewportKey: "string", timeout: "number", runId: "string", agentKey: "string", questions: "array", approvals: "array", forms: "array", planning: "any" },
   "awaiting.answer": { awaitingId: "string", mode: "string", status: "string", submitId: "string", answers: "any", approvals: "array", forms: "array", planning: "any", error: "string" },
   "request.submit": { requestId: "string", chatId: "string", runId: "string", awaitingId: "string", submitId: "string", params: "any" },
-  "request.steer": { requestId: "string", chatId: "string", runId: "string", steerId: "string", message: "string", role: "string" },
+  "request.steer": { requestId: "string", chatId: "string", runId: "string", steerId: "string", message: "string", role: "string", liveSeq: "number" },
   "chat.start": { chatId: "string", chatName: "string" },
   "run.start": { runId: "string", chatId: "string", agentKey: "string" },
   "debug.preCall": { runId: "string", chatId: "string", data: "any" },
