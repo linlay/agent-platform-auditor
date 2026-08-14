@@ -288,6 +288,7 @@ function removeDescendantPaths(paths: Set<string>, path: string): void {
 }
 
 function formatCopyValue(value: JsonValue): string {
+  if (typeof value === "string") return value;
   try {
     return JSON.stringify(value, null, 2) ?? "";
   } catch {

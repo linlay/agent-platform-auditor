@@ -262,7 +262,7 @@ describe("App file import", () => {
     await user.hover(screen.getByText("\"system\""));
     await user.click(screen.getByRole("button", { name: "复制 system.role" }));
 
-    expect(writeText).toHaveBeenCalledWith("\"system\"");
+    expect(writeText).toHaveBeenCalledWith("system");
 
     await user.click(screen.getByRole("button", { name: "system" }));
 
