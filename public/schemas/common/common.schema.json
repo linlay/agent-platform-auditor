@@ -100,6 +100,10 @@
         "runId": { "type": "string" },
         "agentKey": { "type": "string" },
         "teamId": {},
+        "mustUseSkills": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
         "model": { "type": "object", "additionalProperties": true },
         "accessLevel": { "$ref": "#/definitions/accessLevel" },
         "liveSeq": { "$ref": "#/definitions/positiveInteger" },

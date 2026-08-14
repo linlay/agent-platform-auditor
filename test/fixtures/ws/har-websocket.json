@@ -15,7 +15,7 @@
             "type": "send",
             "time": 1781103136.1,
             "opcode": 1,
-            "data": "{\"frame\":\"request\",\"type\":\"/api/query\",\"id\":\"req-1\",\"payload\":{\"message\":\"hello\",\"agentKey\":\"coder\",\"chatId\":\"chat-1\",\"stream\":true}}"
+            "data": "{\"frame\":\"request\",\"type\":\"/api/query\",\"id\":\"req-1\",\"payload\":{\"message\":\"hello\",\"agentKey\":\"coder\",\"chatId\":\"chat-1\",\"stream\":true,\"mustUseSkills\":[\"webapp-builder\"]}}"
           },
           {
             "type": "receive",

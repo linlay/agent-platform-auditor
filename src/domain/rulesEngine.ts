@@ -21,6 +21,7 @@ interface Rule {
   fields?: string[];
   typesExpectingLiveSeq?: string[];
   skipMissingTypes?: string[];
+  allowEqualTypes?: string[];
 }
 
 export function evaluateJsonl(records: ParsedRecord[], strictness: Strictness): AuditIssue[] {
@@ -238,6 +239,7 @@ function validateLiveSeqGroup(rule: Rule, runId: string, group: { idx: number; r
   const seen: Record<string, number> = {};
   const expectTypes = rule.typesExpectingLiveSeq ?? [];
   const skipMissing = rule.skipMissingTypes ?? [];
+  const allowEqualTypes = rule.allowEqualTypes ?? [];
 
   group.forEach(({ idx, rec }) => {
     if (!isPlainObject(rec.data)) return;
@@ -257,13 +259,14 @@ function validateLiveSeqGroup(rule: Rule, runId: string, group: { idx: number; r
     if (!Number.isInteger(liveSeq) || liveSeq <= 0) {
       return;
     }
-    if (seen[String(liveSeq)] !== undefined) {
+    const mayReuseCurrentCursor = allowEqualTypes.includes(type) && liveSeq === prevLiveSeq;
+    if (seen[String(liveSeq)] !== undefined && !mayReuseCurrentCursor) {
       issues.push(makeIssue("error", "LIVESEQ_DUPLICATE", "run 内 liveSeq 重复", idx, "liveSeq", "unique per run", shortJson(liveSeq), `runId=${runId} 的 liveSeq=${liveSeq} 已在记录 ${seen[String(liveSeq)]} 出现`));
     }
-    if (liveSeq <= prevLiveSeq) {
+    if (liveSeq < prevLiveSeq || (liveSeq === prevLiveSeq && !mayReuseCurrentCursor)) {
       issues.push(makeIssue("error", "LIVESEQ_DECREASE", "run 内 liveSeq 非递增", idx, "liveSeq", `> ${prevLiveSeq}`, shortJson(liveSeq), `runId=${runId} 的 liveSeq 从 ${prevLiveSeq} 降到 ${liveSeq}`));
     }
-    seen[String(liveSeq)] = idx;
+    if (seen[String(liveSeq)] === undefined) seen[String(liveSeq)] = idx;
     if (liveSeq > prevLiveSeq) prevLiveSeq = liveSeq;
   });
 }

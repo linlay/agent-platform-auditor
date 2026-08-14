@@ -72,7 +72,8 @@
       "op": "liveSeqByRun",
       "severity": "warning",
       "typesExpectingLiveSeq": ["query", "react", "react-tool", "plan-execute", "submit", "event", "steer"],
-      "skipMissingTypes": ["planning", "system", "step"]
+      "skipMissingTypes": ["planning", "system", "step"],
+      "allowEqualTypes": ["react-tool"]
     },
     {
       "id": "react-tool-seq-matches-previous-react",

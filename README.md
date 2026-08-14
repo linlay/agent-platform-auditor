@@ -156,7 +156,7 @@ npm install && npm test && npm run build
 
 - **Token 校验**：`usage.totalTokens` = `promptTokens + completionTokens`
 - **Context Window**：`currentSize` ≤ `maxSize`
-- **liveSeq 审计**：同一 `runId` 下 liveSeq 递增且不重复
+- **liveSeq 审计**：同一 `runId` 下 liveSeq 默认严格递增且不重复；`react-tool` 可复用当前公开游标（与前一条相等）以持久化隐藏工具结果，但仍不得倒退
 - **react-tool seq 审计**：`react-tool.seq` 须等于同 `runId` 最近一条 `react.seq`
 - **chatId 一致性**：同一 `runId` 的记录 chatId 须一致
 - **steer 身份一致性**：`steer.chatId/runId` 须分别等于顶层 `chatId/runId`

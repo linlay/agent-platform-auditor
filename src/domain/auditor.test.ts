@@ -74,6 +74,19 @@ describe("JSONL auditing", () => {
     expect(invalidIssues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "system.requestOptions.temperature")).toBe(true);
   });
 
+  test("query payload accepts mustUseSkills and rejects non-array values", () => {
+    const validRecord = queryRecord("run-query-must-use-skills", "hello");
+    (validRecord.query as JsonObject).mustUseSkills = ["webapp-builder"];
+    const validIssues = auditRaw(JSON.stringify(validRecord));
+    expect(validIssues.filter((issue) => issue.severity === "error")).toHaveLength(0);
+    expect(validIssues.filter((issue) => issue.severity === "warning")).toHaveLength(0);
+
+    const invalidRecord = queryRecord("run-query-must-use-skills-invalid", "hello");
+    (invalidRecord.query as JsonObject).mustUseSkills = "webapp-builder";
+    const invalidIssues = auditRaw(JSON.stringify(invalidRecord));
+    expect(invalidIssues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "query.mustUseSkills")).toBe(true);
+  });
+
   test("react usage and contextWindow accept complete and minimal core shapes", () => {
     const issues = auditRaw([
       JSON.stringify({
@@ -294,6 +307,44 @@ describe("JSONL auditing", () => {
 
     expect(issues.some((issue) => issue.code === "MISSING_LIVESEQ" && issue.path === "liveSeq" && issue.recordIndex === 1)).toBe(true);
     expect(issues.some((issue) => issue.code === "REACT_TOOL_SEQ_MISMATCH")).toBe(false);
+  });
+
+  test("react-tool may reuse the current liveSeq for hidden tool persistence", () => {
+    const issues = auditRaw([
+      JSON.stringify(reactRecord("run-react-tool-reuse-live", 70, 1)),
+      JSON.stringify({
+        chatId: "chat-1",
+        runId: "run-react-tool-reuse-live",
+        updatedAt: 1780837894831,
+        liveSeq: 71,
+        _type: "submit",
+        submit: { type: "request.submit" },
+        answer: { type: "awaiting.answer" }
+      }),
+      JSON.stringify(reactToolRecord("run-react-tool-reuse-live", 71, 1))
+    ].join("\n"));
+
+    expect(issues.some((issue) => issue.code === "LIVESEQ_DUPLICATE")).toBe(false);
+    expect(issues.some((issue) => issue.code === "LIVESEQ_DECREASE")).toBe(false);
+  });
+
+  test("react-tool still reports a liveSeq that moves behind the current cursor", () => {
+    const issues = auditRaw([
+      JSON.stringify(reactRecord("run-react-tool-decreased-live", 70, 1)),
+      JSON.stringify({
+        chatId: "chat-1",
+        runId: "run-react-tool-decreased-live",
+        updatedAt: 1780837894831,
+        liveSeq: 71,
+        _type: "submit",
+        submit: { type: "request.submit" },
+        answer: { type: "awaiting.answer" }
+      }),
+      JSON.stringify(reactToolRecord("run-react-tool-decreased-live", 70, 1))
+    ].join("\n"));
+
+    expect(issues.some((issue) => issue.code === "LIVESEQ_DUPLICATE" && issue.recordIndex === 2)).toBe(true);
+    expect(issues.some((issue) => issue.code === "LIVESEQ_DECREASE" && issue.recordIndex === 2)).toBe(true);
   });
 
   test("plan-execute usage accepts final details and rejects old aliases through the common schema", () => {
@@ -978,6 +1029,36 @@ describe("WebSocket auditing", () => {
     expect(issues.some((issue) => issue.code === "MISSING_REQUIRED" && issue.path === "msg")).toBe(true);
     expect(issues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "payload.params")).toBe(true);
     expect(issues.some((issue) => issue.code === "INVALID_ENUM" && issue.path === "payload.accessLevel")).toBe(true);
+  });
+
+  test("WS /api/query payload accepts mustUseSkills and rejects non-array values", () => {
+    const validIssues = auditAnyRaw(JSON.stringify({
+      frame: "request",
+      type: "/api/query",
+      id: "req-must-use-skills",
+      payload: {
+        message: "hello",
+        agentKey: "coder",
+        chatId: "chat-1",
+        stream: true,
+        mustUseSkills: ["webapp-builder"]
+      }
+    }));
+    expect(validIssues.filter((issue) => issue.severity === "error")).toHaveLength(0);
+
+    const invalidIssues = auditAnyRaw(JSON.stringify({
+      frame: "request",
+      type: "/api/query",
+      id: "req-must-use-skills-invalid",
+      payload: {
+        message: "hello",
+        agentKey: "coder",
+        chatId: "chat-1",
+        stream: true,
+        mustUseSkills: "webapp-builder"
+      }
+    }));
+    expect(invalidIssues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "payload.mustUseSkills")).toBe(true);
   });
 
   test("bare websocket arrays remain supported", () => {

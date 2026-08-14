@@ -91,6 +91,10 @@
         "chatId": { "type": "string" },
         "agentKey": { "type": "string" },
         "teamId": { "type": "string" },
+        "mustUseSkills": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
         "role": { "$ref": "#/definitions/queryRole" },
         "message": { "type": "string" },
         "references": {
