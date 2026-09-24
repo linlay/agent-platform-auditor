@@ -19,6 +19,30 @@ beforeEach(() => {
 });
 
 describe("JSONL auditing", () => {
+  test.each(["balanced", "strict", "exploratory"] as const)("react accepts optional responseId in %s mode", (strictness) => {
+    const record = reactRecord("run-responses", 1, 1);
+    for (const value of [record, {
+      ...record,
+      responseId: "resp_0cd6b48dfd2c7a19016ab498494e9887d1821b08bc61d91984"
+    }]) {
+      const issues = auditRaw(JSON.stringify(value), strictness);
+      expect(issues.filter((issue) => issue.severity === "error" || issue.severity === "warning")).toHaveLength(0);
+    }
+  });
+
+  test.each([null, 42, "", " ", " resp_001", "resp_001 ", "resp_001\n"])("react rejects invalid responseId %j", (responseId) => {
+    const issues = auditRaw(JSON.stringify({ ...reactRecord("run-responses", 1, 1), responseId }));
+    expect(issues.some((issue) => issue.path === "responseId" && issue.severity === "error" && issue.code !== "UNKNOWN_FIELD")).toBe(true);
+  });
+
+  test("react-tool still rejects responseId", () => {
+    const issues = auditRaw([
+      JSON.stringify(reactRecord("run-responses", 1, 1)),
+      JSON.stringify({ ...reactToolRecord("run-responses", 2, 1), responseId: "resp_001" })
+    ].join("\n"));
+    expect(issues.some((issue) => issue.recordIndex === 1 && issue.path === "responseId" && issue.code === "UNKNOWN_FIELD")).toBe(true);
+  });
+
   test("valid JSONL fixtures compile and produce no error/warning issues", () => {
     const issues = auditFixture("valid-all-types.jsonl");
     expect(issues.filter((issue) => issue.severity === "error")).toHaveLength(0);
@@ -72,6 +96,40 @@ describe("JSONL auditing", () => {
     expect(invalidIssues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "system.requestOptions.stream")).toBe(true);
     expect(invalidIssues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "system.requestOptions.stream_options.include_usage")).toBe(true);
     expect(invalidIssues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "system.requestOptions.temperature")).toBe(true);
+  });
+
+  test.each(["balanced", "strict", "exploratory"] as const)("query accepts Responses request options in %s mode", (strictness) => {
+    const record = queryRecord("run-query-responses", "hello");
+    const system = record.system as JsonObject;
+    system.model = { key: "th-gpt-6-luna", protocol: "OPENAI_RESPONSES" };
+    system.requestOptions = {
+      include: ["reasoning.encrypted_content"],
+      reasoning: { effort: "medium", summary: "auto" },
+      store: false,
+      stream: true
+    };
+    const issues = auditRaw(JSON.stringify(record), strictness);
+    expect(issues.filter((issue) => issue.severity === "error" || issue.severity === "warning")).toHaveLength(0);
+  });
+
+  test("protocol-dependent request options are optional but remain type checked", () => {
+    const record = queryRecord("run-query-options", "hello");
+    const system = record.system as JsonObject;
+    system.model = { key: "responses-model", protocol: "OPENAI_RESPONSES" };
+    const validOptions: JsonObject[] = [
+      { stream: true },
+      { stream: true, temperature: 0 },
+      { stream: true, stream_options: { include_usage: true } }
+    ];
+    for (const options of validOptions) {
+      system.requestOptions = options;
+      expect(auditRaw(JSON.stringify(record)).filter((issue) => issue.severity === "error")).toHaveLength(0);
+    }
+    system.requestOptions = { temperature: "0", stream_options: { include_usage: "true" } };
+    const issues = auditRaw(JSON.stringify(record));
+    expect(issues.some((issue) => issue.code === "MISSING_REQUIRED" && issue.path === "system.requestOptions.stream")).toBe(true);
+    expect(issues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "system.requestOptions.temperature")).toBe(true);
+    expect(issues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "system.requestOptions.stream_options.include_usage")).toBe(true);
   });
 
   test("query payload accepts mustUseSkills and rejects non-array values", () => {

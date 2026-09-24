@@ -279,7 +279,8 @@
     },
     "llmRequestOptions": {
       "type": "object",
-      "required": ["stream", "stream_options", "temperature"],
+      "$comment": "Request options snapshot actual provider parameters; temperature and stream_options are protocol/configuration dependent.",
+      "required": ["stream"],
       "additionalProperties": true,
       "properties": {
         "stream": { "type": "boolean" },

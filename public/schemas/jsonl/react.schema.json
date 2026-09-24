@@ -16,6 +16,12 @@
     },
     "_type": { "type": "string", "enum": ["react"] },
     "modelKey": { "type": "string" },
+    "responseId": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^\\S(?:[\\s\\S]*\\S)?$(?![\\s\\S])",
+      "description": "该次已接受模型调用的上游响应 ID，可选且首尾不能包含空白"
+    },
     "reasoningEffort": { "type": "string" },
     "seq": {
       "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/positiveInteger"
