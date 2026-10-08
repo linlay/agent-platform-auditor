@@ -641,8 +641,7 @@ describe("JSONL auditing", () => {
         runId: "mr3b14lq",
         agentKey: "coder-thjhwf",
         timestamp: 1782984876265,
-        viewportType: "builtin",
-        viewportKey: "planning",
+        view: {source: "builtin", key: "planning", renderer: "native"},
         planning: {
           id: "confirm",
           planningFile: "/Users/linlay/Project/zenmind/zenmind-env/chats/3712436e-6bda-467e-8eb8-400441def079/.tools/plans/mr3b14lq_planning_1.md",
@@ -660,8 +659,7 @@ describe("JSONL auditing", () => {
         runId: "mq97x6ji",
         agentKey: "coder-1780997036997",
         timestamp: 1781165515440,
-        viewportType: "builtin",
-        viewportKey: "planning",
+        view: {source: "builtin", key: "planning", renderer: "native"},
         planning: {
           id: "confirm",
           title: "实施此计划？",
@@ -704,8 +702,7 @@ describe("JSONL auditing", () => {
       runId: "mrwxmgvv",
       timestamp: 1784776344354,
       type: "awaiting.ask",
-      viewportKey: "planning",
-      viewportType: "builtin"
+      view: {source: "builtin", key: "planning", renderer: "native"}
     })));
 
     expect(issues.some((issue) => issue.code === "INVALID_ENUM" && issue.path === "awaiting.0.mode")).toBe(false);
@@ -724,8 +721,7 @@ describe("JSONL auditing", () => {
         runId: "run-awaiting-schema",
         agentKey: "coder",
         timestamp: 1780837893831,
-        viewportType: "builtin",
-        viewportKey: "planning"
+        view: {source: "builtin", key: "planning", renderer: "native"}
       }, 1)),
       JSON.stringify(reactRecordWithAwaiting({
         awaitingId: "await-options-type",
@@ -734,8 +730,7 @@ describe("JSONL auditing", () => {
         runId: "run-awaiting-schema",
         agentKey: "coder",
         timestamp: 1780837894831,
-        viewportType: "builtin",
-        viewportKey: "planning",
+        view: {source: "builtin", key: "planning", renderer: "native"},
         planning: {
           id: "confirm",
           title: "实施此计划？",
@@ -749,8 +744,7 @@ describe("JSONL auditing", () => {
         runId: "run-awaiting-schema",
         agentKey: "coder",
         timestamp: 1780837895831,
-        viewportType: "builtin",
-        viewportKey: "planning",
+        view: {source: "builtin", key: "planning", renderer: "native"},
         planning: {
           id: "confirm",
           title: "实施此计划？",
@@ -777,8 +771,7 @@ describe("JSONL auditing", () => {
         runId: "run-awaiting-schema",
         agentKey: "coder",
         timestamp: 1780837893831,
-        viewportType: "chat",
-        viewportKey: "main",
+        view: {source: "builtin", key: "main", renderer: "html"},
         questions: []
       }, 1)),
       JSON.stringify(reactRecordWithAwaiting({
@@ -788,8 +781,7 @@ describe("JSONL auditing", () => {
         runId: "run-awaiting-schema",
         agentKey: "coder",
         timestamp: 1780837894832,
-        viewportType: "builtin",
-        viewportKey: "approval",
+        view: {source: "builtin", key: "approval", renderer: "native"},
         approvals: []
       }, 2)),
       JSON.stringify(reactRecordWithAwaiting({
@@ -799,8 +791,7 @@ describe("JSONL auditing", () => {
         runId: "run-awaiting-schema",
         agentKey: "coder",
         timestamp: 1780837893833,
-        viewportType: "html",
-        viewportKey: "form",
+        view: {source: "builtin", key: "form", renderer: "html"},
         forms: []
       }, 3))
     ].join("\n"));
@@ -818,8 +809,7 @@ describe("JSONL auditing", () => {
         agentKey: "coder",
         timestamp: 1780837893831,
         timeout: 60,
-        viewportType: "chat",
-        viewportKey: "main",
+        view: {source: "builtin", key: "main", renderer: "html"},
         questions: []
       }, 1)),
       JSON.stringify(reactRecordWithAwaiting({
@@ -830,8 +820,7 @@ describe("JSONL auditing", () => {
         agentKey: "coder",
         timestamp: 1780837894831,
         timeout: 60,
-        viewportType: "chat",
-        viewportKey: "main",
+        view: {source: "builtin", key: "main", renderer: "html"},
         questions: []
       }, 2)),
       JSON.stringify(reactRecordWithAwaiting({
@@ -841,8 +830,7 @@ describe("JSONL auditing", () => {
         runId: "run-awaiting-schema",
         agentKey: "coder",
         timestamp: 1780837895831,
-        viewportType: "builtin",
-        viewportKey: "plan",
+        view: {source: "builtin", key: "plan", renderer: "native"},
         plan: {
           id: "confirm",
           options: [
@@ -991,8 +979,7 @@ describe("Live Events auditing", () => {
         timestamp: 1784776344354,
         awaitingId: "await-planning",
         mode: "planning",
-        viewportType: "builtin",
-        viewportKey: "planning",
+        view: {source: "builtin", key: "planning", renderer: "native"},
         runId: "run-planning",
         agentKey: "coder",
         planning: {

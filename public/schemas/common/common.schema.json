@@ -4,11 +4,21 @@
   "definitions": {
     "role": {
       "type": "string",
-      "enum": ["user", "assistant", "system", "tool"]
+      "enum": [
+        "user",
+        "assistant",
+        "system",
+        "tool"
+      ]
     },
     "queryRole": {
       "type": "string",
-      "enum": ["user", "assistant", "automation", "system"]
+      "enum": [
+        "user",
+        "assistant",
+        "automation",
+        "system"
+      ]
     },
     "positiveInteger": {
       "type": "integer",
@@ -24,15 +34,29 @@
     },
     "accessLevel": {
       "type": "string",
-      "enum": ["default", "auto_approve", "full_access"]
+      "enum": [
+        "default",
+        "auto_approve",
+        "full_access"
+      ]
     },
     "taskStatus": {
       "type": "string",
-      "enum": ["running", "completed", "failed", "cancelled", "pending"]
+      "enum": [
+        "running",
+        "completed",
+        "failed",
+        "cancelled",
+        "pending"
+      ]
     },
     "planExecuteStage": {
       "type": "string",
-      "enum": ["plan", "execute", "summary"]
+      "enum": [
+        "plan",
+        "execute",
+        "summary"
+      ]
     },
     "streamEventType": {
       "type": "string",
@@ -90,227 +114,438 @@
     },
     "queryPayload": {
       "type": "object",
-      "required": ["requestId", "chatId", "role", "message", "runId"],
+      "required": [
+        "requestId",
+        "chatId",
+        "role",
+        "message",
+        "runId"
+      ],
       "additionalProperties": false,
       "properties": {
-        "requestId": { "type": "string" },
-        "chatId": { "type": "string" },
-        "role": { "$ref": "#/definitions/queryRole" },
-        "message": { "type": "string" },
-        "runId": { "type": "string" },
-        "agentKey": { "type": "string" },
+        "requestId": {
+          "type": "string"
+        },
+        "chatId": {
+          "type": "string"
+        },
+        "role": {
+          "$ref": "#/definitions/queryRole"
+        },
+        "message": {
+          "type": "string"
+        },
+        "runId": {
+          "type": "string"
+        },
+        "agentKey": {
+          "type": "string"
+        },
         "teamId": {},
         "mustUseSkills": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
-        "model": { "type": "object", "additionalProperties": true },
-        "accessLevel": { "$ref": "#/definitions/accessLevel" },
-        "liveSeq": { "$ref": "#/definitions/positiveInteger" },
+        "model": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "accessLevel": {
+          "$ref": "#/definitions/accessLevel"
+        },
+        "liveSeq": {
+          "$ref": "#/definitions/positiveInteger"
+        },
         "references": {},
         "params": {},
         "scene": {},
-        "stream": { "type": "boolean" },
-        "planningMode": { "type": "boolean" }
+        "stream": {
+          "type": "boolean"
+        },
+        "planningMode": {
+          "type": "boolean"
+        }
       }
     },
     "contextWindow": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "maxSize": { "type": "number" },
-        "currentSize": { "type": "number" },
-        "estimatedNextCallSize": { "type": "number" }
+        "maxSize": {
+          "type": "number"
+        },
+        "currentSize": {
+          "type": "number"
+        },
+        "estimatedNextCallSize": {
+          "type": "number"
+        }
       }
     },
     "estimatedCost": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "currency": { "type": "string" },
-        "inputCacheHit": { "$ref": "#/definitions/nonNegativeNumber" },
-        "inputCacheMiss": { "$ref": "#/definitions/nonNegativeNumber" },
-        "output": { "$ref": "#/definitions/nonNegativeNumber" },
-        "total": { "$ref": "#/definitions/nonNegativeNumber" }
+        "currency": {
+          "type": "string"
+        },
+        "inputCacheHit": {
+          "$ref": "#/definitions/nonNegativeNumber"
+        },
+        "inputCacheMiss": {
+          "$ref": "#/definitions/nonNegativeNumber"
+        },
+        "output": {
+          "$ref": "#/definitions/nonNegativeNumber"
+        },
+        "total": {
+          "$ref": "#/definitions/nonNegativeNumber"
+        }
       }
     },
     "usageTiming": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "firstTokenLatencyMs": { "$ref": "#/definitions/nonNegativeInteger" },
-        "generationDurationMs": { "$ref": "#/definitions/nonNegativeInteger" }
+        "firstTokenLatencyMs": {
+          "$ref": "#/definitions/nonNegativeInteger"
+        },
+        "generationDurationMs": {
+          "$ref": "#/definitions/nonNegativeInteger"
+        }
       }
     },
     "usage": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "promptTokens": { "type": "number", "minimum": 0 },
-        "completionTokens": { "type": "number", "minimum": 0 },
-        "totalTokens": { "type": "number", "minimum": 0 },
-        "llmChatCompletionCount": { "type": "number", "minimum": 0 },
-        "toolCallCount": { "type": "number", "minimum": 0 },
+        "promptTokens": {
+          "type": "number",
+          "minimum": 0
+        },
+        "completionTokens": {
+          "type": "number",
+          "minimum": 0
+        },
+        "totalTokens": {
+          "type": "number",
+          "minimum": 0
+        },
+        "llmChatCompletionCount": {
+          "type": "number",
+          "minimum": 0
+        },
+        "toolCallCount": {
+          "type": "number",
+          "minimum": 0
+        },
         "promptTokensDetails": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "cacheHitTokens": { "$ref": "#/definitions/nonNegativeNumber" },
-            "cacheMissTokens": { "$ref": "#/definitions/nonNegativeNumber" }
+            "cacheHitTokens": {
+              "$ref": "#/definitions/nonNegativeNumber"
+            },
+            "cacheMissTokens": {
+              "$ref": "#/definitions/nonNegativeNumber"
+            }
           }
         },
         "completionTokensDetails": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "reasoningTokens": { "$ref": "#/definitions/nonNegativeNumber" }
+            "reasoningTokens": {
+              "$ref": "#/definitions/nonNegativeNumber"
+            }
           }
         },
-        "estimatedCost": { "$ref": "#/definitions/estimatedCost" },
-        "timing": { "$ref": "#/definitions/usageTiming" }
+        "estimatedCost": {
+          "$ref": "#/definitions/estimatedCost"
+        },
+        "timing": {
+          "$ref": "#/definitions/usageTiming"
+        }
       }
     },
     "reactUsage": {
       "type": "object",
-      "required": ["promptTokens", "completionTokens", "totalTokens"],
+      "required": [
+        "promptTokens",
+        "completionTokens",
+        "totalTokens"
+      ],
       "additionalProperties": false,
       "properties": {
-        "promptTokens": { "$ref": "#/definitions/nonNegativeInteger" },
-        "completionTokens": { "$ref": "#/definitions/nonNegativeInteger" },
-        "totalTokens": { "$ref": "#/definitions/nonNegativeInteger" },
-        "llmChatCompletionCount": { "$ref": "#/definitions/nonNegativeInteger" },
-        "toolCallCount": { "$ref": "#/definitions/nonNegativeInteger" },
+        "promptTokens": {
+          "$ref": "#/definitions/nonNegativeInteger"
+        },
+        "completionTokens": {
+          "$ref": "#/definitions/nonNegativeInteger"
+        },
+        "totalTokens": {
+          "$ref": "#/definitions/nonNegativeInteger"
+        },
+        "llmChatCompletionCount": {
+          "$ref": "#/definitions/nonNegativeInteger"
+        },
+        "toolCallCount": {
+          "$ref": "#/definitions/nonNegativeInteger"
+        },
         "promptTokensDetails": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "cacheHitTokens": { "$ref": "#/definitions/nonNegativeInteger" },
-            "cacheMissTokens": { "$ref": "#/definitions/nonNegativeInteger" }
+            "cacheHitTokens": {
+              "$ref": "#/definitions/nonNegativeInteger"
+            },
+            "cacheMissTokens": {
+              "$ref": "#/definitions/nonNegativeInteger"
+            }
           }
         },
         "completionTokensDetails": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "reasoningTokens": { "$ref": "#/definitions/nonNegativeInteger" }
+            "reasoningTokens": {
+              "$ref": "#/definitions/nonNegativeInteger"
+            }
           }
         },
-        "estimatedCost": { "$ref": "#/definitions/estimatedCost" },
-        "timing": { "$ref": "#/definitions/usageTiming" }
+        "estimatedCost": {
+          "$ref": "#/definitions/estimatedCost"
+        },
+        "timing": {
+          "$ref": "#/definitions/usageTiming"
+        }
       }
     },
     "reactContextWindow": {
       "type": "object",
-      "required": ["currentSize", "maxSize"],
+      "required": [
+        "currentSize",
+        "maxSize"
+      ],
       "additionalProperties": false,
       "properties": {
         "maxSize": {
           "type": "integer",
           "minimum": 1
         },
-        "currentSize": { "$ref": "#/definitions/nonNegativeInteger" },
-        "estimatedNextCallSize": { "$ref": "#/definitions/nonNegativeInteger" }
+        "currentSize": {
+          "$ref": "#/definitions/nonNegativeInteger"
+        },
+        "estimatedNextCallSize": {
+          "$ref": "#/definitions/nonNegativeInteger"
+        }
       }
     },
     "toolCallFunction": {
       "type": "object",
-      "required": ["name", "arguments"],
+      "required": [
+        "name",
+        "arguments"
+      ],
       "additionalProperties": false,
       "properties": {
-        "name": { "type": "string" },
-        "arguments": { "type": "string" }
+        "name": {
+          "type": "string"
+        },
+        "arguments": {
+          "type": "string"
+        }
       }
     },
     "toolCall": {
       "type": "object",
-      "required": ["id", "type", "function"],
+      "required": [
+        "id",
+        "type",
+        "function"
+      ],
       "additionalProperties": false,
       "properties": {
-        "id": { "type": "string" },
-        "type": { "type": "string", "enum": ["function"] },
-        "function": { "$ref": "#/definitions/toolCallFunction" },
-        "_toolId": { "type": "string" }
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "function"
+          ]
+        },
+        "function": {
+          "$ref": "#/definitions/toolCallFunction"
+        },
+        "_toolId": {
+          "type": "string"
+        }
       }
     },
     "llmChatRole": {
       "type": "string",
-      "enum": ["system", "developer", "user", "assistant", "tool"]
+      "enum": [
+        "system",
+        "developer",
+        "user",
+        "assistant",
+        "tool"
+      ]
     },
     "llmChatMessageContent": {
       "anyOf": [
-        { "type": "string" },
-        { "type": "array" },
-        { "type": "null" }
+        {
+          "type": "string"
+        },
+        {
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
       ]
     },
     "llmChatMessage": {
       "type": "object",
-      "required": ["role", "content"],
+      "required": [
+        "role",
+        "content"
+      ],
       "additionalProperties": true,
       "properties": {
-        "role": { "$ref": "#/definitions/llmChatRole" },
-        "content": { "$ref": "#/definitions/llmChatMessageContent" },
-        "name": { "type": "string" },
-        "tool_call_id": { "type": "string" },
+        "role": {
+          "$ref": "#/definitions/llmChatRole"
+        },
+        "content": {
+          "$ref": "#/definitions/llmChatMessageContent"
+        },
+        "name": {
+          "type": "string"
+        },
+        "tool_call_id": {
+          "type": "string"
+        },
         "tool_calls": {
           "type": "array",
-          "items": { "$ref": "#/definitions/toolCall" }
+          "items": {
+            "$ref": "#/definitions/toolCall"
+          }
         }
       }
     },
     "llmChatMessages": {
       "type": "array",
       "minItems": 1,
-      "items": { "$ref": "#/definitions/llmChatMessage" }
+      "items": {
+        "$ref": "#/definitions/llmChatMessage"
+      }
     },
     "llmToolChoice": {
       "anyOf": [
-        { "type": "string", "enum": ["auto", "none", "required"] },
-        { "type": "object", "additionalProperties": true }
+        {
+          "type": "string",
+          "enum": [
+            "auto",
+            "none",
+            "required"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": true
+        }
       ]
     },
     "llmStreamOptions": {
       "type": "object",
-      "required": ["include_usage"],
+      "required": [
+        "include_usage"
+      ],
       "additionalProperties": true,
       "properties": {
-        "include_usage": { "type": "boolean" }
+        "include_usage": {
+          "type": "boolean"
+        }
       }
     },
     "llmRequestOptions": {
       "type": "object",
       "$comment": "Request options snapshot actual provider parameters; temperature and stream_options are protocol/configuration dependent.",
-      "required": ["stream"],
+      "required": [
+        "stream"
+      ],
       "additionalProperties": true,
       "properties": {
-        "stream": { "type": "boolean" },
-        "stream_options": { "$ref": "#/definitions/llmStreamOptions" },
-        "temperature": { "type": "number" }
+        "stream": {
+          "type": "boolean"
+        },
+        "stream_options": {
+          "$ref": "#/definitions/llmStreamOptions"
+        },
+        "temperature": {
+          "type": "number"
+        }
       }
     },
     "message": {
       "type": "object",
-      "required": ["role"],
+      "required": [
+        "role"
+      ],
       "additionalProperties": false,
       "properties": {
-        "role": { "$ref": "#/definitions/role" },
-        "content": { "type": "array" },
-        "ts": { "type": "number" },
-        "durationMs": { "$ref": "#/definitions/nonNegativeNumber" },
+        "role": {
+          "$ref": "#/definitions/role"
+        },
+        "content": {
+          "type": "array"
+        },
+        "ts": {
+          "type": "number"
+        },
+        "durationMs": {
+          "$ref": "#/definitions/nonNegativeNumber"
+        },
         "tool_calls": {
           "type": "array",
-          "items": { "$ref": "#/definitions/toolCall" }
+          "items": {
+            "$ref": "#/definitions/toolCall"
+          }
         },
-        "name": { "type": "string" },
-        "tool_call_id": { "type": "string" },
-        "reasoning_content": { "type": "array" },
-        "approval": { "type": "object", "additionalProperties": true },
-        "_reasoningId": { "type": "string" },
-        "_contentId": { "type": "string" },
-        "_msgId": { "type": "string" },
-        "_toolId": { "type": "string" },
-        "_actionId": { "type": "string" },
-        "_liveSeq": { "$ref": "#/definitions/positiveInteger" }
+        "name": {
+          "type": "string"
+        },
+        "tool_call_id": {
+          "type": "string"
+        },
+        "reasoning_content": {
+          "type": "array"
+        },
+        "approval": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "_reasoningId": {
+          "type": "string"
+        },
+        "_contentId": {
+          "type": "string"
+        },
+        "_msgId": {
+          "type": "string"
+        },
+        "_toolId": {
+          "type": "string"
+        },
+        "_actionId": {
+          "type": "string"
+        },
+        "_liveSeq": {
+          "$ref": "#/definitions/positiveInteger"
+        }
       }
     },
     "awaitingItem": {
@@ -322,70 +557,160 @@
         "runId",
         "agentKey",
         "timestamp",
-        "viewportType",
-        "viewportKey"
+        "view"
       ],
       "additionalProperties": false,
       "allOf": [
         {
           "if": {
-            "required": ["mode"],
+            "required": [
+              "mode"
+            ],
             "properties": {
-              "mode": { "const": "approval" }
+              "mode": {
+                "const": "approval"
+              }
             }
           },
           "then": {
-            "required": ["approvals", "timeout"]
+            "required": [
+              "approvals",
+              "timeout"
+            ]
           }
         },
         {
           "if": {
-            "required": ["mode"],
+            "required": [
+              "mode"
+            ],
             "properties": {
-              "mode": { "const": "question" }
+              "mode": {
+                "const": "question"
+              }
             }
           },
           "then": {
-            "required": ["questions", "timeout"]
+            "required": [
+              "questions",
+              "timeout"
+            ]
           }
         },
         {
           "if": {
-            "required": ["mode"],
+            "required": [
+              "mode"
+            ],
             "properties": {
-              "mode": { "const": "form" }
+              "mode": {
+                "const": "form"
+              }
             }
           },
           "then": {
-            "required": ["forms", "timeout"]
+            "required": [
+              "forms",
+              "timeout"
+            ]
           }
         },
         {
           "if": {
-            "required": ["mode"],
+            "required": [
+              "mode"
+            ],
             "properties": {
-              "mode": { "const": "planning" }
+              "mode": {
+                "const": "planning"
+              }
             }
           },
           "then": {
-            "required": ["planning"]
+            "required": [
+              "planning"
+            ]
           }
         }
       ],
       "properties": {
-        "awaitingId": { "type": "string" },
-        "mode": { "type": "string", "enum": ["approval", "question", "form", "planning"] },
-        "type": { "type": "string", "enum": ["awaiting.ask"] },
-        "runId": { "type": "string" },
-        "agentKey": { "type": "string" },
-        "timestamp": { "type": "number" },
-        "timeout": { "type": "number" },
-        "viewportType": { "type": "string" },
-        "viewportKey": { "type": "string" },
-        "questions": { "$ref": "#/definitions/awaitingObjectArray" },
-        "approvals": { "$ref": "#/definitions/awaitingObjectArray" },
-        "forms": { "$ref": "#/definitions/awaitingObjectArray" },
-        "planning": { "$ref": "#/definitions/awaitingPlanning" }
+        "awaitingId": {
+          "type": "string"
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "approval",
+            "question",
+            "form",
+            "planning"
+          ]
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "awaiting.ask"
+          ]
+        },
+        "runId": {
+          "type": "string"
+        },
+        "agentKey": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "number"
+        },
+        "timeout": {
+          "type": "number"
+        },
+        "questions": {
+          "$ref": "#/definitions/awaitingObjectArray"
+        },
+        "approvals": {
+          "$ref": "#/definitions/awaitingObjectArray"
+        },
+        "forms": {
+          "$ref": "#/definitions/awaitingObjectArray"
+        },
+        "planning": {
+          "$ref": "#/definitions/awaitingPlanning"
+        },
+        "view": {
+          "type": "object",
+          "required": [
+            "source",
+            "key"
+          ],
+          "properties": {
+            "source": {
+              "enum": [
+                "builtin",
+                "connector"
+              ]
+            },
+            "key": {
+              "type": "string"
+            },
+            "renderer": {
+              "enum": [
+                "native",
+                "html",
+                "qlc"
+              ]
+            },
+            "connectorId": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "hash": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
       }
     },
     "awaitingObjectArray": {
@@ -397,26 +722,45 @@
     },
     "awaitingPlanning": {
       "type": "object",
-      "required": ["id", "options"],
+      "required": [
+        "id",
+        "options"
+      ],
       "additionalProperties": true,
       "properties": {
-        "id": { "type": "string" },
-        "title": { "type": "string" },
-        "planningFile": { "type": "string" },
-        "planningId": { "type": "string" },
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "planningFile": {
+          "type": "string"
+        },
+        "planningId": {
+          "type": "string"
+        },
         "options": {
           "type": "array",
-          "items": { "$ref": "#/definitions/awaitingPlanningOption" }
+          "items": {
+            "$ref": "#/definitions/awaitingPlanningOption"
+          }
         }
       }
     },
     "awaitingPlanningOption": {
       "type": "object",
-      "required": ["decision"],
+      "required": [
+        "decision"
+      ],
       "additionalProperties": true,
       "properties": {
-        "decision": { "type": "string" },
-        "label": { "type": "string" },
+        "decision": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
         "input": {
           "type": "object",
           "additionalProperties": true
@@ -425,59 +769,133 @@
     },
     "planningEvent": {
       "type": "object",
-      "required": ["type", "planningId", "chatId", "runId", "timestamp"],
+      "required": [
+        "type",
+        "planningId",
+        "chatId",
+        "runId",
+        "timestamp"
+      ],
       "additionalProperties": false,
       "properties": {
-        "type": { "$ref": "#/definitions/streamEventType" },
-        "planningId": { "type": "string" },
-        "chatId": { "type": "string" },
-        "runId": { "type": "string" },
-        "timestamp": { "type": "number" },
-        "planningFile": { "type": "string" },
-        "text": { "type": "string" }
+        "type": {
+          "$ref": "#/definitions/streamEventType"
+        },
+        "planningId": {
+          "type": "string"
+        },
+        "chatId": {
+          "type": "string"
+        },
+        "runId": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "number"
+        },
+        "planningFile": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        }
       }
     },
     "eventPayload": {
       "type": "object",
-      "required": ["type", "timestamp"],
+      "required": [
+        "type",
+        "timestamp"
+      ],
       "additionalProperties": true,
       "properties": {
-        "type": { "$ref": "#/definitions/streamEventType" },
-        "timestamp": { "type": "number" },
-        "seq": { "$ref": "#/definitions/positiveInteger" },
-        "chatId": { "type": "string" },
-        "runId": { "type": "string" },
-        "requestId": { "type": "string" },
-        "agentKey": { "type": "string" },
-        "taskId": { "type": "string" }
+        "type": {
+          "$ref": "#/definitions/streamEventType"
+        },
+        "timestamp": {
+          "type": "number"
+        },
+        "seq": {
+          "$ref": "#/definitions/positiveInteger"
+        },
+        "chatId": {
+          "type": "string"
+        },
+        "runId": {
+          "type": "string"
+        },
+        "requestId": {
+          "type": "string"
+        },
+        "agentKey": {
+          "type": "string"
+        },
+        "taskId": {
+          "type": "string"
+        }
       }
     },
     "steerPayload": {
       "type": "object",
-      "required": ["chatId", "runId", "steerId", "message", "role"],
+      "required": [
+        "chatId",
+        "runId",
+        "steerId",
+        "message",
+        "role"
+      ],
       "additionalProperties": false,
       "properties": {
-        "requestId": { "type": "string", "minLength": 1 },
-        "chatId": { "type": "string", "minLength": 1 },
-        "runId": { "type": "string", "minLength": 1 },
-        "steerId": { "type": "string", "minLength": 1 },
-        "message": { "type": "string", "minLength": 1 },
-        "role": { "type": "string", "const": "user" }
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "chatId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "steerId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "type": "string",
+          "const": "user"
+        }
       }
     },
     "systemMessage": {
       "type": "object",
-      "required": ["role", "content"],
+      "required": [
+        "role",
+        "content"
+      ],
       "additionalProperties": false,
       "properties": {
-        "role": { "$ref": "#/definitions/role" },
+        "role": {
+          "$ref": "#/definitions/role"
+        },
         "content": {
           "anyOf": [
-            { "type": "string" },
-            { "type": "array" }
+            {
+              "type": "string"
+            },
+            {
+              "type": "array"
+            }
           ]
         },
-        "name": { "type": "string" }
+        "name": {
+          "type": "string"
+        }
       }
     },
     "stringMap": {
@@ -486,11 +904,15 @@
     },
     "messageArray": {
       "type": "array",
-      "items": { "$ref": "#/definitions/message" }
+      "items": {
+        "$ref": "#/definitions/message"
+      }
     },
     "awaitingArray": {
       "type": "array",
-      "items": { "$ref": "#/definitions/awaitingItem" }
+      "items": {
+        "$ref": "#/definitions/awaitingItem"
+      }
     }
   }
 }
