@@ -610,7 +610,7 @@
           },
           "then": {
             "required": [
-              "forms",
+              "form",
               "timeout"
             ]
           }
@@ -670,8 +670,8 @@
         "approvals": {
           "$ref": "#/definitions/awaitingObjectArray"
         },
-        "forms": {
-          "$ref": "#/definitions/awaitingObjectArray"
+        "form": {
+          "type": "object"
         },
         "planning": {
           "$ref": "#/definitions/awaitingPlanning"

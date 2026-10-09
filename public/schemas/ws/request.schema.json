@@ -131,7 +131,8 @@
     },
     "submitPayload": {
       "type": "object",
-      "required": ["runId", "agentKey", "awaitingId", "params"],
+      "required": ["runId", "agentKey", "awaitingId"],
+      "oneOf": [{ "required": ["param"] }, { "required": ["params"] }],
       "additionalProperties": false,
       "properties": {
         "chatId": { "type": "string" },
@@ -139,6 +140,16 @@
         "agentKey": { "type": "string" },
         "awaitingId": { "type": "string" },
         "submitId": { "type": "string" },
+        "param": {
+          "type": "object",
+          "required": ["decision"],
+          "additionalProperties": false,
+          "properties": {
+            "decision": { "enum": ["approve", "reject", "dismiss"] },
+            "reason": { "type": "string" },
+            "data": { "type": "object", "additionalProperties": true }
+          }
+        },
         "params": {
           "type": "array",
           "items": {
