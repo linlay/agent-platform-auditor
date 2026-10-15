@@ -50,6 +50,20 @@ describe("JSONL auditing", () => {
     expect(issues.filter((issue) => issue.code === "LEGACY_STEP").length).toBeGreaterThanOrEqual(1);
   });
 
+  test("query accepts the Run-level locale beside query but rejects it inside query", () => {
+    const topLevel = auditRaw(JSON.stringify({ ...queryRecord("run-query-locale", "hello"), locale: "zh-CN" }));
+    expect(topLevel.filter((issue) => issue.severity === "error")).toHaveLength(0);
+    expect(topLevel.filter((issue) => issue.severity === "warning")).toHaveLength(0);
+
+    const wrongType = auditRaw(JSON.stringify({ ...queryRecord("run-query-locale-type", "hello"), locale: 42 }));
+    expect(wrongType.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "locale")).toBe(true);
+
+    const nested = queryRecord("run-query-locale-nested", "hello");
+    (nested.query as JsonObject).locale = "zh-CN";
+    const nestedIssues = auditRaw(JSON.stringify(nested));
+    expect(nestedIssues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "query.locale")).toBe(true);
+  });
+
   test("query accepts raw messages and nested system LLM request metadata", () => {
     const validIssues = auditRaw(JSON.stringify(queryRecord("run-query-valid", "hello")));
     expect(validIssues.filter((issue) => issue.severity === "error")).toHaveLength(0);
