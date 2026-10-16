@@ -5,6 +5,7 @@
   "required": ["chatId", "runId", "updatedAt", "messages", "_type"],
   "additionalProperties": false,
   "properties": {
+    "_compact": { "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/compactMarker" },
     "chatId": { "type": "string" },
     "runId": { "type": "string" },
     "updatedAt": { "type": "number" },
@@ -40,6 +41,7 @@
     "taskStatus": {
       "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/taskStatus"
     },
-    "taskSubAgentKey": { "type": "string" }
+    "taskSubAgentKey": { "type": "string" },
+    "taskAgentKey": { "type": "string" }
   }
 }

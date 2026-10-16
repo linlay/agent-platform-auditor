@@ -246,6 +246,7 @@ function validateLiveSeqGroup(rule: Rule, runId: string, group: { idx: number; r
     const type = jsonlType(rec.data);
     const liveSeq = rec.data.liveSeq;
     if (liveSeq === undefined) {
+      if (isSystemSnapshotQuery(rec.data)) return;
       if (skipMissing.includes(type)) return;
       if (expectTypes.includes(type)) {
         issues.push(makeIssue(rule.severity || "warning", "MISSING_LIVESEQ", "缺少顶层 liveSeq", idx, "liveSeq", "number (run 内 cursor)", "undefined", `runId=${runId} 的 _type=${type} 记录应包含顶层 liveSeq`));
@@ -269,6 +270,12 @@ function validateLiveSeqGroup(rule: Rule, runId: string, group: { idx: number; r
     if (seen[String(liveSeq)] === undefined) seen[String(liveSeq)] = idx;
     if (liveSeq > prevLiveSeq) prevLiveSeq = liveSeq;
   });
+}
+
+function isSystemSnapshotQuery(data: JsonObject): boolean {
+  if (jsonlType(data) !== "query") return false;
+  if (isPlainObject(data.query)) return data.query.kind === "system-init";
+  return data.query === undefined && isPlainObject(data.system) && data.messages === undefined && !data.planRunId;
 }
 
 function jsonlType(data: JsonObject): string {

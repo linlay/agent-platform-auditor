@@ -343,8 +343,8 @@ describe("App file import", () => {
     const filterRow = await within(leftPanel).findByRole("button", { name: /全部/ });
     expect(filterRow.classList.contains("active")).toBe(true);
 
-    const allBtn = within(leftPanel).getByRole("button", { name: "全部 2" });
-    const errorBtn = within(leftPanel).getByRole("button", { name: "错误 2" });
+    const allBtn = within(leftPanel).getByRole("button", { name: "全部 1" });
+    const errorBtn = within(leftPanel).getByRole("button", { name: "错误 1" });
     const warningBtn = within(leftPanel).getByRole("button", { name: "警告 0" });
     const infoBtn = within(leftPanel).getByRole("button", { name: "提示 0" });
     expect(allBtn).toBeTruthy();

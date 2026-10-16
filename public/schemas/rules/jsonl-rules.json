@@ -1,6 +1,6 @@
 {
   "$schema": "https://zenmind.local/platform-auditor/schemas/rules/jsonl-rules.schema.json",
-  "version": "2026-08-03.steer-hard-cut-v1",
+  "version": "2026-10-16.query-origin-v1",
   "recordRules": [
     {
       "id": "legacy-step",

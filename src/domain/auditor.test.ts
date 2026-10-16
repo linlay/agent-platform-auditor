@@ -3,8 +3,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { auditRecords, buildTimelineEntry } from "./auditor";
 import { parseInput } from "./parsers";
-import { hydrateSchemaRegistry, resetSchemaRegistryForTest } from "./schemaRegistry";
-import type { JsonObject, ParsedRecord } from "./types";
+import { getJsonlTypes, hydrateSchemaRegistry, resetSchemaRegistryForTest } from "./schemaRegistry";
+import type { JsonObject, JsonValue, ParsedRecord } from "./types";
 
 const root = path.resolve(__dirname, "../..");
 const legacyActualContextSizeKey = ["actual", "Size"].join("");
@@ -19,6 +19,51 @@ beforeEach(() => {
 });
 
 describe("JSONL auditing", () => {
+  test.each(["balanced", "strict", "exploratory"] as const)("all JSONL types accept optional compaction metadata in %s mode", (strictness) => {
+    const raw = fs.readFileSync(path.join(root, "test/fixtures/jsonl/valid-all-types.jsonl"), "utf8");
+    const records: JsonObject[] = raw.trim().split(/\r?\n/).map((line) => JSON.parse(line) as JsonObject);
+    expect([...new Set(records.map((record) => record._type))].sort()).toEqual([...getJsonlTypes()].sort());
+
+    const markers: JsonValue[] = [
+      "compact-legacy",
+      { level: "L0", id: "compact-0" },
+      { level: "L1", id: "compact-1", keep: ["content"] },
+      { level: "L1", id: "compact-empty", keep: [] },
+      { level: "L2", id: "compact-2", keep: ["reasoning", "tool", "content"] }
+    ];
+    for (const marker of markers) {
+      const issues = auditRaw(records.map((record) => JSON.stringify({ ...record, _compact: marker })).join("\n"), strictness);
+      expect(issues.filter((issue) => issue.severity === "error" || issue.severity === "warning")).toEqual([]);
+    }
+  });
+
+  test.each([
+    null, false, true, 1, [], "", " ", " compact-1", "compact-1 ", "compact-1\n",
+    {}, { level: "L1" }, { id: "compact-1" }, { level: "L3", id: "compact-1" },
+    { level: "L1", id: 1 }, { level: "L1", id: "" }, { level: "L1", id: " compact-1" },
+    { level: "L1", id: "compact-1\n" }, { level: "L1", id: "compact-1", extra: true },
+    { level: "L1", id: "compact-1", keep: null }, { level: "L1", id: "compact-1", keep: "content" },
+    { level: "L1", id: "compact-1", keep: ["unknown"] }, { level: "L1", id: "compact-1", keep: [1] },
+    { level: "L1", id: "compact-1", keep: ["content", "content"] }
+  ].map((marker) => ({ marker })))("all JSONL types reject invalid _compact $marker", ({ marker }) => {
+    const raw = fs.readFileSync(path.join(root, "test/fixtures/jsonl/valid-all-types.jsonl"), "utf8");
+    const records: JsonObject[] = raw.trim().split(/\r?\n/).map((line) => JSON.parse(line) as JsonObject);
+    const issues = auditRaw(records.map((record) => JSON.stringify({ ...record, _compact: marker })).join("\n"));
+    const invalidRecords = new Set(issues.filter((issue) => issue.severity === "error" && issue.path.startsWith("_compact")).map((issue) => issue.recordIndex));
+    expect(invalidRecords).toEqual(new Set(records.map((_, index) => index)));
+  });
+
+  test("compaction metadata preserves ordinary schema checks", () => {
+    const issues = auditRaw(JSON.stringify({
+      ...queryRecord("run-compact-invalid", "hello"),
+      _compact: { level: "L1", id: "compact-1", keep: ["content"] },
+      updatedAt: "bad",
+      extraTop: true
+    }));
+    expect(issues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "updatedAt")).toBe(true);
+    expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "extraTop")).toBe(true);
+  });
+
   test.each(["balanced", "strict", "exploratory"] as const)("react accepts optional responseId in %s mode", (strictness) => {
     const record = reactRecord("run-responses", 1, 1);
     for (const value of [record, {
@@ -50,6 +95,92 @@ describe("JSONL auditing", () => {
     expect(issues.filter((issue) => issue.code === "LEGACY_STEP").length).toBeGreaterThanOrEqual(1);
   });
 
+  test.each(["balanced", "strict", "exploratory"] as const)("current Query/origin fixtures and historical layouts pass in %s mode", (strictness) => {
+    const issues = auditFixture("valid-query-origin.jsonl", strictness);
+    expect(issues.filter((issue) => issue.severity === "error" || issue.severity === "warning")).toEqual([]);
+  });
+
+  test("raw Query keeps omitted IDs, ignored role and explicit nulls without requiring resolved metadata", () => {
+    const issues = auditRaw(JSON.stringify({
+      _type: "query", chatId: "chat-1", runId: "run-raw", updatedAt: 1780837893831, liveSeq: 1,
+      query: { message: "hello", role: "ignored", detached: null, model: null, hidden: false, editingMode: null }
+    }));
+    expect(issues).toEqual([]);
+  });
+
+  test.each([
+    ["origin", { type: "external" }, "origin.type", "INVALID_ENUM"],
+    ["origin", { type: "user", userId: 42 }, "origin.userId", "TYPE_MISMATCH"],
+    ["origin", { type: "automation", source: "daily" }, "origin.source", "UNKNOWN_FIELD"],
+    ["lane", "main", "lane", "INVALID_ENUM"],
+    ["editingMode", "false", "editingMode", "TYPE_MISMATCH"],
+    ["hidden", "true", "hidden", "TYPE_MISMATCH"],
+    ["planningMode", 1, "planningMode", "TYPE_MISMATCH"],
+    ["accessLevel", "admin", "accessLevel", "INVALID_ENUM"],
+    ["accessGrant", [], "accessGrant", "TYPE_MISMATCH"],
+    ["model", "model-a", "model", "TYPE_MISMATCH"],
+    ["references", [{ Type: "file" }], "references.0.Type", "UNKNOWN_FIELD"],
+    ["taskAgentKey", 42, "taskAgentKey", "TYPE_MISMATCH"],
+    ["query", { Message: "hello" }, "query.Message", "UNKNOWN_FIELD"],
+    ["query", { model: { Key: "model-a" } }, "query.model.Key", "UNKNOWN_FIELD"],
+    ["query", { references: [{ Type: "file" }] }, "query.references.0.Type", "UNKNOWN_FIELD"],
+    ["query", { scene: { Title: "page" } }, "query.scene.Title", "UNKNOWN_FIELD"],
+    ["query", [], "query", "TYPE_MISMATCH"]
+  ] as const)("Query rejects invalid %s metadata %j", (field, value, issuePath, code) => {
+    const issues = auditRaw(JSON.stringify({ ...queryRecord("run-invalid-current", "hello"), [field]: value }));
+    expect(issues.some((issue) => issue.path === issuePath && issue.code === code)).toBe(true);
+  });
+
+  test("only storage-only system snapshots skip the missing liveSeq check", () => {
+    const base = { _type: "query", chatId: "chat-1", updatedAt: 1780837893831, system: {} };
+    const records = [
+      { ...base, runId: "snapshot" },
+      { ...base, runId: "legacy-snapshot", query: { kind: "system-init", role: "system" } },
+      { ...base, runId: "plan-execution", planRunId: "planning-run" },
+      { ...base, runId: "messages-only", messages: [{ role: "user", content: "legacy" }] },
+      { ...base, runId: "caller-input", query: { message: "hello" } }
+    ];
+    const issues = auditRaw(records.map((record) => JSON.stringify(record)).join("\n"));
+    expect(issues.filter((issue) => issue.code === "MISSING_LIVESEQ").map((issue) => issue.recordIndex)).toEqual([2, 3, 4]);
+  });
+
+  test.each(["origin", "source"])("steer validates current and historical %s objects", (field) => {
+    const base = {
+      _type: "steer", chatId: "chat-1", runId: "run-steer-origin", updatedAt: 1780837893831, liveSeq: 1,
+      steer: { chatId: "chat-1", runId: "run-steer-origin", steerId: "steer-1", message: "", role: "user" }
+    };
+    const agentOrigin = { type: "agent", agentKey: "caller", chatId: "parent", runId: "parent-run", toolId: "call-1" };
+    expect(auditRaw(JSON.stringify({ ...base, steer: { ...base.steer, [field]: agentOrigin } }))).toEqual([]);
+    const { toolId, ...missingTool } = agentOrigin;
+    expect(toolId).toBeDefined();
+    for (const origin of [{ ...agentOrigin, type: "user" }, missingTool, { ...agentOrigin, toolId: " " }, { ...agentOrigin, unknown: true }]) {
+      const issues = auditRaw(JSON.stringify({ ...base, steer: { ...base.steer, [field]: origin } }));
+      expect(issues.some((issue) => issue.severity === "error" && issue.path.startsWith(`steer.${field}`))).toBe(true);
+    }
+    const issues = auditRaw(JSON.stringify({ ...base, steer: { ...base.steer, references: "notes.md" } }));
+    expect(issues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "steer.references")).toBe(true);
+  });
+
+  test.each(["react", "react-tool", "plan-execute"])("%s validates taskAgentKey", (type) => {
+    const record = { ...reactRecord("run-task-key", 1, 1), _type: type, taskId: "task-1", taskAgentKey: 42 };
+    const issues = auditRaw(JSON.stringify(record));
+    expect(issues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "taskAgentKey")).toBe(true);
+  });
+
+  test.each([
+    { messages: [] },
+    { messages: [{ role: "assistant", content: "wrong role" }] },
+    { messages: [{ role: "user", content: null }] },
+    { messages: [{ role: "user", content: "one" }, { role: "user", content: "two" }] }
+  ])("steer rejects invalid historical messages snapshot $messages", ({ messages }) => {
+    const issues = auditRaw(JSON.stringify({
+      _type: "steer", chatId: "chat-1", runId: "run-steer-snapshot", updatedAt: 1780837893831, liveSeq: 1,
+      steer: { chatId: "chat-1", runId: "run-steer-snapshot", steerId: "steer-1", message: "continue", role: "user" },
+      messages
+    }));
+    expect(issues.some((issue) => issue.severity === "error" && issue.path.startsWith("messages"))).toBe(true);
+  });
+
   test("query accepts the Run-level locale beside query but rejects it inside query", () => {
     const topLevel = auditRaw(JSON.stringify({ ...queryRecord("run-query-locale", "hello"), locale: "zh-CN" }));
     expect(topLevel.filter((issue) => issue.severity === "error")).toHaveLength(0);
@@ -78,7 +209,7 @@ describe("JSONL auditing", () => {
     expect(messages).toBeDefined();
 
     const missingIssues = auditRaw(JSON.stringify(missingRecord));
-    expect(missingIssues.some((issue) => issue.code === "MISSING_REQUIRED" && issue.path === "messages")).toBe(true);
+    expect(missingIssues.some((issue) => issue.code === "MISSING_REQUIRED" && issue.path === "messages")).toBe(false);
     expect(missingIssues.some((issue) => issue.code === "MISSING_REQUIRED" && issue.path === "toolChoice")).toBe(false);
     expect(missingIssues.some((issue) => issue.code === "MISSING_REQUIRED" && issue.path === "requestOptions")).toBe(false);
 
@@ -627,7 +758,7 @@ describe("JSONL auditing", () => {
     const issues = auditFixture("invalid-schema.jsonl", "balanced");
     expect(issues.some((issue) => issue.code === "MISSING_REQUIRED" && issue.path === "runId")).toBe(true);
     expect(issues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "updatedAt")).toBe(true);
-    expect(issues.some((issue) => issue.code === "INVALID_ENUM" && issue.path === "query.role")).toBe(true);
+    expect(issues.some((issue) => issue.code === "TYPE_MISMATCH" && issue.path === "query.role")).toBe(true);
     expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "extraTop" && issue.severity === "error")).toBe(true);
     expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "query.extraNested" && issue.severity === "error")).toBe(true);
 
@@ -897,7 +1028,7 @@ describe("JSONL auditing", () => {
     expect(issues.some((issue) => issue.recordIndex === 5 && issue.code === "UNKNOWN_FIELD" && issue.path === "steer.liveSeq")).toBe(true);
     expect(issues.some((issue) => issue.recordIndex === 5 && issue.code === "VALUE_TOO_SHORT" && issue.path === "steer.requestId")).toBe(true);
     expect(issues.some((issue) => issue.recordIndex === 5 && issue.code === "VALUE_TOO_SHORT" && issue.path === "steer.steerId")).toBe(true);
-    expect(issues.some((issue) => issue.recordIndex === 5 && issue.code === "VALUE_TOO_SHORT" && issue.path === "steer.message")).toBe(true);
+    expect(issues.some((issue) => issue.recordIndex === 5 && issue.code === "VALUE_TOO_SHORT" && issue.path === "steer.message")).toBe(false);
     expect(issues.some((issue) => issue.recordIndex === 5 && issue.code === "INVALID_ENUM" && issue.path === "steer.role")).toBe(true);
     expect(issues.some((issue) => issue.recordIndex === 5 && issue.code === "STEER_CHATID_MISMATCH" && issue.path === "steer.chatId")).toBe(true);
     expect(issues.some((issue) => issue.recordIndex === 5 && issue.code === "STEER_RUNID_MISMATCH" && issue.path === "steer.runId")).toBe(true);
@@ -967,6 +1098,17 @@ describe("JSONL auditing", () => {
 });
 
 describe("Live Events auditing", () => {
+  test("Query decisions, steer origin, taskAgentKey and MCP target fields stay recognized", () => {
+    const events = [
+      { type: "request.query", requestId: "req-1", chatId: "chat-1", runId: "run-1", agentKey: "coder", message: "hello", lane: "explain", sideId: "side_1", origin: { type: "user" }, accessGrant: {}, planRunId: "planning-run", accessLevel: "default", hidden: true, planningMode: false, editingMode: false, model: { key: "model-a" }, includeUsage: true, includeFullText: true },
+      { type: "request.steer", message: "", role: "user", references: [], origin: { type: "agent" } },
+      { type: "task.start", taskId: "task-1", taskAgentKey: "researcher" },
+      { type: "tool.result", toolId: "call-1", result: {}, target: { toolId: "connector/server/tool" }, toolLabel: "Target tool" }
+    ];
+    const issues = auditAnyRaw(events.map((event, index) => JSON.stringify({ ...event, seq: index + 1, timestamp: 1780837893831 + index })).join("\n"), "strict");
+    expect(issues).toEqual([]);
+  });
+
   test("request.steer remains a flat live event", () => {
     const issues = auditAnyRaw(JSON.stringify({
       seq: 15,

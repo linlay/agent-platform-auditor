@@ -128,7 +128,32 @@ npm install && npm test && npm run build
 | | `system` | 系统消息 |
 | 兼容 | `step` | 旧格式（兼容） |
 
-`_type:"steer"` 使用与 `query` 对称的专用 `steer` payload；`requestId` 可省略，`chatId/runId/steerId/message/role` 必填，`role` 固定为 `user`。顶层仅接受 `chatId/runId/updatedAt/liveSeq/steer/_type`，`steer` 内不接受 `type/timestamp/seq/liveSeq`。旧的 `_type:"steer" + event` 以及 `_type:"event" + event.type:"request.steer"` 都会按硬切协议报错；SSE、WebSocket 和 Live Events 中扁平的 `type:"request.steer"` 不受影响。
+`_type:"query"` 的 `query` 保存调用方原始输入，支持 HTTP/WS、`chat_start`、`agent_invoke`/`agent_delegate` 任务条目和 Automation。输入中省略的 ID、role、默认值不会补写；显式 `null` 保留，`role` 仅作为原始输入记录。平台决定放在行顶层：`requestId/agentKey/lane/origin/accessGrant/planRunId/accessLevel/hidden/planningMode/editingMode/model/references`；任务字段为 `taskId/taskName/taskToolId/taskAgentKey`。`lane` 仅旁路记录 `btw` 或 `explain`，分支号 `sideId` 留在原始输入中。
+
+`query` 和 `messages` 均可省略：纯系统快照只携带 `system`，不要求 `liveSeq`；批准计划后的执行首行以 `planRunId` 关联规划 Run。只有 `messages` 的历史行继续接受，普通请求的游标检查保留。旧 Query 布局、`subAgentKey/taskSubAgentKey` 和 `kind:"system-init"` 继续兼容。
+
+所有 JSONL 行类型均允许可选的顶层 `_compact`。旧格式为非空且首尾无空白的字符串 ID；当前格式为 `{ "level": "L1", "id": "compact-123", "keep": ["content"] }`，`level` 支持 `L0/L1/L2`，`id` 同样要求非空且首尾无空白。`keep` 可省略或为空数组，元素仅允许 `content/reasoning/tool` 且不能重复。压缩标记不会跳过该行原有的结构和规则审计。
+
+`_type:"steer"` 使用专用 `steer` payload；`requestId` 可省略，`chatId/runId/steerId/message/role` 必填，`role` 固定为 `user`。`message` 可为空字符串（当前存储校验允许“继续执行”输入），支持 `references` 和 Agent 来源 `origin`；来源必须包含 `type:"agent"` 与非空 `agentKey/chatId/runId/toolId`。旧 `source` 名称及单条用户 `messages` 快照继续兼容。`steer` 内不接受 `type/timestamp/seq/liveSeq`。旧的 `_type:"steer" + event` 以及 `_type:"event" + event.type:"request.steer"` 仍按硬切协议报错。
+
+#### 2026-10-16 契约核对
+
+按相邻 `agent-platform` 本地 `main`（HEAD `1c468e41`）最近 10 次提交逐条核对，以 `internal/chat/types.go`、`query_line.go`、`jsonl_schema.go`、StepWriter 及相关测试的实际行为为准。
+
+| 提交（由新到旧） | JSONL 影响与处理 |
+|------|------|
+| `1c468e41` 彩色连接器图标 | 无格式变化 |
+| `d18af52a` MCP 地址导入 | 无行结构变化，导入及诊断返回使用既有开放 payload |
+| `fe719e9d` MCP 授权发现与登录竞态 | 无格式变化 |
+| `c382b9f8` MCP 标准授权 | 工具结果内容变化，既有开放正文结构已支持 |
+| `35877b17` 线条图标 | 无格式变化 |
+| `c2974bf6` v0.5.3 版本号 | 无格式变化 |
+| `df075222` 固化 Query 有效值 | 接受顶层 `hidden/taskName`，允许无 query/messages 的快照和计划执行行，校验原始输入的规范字段名称 |
+| `d6c9b66b` 原始 Query 与元数据分离 | 更新 Query 顶层元数据、三种 origin、旁路输入、任务 `taskAgentKey`、steer.origin 及历史兼容 |
+| `bd084673` MCP 搜索与调用 | JSONL 正文已支持；同步实时事件的 `tool.result.target/toolLabel` 字段 |
+| `ad471fcc` CLI 登录准备与错误码 | 错误码值变化，无行结构变化 |
+
+Schema 版本为 `2026-10-16.query-origin-compact-v2`，规则版本为 `2026-10-16.query-origin-v1`；回归数据见 `test/fixtures/jsonl/valid-query-origin.jsonl`。本次同步上述提交涉及的契约及通用 `_compact` 字段，表中既有兼容类型仍保留。
 
 ### WebSocket Frame 日志
 

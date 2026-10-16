@@ -114,32 +114,25 @@
     },
     "queryPayload": {
       "type": "object",
-      "required": [
-        "requestId",
-        "chatId",
-        "role",
-        "message",
-        "runId"
-      ],
       "additionalProperties": false,
       "properties": {
         "requestId": {
-          "type": "string"
+          "type": ["string", "null"]
         },
         "chatId": {
-          "type": "string"
+          "type": ["string", "null"]
         },
         "role": {
-          "$ref": "#/definitions/queryRole"
+          "type": ["string", "null"]
         },
         "message": {
-          "type": "string"
+          "type": ["string", "null"]
         },
         "runId": {
-          "type": "string"
+          "type": ["string", "null"]
         },
         "agentKey": {
-          "type": "string"
+          "type": ["string", "null"]
         },
         "teamId": {},
         "mustUseSkills": {
@@ -149,25 +142,117 @@
           }
         },
         "model": {
-          "type": "object",
-          "additionalProperties": true
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "properties": {
+            "key": {
+              "type": ["string", "null"]
+            },
+            "modelId": {
+              "type": ["string", "null"]
+            },
+            "reasoningEffort": {
+              "type": ["string", "null"]
+            },
+            "serviceTier": {
+              "type": ["string", "null"]
+            }
+          }
         },
         "accessLevel": {
-          "$ref": "#/definitions/accessLevel"
+          "type": ["string", "null"]
         },
         "liveSeq": {
           "$ref": "#/definitions/positiveInteger"
         },
-        "references": {},
+        "references": {
+          "type": ["array", "null"],
+          "items": {
+            "$ref": "#/definitions/rawInputReference"
+          }
+        },
         "params": {},
-        "scene": {},
+        "scene": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "properties": {
+            "url": {
+              "type": ["string", "null"]
+            },
+            "title": {
+              "type": ["string", "null"]
+            }
+          }
+        },
         "stream": {
-          "type": "boolean"
+          "type": ["boolean", "null"]
         },
         "planningMode": {
-          "type": "boolean"
+          "type": ["boolean", "null"]
+        },
+        "lane": {
+          "type": ["string", "null"]
+        },
+        "sideId": {
+          "type": ["string", "null"]
+        },
+        "sourceUser": {
+          "type": ["string", "null"]
+        },
+        "chatName": {
+          "type": ["string", "null"]
+        },
+        "modelKey": {
+          "type": ["string", "null"]
+        },
+        "reasoningEffort": {
+          "type": ["string", "null"]
+        },
+        "subAgentKey": {
+          "type": ["string", "null"]
+        },
+        "taskAgentKey": {
+          "type": ["string", "null"]
+        },
+        "task": {
+          "type": ["string", "null"]
+        },
+        "taskName": {
+          "type": ["string", "null"]
+        },
+        "kind": {
+          "type": ["string", "null"]
+        },
+        "detached": {
+          "type": ["boolean", "null"]
+        },
+        "hidden": {
+          "type": ["boolean", "null"]
+        },
+        "editingMode": {
+          "type": ["boolean", "null"]
+        },
+        "includeUsage": {
+          "type": ["boolean", "null"]
+        },
+        "includeFullText": {
+          "type": ["boolean", "null"]
+        },
+        "files": {
+          "type": ["array", "null"],
+          "items": {
+            "type": "string"
+          }
+        },
+        "runOrigin": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "source": {
+          "type": "string"
         }
-      }
+      },
+      "$comment": "Caller input is stored before IDs, defaults and model/reference resolution. All fields are optional; historical resolved query payloads remain readable."
     },
     "contextWindow": {
       "type": "object",
@@ -863,12 +948,24 @@
           "minLength": 1
         },
         "message": {
-          "type": "string",
-          "minLength": 1
+          "type": "string"
         },
         "role": {
           "type": "string",
           "const": "user"
+        },
+        "origin": {
+          "$ref": "#/definitions/agentOrigin"
+        },
+        "source": {
+          "$ref": "#/definitions/agentOrigin",
+          "$comment": "Historical name, accepted by the platform for existing steer lines."
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
         }
       }
     },
@@ -913,6 +1010,218 @@
       "items": {
         "$ref": "#/definitions/awaitingItem"
       }
+    },
+    "queryOrigin": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "user",
+            "agent",
+            "automation"
+          ]
+        },
+        "userId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "agentKey": {
+          "type": "string",
+          "minLength": 1
+        },
+        "chatId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "toolId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "automationId": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "agentOrigin": {
+      "type": "object",
+      "required": [
+        "type",
+        "agentKey",
+        "chatId",
+        "runId",
+        "toolId"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "agent"
+        },
+        "agentKey": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "chatId": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "toolId": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "inputReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "annotation": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "mimeType": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "annotationIndex": {
+          "type": "integer"
+        },
+        "sizeBytes": {
+          "type": "integer"
+        },
+        "meta": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "inputReferences": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/inputReference"
+      }
+    },
+    "rawInputReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": ["string", "null"]
+        },
+        "type": {
+          "type": ["string", "null"]
+        },
+        "text": {
+          "type": ["string", "null"]
+        },
+        "annotation": {
+          "type": ["string", "null"]
+        },
+        "name": {
+          "type": ["string", "null"]
+        },
+        "path": {
+          "type": ["string", "null"]
+        },
+        "mimeType": {
+          "type": ["string", "null"]
+        },
+        "url": {
+          "type": ["string", "null"]
+        },
+        "sha256": {
+          "type": ["string", "null"]
+        },
+        "annotationIndex": {
+          "type": ["integer", "null"]
+        },
+        "sizeBytes": {
+          "type": ["integer", "null"]
+        },
+        "meta": {
+          "type": ["object", "null"],
+          "additionalProperties": true
+        }
+      }
+    },
+    "compactId": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^\\S(?:[\\s\\S]*\\S)?$(?![\\s\\S])"
+    },
+    "compactMarker": {
+      "$comment": "Optional metadata on every JSONL line. Legacy string IDs and current L0/L1/L2 policies follow validateCurrentCompactMarkerSchema.",
+      "anyOf": [
+        {
+          "$ref": "#/definitions/compactId"
+        },
+        {
+          "type": "object",
+          "required": [
+            "level",
+            "id"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "level": {
+              "enum": [
+                "L0",
+                "L1",
+                "L2"
+              ]
+            },
+            "id": {
+              "$ref": "#/definitions/compactId"
+            },
+            "keep": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "enum": [
+                  "content",
+                  "reasoning",
+                  "tool"
+                ]
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }

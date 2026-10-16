@@ -2,9 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://zenmind.local/platform-auditor/schemas/jsonl/query.schema.json",
   "type": "object",
-  "required": ["chatId", "runId", "updatedAt", "query", "messages", "_type"],
+  "required": ["chatId", "runId", "updatedAt", "_type"],
   "additionalProperties": false,
   "properties": {
+    "_compact": { "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/compactMarker" },
     "chatId": { "type": "string" },
     "runId": { "type": "string" },
     "updatedAt": { "type": "number" },
@@ -35,6 +36,19 @@
         }
       }
     },
-    "hidden": { "type": "boolean" }
+    "hidden": { "type": "boolean" },
+    "requestId": { "type": "string" },
+    "agentKey": { "type": "string" },
+    "taskAgentKey": { "type": "string" },
+    "taskSubAgentKey": { "type": "string" },
+    "planRunId": { "type": "string" },
+    "lane": { "enum": ["btw", "explain"] },
+    "origin": { "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/queryOrigin" },
+    "accessGrant": { "type": "object", "additionalProperties": true },
+    "accessLevel": { "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/accessLevel" },
+    "planningMode": { "type": "boolean" },
+    "editingMode": { "type": "boolean" },
+    "model": { "type": "object", "additionalProperties": true },
+    "references": { "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/inputReferences" }
   }
 }

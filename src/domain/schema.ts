@@ -69,11 +69,11 @@ export const TERMINAL_EVENTS = ["run.complete", "run.cancel", "run.error"] as co
 export const WS_FRAMES = ["request", "response", "stream", "push", "error"] as const;
 
 export const EVENT_PAYLOAD_SCHEMAS: Record<string, Record<string, string>> = {
-  "request.query": { requestId: "string", chatId: "string", role: "string", message: "string", agentKey: "string", teamId: "string", references: "any", params: "any", scene: "any", stream: "boolean" },
+  "request.query": { requestId: "string", runId: "string", chatId: "string", role: "string", message: "string", agentKey: "string", teamId: "string", references: "any", params: "any", scene: "any", stream: "boolean", lane: "string", sideId: "string", origin: "object", accessGrant: "object", planRunId: "string", accessLevel: "string", hidden: "boolean", planningMode: "boolean", editingMode: "boolean", model: "object", includeUsage: "boolean", includeFullText: "boolean" },
   "awaiting.ask": { awaitingId: "string", mode: "string", view: "object", timeout: "number", runId: "string", agentKey: "string", questions: "array", approvals: "array", form: "object", planning: "any" },
   "awaiting.answer": { awaitingId: "string", mode: "string", status: "string", submitId: "string", answers: "any", approvals: "array", form: "object", planning: "any", error: "string" },
   "request.submit": { requestId: "string", chatId: "string", runId: "string", awaitingId: "string", submitId: "string", param: "object", params: "any" },
-  "request.steer": { requestId: "string", chatId: "string", runId: "string", steerId: "string", message: "string", role: "string", liveSeq: "number" },
+  "request.steer": { requestId: "string", chatId: "string", runId: "string", steerId: "string", message: "string", role: "string", liveSeq: "number", origin: "object", source: "object", references: "array" },
   "chat.start": { chatId: "string", chatName: "string" },
   "run.start": { runId: "string", chatId: "string", agentKey: "string" },
   "debug.preCall": { runId: "string", chatId: "string", data: "any" },
@@ -94,7 +94,7 @@ export const EVENT_PAYLOAD_SCHEMAS: Record<string, Record<string, string>> = {
   "tool.args": { toolId: "string", delta: "string", chunkIndex: "number" },
   "tool.end": { toolId: "string" },
   "tool.snapshot": { toolId: "string", runId: "string", toolName: "string", taskId: "string", toolLabel: "string", toolDescription: "string", arguments: "string" },
-  "tool.result": { toolId: "string", result: "any", hitl: "any" },
+  "tool.result": { toolId: "string", result: "any", hitl: "any", target: "object", toolLabel: "string" },
   "source.publish": { publishId: "string", runId: "string", taskId: "string", toolId: "string", kind: "string", query: "string", sourceCount: "number", chunkCount: "number", sources: "array" },
   "action.start": { actionId: "string", runId: "string", taskId: "string", actionName: "string", description: "string" },
   "action.args": { actionId: "string", delta: "string" },
@@ -105,7 +105,7 @@ export const EVENT_PAYLOAD_SCHEMAS: Record<string, Record<string, string>> = {
   "plan.update": { planId: "string", chatId: "string", plan: "any" },
   "planning.delta": { planningId: "string", delta: "string" },
   "planning.snapshot": { planningId: "string", planningFile: "string", chatId: "string", runId: "string", text: "string" },
-  "task.start": { taskId: "string", runId: "string", taskName: "string", description: "string", subAgentKey: "string", invokingToolId: "string" },
+  "task.start": { taskId: "string", runId: "string", taskName: "string", description: "string", taskAgentKey: "string", subAgentKey: "string", invokingToolId: "string" },
   "task.complete": { taskId: "string" },
   "task.cancel": { taskId: "string", reason: "string" },
   "task.error": { taskId: "string", error: "string" },

@@ -5,6 +5,7 @@
   "required": ["chatId", "runId", "updatedAt", "_type"],
   "additionalProperties": false,
   "properties": {
+    "_compact": { "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/compactMarker" },
     "chatId": { "type": "string" },
     "runId": { "type": "string" },
     "updatedAt": { "type": "number" },
