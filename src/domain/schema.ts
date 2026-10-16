@@ -8,7 +8,8 @@ export const JSONL_TYPES = [
   "event",
   "steer",
   "system",
-  "step"
+  "step",
+  "compact"
 ] as const;
 
 export const ROLES = ["user", "assistant", "system", "tool"] as const;
@@ -24,6 +25,9 @@ export const STREAM_EVENT_TYPES = [
   "debug.preCall",
   "debug.postCall",
   "usage.snapshot",
+  "context.compact.start",
+  "context.compact.complete",
+  "context.compact.failed",
   "memory.write",
   "memory.read",
   "memory.search",

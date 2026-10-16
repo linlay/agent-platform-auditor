@@ -1,0 +1,21 @@
+{"_type":"compact","compactId":"compact-minimal","status":"skipped","startedAt":1792137600000,"updatedAt":1792137600000,"durationMs":0}
+{"_type":"compact","chatId":"chat-compact","status":"skipped","startedAt":1792137600000,"updatedAt":1792137600000,"durationMs":0}
+{"_type":"compact","chatId":"chat-compact","compactId":"compact-minimal","startedAt":1792137600000,"updatedAt":1792137600000,"durationMs":0}
+{"_type":"compact","chatId":"chat-compact","compactId":"compact-minimal","status":"skipped","updatedAt":1792137600000,"durationMs":0}
+{"_type":"compact","chatId":"chat-compact","compactId":"compact-minimal","status":"skipped","startedAt":1792137600000,"durationMs":0}
+{"_type":"compact","chatId":"chat-compact","compactId":"compact-minimal","status":"skipped","startedAt":1792137600000,"updatedAt":1792137600000}
+{"_type":"compact","chatId":"chat-compact","compactId":"compact-minimal","status":"complete","startedAt":1792137600000,"updatedAt":1792137600000,"durationMs":0}
+{"_type":"compact","chatId":"chat-compact","compactId":"compact-minimal","status":"skipped","startedAt":1792137600000,"updatedAt":1792137600000,"durationMs":0,"level":"L1"}
+{"_type":"compact","chatId":"chat-compact","compactId":"compact-minimal","status":"skipped","startedAt":1792137600000,"updatedAt":1792137600000,"durationMs":0,"scope":"chat"}
+{"_type":"compact","chatId":"chat-compact","compactId":"compact-minimal","status":"skipped","startedAt":1792137600000,"updatedAt":1792137600000,"durationMs":0,"trigger":"scheduled"}
+{"_type":"compact","chatId":"chat-compact","compactId":" compact-1","status":"skipped","startedAt":1792137600000,"updatedAt":1792137600000,"durationMs":0}
+{"_type":"compact","chatId":"chat-compact","compactId":"compact-minimal","status":"skipped","startedAt":1700000000,"updatedAt":1792137600000,"durationMs":0}
+{"_type":"compact","chatId":"chat-compact","compactId":"compact-minimal","status":"skipped","startedAt":1792137600000,"updatedAt":"1792137600000","durationMs":0}
+{"_type":"compact","chatId":"chat-compact","compactId":"compact-minimal","status":"skipped","startedAt":1792137600000,"updatedAt":1792137600000,"durationMs":-1}
+{"_type":"compact","chatId":"chat-compact","compactId":"compact-minimal","status":"skipped","startedAt":1792137600000,"updatedAt":1792137600000,"durationMs":0,"contextWindow":{}}
+{"_type":"compact","chatId":"chat-compact","compactId":"compact-minimal","status":"skipped","startedAt":1792137600000,"updatedAt":1792137600000,"durationMs":0,"tokensFreed":1.5}
+{"_type":"compact","chatId":"chat-compact","compactId":"compact-minimal","status":"skipped","startedAt":1792137600000,"updatedAt":1792137600000,"durationMs":0,"error":"provider_timeout"}
+{"_type":"compact","chatId":"chat-compact","compactId":"compact-minimal","status":"skipped","startedAt":1792137600000,"updatedAt":1792137600000,"durationMs":0,"diagnostics":[]}
+{"_type":"compact","chatId":"chat-compact","compactId":"compact-minimal","status":"skipped","startedAt":1792137600000,"updatedAt":1792137600000,"durationMs":0,"compactionUsage":null}
+{"_type":"compact","chatId":"chat-compact","compactId":"compact-minimal","status":"skipped","startedAt":1792137600000,"updatedAt":1792137600000,"durationMs":0,"liveSeq":0}
+{"_type":"compact","chatId":"chat-compact","compactId":"compact-minimal","status":"skipped","startedAt":1792137600000,"updatedAt":1792137600000,"durationMs":0,"unknown":true}

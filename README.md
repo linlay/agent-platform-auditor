@@ -126,6 +126,7 @@ npm install && npm test && npm run build
 | 事件 | `event` | 通用事件 |
 | | `steer` | 用户干预/引导 |
 | | `system` | 系统消息 |
+| 审计 | `compact` | 单次压缩尝试的结果及诊断 |
 | 兼容 | `step` | 旧格式（兼容） |
 
 `_type:"query"` 的 `query` 保存调用方原始输入，支持 HTTP/WS、`chat_start`、`agent_invoke`/`agent_delegate` 任务条目和 Automation。输入中省略的 ID、role、默认值不会补写；显式 `null` 保留，`role` 仅作为原始输入记录。平台决定放在行顶层：`requestId/agentKey/lane/origin/accessGrant/planRunId/accessLevel/hidden/planningMode/editingMode/model/references`；任务字段为 `taskId/taskName/taskToolId/taskAgentKey`。`lane` 仅旁路记录 `btw` 或 `explain`，分支号 `sideId` 留在原始输入中。
@@ -133,6 +134,10 @@ npm install && npm test && npm run build
 `query` 和 `messages` 均可省略：纯系统快照只携带 `system`，不要求 `liveSeq`；批准计划后的执行首行以 `planRunId` 关联规划 Run。只有 `messages` 的历史行继续接受，普通请求的游标检查保留。旧 Query 布局、`subAgentKey/taskSubAgentKey` 和 `kind:"system-init"` 继续兼容。
 
 所有 JSONL 行类型均允许可选的顶层 `_compact`。旧格式为非空且首尾无空白的字符串 ID；当前格式为 `{ "level": "L1", "id": "compact-123", "keep": ["content"] }`，`level` 支持 `L0/L1/L2`，`id` 同样要求非空且首尾无空白。`keep` 可省略或为空数组，元素仅允许 `content/reasoning/tool` 且不能重复。压缩标记不会跳过该行原有的结构和规则审计。
+
+独立的 `_type:"compact"` 行记录一次压缩尝试。必填字段为 `_type/chatId/compactId/status/startedAt/updatedAt/durationMs`；`status` 支持 `completed/failed/skipped`，可选 `level` 使用 `l1_tools/summary`，`scope` 使用 `run/history`，`trigger` 使用 `auto/manual`。历史压缩可省略 `runId/liveSeq`；活动 Run 的审计行可以复用紧邻事件的 `liveSeq`。模型、窗口、估算与清理统计、`compactionUsage/diagnostics/error` 按原样校验和展示；时间点采用安全整数 epoch 毫秒，耗时和计数必须为非负整数。失败结果本身是合法审计数据。
+
+平台不将 compact 审计行用于上下文或聊天回放；auditor 在原始 JSONL 时间线展示它的层级、范围、状态及失败原因。新增格式依据相邻 `agent-platform` 的 `CompactRecordLine`、`compact_record.go` 和历史压缩写入代码核对，当前来自尚未提交的工作区改动。
 
 `_type:"steer"` 使用专用 `steer` payload；`requestId` 可省略，`chatId/runId/steerId/message/role` 必填，`role` 固定为 `user`。`message` 可为空字符串（当前存储校验允许“继续执行”输入），支持 `references` 和 Agent 来源 `origin`；来源必须包含 `type:"agent"` 与非空 `agentKey/chatId/runId/toolId`。旧 `source` 名称及单条用户 `messages` 快照继续兼容。`steer` 内不接受 `type/timestamp/seq/liveSeq`。旧的 `_type:"steer" + event` 以及 `_type:"event" + event.type:"request.steer"` 仍按硬切协议报错。
 
@@ -153,7 +158,7 @@ npm install && npm test && npm run build
 | `bd084673` MCP 搜索与调用 | JSONL 正文已支持；同步实时事件的 `tool.result.target/toolLabel` 字段 |
 | `ad471fcc` CLI 登录准备与错误码 | 错误码值变化，无行结构变化 |
 
-Schema 版本为 `2026-10-16.query-origin-compact-v2`，规则版本为 `2026-10-16.query-origin-v1`；回归数据见 `test/fixtures/jsonl/valid-query-origin.jsonl`。本次同步上述提交涉及的契约及通用 `_compact` 字段，表中既有兼容类型仍保留。
+Schema 与规则版本为 `2026-10-16.compact-record-v3`；回归数据见 `test/fixtures/jsonl/valid-query-origin.jsonl` 和 `valid-compact.jsonl`。除上述提交涉及的契约及通用 `_compact` 字段外，已同步后续新增的独立 compact 审计行；表中既有兼容类型仍保留。
 
 ### WebSocket Frame 日志
 
@@ -200,7 +205,7 @@ platform-auditor/
 │   └── schemas/
 │       ├── manifest.json              # Schema 注册清单
 │       ├── common/common.schema.json  # 公共 schema 片段
-│       ├── jsonl/                     # JSONL 各类型 schema（10 种）
+│       ├── jsonl/                     # JSONL 各类型 schema（11 种）
 │       ├── ws/                        # WebSocket frame schema（5 种）
 │       └── rules/jsonl-rules.json     # 审计规则定义
 ├── src/

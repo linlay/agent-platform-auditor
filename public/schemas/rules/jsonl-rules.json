@@ -1,6 +1,6 @@
 {
   "$schema": "https://zenmind.local/platform-auditor/schemas/rules/jsonl-rules.schema.json",
-  "version": "2026-10-16.query-origin-v1",
+  "version": "2026-10-16.compact-record-v3",
   "recordRules": [
     {
       "id": "legacy-step",
@@ -72,8 +72,8 @@
       "op": "liveSeqByRun",
       "severity": "warning",
       "typesExpectingLiveSeq": ["query", "react", "react-tool", "plan-execute", "submit", "event", "steer"],
-      "skipMissingTypes": ["planning", "system", "step"],
-      "allowEqualTypes": ["react-tool"]
+      "skipMissingTypes": ["planning", "system", "step", "compact"],
+      "allowEqualTypes": ["react-tool", "compact"]
     },
     {
       "id": "react-tool-seq-matches-previous-react",

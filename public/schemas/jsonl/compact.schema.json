@@ -1,0 +1,129 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://zenmind.local/platform-auditor/schemas/jsonl/compact.schema.json",
+  "$comment": "Storage-only audit facts for a completed, failed or skipped compaction attempt. runId and liveSeq are omitted by history compaction.",
+  "type": "object",
+  "required": [
+    "_type",
+    "chatId",
+    "compactId",
+    "status",
+    "startedAt",
+    "updatedAt",
+    "durationMs"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "_type": {
+      "const": "compact"
+    },
+    "_compact": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/compactMarker"
+    },
+    "chatId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "runId": {
+      "type": "string"
+    },
+    "requestId": {
+      "type": "string"
+    },
+    "compactId": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/compactId"
+    },
+    "cycleId": {
+      "type": "string"
+    },
+    "trigger": {
+      "enum": [
+        "auto",
+        "manual"
+      ]
+    },
+    "level": {
+      "enum": [
+        "l1_tools",
+        "summary"
+      ]
+    },
+    "scope": {
+      "enum": [
+        "run",
+        "history"
+      ]
+    },
+    "status": {
+      "enum": [
+        "completed",
+        "failed",
+        "skipped"
+      ]
+    },
+    "detail": {
+      "type": "string"
+    },
+    "retryable": {
+      "type": "boolean"
+    },
+    "startedAt": {
+      "$ref": "#/definitions/epochMillis"
+    },
+    "updatedAt": {
+      "$ref": "#/definitions/epochMillis"
+    },
+    "durationMs": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/nonNegativeInteger"
+    },
+    "liveSeq": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/positiveInteger"
+    },
+    "modelKey": {
+      "type": "string"
+    },
+    "contextWindow": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/positiveInteger"
+    },
+    "summarySource": {
+      "type": "string"
+    },
+    "preCompactEstimatedTokens": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/nonNegativeInteger"
+    },
+    "postCompactEstimatedTokens": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/nonNegativeInteger"
+    },
+    "tokensFreed": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/nonNegativeInteger"
+    },
+    "toolsCleared": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/nonNegativeInteger"
+    },
+    "reasoningCleared": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/nonNegativeInteger"
+    },
+    "toolsKept": {
+      "$ref": "https://zenmind.local/platform-auditor/schemas/common/common.schema.json#/definitions/nonNegativeInteger"
+    },
+    "compactionUsage": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "diagnostics": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "error": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "definitions": {
+    "epochMillis": {
+      "type": "integer",
+      "minimum": 1000000000000,
+      "maximum": 9007199254740991
+    }
+  }
+}

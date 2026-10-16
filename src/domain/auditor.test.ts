@@ -64,6 +64,51 @@ describe("JSONL auditing", () => {
     expect(issues.some((issue) => issue.code === "UNKNOWN_FIELD" && issue.path === "extraTop")).toBe(true);
   });
 
+  test.each(["balanced", "strict", "exploratory"] as const)("compact audit records accept all outcomes and optional history fields in %s mode", (strictness) => {
+    const raw = fs.readFileSync(path.join(root, "test/fixtures/jsonl/valid-compact.jsonl"), "utf8");
+    const parsed = parseInput(raw);
+    expect(parsed.detectedMode).toBe("jsonl");
+    expect(parsed.parseIssues).toEqual([]);
+    const result = auditRecords(parsed.records, { strictness });
+    expect(result.allIssues).toEqual([]);
+    expect(result.timeline.filter((entry) => entry.typeLabel === "compact")).toHaveLength(5);
+    expect(result.timeline.some((entry) => entry.typeLabel === "compact" && entry.runId === null && entry.liveSeq === null)).toBe(true);
+  });
+
+  test("compact audit records reject missing fields and invalid scalar/map shapes", () => {
+    const issues = auditFixture("invalid-compact.jsonl");
+    const expectedPaths = [
+      "chatId", "compactId", "status", "startedAt", "updatedAt", "durationMs", "status", "level", "scope", "trigger",
+      "compactId", "startedAt", "updatedAt", "durationMs", "contextWindow", "tokensFreed", "error", "diagnostics", "compactionUsage", "liveSeq", "unknown"
+    ];
+    expectedPaths.forEach((issuePath, recordIndex) => {
+      expect(issues.some((issue) => issue.recordIndex === recordIndex && issue.severity === "error" && issue.path === issuePath)).toBe(true);
+    });
+    expect(issues.some((issue) => issue.code === "INVALID_TYPE")).toBe(false);
+  });
+
+  test.each(["startedAt", "updatedAt"])("compact %s requires a safe integer epoch in milliseconds", (field) => {
+    for (const value of [0, 1700000000, 1780837893831.5, "1780837893831", null, 9007199254740992]) {
+      const issues = auditRaw(JSON.stringify(compactRecord({ [field]: value })));
+      expect(issues.some((issue) => issue.path === field && issue.severity === "error")).toBe(true);
+    }
+  });
+
+  test("compact cursor sharing preserves duplicate and decrease checks for other records", () => {
+    const runId = "run-compact-cursors";
+    const query = queryRecord(runId, "hello");
+    const compact = compactRecord({ runId, liveSeq: 1 });
+    const issues = auditRaw([
+      JSON.stringify(query), JSON.stringify(compact),
+      JSON.stringify({ _type: "event", chatId: "chat-1", runId, updatedAt: 1780837893871, liveSeq: 1, event: { type: "run.start", timestamp: 1780837893871 } })
+    ].join("\n"));
+    expect(issues.some((issue) => issue.recordIndex === 1)).toBe(false);
+    expect(issues.some((issue) => issue.recordIndex === 2 && issue.code === "LIVESEQ_DUPLICATE")).toBe(true);
+
+    const decreasing = auditRaw([JSON.stringify({ ...query, liveSeq: 2 }), JSON.stringify(compact)].join("\n"));
+    expect(decreasing.some((issue) => issue.recordIndex === 1 && issue.code === "LIVESEQ_DECREASE")).toBe(true);
+  });
+
   test.each(["balanced", "strict", "exploratory"] as const)("react accepts optional responseId in %s mode", (strictness) => {
     const record = reactRecord("run-responses", 1, 1);
     for (const value of [record, {
@@ -1270,6 +1315,18 @@ describe("WebSocket auditing", () => {
 });
 
 describe("timeline fields", () => {
+  test("compact displays storage facts and failure cause without inventing a Run or cursor", () => {
+    const entry = buildTimelineEntry(recordFrom(compactRecord({
+      status: "failed", level: "summary", scope: "history", detail: "summary_model_failed", error: { code: "provider_timeout" }
+    })))!;
+    expect(entry.typeLabel).toBe("compact");
+    expect(entry.time).toBe(1780837893871);
+    expect(entry.runId).toBeNull();
+    expect(entry.seq).toBeNull();
+    expect(entry.liveSeq).toBeNull();
+    expect(entry.summary).toBe("summary · history · failed · summary_model_failed · provider_timeout");
+  });
+
   test("query exposes time, seq, liveSeq, type label, and summary separately", () => {
     const record = recordFrom({
       chatId: "chat-1",
@@ -1348,6 +1405,14 @@ function auditAnyRaw(raw: string, strictness: "balanced" | "strict" | "explorato
 function recordFrom(data: JsonObject): ParsedRecord {
   const parsed = parseInput(JSON.stringify(data), "jsonl");
   return parsed.records[0];
+}
+
+function compactRecord(overrides: JsonObject = {}): JsonObject {
+  return {
+    _type: "compact", chatId: "chat-1", compactId: "compact-1", status: "completed",
+    startedAt: 1780837893831, updatedAt: 1780837893871, durationMs: 40,
+    ...overrides
+  };
 }
 
 function queryRecord(runId: string, message: string, role = "user"): JsonObject {

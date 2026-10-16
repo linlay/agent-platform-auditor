@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema#",
-  "version": "2026-10-16.query-origin-compact-v2",
+  "version": "2026-10-16.compact-record-v3",
   "draft": "http://json-schema.org/draft-07/schema#",
   "formats": {
     "jsonl": {
@@ -16,7 +16,8 @@
         "schemas/jsonl/steer.schema.json",
         "schemas/jsonl/planning.schema.json",
         "schemas/jsonl/system.schema.json",
-        "schemas/jsonl/step.schema.json"
+        "schemas/jsonl/step.schema.json",
+        "schemas/jsonl/compact.schema.json"
       ],
       "schemas": {
         "query": "https://zenmind.local/platform-auditor/schemas/jsonl/query.schema.json",
@@ -28,7 +29,8 @@
         "steer": "https://zenmind.local/platform-auditor/schemas/jsonl/steer.schema.json",
         "planning": "https://zenmind.local/platform-auditor/schemas/jsonl/planning.schema.json",
         "system": "https://zenmind.local/platform-auditor/schemas/jsonl/system.schema.json",
-        "step": "https://zenmind.local/platform-auditor/schemas/jsonl/step.schema.json"
+        "step": "https://zenmind.local/platform-auditor/schemas/jsonl/step.schema.json",
+        "compact": "https://zenmind.local/platform-auditor/schemas/jsonl/compact.schema.json"
       }
     },
     "sse": {

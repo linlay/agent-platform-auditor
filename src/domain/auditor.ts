@@ -218,6 +218,10 @@ function buildTimelineSummary(rec: ParsedRecord): string {
     const type = stringValue(data._type) || "?";
     if (type === "query") return compactText(isPlainObject(data.query) ? data.query.message : "query", 160);
     if (type === "react" || type === "react-tool" || type === "plan-execute" || type === "step") return summarizeMessagesRecord(data);
+    if (type === "compact") {
+      const errorCode = isPlainObject(data.error) ? stringValue(data.error.code) : null;
+      return compactText([data.level, data.scope, data.status, data.detail, errorCode].filter(hasValue).join(" · "), 160);
+    }
     if (type === "planning") {
       const event = isPlainObject(data.event) ? data.event : {};
       const parts = [stringValue(event.type), stringValue(event.text) ? compactText(event.text, 140) : "", stringValue(event.planningFile) ? `file ${compactText(event.planningFile, 80)}` : ""].filter(Boolean);

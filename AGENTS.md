@@ -27,7 +27,7 @@ platform-auditor/
 ├── public/schemas/                  # 运行时通过 fetch 加载的 Schema 文件
 │   ├── manifest.json                # Schema 注册清单（格式/类型/Schema 映射）
 │   ├── common/common.schema.json    # 公共 schema 片段（usage/contextWindow/estimatedCost 等）
-│   ├── jsonl/                       # JSONL 各 _type 的 Schema（10 种）
+│   ├── jsonl/                       # JSONL 各 _type 的 Schema（11 种）
 │   │   ├── query.schema.json
 │   │   ├── react.schema.json
 │   │   ├── react-tool.schema.json
@@ -37,6 +37,7 @@ platform-auditor/
 │   │   ├── steer.schema.json
 │   │   ├── planning.schema.json
 │   │   ├── system.schema.json
+│   │   ├── compact.schema.json
 │   │   └── step.schema.json
 │   ├── ws/                          # WebSocket frame 的 Schema（5 种）
 │   │   ├── request.schema.json
@@ -108,7 +109,7 @@ platform-auditor/
 
 ### 支持的类型
 
-- **JSONL**：`_type` 字段区分，支持 `query`、`react`、`react-tool`、`plan-execute`、`submit`、`planning`、`event`、`steer`、`system`、`step`（旧格式）
+- **JSONL**：`_type` 字段区分，支持 `query`、`react`、`react-tool`、`plan-execute`、`submit`、`planning`、`event`、`steer`、`system`、`compact`（压缩审计）、`step`（旧格式）
 - **WebSocket**：`frame` 字段区分，支持 `request`、`response`、`stream`、`push`、`error`
 - **SSE**：标准 SSE 文本 + `[DONE]` 终止标记
 - **Live Events**：每行一个 JSON 对象，含 `type`/`seq`/`timestamp`
