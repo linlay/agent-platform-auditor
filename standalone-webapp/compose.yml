@@ -1,37 +1,105 @@
 name: auditor-standalone-demo
+x-common: &common
+  image: agent-platform-webapp-base:0.5.47
+  pull_policy: never
+  platform: linux/amd64
+  user: "${AUDITOR_UID:-10001}:${AUDITOR_GID:-10001}"
+  read_only: true
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  tmpfs: ["/tmp:rw,nosuid,nodev,size=64m,mode=1777"]
 services:
-  webapp:
-    image: agent-platform-webapp-base:0.5.46
-    pull_policy: never
-    platform: linux/amd64
-    user: "${AUDITOR_UID:-10001}:${AUDITOR_GID:-10001}"
-    init: true
-    read_only: true
-    cap_drop: [ALL]
-    security_opt: [no-new-privileges:true]
-    ports:
-      - "127.0.0.1:19381:19381"
-      - "127.0.0.1:19382:19382"
-    command: ["--webapp", "/webapp", "--runtime-dir", "/runtime", "--update=${WEBAPP_UPDATE:-false}"]
+  prepare:
+    <<: *common
+    command: [prepare]
+    network_mode: none
+    environment:
+      WEBAPP_UPDATE: ${WEBAPP_UPDATE:-false}
     volumes:
       - type: bind
         source: ${WEBAPP_SOURCE:-./dist/standalone-auditor-1.0.0.zip}
         target: /webapp
         read_only: true
-        bind:
-          create_host_path: false
+        bind: {create_host_path: false}
       - ./.runtime:/runtime
-    tmpfs:
-      - /tmp:rw,nosuid,nodev,size=64m
-      - /runtime/.lock:rw,nosuid,nodev,noexec,size=8m,mode=0700,uid=${AUDITOR_UID:-10001},gid=${AUDITOR_GID:-10001}
+  platform:
+    <<: *common
+    command: [platform]
+    depends_on: {prepare: {condition: service_completed_successfully}}
+    networks: [platform-private, model-egress]
+    volumes:
+      - ./.runtime/platform-runtime:/runtime
+      - ./.runtime/agents:/runtime/agents:ro
+      - ./.runtime/skills-center:/runtime/skills-center:ro
+      - ./.runtime/connectors-center:/runtime/connectors-center:ro
+      - ./.runtime/registries:/runtime/registries:ro
+      - ./.runtime/chats:/runtime/chats
+      - ./.runtime/.state/platform:/runtime/.state
+      - ./.runtime/host/platform:/platform-config:ro
+      - ./.runtime/logs:/logs
+    healthcheck:
+      test: [CMD, node, /opt/webapp-host/main.mjs, health, "http://127.0.0.1:8083/healthz"]
+      interval: 5s
+      timeout: 4s
+      retries: 20
+    restart: unless-stopped
+  backend:
+    <<: *common
+    command: [backend]
+    depends_on: {platform: {condition: service_healthy}}
+    networks: [webapp-private, platform-private]
+    volumes:
+      - ./.runtime/app/backend:/app/backend:ro
+      - ./.runtime/host/backend:/backend-config:ro
+      - ./.runtime/webapp-data:/data
+      - ./.runtime/logs:/logs
+    healthcheck:
+      test: [CMD, node, /opt/webapp-host/main.mjs, health, "http://127.0.0.1:8081/api/health"]
+      interval: 5s
+      timeout: 4s
+      retries: 20
+    restart: unless-stopped
+  auth:
+    <<: *common
+    command: [auth]
+    depends_on: {backend: {condition: service_healthy}}
+    networks: [webapp-private]
+    volumes:
+      - ./.runtime/host/auth:/auth-config:ro
+    healthcheck:
+      test: [CMD, node, /opt/webapp-host/main.mjs, health, "http://127.0.0.1:8082/__internal/health/ready"]
+      interval: 5s
+      timeout: 4s
+      retries: 10
+    restart: unless-stopped
+  webapp:
+    <<: *common
+    command: [nginx]
+    depends_on: {auth: {condition: service_healthy}}
+    networks: [webapp-private]
+    ports: ["127.0.0.1:${WEBAPP_PORT:-19382}:8080"]
+    healthcheck:
+      test: [CMD, node, /opt/webapp-host/main.mjs, health, "http://127.0.0.1:8080/__webapp/bootstrap.json"]
+      interval: 5s
+      timeout: 4s
+      retries: 10
+    volumes:
+      - ./.runtime/app/frontend:/frontend:ro
+      - ./.runtime/host/public:/public:ro
+      - ./.runtime/host/nginx:/nginx:ro
+      - ./.runtime/logs:/logs
+    restart: unless-stopped
   model-fixture:
     profiles: [demo]
     image: agent-platform-auditor-fixture:1.0.0
     pull_policy: never
     platform: linux/amd64
-    init: true
     read_only: true
     cap_drop: [ALL]
     security_opt: [no-new-privileges:true]
-    network_mode: service:webapp
-    depends_on: [webapp]
+    network_mode: service:platform
+    depends_on: {platform: {condition: service_healthy}}
+networks:
+  webapp-private: {}
+  platform-private: {internal: true}
+  model-egress: {}

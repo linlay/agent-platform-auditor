@@ -6,20 +6,22 @@
   "version": "1.0.0",
   "target": "any",
   "hosting": "platform",
-  "minPlatformVersion": "0.5.46",
+  "minPlatformVersion": "0.5.47",
   "appConfig": {
     "modelMode": "demo",
     "agentKey": "auditor",
     "skillId": "review-checklist",
     "model": "auditor-model",
-    "reportStorage": "browser",
-    "deployment": "standalone-frontend"
+    "reportStorage": "server",
+    "deployment": "nginx-backend"
   },
   "frontend": {
     "root": "frontend",
     "index": "index.html",
     "routeConfig": {
-      "backendPrefixes": []
+      "backendPrefixes": [
+        "/api"
+      ]
     }
   },
   "copilot": {
@@ -30,5 +32,22 @@
         "id": "review-checklist"
       }
     ]
+  },
+  "authentication": {
+    "mode": "none"
+  },
+  "backend": {
+    "command": {
+      "type": "node",
+      "entry": "backend/server.mjs"
+    },
+    "args": [],
+    "env": {},
+    "health": {
+      "type": "http",
+      "path": "/api/health",
+      "startupTimeoutMs": 30000
+    },
+    "shutdownTimeoutMs": 3000
   }
 }

@@ -32,3 +32,26 @@ test('concurrent saves remain durable and history keeps only the latest 20', asy
     await rm(directory, { recursive: true });
   }
 });
+
+test('review fixes the package Agent and ignores browser-supplied Platform options',async()=>{
+ const directory=await mkdtemp(path.join(tmpdir(),'auditor-review-'));let call;
+ const config={copilot:{agentKey:'auditor',references:[{type:'skill',id:'review-checklist'}]},authentication:{mode:'none'}};
+ const server=createServer(directory,{config,platform:async(route,body)=>{call={route,body};return {content:'模型审阅结果'};}});
+ await new Promise(r=>server.listen(0,'127.0.0.1',r));
+ try{
+  const response=await fetch(`http://127.0.0.1:${server.address().port}/api/review`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({input:'方案正文',agentKey:'other',chatId:'existing',model:{key:'foreign'},accessLevel:'full_access'})});
+  assert.equal(response.status,200);assert.equal((await response.json()).text,'模型审阅结果');
+  assert.equal(call.route,'/api/query');assert.equal(call.body.agentKey,'auditor');assert.notEqual(call.body.chatId,'existing');assert.equal(call.body.accessLevel,'ask_for_approval');assert.equal(call.body.editingMode,false);assert.deepEqual(call.body.references,config.copilot.references);assert.equal(call.body.model,undefined);
+ }finally{await new Promise(r=>server.close(r));await rm(directory,{recursive:true});}
+});
+
+test('SSO report history is isolated by host identity',async()=>{
+ const directory=await mkdtemp(path.join(tmpdir(),'auditor-owners-'));
+ const server=createServer(directory,{config:{authentication:{mode:'sso'}}});await new Promise(r=>server.listen(0,'127.0.0.1',r));const base=`http://127.0.0.1:${server.address().port}`;
+ try{
+  assert.equal((await fetch(base+'/api/reports')).status,401);
+  assert.equal((await fetch(base+'/api/reports',{method:'POST',headers:{'Content-Type':'application/json','X-Webapp-User':'one'},body:JSON.stringify({input:'private',text:'report'})})).status,201);
+  const list=async(user)=>(await(await fetch(base+'/api/reports',{headers:{'X-Webapp-User':user}})).json()).items;
+  assert.equal((await list('one')).length,1);assert.equal((await list('two')).length,0);
+ }finally{await new Promise(r=>server.close(r));await rm(directory,{recursive:true});}
+});

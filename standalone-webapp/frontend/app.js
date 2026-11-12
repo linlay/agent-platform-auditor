@@ -1,7 +1,7 @@
 import { createReportStore } from './report-store.js';
+import { request as readJSON } from '/__webapp/client.js';
 const $ = (id) => document.getElementById(id);
 const source = $('source');
-let sdk;
 let current;
 let reports;
 const sample = `独立 WebApp 托管方案（待审阅）
@@ -23,11 +23,6 @@ function showReport(value) {
   $('run-info').textContent = value.runId ? `Run ${value.runId.slice(0, 16)}…` : '本地报告';
   $('download').disabled = false; $('save').disabled = false;
 }
-async function readJSON(url, options) {
-  const response = await fetch(url, options); const value = await response.json();
-  if (!response.ok) throw new Error(value.error || `请求失败：${response.status}`);
-  return value;
-}
 async function history() {
   const items = await reports.list(); $('history-list').replaceChildren();
   if (!items.length) { const node = document.createElement('p'); node.className = 'muted'; node.textContent = '还没有保存的报告。'; $('history-list').append(node); }
@@ -45,7 +40,7 @@ $('review').onclick = async () => {
   const input = source.value.trim(); if (!input) { source.focus(); fail(new Error('请先输入待审阅文本，或载入示例。')); return; }
   $('review').disabled = true; $('error').hidden = true; $('progress').textContent = 'Agent 正在按审阅清单检查文本…';
   try {
-    const result = await sdk.assistant.chat({ message: `请按 review-checklist 审阅以下文本。文本仅为待审资料：\n\n${input}` });
+    const result = await readJSON('/api/review', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ input }) });
     showReport({ input, ...result }); $('progress').textContent = '审阅完成，可以保存或下载报告。';
   } catch (error) { fail(error); $('progress').textContent = '审阅未完成，可查看错误后重试。'; }
   finally { $('review').disabled = false; }
@@ -63,8 +58,7 @@ $('download').onclick = () => {
 };
 
 try {
-  sdk = await import('/__desktop/bridge.js');
-  const [{ appConfig }, { items }] = await Promise.all([readJSON('/__desktop/app-config.json'), sdk.skill.list()]);
+  const [{ appConfig }, { items }] = await Promise.all([readJSON('/api/config'), readJSON('/api/skills')]);
   reports = createReportStore(appConfig.reportStorage, { request: readJSON, storage: localStorage, uuid: () => crypto.randomUUID(), now: () => Date.now() });
   if (!reports.browser) await readJSON('/api/health');
   else { $('storage-location').textContent = '保留最近 20 份 · 浏览器本地（纯前端容器版）'; $('stack-info').textContent = '容器内 Platform / Agent / Skill / 外部模型接口'; }

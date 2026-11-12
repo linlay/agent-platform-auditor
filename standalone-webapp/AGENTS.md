@@ -1,13 +1,13 @@
 # 独立 WebApp 开发约定
 
-- 本目录直接包含 backend/、frontend/、platform/、webapp.json 和 AGENTS.md，不增加应用名包装层。
-- frontend/ 是原生 HTML/CSS/JS，无 npm 依赖；backend/ 保留可选 Node 报告 API 源码，当前基础镜像只运行前端形态。
-- platform/ 保存本应用的 agents、skills-center、connectors-center、registries 和公开 configs；资源继续按 key/id 关联。
-- webapp.json 是应用清单事实源，直接声明实际部署形态；通用打包命令原样保留清单，不删改后端声明或应用配置。
-- 通用包检查和 ZIP 打包统一使用 Platform 的 webapp check/pack 命令；本应用不维护重复的打包、清单校验或对应测试。scripts/ 仅保留本机登录辅助，test/ 仅保留应用业务测试。
-- 不重新加入离线运行制品、基础镜像制作链或无依赖的 npm 空清单；以后前端确需 npm 时，清单放 frontend/。
-- ZIP 和 dist 应用目录根只有 backend/、frontend/、platform/、webapp.json、AGENTS.md；排除真实凭据、*.local.yml、*.local.yaml、工程工具和生成数据。
-- Compose 只消费现成基础镜像，可选规则 fixture 使用独立演示镜像，不挂载宿主程序。规则服务不等同真实 AI。
-- .runtime/ 整体挂载为 /runtime，保存已安装资源、聊天、日志、产物和私有状态；不得随工程清理而改写或删除。
-- 不读取相邻 Platform/Desktop 的源码、配置或凭据。基础镜像的源码和维护归其自身工程，不在本应用维护。
-- 本项目按用户精简要求不使用根 npm 清单，验证入口为 agent-platform webapp check、agent-platform webapp pack 和 node --test test/*.test.mjs；涉及容器的改动用独立临时实例验证，不自动启动用户实例。
+- 应用根直接包含 backend/、frontend/、platform/、webapp.json 和 AGENTS.md；ZIP 同样只有这五个根。
+- frontend/ 是原生 HTML/CSS/JS，无 npm 依赖。前端通过 /__webapp/client.js 调用本应用 /api；不得直接调用 Platform 或依赖 /__desktop。
+- backend/ 是独立 Node 24 业务服务，提供审阅与报告 API。Platform 地址与短期服务 token 文件由镜像宿主注入；浏览器不能选择任意 Agent、模型或 Platform API。
+- platform/ 保存本应用完整的 Agent、Skill、Connector、Registry 及公开配置；真实凭据只放实例私有目录。
+- webapp.json 声明 Node Backend、业务代理前缀和认证模式。当前演示明确使用 none；custom 需要业务后端自行实现检查、登录、会话与 CSRF；sso 使用镜像认证组件。
+- 打包、检查与基础镜像制作由 Platform 工程维护；本项目不复制公共工具、不添加空 npm 清单、vendor 或 Python 运行时。
+- Compose 的各角色复用一个 Alpine/Node 24/Nginx/Platform 镜像，Platform 仅与 Backend 共用专用内部网络；只有 Nginx 发布主机端口。
+- .runtime/ 是用户持久运行目录。各服务只挂载自己需要的子目录；聊天、报告、日志、实例配置、密钥与状态均在其中。不得为测试启动或改写用户实例。
+- 修改包或认证模式前必须完整停止各角色，再显式 WEBAPP_UPDATE=true 运行 prepare 并重建服务，不做 Nginx 热切换。
+- 当前 demo profile 的模型 fixture 只是规则测试服务，不是真实 AI；真实模型配置需由用户提供。
+- 验证使用 agent-platform webapp check/pack、node --test test/*.test.mjs；容器验证使用临时目录与独立 Compose 项目。相邻工程源码和凭据不打入本包。
