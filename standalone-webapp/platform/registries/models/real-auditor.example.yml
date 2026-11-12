@@ -1,0 +1,6 @@
+# 复制为本目录 real-auditor.yml，再将本实例 Agent 的 modelKey 改为 real-auditor。
+key: real-auditor
+name: 我的审阅模型
+provider: private-provider
+protocol: OPENAI
+modelId: REPLACE_WITH_YOUR_MODEL_ID

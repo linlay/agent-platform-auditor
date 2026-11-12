@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light"><title>独立审阅助手 · Platform WebApp</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="/" aria-label="独立审阅助手首页"><span class="logo">A<span>↗</span></span><span>审阅助手<small>PLATFORM WEBAPP</small></span></a><span class="instance"><span id="connection-dot" class="dot"></span><span id="connection">正在连接独立实例</span></span></header>
+  <main>
+    <section class="intro"><p class="eyebrow">INDEPENDENT BY DESIGN</p><h1>把待确认的方案，<br>变成清楚的行动。</h1><p>粘贴配置、设计或验收说明，交给包内 Agent 和审阅清单，检查边界、矛盾与证据缺口。</p></section>
+    <section class="runtime" aria-label="运行配置"><div><span class="runtime-label">AGENT</span><strong>auditor</strong><span>包内审阅助手</span></div><div><span class="runtime-label">SKILL</span><strong>review-checklist</strong><span id="skill-state">正在读取技能</span></div><div><span class="runtime-label">MODEL</span><strong id="model-key">auditor-model</strong><span id="model-mode">正在读取模型配置</span></div><span class="runtime-mark">↗<small>独立环境<br>本地数据</small></span></section>
+    <div class="workspace">
+      <section class="panel editor"><div class="panel-heading"><h2><span class="section-number">01</span>待审文本</h2><button id="sample" class="text-button" type="button">载入示例 ↗</button></div><label for="source" class="sr-only">输入需要审阅的方案、配置或验收说明</label><textarea id="source" maxlength="9000" placeholder="例如：一个独立 WebApp 的权限方案、配置说明或验收记录……"></textarea><div class="input-footer"><span id="counter">0 / 9,000</span><span>方案 · 配置 · 验收说明</span></div><div id="model-notice" class="notice">本机演示模型使用确定性规则生成示例报告，不是真实 LLM。</div><div class="editor-actions"><span id="progress" role="status">准备好后，开始一次审阅。</span><button id="review" class="primary" type="button" disabled>开始审阅 <span>↗</span></button></div></section>
+      <section class="panel result"><div class="panel-heading"><h2><span class="section-number">02</span>审阅报告</h2><button id="download" class="text-button" type="button" disabled>下载 Markdown ↓</button></div><div id="empty" class="empty"><div class="document-icon">≡<span>✓</span></div><h3>让问题先被看见</h3><p>报告会列出发现、修改建议和验收清单。<br>每一项结论，都应该有对应的依据。</p></div><article id="report" hidden aria-live="polite"></article><div class="result-footer"><span id="run-info">审阅结果仅基于提交的文本</span><button id="save" class="secondary" type="button" disabled>保存到本地</button></div></section>
+    </div>
+    <section class="history"><div class="panel-heading"><h2>最近保存</h2><span id="storage-location">保留最近 20 份 · webapp-data</span></div><div id="history-list" class="history-list"><p class="muted">还没有保存的报告。</p></div></section>
+    <p id="error" class="error" role="alert" hidden></p>
+    <footer><span>一份应用包，一个 Platform 实例。</span><span id="stack-info">前端 / Node 24 / Agent / Skill / 模型配置</span></footer>
+  </main>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

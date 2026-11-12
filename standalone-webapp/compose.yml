@@ -1,0 +1,37 @@
+name: auditor-standalone-demo
+services:
+  webapp:
+    image: agent-platform-webapp-base:0.5.46
+    pull_policy: never
+    platform: linux/amd64
+    user: "${AUDITOR_UID:-10001}:${AUDITOR_GID:-10001}"
+    init: true
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    ports:
+      - "127.0.0.1:19381:19381"
+      - "127.0.0.1:19382:19382"
+    command: ["--webapp", "/webapp", "--runtime-dir", "/runtime", "--update=${WEBAPP_UPDATE:-false}"]
+    volumes:
+      - type: bind
+        source: ${WEBAPP_SOURCE:-./dist/standalone-auditor-1.0.0.zip}
+        target: /webapp
+        read_only: true
+        bind:
+          create_host_path: false
+      - ./.runtime:/runtime
+    tmpfs:
+      - /tmp:rw,nosuid,nodev,size=64m
+      - /runtime/.lock:rw,nosuid,nodev,noexec,size=8m,mode=0700,uid=${AUDITOR_UID:-10001},gid=${AUDITOR_GID:-10001}
+  model-fixture:
+    profiles: [demo]
+    image: agent-platform-auditor-fixture:1.0.0
+    pull_policy: never
+    platform: linux/amd64
+    init: true
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    network_mode: service:webapp
+    depends_on: [webapp]

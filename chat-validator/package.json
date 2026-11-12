@@ -1,0 +1,23 @@
+{
+  "name": "chat-validator",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "build": "tsc -p tsconfig.json",
+    "validate": "node dist/src/cli.js",
+    "cases": "node dist/src/cli.js --list",
+    "ui": "node dist/src/ui/server.js",
+    "test:ui": "node scripts/check-ui.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.0",
+    "@types/node": "^20.17.57",
+    "typescript": "^5.8.3",
+    "vitest": "^2.1.9"
+  }
+}

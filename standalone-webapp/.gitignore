@@ -1,0 +1,9 @@
+dist/
+.runtime/
+.local-backups/
+node_modules/
+.env
+*.pem
+platform/registries/providers/*.local.yml
+platform/registries/providers/*.local.yaml
+.DS_Store

@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 2,
+  "id": "webapp-a0d1700000000001",
+  "key": "standalone-auditor",
+  "label": "独立审阅助手",
+  "version": "1.0.0",
+  "target": "any",
+  "hosting": "platform",
+  "minPlatformVersion": "0.5.46",
+  "appConfig": {
+    "modelMode": "demo",
+    "agentKey": "auditor",
+    "skillId": "review-checklist",
+    "model": "auditor-model",
+    "reportStorage": "browser",
+    "deployment": "standalone-frontend"
+  },
+  "frontend": {
+    "root": "frontend",
+    "index": "index.html",
+    "routeConfig": {
+      "backendPrefixes": []
+    }
+  },
+  "copilot": {
+    "agentKey": "auditor",
+    "references": [
+      {
+        "type": "skill",
+        "id": "review-checklist"
+      }
+    ]
+  }
+}

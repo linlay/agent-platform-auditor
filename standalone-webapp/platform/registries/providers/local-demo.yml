@@ -1,0 +1,4 @@
+# 可选规则模型：docker compose --profile demo up -d 显式启动独立演示镜像；不是真实 AI。
+key: local-demo
+baseUrl: http://127.0.0.1:19091
+apiKey: local-demo-not-a-secret

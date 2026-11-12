@@ -1,0 +1,20 @@
+{
+  "views": {
+    "report": {
+      "title": "审阅报告",
+      "description": "展示当前审阅结论及问题列表。",
+      "renderer": "html",
+      "usage": ["display"],
+      "entry": "views/report.html",
+      "inputSchema": {
+        "type": "object",
+        "required": ["conclusion", "findings"],
+        "properties": {
+          "conclusion": {"type": "string", "description": "本次审阅结论。"},
+          "findings": {"type": "array", "items": {"type": "string"}, "description": "按严重程度排列的具体问题。"}
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

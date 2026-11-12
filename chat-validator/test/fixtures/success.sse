@@ -1,0 +1,16 @@
+: heartbeat
+
+data: {"type":"request.query","seq":1,"timestamp":1794412800000,"chatId":"cv_fixture","runId":"run_fixture","message":"echo"}
+
+data: {"type":"run.start","seq":2,"timestamp":1794412800001,"runId":"run_fixture"}
+
+data: {"type":"content.start","seq":3,"timestamp":1794412800002,"runId":"run_fixture","contentId":"c1"}
+
+data: {"type":"content.delta","seq":4,"timestamp":1794412800003,"contentId":"c1","delta":"中文🧪"}
+
+data: {"type":"content.end","seq":5,"timestamp":1794412800004,"contentId":"c1"}
+
+data: {"type":"run.complete","seq":6,"timestamp":1794412800005,"runId":"run_fixture","finishReason":"stop"}
+
+data: [DONE]
+

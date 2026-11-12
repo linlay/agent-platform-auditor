@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><title>审阅报告</title>
+<style>body{font:15px/1.7 system-ui,sans-serif;padding:16px;color:#25332f}h2{font-size:18px}li{margin:8px 0}</style>
+<main><h2>审阅报告</h2><p id="conclusion"></p><ul id="findings"></ul></main>
+<script>
+viewHost.onData((data) => {
+  document.getElementById('conclusion').textContent = data.conclusion || '';
+  const list = document.getElementById('findings'); list.replaceChildren();
+  for (const text of data.findings || []) { const item = document.createElement('li'); item.textContent = text; list.append(item); }
+});
+</script></html>

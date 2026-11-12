@@ -1,0 +1,5 @@
+key: auditor-model
+name: 本机演示模型（规则模拟，非真实 LLM）
+provider: local-demo
+protocol: OPENAI
+modelId: auditor-local-demo

@@ -1,0 +1,4 @@
+# 本实例真实模型模板：复制为同目录 private-provider.local.yml 后填写；该私有文件忽略提交。
+key: private-provider
+baseUrl: https://YOUR-PROVIDER.example/v1
+apiKey: REPLACE_WITH_YOUR_PRIVATE_API_KEY

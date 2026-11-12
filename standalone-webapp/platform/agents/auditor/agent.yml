@@ -1,0 +1,13 @@
+key: auditor
+name: 独立审阅助手
+mode: GENERAL
+description: 根据审阅清单检查方案、配置和验收说明中的问题。
+promptFile: SYSTEM.md
+modelConfig:
+  modelKey: auditor-model
+skillConfig:
+  skills:
+    - review-checklist
+connectorConfig:
+  connectors:
+    - review-format

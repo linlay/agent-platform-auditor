@@ -1,0 +1,8 @@
+{
+  "id": "review-format",
+  "name": "审阅报告格式",
+  "description": "本应用私有的审阅报告展示模板及格式技能，不访问外部服务。",
+  "version": "1.0.0",
+  "type": "view",
+  "authMode": "none"
+}

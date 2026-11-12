@@ -1,0 +1,548 @@
+[
+  {
+    "id": "P01",
+    "title": "免认证健康检查与 KBX 状态",
+    "group": "protocol",
+    "action": "health"
+  },
+  {
+    "id": "P02",
+    "title": "目录拒绝未认证调用",
+    "group": "protocol",
+    "action": "unauthenticated"
+  },
+  {
+    "id": "P03",
+    "title": "发现有效 Agent 与测试目标",
+    "group": "protocol",
+    "action": "discovery"
+  },
+  {
+    "id": "P04",
+    "title": "Agent 详情不泄漏管理定义",
+    "group": "protocol",
+    "action": "agent-detail"
+  },
+  {
+    "id": "P05",
+    "title": "Chat 列表摘要与详情字段分离",
+    "group": "protocol",
+    "action": "chat-list"
+  },
+  {
+    "id": "P06",
+    "title": "置顶列表与 ID 投影一致",
+    "group": "protocol",
+    "action": "chat-order"
+  },
+  {
+    "id": "P07",
+    "title": "拒绝历史 REACT 筛选输入",
+    "group": "protocol",
+    "action": "http",
+    "path": "/api/agents?mode=REACT",
+    "status": 400
+  },
+  {
+    "id": "P08",
+    "title": "拒绝未知 Agent mode",
+    "group": "protocol",
+    "action": "http",
+    "path": "/api/agents?mode=INVALID",
+    "status": 400
+  },
+  {
+    "id": "P09",
+    "title": "拒绝零值列表 limit",
+    "group": "protocol",
+    "action": "http",
+    "path": "/api/chats?limit=0",
+    "status": 400
+  },
+  {
+    "id": "P10",
+    "title": "拒绝小数列表 limit",
+    "group": "protocol",
+    "action": "http",
+    "path": "/api/chats?limit=1.5",
+    "status": 400
+  },
+  {
+    "id": "P11",
+    "title": "拒绝非法 hasWorkspace",
+    "group": "protocol",
+    "action": "http",
+    "path": "/api/chats?hasWorkspace=1",
+    "status": 400
+  },
+  {
+    "id": "P12",
+    "title": "拒绝重复 pinned 参数",
+    "group": "protocol",
+    "action": "http",
+    "path": "/api/chats?pinned=true&pinned=false",
+    "status": 400
+  },
+  {
+    "id": "P13",
+    "title": "拒绝弃用 agentMode 参数",
+    "group": "protocol",
+    "action": "http",
+    "path": "/api/chats?agentMode=GENERAL",
+    "status": 400
+  },
+  {
+    "id": "P14",
+    "title": "拒绝弃用 agentType 参数",
+    "group": "protocol",
+    "action": "http",
+    "path": "/api/chats?agentType=project",
+    "status": 400
+  },
+  {
+    "id": "P15",
+    "title": "query 拒绝未知字段",
+    "group": "protocol",
+    "action": "http",
+    "path": "/api/query",
+    "method": "POST",
+    "body": {
+      "agentKey": "{{agentKey}}",
+      "message": "test",
+      "unexpected": null
+    },
+    "status": 400,
+    "error": "unknown"
+  },
+  {
+    "id": "P16",
+    "title": "query 拒绝字段大小写变体",
+    "group": "protocol",
+    "action": "http",
+    "path": "/api/query",
+    "method": "POST",
+    "body": {
+      "agentKey": "{{agentKey}}",
+      "Message": "test"
+    },
+    "status": 400,
+    "error": "unknown"
+  },
+  {
+    "id": "P17",
+    "title": "send 拒绝重复 JSON 键",
+    "group": "protocol",
+    "action": "http",
+    "path": "/api/send",
+    "method": "POST",
+    "raw": "{\"agentKey\":\"{{agentKey}}\",\"chatId\":\"{{chatId}}\",\"requestId\":\"{{requestId}}\",\"accessLevel\":\"ask_for_approval\",\"message\":\"只回复CV_DUPLICATE_FIRST\",\"message\":\"只回复CV_DUPLICATE_SECOND\"}",
+    "status": 400
+  },
+  {
+    "id": "P18",
+    "title": "query 拒绝字符串 editingMode",
+    "group": "protocol",
+    "action": "http",
+    "path": "/api/query",
+    "method": "POST",
+    "body": {
+      "agentKey": "{{agentKey}}",
+      "message": "test",
+      "editingMode": "false"
+    },
+    "status": 400
+  },
+  {
+    "id": "P19",
+    "title": "query 拒绝客户端 origin 伪造",
+    "group": "protocol",
+    "action": "http",
+    "path": "/api/query",
+    "method": "POST",
+    "body": {
+      "agentKey": "{{agentKey}}",
+      "message": "test",
+      "origin": {
+        "type": "automation"
+      }
+    },
+    "status": 400,
+    "error": "unknown"
+  },
+  {
+    "id": "P20",
+    "title": "HTTP query 拒绝 detached",
+    "group": "protocol",
+    "action": "http",
+    "path": "/api/query",
+    "method": "POST",
+    "body": {
+      "detached": true
+    },
+    "status": 400,
+    "error": "detached_ws_required"
+  },
+  {
+    "id": "P21",
+    "title": "HTTP query 拒绝 explain lane",
+    "group": "protocol",
+    "action": "http",
+    "path": "/api/query",
+    "method": "POST",
+    "body": {
+      "lane": "explain"
+    },
+    "status": 403,
+    "error": "explain_ws_required"
+  },
+  {
+    "id": "P22",
+    "title": "query 拒绝 detail 覆盖",
+    "group": "protocol",
+    "action": "http",
+    "path": "/api/query?detail=simple",
+    "method": "POST",
+    "body": {},
+    "status": 400,
+    "error": "detail_not_allowed"
+  },
+  {
+    "id": "P23",
+    "title": "send 拒绝缺少 requestId",
+    "group": "protocol",
+    "action": "http",
+    "path": "/api/send",
+    "method": "POST",
+    "body": {
+      "agentKey": "{{agentKey}}",
+      "message": "test"
+    },
+    "status": 400
+  },
+  {
+    "id": "P24",
+    "title": "send 拒绝未知字段",
+    "group": "protocol",
+    "action": "http",
+    "path": "/api/send",
+    "method": "POST",
+    "body": {
+      "requestId": "invalid-send",
+      "message": "test",
+      "unknown": true
+    },
+    "status": 400
+  },
+  {
+    "id": "P25",
+    "title": "attach 拒绝缺少 runId",
+    "group": "protocol",
+    "action": "http",
+    "path": "/api/attach",
+    "status": 400
+  },
+  {
+    "id": "P26",
+    "title": "query 拒绝已移除 requiredSkillKeys",
+    "group": "protocol",
+    "action": "http",
+    "path": "/api/query",
+    "method": "POST",
+    "body": {
+      "requiredSkillKeys": []
+    },
+    "status": 400,
+    "error": "removed"
+  },
+  {
+    "id": "P27",
+    "title": "query 拒绝将 readonly 当作权限档位",
+    "group": "protocol",
+    "action": "http",
+    "path": "/api/query",
+    "method": "POST",
+    "body": {
+      "agentKey": "{{agentKey}}",
+      "message": "test",
+      "accessLevel": "readonly"
+    },
+    "status": 400,
+    "error": "accessLevel"
+  },
+  {
+    "id": "C01",
+    "title": "SSE 单轮最终回答与完成事件",
+    "group": "chat",
+    "action": "single"
+  },
+  {
+    "id": "C02",
+    "title": "同 Chat 多轮记住随机口令",
+    "group": "chat",
+    "action": "memory"
+  },
+  {
+    "id": "C03",
+    "title": "独立 Chat 不泄漏另一 Chat 口令",
+    "group": "chat",
+    "action": "isolation"
+  },
+  {
+    "id": "C04",
+    "title": "stream=false 返回实际最终回答",
+    "group": "chat",
+    "action": "nonstream"
+  },
+  {
+    "id": "C05",
+    "title": "中文与 emoji 跨流编码完整",
+    "group": "chat",
+    "action": "unicode"
+  },
+  {
+    "id": "C06",
+    "title": "按指令返回可解析 JSON",
+    "group": "chat",
+    "action": "json-answer"
+  },
+  {
+    "id": "C07",
+    "title": "selection 引用内容进入对话",
+    "group": "chat",
+    "action": "selection"
+  },
+  {
+    "id": "C08",
+    "title": "role=system 仍记录为用户来源",
+    "group": "chat",
+    "action": "role"
+  },
+  {
+    "id": "C09",
+    "title": "editingMode=false 被解析和持久化",
+    "group": "chat",
+    "action": "editing"
+  },
+  {
+    "id": "C10",
+    "title": "实时 SSE seq 和时间戳有效",
+    "group": "chat",
+    "action": "sequence"
+  },
+  {
+    "id": "C11",
+    "title": "最终回答与 Chat 历史回放一致",
+    "group": "chat",
+    "action": "replay"
+  },
+  {
+    "id": "C12",
+    "title": "JSONL 保留原始输入而不补默认值",
+    "group": "chat",
+    "action": "raw-query"
+  },
+  {
+    "id": "C13",
+    "title": "BTW 能读主上下文且不污染主历史",
+    "group": "chat",
+    "action": "btw"
+  },
+  {
+    "id": "C14",
+    "title": "Mail send 收据后等待最终回答",
+    "group": "chat",
+    "action": "send"
+  },
+  {
+    "id": "C15",
+    "title": "相同 send requestId 不重复开 Run",
+    "group": "chat",
+    "action": "send-idempotent"
+  },
+  {
+    "id": "C16",
+    "title": "同 requestId 不同正文返回冲突",
+    "group": "chat",
+    "action": "send-conflict"
+  },
+  {
+    "id": "C17",
+    "title": "新建 Chat 能按 Agent 过滤发现",
+    "group": "chat",
+    "action": "listed"
+  },
+  {
+    "id": "C18",
+    "title": "自建 Chat 重命名和标记已读可回读",
+    "group": "chat",
+    "action": "rename-read"
+  },
+  {
+    "id": "C19",
+    "title": "归档自建 Chat 后拒绝继续对话",
+    "group": "chat",
+    "action": "archive"
+  },
+  {
+    "id": "C20",
+    "title": "删除自建 Chat 后详情不可读取",
+    "group": "chat",
+    "action": "delete"
+  },
+  {
+    "id": "X01",
+    "title": "Project 只读预置文件并报告内容",
+    "group": "capability",
+    "action": "project"
+  },
+  {
+    "id": "X02",
+    "title": "BOT 新建主要 Chat 的 send 最终反馈",
+    "group": "capability",
+    "action": "bot"
+  },
+  {
+    "id": "M01",
+    "title": "四轮需求修订与结构化最终交付",
+    "group": "multiturn",
+    "action": "dialogue-revision",
+    "steps": [
+      "建立项目、预算和城市",
+      "先后两次修订要求",
+      "第四轮输出最终 JSON",
+      "断言保留项目且不复活旧值"
+    ]
+  },
+  {
+    "id": "M02",
+    "title": "主对话与旁路修改后的上下文隔离",
+    "group": "multiturn",
+    "action": "dialogue-branch",
+    "steps": [
+      "主对话创建草稿订单",
+      "BTW 分支改为取消",
+      "检查主 Run 未改变",
+      "回到主对话核对原状态"
+    ]
+  },
+  {
+    "id": "S01",
+    "title": "运行中 steer 修改需求并沿用原 Run",
+    "group": "steer",
+    "action": "steer-change",
+    "steps": [
+      "真实调用 wait 进入运行态",
+      "发送新需求 steer",
+      "等待因 steered 收口",
+      "验证最终回答使用新值且 Run 未切换"
+    ]
+  },
+  {
+    "id": "S02",
+    "title": "空白 steer 提前结束工具等待并继续",
+    "group": "steer",
+    "action": "steer-continue",
+    "steps": [
+      "进入真实工具等待",
+      "发送空白 steer",
+      "验证 continued 与 steered 工具结果",
+      "检查同 Run 最终回答"
+    ]
+  },
+  {
+    "id": "S03",
+    "title": "工具等待中 steer 注入新的 selection 引用",
+    "group": "steer",
+    "action": "steer-reference",
+    "steps": [
+      "进入工具等待",
+      "steer 携带新选区引用",
+      "模型消费新引用内容",
+      "核对正文与 steerId"
+    ]
+  },
+  {
+    "id": "L01",
+    "title": "Planning 确认后创建独立执行 Run",
+    "group": "planning",
+    "action": "plan-approve",
+    "steps": [
+      "生成计划并等待人工确认",
+      "确认前不能启动执行 Run",
+      "提交 approve",
+      "attach 新执行 Run 并核对 planRunId"
+    ]
+  },
+  {
+    "id": "L02",
+    "title": "Planning 拒绝反馈、修订、批准与执行",
+    "group": "planning",
+    "action": "plan-reject",
+    "steps": [
+      "生成第一版计划",
+      "reject 并给出新要求",
+      "同 Run 提交第二版计划",
+      "批准后只执行修订版"
+    ]
+  },
+  {
+    "id": "L03",
+    "title": "Planning 等待中 steer 使旧计划失效",
+    "group": "planning",
+    "action": "plan-steer",
+    "steps": [
+      "等待第一版计划确认",
+      "steer 修改需求",
+      "旧 approve 必须被拒绝",
+      "新计划确认后执行并核对 superseded"
+    ]
+  },
+  {
+    "id": "I01",
+    "title": "模型输出中 interrupt、空 query 续跑",
+    "group": "interrupt",
+    "action": "interrupt-output",
+    "steps": [
+      "观察到真实模型输出",
+      "中断并验证 run.cancel",
+      "详情 canContinue 必须为 true",
+      "空 query 在同 Chat 开新 Run 并恢复上下文"
+    ]
+  },
+  {
+    "id": "I02",
+    "title": "wait 工具运行中 interrupt 后续跑",
+    "group": "interrupt",
+    "action": "interrupt-wait",
+    "steps": [
+      "观察到 tool.wait",
+      "中断工具与整个 Run",
+      "等待取消终态和可续跑状态",
+      "空 query 新 Run 恢复原任务"
+    ]
+  },
+  {
+    "id": "I03",
+    "title": "提问工具暂停期间 interrupt 并拒绝旧提交",
+    "group": "interrupt",
+    "action": "interrupt-question",
+    "steps": [
+      "ask_user_question 进入暂停",
+      "interrupt 取消等待项与 Run",
+      "旧 submit 必须返回 409",
+      "新消息在同 Chat 恢复任务"
+    ]
+  },
+  {
+    "id": "I04",
+    "title": "提问工具暂停、提交回答、原 Run 继续",
+    "group": "interrupt",
+    "action": "question-resume",
+    "steps": [
+      "真实调用文本提问工具",
+      "详情确认存在 awaiting",
+      "提交测试答案",
+      "同 Run 消费答案并完成"
+    ]
+  }
+]
