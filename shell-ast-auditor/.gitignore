@@ -1,0 +1,7 @@
+node_modules/
+dist/
+bin/
+# Runtime history is local; curated evidence belongs under evidence/.
+results/runs/*/
+results/comparisons/*.json
+artifacts/

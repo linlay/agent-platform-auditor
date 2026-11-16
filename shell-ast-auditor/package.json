@@ -1,0 +1,35 @@
+{
+  "name": "shell-ast-auditor",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "server": "go run ./cmd/server",
+    "parser:build": "python3 scripts/build-parser.py",
+    "test": "node scripts/catalog.mjs --check && go test ./... && vitest run",
+    "build": "tsc --noEmit && vite build && go build -o bin/auditor ./cmd/server",
+    "test:integration": "node scripts/integration.mjs",
+    "test:browser": "node scripts/browser.mjs",
+    "test:project-mapping": "node scripts/project-mapping.mjs",
+    "test:checks": "node scripts/checks-integration.mjs",
+    "test:approval-matrix": "node scripts/approval-matrix.mjs",
+    "catalog": "node scripts/catalog.mjs",
+    "server:status": "node scripts/server-control.mjs status",
+    "server:stop": "node scripts/server-control.mjs stop",
+    "test:compact": "node scripts/compact-ui.mjs"
+  },
+  "dependencies": {
+    "fflate": "^0.8.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "vite": "^5.4.19"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.1",
+    "@types/react": "^18.3.23",
+    "@types/react-dom": "^18.3.7",
+    "typescript": "^5.8.3",
+    "vitest": "^2.1.9"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "sha256": "77d450850bd65d4fc259a1b361e019772f33c09bd2056482e20ea7440e934e50",
+  "mode": "syntax-only",
+  "sourceCommit": "e1d0b0b372de2c1d2ba413d37044982ec9545e6c",
+  "sourceDirty": true,
+  "sourceFingerprint": "4124386c6f5227ddecdedbaa63cce0d7eec114c1ba6520d59f25520fc7b7d28f",
+  "builtAt": "2026-11-16T02:33:51.389795+00:00",
+  "goVersion": "go version go1.26.1 darwin/arm64"
+}

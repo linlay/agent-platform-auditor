@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "corpusCases": 235,
+  "hosts": [
+    "darwin/arm64",
+    "linux/amd64 Docker Desktop read-only network=none (architecture emulation)"
+  ],
+  "comparedFields": "id, status, calls, diagnostics, missingCalls, syntaxMatches; timing excluded",
+  "identical": true,
+  "windowsNative": "pending",
+  "darwinAmd64Native": "pending",
+  "buildTargets": [
+    "darwin/arm64",
+    "darwin/amd64",
+    "linux/amd64",
+    "windows/amd64"
+  ],
+  "cgoEnabled": false,
+  "tests": [
+    "go test ./cmd/shell-ast ./internal/shellreview/... ./scripts/shell-ast-schema",
+    "go vet ./cmd/shell-ast ./internal/shellreview/syntax/surface/... ./scripts/shell-ast-schema ./scripts/shell-ast-corpus ./scripts/shell-ast-observe/probe",
+    "FuzzSurface 10s: 228679 executions, no crash",
+    "WASM rebuild in two different directories: SHA-256 identical"
+  ]
+}

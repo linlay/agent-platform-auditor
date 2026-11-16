@@ -1,0 +1,262 @@
+[
+  {
+    "id": "classify",
+    "command": "rm -rf build",
+    "note": "real local dry-run; host paths sanitized; syntax projection omitted",
+    "policy": {
+      "syntaxSource": "Platform current production reviewer (not the diagnostic surface grade)",
+      "stage": "preflight",
+      "engine": "platform/RuntimeToolExecutor.ReviewBashAccess",
+      "mode": "classification",
+      "context": "standalone-host; supplied Workspace/cwd/editing/tools.yml; no live Run, connector mounts, skill proofs or prior approvals",
+      "categories": [
+        "bash-write-in-write-roots",
+        "destructive"
+      ],
+      "classifications": [
+        {
+          "category": "bash-write-in-write-roots",
+          "target": "/project/build"
+        },
+        {
+          "category": "destructive",
+          "ruleKey": "bash-access:destructive:27d4fa1c9caf82dd",
+          "reason": "command discards data (recursive deletion or uncommitted changes)",
+          "target": "/project"
+        }
+      ]
+    }
+  },
+  {
+    "id": "ask-opaque",
+    "command": "node --version",
+    "note": "real local dry-run; host paths sanitized; syntax projection omitted",
+    "policy": {
+      "syntaxSource": "Platform current production reviewer (not the diagnostic surface grade)",
+      "stage": "preflight",
+      "engine": "platform/RuntimeToolExecutor.ReviewBashAccess",
+      "mode": "evaluation",
+      "context": "standalone-host; supplied Workspace/cwd/editing/tools.yml; no live Run, connector mounts, skill proofs or prior approvals",
+      "categories": [
+        "bash-opaque-command"
+      ],
+      "classifications": [
+        {
+          "category": "bash-opaque-command",
+          "ruleKey": "bash-access:opaque:847cf46e63a5919b",
+          "reason": "bash command \"node\" may access files internally; approval covers this invocation, content version and cwd \"/project\"",
+          "action": "hitl"
+        }
+      ],
+      "accessLevel": "ask_for_approval",
+      "decision": {
+        "value": "requires_approval",
+        "disposition": "hitl",
+        "requiresHITL": true,
+        "autoApproved": false,
+        "blocked": false,
+        "reason": "bash command \"node\" may access files internally; approval covers this invocation, content version and cwd \"/project\"",
+        "ruleKey": "bash-access:execution:028bf139e88187e24ab6834a91d59486e0d2cecf44eef9c7d88e137ffbf6b01a:launch:d152c9c1a30f465745c312916c7a47f9f9244fefeaefa295d60eafbe58152777",
+        "requirements": {
+          "accessLevel": "ask_for_approval",
+          "contentSHA256": "a46ed02589ca3af795237111ff854262064f8ff5c5b58d75c1509f37311eb15e",
+          "decision": "requires_approval",
+          "interpreter": {
+            "path": "/opt/homebrew/Cellar/node/25.9.0_1/bin/node",
+            "sha256": "a46ed02589ca3af795237111ff854262064f8ff5c5b58d75c1509f37311eb15e"
+          },
+          "reason": "bash command \"node\" may access files internally; approval covers this invocation, content version and cwd \"/project\"",
+          "ruleKey": "bash-access:execution:028bf139e88187e24ab6834a91d59486e0d2cecf44eef9c7d88e137ffbf6b01a:launch:d152c9c1a30f465745c312916c7a47f9f9244fefeaefa295d60eafbe58152777",
+          "scope": "/opt/homebrew/Cellar/node/25.9.0_1/bin/node",
+          "scopeKind": "invocation_version",
+          "shell": {
+            "dialect": "bash",
+            "executable": "/bin/bash",
+            "syntaxSupported": true,
+            "template": [
+              "--noprofile",
+              "--norc",
+              "-o",
+              "pipefail",
+              "-c",
+              "{{command}}"
+            ]
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "auto-opaque",
+    "command": "node --version",
+    "note": "real local dry-run; host paths sanitized; syntax projection omitted",
+    "policy": {
+      "syntaxSource": "Platform current production reviewer (not the diagnostic surface grade)",
+      "stage": "preflight",
+      "engine": "platform/RuntimeToolExecutor.ReviewBashAccess",
+      "mode": "evaluation",
+      "context": "standalone-host; supplied Workspace/cwd/editing/tools.yml; no live Run, connector mounts, skill proofs or prior approvals",
+      "categories": [
+        "bash-opaque-command"
+      ],
+      "classifications": [
+        {
+          "category": "bash-opaque-command",
+          "ruleKey": "bash-access:opaque:847cf46e63a5919b",
+          "reason": "bash command \"node\" may access files internally; approval covers this invocation, content version and cwd \"/project\"",
+          "action": "auto"
+        }
+      ],
+      "accessLevel": "auto_approve",
+      "decision": {
+        "value": "auto_approved",
+        "disposition": "auto_approve",
+        "requiresHITL": false,
+        "autoApproved": true,
+        "blocked": false,
+        "reason": "bash command \"node\" may access files internally; approval covers this invocation, content version and cwd \"/project\"",
+        "ruleKey": "bash-access:execution:2ddcee23a6acc9474f9c919276e126ba5a810671ddfa871139cd1702efd0d500:launch:d152c9c1a30f465745c312916c7a47f9f9244fefeaefa295d60eafbe58152777",
+        "requirements": {
+          "accessLevel": "auto_approve",
+          "contentSHA256": "a46ed02589ca3af795237111ff854262064f8ff5c5b58d75c1509f37311eb15e",
+          "decision": "auto_approved",
+          "interpreter": {
+            "path": "/opt/homebrew/Cellar/node/25.9.0_1/bin/node",
+            "sha256": "a46ed02589ca3af795237111ff854262064f8ff5c5b58d75c1509f37311eb15e"
+          },
+          "reason": "bash command \"node\" may access files internally; approval covers this invocation, content version and cwd \"/project\"",
+          "ruleKey": "bash-access:execution:2ddcee23a6acc9474f9c919276e126ba5a810671ddfa871139cd1702efd0d500:launch:d152c9c1a30f465745c312916c7a47f9f9244fefeaefa295d60eafbe58152777",
+          "scope": "/opt/homebrew/Cellar/node/25.9.0_1/bin/node",
+          "scopeKind": "invocation_version",
+          "shell": {
+            "dialect": "bash",
+            "executable": "/bin/bash",
+            "syntaxSupported": true,
+            "template": [
+              "--noprofile",
+              "--norc",
+              "-o",
+              "pipefail",
+              "-c",
+              "{{command}}"
+            ]
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "auto-destructive",
+    "command": "rm -rf build",
+    "note": "real local dry-run; host paths sanitized; syntax projection omitted",
+    "policy": {
+      "syntaxSource": "Platform current production reviewer (not the diagnostic surface grade)",
+      "stage": "preflight",
+      "engine": "platform/RuntimeToolExecutor.ReviewBashAccess",
+      "mode": "evaluation",
+      "context": "standalone-host; supplied Workspace/cwd/editing/tools.yml; no live Run, connector mounts, skill proofs or prior approvals",
+      "categories": [
+        "bash-write-in-write-roots",
+        "destructive"
+      ],
+      "classifications": [
+        {
+          "category": "bash-write-in-write-roots",
+          "target": "/project/build",
+          "action": "allow"
+        },
+        {
+          "category": "destructive",
+          "ruleKey": "bash-access:destructive:27d4fa1c9caf82dd",
+          "reason": "command discards data (recursive deletion or uncommitted changes)",
+          "target": "/project",
+          "action": "hitl"
+        }
+      ],
+      "accessLevel": "auto_approve",
+      "decision": {
+        "value": "requires_approval",
+        "disposition": "hitl",
+        "requiresHITL": true,
+        "autoApproved": false,
+        "blocked": false,
+        "reason": "command discards data (recursive deletion or uncommitted changes)",
+        "ruleKey": "bash-access:destructive:27d4fa1c9caf82dd:launch:d152c9c1a30f465745c312916c7a47f9f9244fefeaefa295d60eafbe58152777",
+        "requirements": {
+          "accessLevel": "auto_approve",
+          "decision": "requires_approval",
+          "reason": "command discards data (recursive deletion or uncommitted changes)",
+          "ruleKey": "bash-access:destructive:27d4fa1c9caf82dd:launch:d152c9c1a30f465745c312916c7a47f9f9244fefeaefa295d60eafbe58152777",
+          "shell": {
+            "dialect": "bash",
+            "executable": "/bin/bash",
+            "syntaxSupported": true,
+            "template": [
+              "--noprofile",
+              "--norc",
+              "-o",
+              "pipefail",
+              "-c",
+              "{{command}}"
+            ]
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "readonly-full",
+    "command": "echo x > output.txt",
+    "note": "real local dry-run; host paths sanitized; syntax projection omitted",
+    "policy": {
+      "syntaxSource": "Platform current production reviewer (not the diagnostic surface grade)",
+      "stage": "preflight",
+      "engine": "platform/RuntimeToolExecutor.ReviewBashAccess",
+      "mode": "evaluation",
+      "context": "standalone-host; supplied Workspace/cwd/editing/tools.yml; no live Run, connector mounts, skill proofs or prior approvals",
+      "categories": [
+        "hard-block"
+      ],
+      "classifications": [
+        {
+          "category": "hard-block",
+          "ruleKey": "bash-access:path:access-write::484cd17851529523",
+          "reason": "bash path blocked: workspace editing is disabled for this run (Workspace mutation requires editingMode=true): /project/output.txt",
+          "target": "/project/output.txt",
+          "action": "block"
+        }
+      ],
+      "accessLevel": "full_access",
+      "decision": {
+        "value": "block",
+        "disposition": "block",
+        "requiresHITL": false,
+        "autoApproved": false,
+        "blocked": true,
+        "reason": "bash path blocked: workspace editing is disabled for this run (Workspace mutation requires editingMode=true): /project/output.txt",
+        "ruleKey": "bash-access:path:access-write::484cd17851529523",
+        "requirements": {
+          "accessLevel": "full_access",
+          "decision": "block",
+          "reason": "bash path blocked: workspace editing is disabled for this run (Workspace mutation requires editingMode=true): /project/output.txt",
+          "ruleKey": "bash-access:path:access-write::484cd17851529523",
+          "scope": "/project/output.txt",
+          "scopeKind": "exact_target",
+          "shell": {
+            "dialect": "bash",
+            "executable": "/bin/bash",
+            "syntaxSupported": true,
+            "template": [
+              "--noprofile",
+              "--norc",
+              "-o",
+              "pipefail",
+              "-c",
+              "{{command}}"
+            ]
+          }
+        }
+      }
+    }
+  }
+]

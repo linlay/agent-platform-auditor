@@ -1,0 +1,43 @@
+{
+  "browser": {
+    "at": "2026-11-16T08:36:48.933Z",
+    "checks": [
+      "parse A then B retains both indicators and opens each own report",
+      "reload restores references and fetches earlier A from its original run",
+      "testset switching retains isolated manual workspaces",
+      "rerun B replaces only B and preserves A",
+      "manual mode supports multi-select and select-all without batch UI; previous rows survive",
+      "export loads each retained row from its own run",
+      "whole-set mode retains 3 testsets, ignores viewing filters for execution, shows batch ID/report and per-case details",
+      "whole batch does not overwrite accumulated manual results",
+      "explicit clear persists across reload and does not delete saved run files; manual records are excluded from batch picker"
+    ],
+    "manualRuns": [
+      "run-20261116T083644-6df6eeda8d8a",
+      "run-20261116T083645-bfca1b4b89f7",
+      "run-20261116T083645-736b44439f16",
+      "run-20261116T083646-69ce5798dc04"
+    ],
+    "batchRun": "run-20261116T083648-18a511a66a2b",
+    "pageErrors": []
+  },
+  "layout": {
+    "at": "2026-11-16T08:33:38.459Z",
+    "checks": [
+      "search and filter share sidebar row; visible count right-aligned with select-all",
+      "testset width 176, mode width 128, short labels, reload removed, clear icon/text",
+      "version in global header, actions merged into testset toolbar",
+      "directory/permissions popup above content",
+      "whole-testset batch card <=52px, batch ID/report visible, explanatory paragraph removed",
+      "no main overflow at 1280/1024/760/390/320px"
+    ]
+  },
+  "checks": [
+    "npm test",
+    "npm run build",
+    "go test -race ./...",
+    "npm run test:browser",
+    "node scripts/layout-qa.mjs"
+  ],
+  "scope": "single-case accumulation, per-case origin references, explicit clear, whole-testset batches and compact UI; no command execution"
+}

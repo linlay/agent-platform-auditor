@@ -1,0 +1,42 @@
+{
+  "browser": {
+    "at": "2026-11-16T06:45:26.303Z",
+    "checks": [
+      "single parse keeps command page, full sidebar and selected ID; auto-opens per-case expectation tab",
+      "switching cases never reuses another case check; tree highlighting and exec details preserved",
+      "registered expectation differences are red and selectable by red-only filter",
+      "six real policy cases: 3 red approval/block rows, 0 expectation failures; classification-only stays neutral",
+      "custom access level request preserved and displays approval detail in right panel",
+      "history is entered only deliberately and loads the saved snapshot",
+      "cross-run comparison remains available within history"
+    ],
+    "firstRun": "run-20261116T064521-768c9d6231dc",
+    "pipelineRun": "run-20261116T064522-8d1212c2134d",
+    "pageErrors": []
+  },
+  "compact": {
+    "at": "2026-11-16T06:48:41.815Z",
+    "reference": "/Users/linlay/Project/zenmind-transit-hub/transit-hub-website/docs/ui-compact-draft/SPEC.md",
+    "checks": [
+      "desktop: header 52px / input 32px / button 28px",
+      "Chinese policy decision/reasons/categories; hover and keyboard show English; original report preserved",
+      "1280/1024/760/390/320px: no horizontal page overflow; mobile controls >=44px and input text 16px",
+      "coarse pointer: 44px targets"
+    ],
+    "pageErrors": []
+  },
+  "checks": [
+    "npm test",
+    "npm run build",
+    "npm run test:browser",
+    "npm run test:compact"
+  ],
+  "semantics": [
+    "Single parse stays in command view and selects the right-case expectation panel",
+    "Expectation and approval judgments are independent",
+    "Known differences and failures are red; blocks are distinct from approval requests",
+    "Red-only filters and visible indicators share judgments.ts",
+    "No unrun or classification-only item is marked as approved"
+  ],
+  "scope": "UI changes only; no command execution or production source modification"
+}

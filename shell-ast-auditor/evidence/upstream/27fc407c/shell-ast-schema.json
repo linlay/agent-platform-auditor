@@ -1,0 +1,963 @@
+{
+  "$defs": {
+    "BashAssessment": {
+      "additionalProperties": false,
+      "properties": {
+        "accessLevel": {
+          "type": "string"
+        },
+        "categories": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "classifications": {
+          "items": {
+            "$ref": "#/$defs/Classification"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "context": {
+          "type": "string"
+        },
+        "decision": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BashAssessmentDecision"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "engine": {
+          "type": "string"
+        },
+        "mode": {
+          "type": "string"
+        },
+        "stage": {
+          "type": "string"
+        },
+        "syntaxSource": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "syntaxSource",
+        "stage",
+        "engine",
+        "mode",
+        "context",
+        "categories",
+        "classifications"
+      ],
+      "type": "object"
+    },
+    "BashAssessmentDecision": {
+      "additionalProperties": false,
+      "properties": {
+        "autoApproved": {
+          "type": "boolean"
+        },
+        "blocked": {
+          "type": "boolean"
+        },
+        "disposition": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "requirements": {
+          "additionalProperties": {},
+          "type": "object"
+        },
+        "requiresHITL": {
+          "type": "boolean"
+        },
+        "ruleKey": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "disposition",
+        "requiresHITL",
+        "autoApproved",
+        "blocked",
+        "requirements"
+      ],
+      "type": "object"
+    },
+    "Classification": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "ruleKey": {
+          "type": "string"
+        },
+        "syntaxLevel": {
+          "type": "integer"
+        },
+        "target": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "category"
+      ],
+      "type": "object"
+    },
+    "Diagnostic": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "nodeId": {
+          "type": "string"
+        },
+        "range": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Range"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "severity": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "severity",
+        "message"
+      ],
+      "type": "object"
+    },
+    "ExecPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "assignments": {
+          "items": {
+            "$ref": "#/$defs/Word"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "candidate": {
+          "type": "boolean"
+        },
+        "conditional": {
+          "type": "boolean"
+        },
+        "definedIn": {
+          "type": "string"
+        },
+        "grade": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "mayExecute": {
+          "type": "boolean"
+        },
+        "nativeArgv": {
+          "type": "string"
+        },
+        "nativeId": {
+          "type": "string"
+        },
+        "range": {
+          "$ref": "#/$defs/Range"
+        },
+        "redirects": {
+          "items": {
+            "$ref": "#/$defs/Redirect"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "scope": {
+          "type": "string"
+        },
+        "stableArgPrefix": {
+          "type": "integer"
+        },
+        "words": {
+          "items": {
+            "$ref": "#/$defs/Word"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "conditional",
+        "id",
+        "kind",
+        "nativeId",
+        "range",
+        "words",
+        "assignments",
+        "redirects",
+        "stableArgPrefix",
+        "grade",
+        "scope",
+        "mayExecute"
+      ],
+      "type": "object"
+    },
+    "Limits": {
+      "additionalProperties": false,
+      "properties": {
+        "depth": {
+          "type": "integer"
+        },
+        "inputBytes": {
+          "type": "integer"
+        },
+        "nodes": {
+          "type": "integer"
+        },
+        "outputBytes": {
+          "type": "integer"
+        },
+        "timeoutNs": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "inputBytes",
+        "nodes",
+        "depth",
+        "outputBytes",
+        "timeoutNs"
+      ],
+      "type": "object"
+    },
+    "Nested": {
+      "additionalProperties": false,
+      "properties": {
+        "candidate": {
+          "type": "boolean"
+        },
+        "execId": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "mapping": {
+          "items": {
+            "$ref": "#/$defs/SourceMap"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "outerRange": {
+          "$ref": "#/$defs/Range"
+        },
+        "report": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Report"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "execId",
+        "kind",
+        "candidate",
+        "outerRange",
+        "mapping",
+        "report"
+      ],
+      "type": "object"
+    },
+    "Node": {
+      "additionalProperties": false,
+      "properties": {
+        "children": {
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Node"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "error": {
+          "type": "boolean"
+        },
+        "field": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "metadata": {
+          "additionalProperties": {},
+          "type": "object"
+        },
+        "missing": {
+          "type": "boolean"
+        },
+        "named": {
+          "type": "boolean"
+        },
+        "range": {
+          "$ref": "#/$defs/Range"
+        },
+        "sourceId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "sourceId",
+        "range"
+      ],
+      "type": "object"
+    },
+    "Opaque": {
+      "additionalProperties": false,
+      "properties": {
+        "mayContainExecution": {
+          "type": "boolean"
+        },
+        "nativeId": {
+          "type": "string"
+        },
+        "range": {
+          "$ref": "#/$defs/Range"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "nativeId",
+        "range",
+        "reason",
+        "mayContainExecution"
+      ],
+      "type": "object"
+    },
+    "Options": {
+      "additionalProperties": false,
+      "properties": {
+        "dialect": {
+          "type": "string"
+        },
+        "mode": {
+          "type": "string"
+        },
+        "options": {
+          "additionalProperties": {
+            "type": "boolean"
+          },
+          "type": "object"
+        },
+        "profile": {
+          "type": "string"
+        },
+        "tier": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "dialect",
+        "options",
+        "tier",
+        "mode"
+      ],
+      "type": "object"
+    },
+    "ParserInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "backend": {
+          "type": "string"
+        },
+        "revision": {
+          "type": "string"
+        },
+        "runtime": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "backend",
+        "revision"
+      ],
+      "type": "object"
+    },
+    "Part": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string"
+        },
+        "nativeId": {
+          "type": "string"
+        },
+        "range": {
+          "$ref": "#/$defs/Range"
+        }
+      },
+      "required": [
+        "kind",
+        "nativeId",
+        "range"
+      ],
+      "type": "object"
+    },
+    "Point": {
+      "additionalProperties": false,
+      "properties": {
+        "column": {
+          "type": "integer"
+        },
+        "line": {
+          "type": "integer"
+        },
+        "offset": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "offset",
+        "line",
+        "column"
+      ],
+      "type": "object"
+    },
+    "Range": {
+      "additionalProperties": false,
+      "properties": {
+        "end": {
+          "$ref": "#/$defs/Point"
+        },
+        "start": {
+          "$ref": "#/$defs/Point"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "type": "object"
+    },
+    "Redirect": {
+      "additionalProperties": false,
+      "properties": {
+        "body": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Word"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "nativeId": {
+          "type": "string"
+        },
+        "operation": {
+          "type": "string"
+        },
+        "range": {
+          "$ref": "#/$defs/Range"
+        },
+        "stream": {
+          "type": "string"
+        },
+        "target": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Word"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "nativeId",
+        "range",
+        "stream",
+        "operation"
+      ],
+      "type": "object"
+    },
+    "Relation": {
+      "additionalProperties": false,
+      "properties": {
+        "detail": {
+          "type": "string"
+        },
+        "from": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        },
+        "via": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "from",
+        "to",
+        "via"
+      ],
+      "type": "object"
+    },
+    "Report": {
+      "additionalProperties": false,
+      "properties": {
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "consumer": {
+          "type": "string"
+        },
+        "diagnostics": {
+          "items": {
+            "$ref": "#/$defs/Diagnostic"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "execPoints": {
+          "items": {
+            "$ref": "#/$defs/ExecPoint"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "executesBeforeError": {
+          "items": {
+            "$ref": "#/$defs/Range"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "limits": {
+          "$ref": "#/$defs/Limits"
+        },
+        "nativeTree": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Node"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "nested": {
+          "items": {
+            "$ref": "#/$defs/Nested"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "opaque": {
+          "items": {
+            "$ref": "#/$defs/Opaque"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "parser": {
+          "$ref": "#/$defs/ParserInfo"
+        },
+        "policy": {
+          "$ref": "#/$defs/BashAssessment"
+        },
+        "relations": {
+          "items": {
+            "$ref": "#/$defs/Relation"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "schemaVersion": {
+          "type": "string"
+        },
+        "shell": {
+          "$ref": "#/$defs/Options"
+        },
+        "source": {
+          "$ref": "#/$defs/Source"
+        },
+        "status": {
+          "$ref": "#/$defs/Status"
+        },
+        "structure": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Structure"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "tool": {
+          "type": "string"
+        },
+        "usage": {
+          "$ref": "#/$defs/Usage"
+        }
+      },
+      "required": [
+        "usage",
+        "schemaVersion",
+        "tool",
+        "consumer",
+        "shell",
+        "assumptions",
+        "parser",
+        "source",
+        "status",
+        "execPoints",
+        "relations",
+        "opaque",
+        "diagnostics",
+        "executesBeforeError",
+        "limits"
+      ],
+      "type": "object"
+    },
+    "Source": {
+      "additionalProperties": false,
+      "properties": {
+        "bom": {
+          "type": "boolean"
+        },
+        "bytes": {
+          "type": "integer"
+        },
+        "encoding": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "origin": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "origin",
+        "encoding",
+        "bom",
+        "text",
+        "bytes",
+        "sha256"
+      ],
+      "type": "object"
+    },
+    "SourceMap": {
+      "additionalProperties": false,
+      "properties": {
+        "innerEnd": {
+          "type": "integer"
+        },
+        "innerStart": {
+          "type": "integer"
+        },
+        "outerEnd": {
+          "type": "integer"
+        },
+        "outerStart": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "innerStart",
+        "innerEnd",
+        "outerStart",
+        "outerEnd"
+      ],
+      "type": "object"
+    },
+    "Status": {
+      "additionalProperties": false,
+      "properties": {
+        "classification": {
+          "type": "string"
+        },
+        "coverage": {
+          "type": "string"
+        },
+        "executionModel": {
+          "type": "string"
+        },
+        "grade": {
+          "type": "string"
+        },
+        "profile": {
+          "type": "string"
+        },
+        "recovered": {
+          "type": "boolean"
+        },
+        "syntax": {
+          "type": "string"
+        },
+        "tier": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "syntax",
+        "recovered",
+        "profile",
+        "coverage",
+        "executionModel",
+        "tier",
+        "grade",
+        "classification"
+      ],
+      "type": "object"
+    },
+    "Structure": {
+      "additionalProperties": false,
+      "properties": {
+        "children": {
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Structure"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "execId": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "nativeId": {
+          "type": "string"
+        },
+        "range": {
+          "$ref": "#/$defs/Range"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "nativeId",
+        "range"
+      ],
+      "type": "object"
+    },
+    "Usage": {
+      "additionalProperties": false,
+      "properties": {
+        "aggregateNativeNodes": {
+          "type": "integer"
+        },
+        "authorizationDepth": {
+          "type": "integer"
+        },
+        "authorizationInputBytes": {
+          "type": "integer"
+        },
+        "authorizationNodes": {
+          "type": "integer"
+        },
+        "depth": {
+          "type": "integer"
+        },
+        "nativeNodes": {
+          "type": "integer"
+        },
+        "wasmLinearMemoryBytes": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "aggregateNativeNodes",
+        "nativeNodes",
+        "depth",
+        "wasmLinearMemoryBytes",
+        "authorizationInputBytes",
+        "authorizationNodes",
+        "authorizationDepth"
+      ],
+      "type": "object"
+    },
+    "Value": {
+      "additionalProperties": false,
+      "properties": {
+        "state": {
+          "type": "string"
+        },
+        "text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "state"
+      ],
+      "type": "object"
+    },
+    "Word": {
+      "additionalProperties": false,
+      "properties": {
+        "arity": {
+          "type": "string"
+        },
+        "expansions": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "nativeId": {
+          "type": "string"
+        },
+        "parts": {
+          "items": {
+            "$ref": "#/$defs/Part"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "range": {
+          "$ref": "#/$defs/Range"
+        },
+        "value": {
+          "$ref": "#/$defs/Value"
+        }
+      },
+      "required": [
+        "nativeId",
+        "range",
+        "parts",
+        "value",
+        "expansions",
+        "arity"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "urn:agent-platform:shell-surface:v1-draft",
+  "$ref": "#/$defs/Report",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

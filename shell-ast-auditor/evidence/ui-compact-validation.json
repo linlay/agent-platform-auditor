@@ -1,0 +1,42 @@
+{
+  "reference": "/Users/linlay/Project/zenmind-transit-hub/transit-hub-website/docs/ui-compact-draft/SPEC.md",
+  "compact": {
+    "at": "2026-11-16T04:51:43.640Z",
+    "reference": "/Users/linlay/Project/zenmind-transit-hub/transit-hub-website/docs/ui-compact-draft/SPEC.md",
+    "checks": [
+      "desktop: header 52px / input 32px / button 28px",
+      "Chinese policy decision/reasons/categories; hover and keyboard show English; original report preserved",
+      "1280/1024/760/390/320px: no horizontal page overflow; mobile controls >=44px and input text 16px",
+      "coarse pointer: 44px targets"
+    ],
+    "pageErrors": []
+  },
+  "workflow": {
+    "at": "2026-11-16T04:52:24.924Z",
+    "checks": [
+      "testset switch",
+      "batch parse",
+      "source highlight",
+      "execution points",
+      "reload run/report",
+      "known recovery",
+      "expected vs actual",
+      "run vs run",
+      "reload comparison",
+      "mobile render",
+      "classification without access level",
+      "auto_approve from UI",
+      "temporary command excluded from fixed batch"
+    ],
+    "runId": "run-20261116T045222-bbea00439f33",
+    "comparisonId": "compare-20261116T045224-1e89252d6c71",
+    "pageErrors": []
+  },
+  "checks": [
+    "npm test",
+    "npm run build",
+    "npm run test:compact",
+    "npm run test:browser"
+  ],
+  "scope": "UI only; original CLI reports and API request semantics preserved; Transit Hub files read only"
+}

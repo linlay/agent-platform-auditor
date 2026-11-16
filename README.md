@@ -6,6 +6,7 @@ ZenMind Agent Platform 验证工具集合。每个子项目直接放在仓库根
 
 | 子项目 | 用途 | 状态 |
 | --- | --- | --- |
+| [shell-ast-auditor](shell-ast-auditor/README.md) | Go + React 的 Shell 测试集、运行结果及回归对比 | 本地诊断应用 |
 | [schema-auditor](schema-auditor/README.md) | JSONL、SSE、WebSocket、Live Events 的结构校验与跨记录审计 | 已可用 |
 | [chat-validator](chat-validator/README.md) | 通过多轮对话验证 Chat、Project、BOT 等场景的反馈与行为 | 设计阶段，执行器待实现 |
 | [standalone-webapp](standalone-webapp/README.md) | 独立 Platform WebApp 示例：前后端、包内 Agent/Skill、模型配置和报告保存 | 已验证本机规则演示；支持指定外部真实模型 |

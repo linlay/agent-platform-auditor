@@ -1,0 +1,5337 @@
+{
+  "schemaVersion": 1,
+  "scope": "darwin/arm64 parse-only; native-version verification is separate",
+  "count": 235,
+  "counts": {
+    "bash/grade/exact": 28,
+    "bash/grade/opaque": 59,
+    "bash/grade/partial": 1,
+    "bash/profile/mismatch": 7,
+    "bash/profile/unchecked": 52,
+    "bash/profile/valid": 29,
+    "bash/syntax/invalid": 9,
+    "bash/syntax/valid": 79,
+    "cmd/grade/opaque": 42,
+    "cmd/profile/unchecked": 42,
+    "cmd/syntax/invalid": 3,
+    "cmd/syntax/valid": 39,
+    "powershell/grade/opaque": 66,
+    "powershell/profile/mismatch": 3,
+    "powershell/profile/unchecked": 63,
+    "powershell/syntax/invalid": 10,
+    "powershell/syntax/valid": 56,
+    "sh/grade/opaque": 27,
+    "sh/profile/unchecked": 27,
+    "sh/syntax/valid": 27,
+    "syntaxDifferences": 4,
+    "zsh/grade/opaque": 12,
+    "zsh/profile/unchecked": 12,
+    "zsh/syntax/invalid": 1,
+    "zsh/syntax/valid": 11
+  },
+  "latency": {
+    "bash": {
+      "p50Micros": 34,
+      "p99Micros": 118
+    },
+    "cmd": {
+      "p50Micros": 61589,
+      "p99Micros": 72074
+    },
+    "powershell": {
+      "p50Micros": 152737,
+      "p99Micros": 187983
+    },
+    "sh": {
+      "p50Micros": 36,
+      "p99Micros": 74
+    },
+    "zsh": {
+      "p50Micros": 27,
+      "p99Micros": 39
+    }
+  },
+  "results": [
+    {
+      "id": "bash.pipeline",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "git",
+        "head"
+      ],
+      "diagnostics": [],
+      "syntaxMatches": true,
+      "durationMicros": 386
+    },
+    {
+      "id": "bash.multi-pipe",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "find",
+        "xargs",
+        "sort",
+        "head"
+      ],
+      "diagnostics": [],
+      "syntaxMatches": true,
+      "durationMicros": 118
+    },
+    {
+      "id": "bash.multi-pipe-size",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "find",
+        "xargs",
+        "sort",
+        "tail"
+      ],
+      "diagnostics": [],
+      "syntaxMatches": true,
+      "durationMicros": 72
+    },
+    {
+      "id": "bash.and-or",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "git",
+        "git",
+        "echo"
+      ],
+      "diagnostics": [],
+      "syntaxMatches": true,
+      "durationMicros": 53
+    },
+    {
+      "id": "bash.sequence",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "cal",
+        "echo",
+        "free",
+        "sw_vers",
+        "xcrun"
+      ],
+      "diagnostics": [],
+      "syntaxMatches": true,
+      "durationMicros": 49
+    },
+    {
+      "id": "bash.git-stash",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "git"
+      ],
+      "diagnostics": [],
+      "syntaxMatches": true,
+      "durationMicros": 43
+    },
+    {
+      "id": "bash.git-remote",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "git",
+        "git",
+        "git"
+      ],
+      "diagnostics": [],
+      "syntaxMatches": true,
+      "durationMicros": 53
+    },
+    {
+      "id": "bash.git-merge",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "git"
+      ],
+      "diagnostics": [],
+      "syntaxMatches": true,
+      "durationMicros": 28
+    },
+    {
+      "id": "bash.git-push",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "git"
+      ],
+      "diagnostics": [],
+      "syntaxMatches": true,
+      "durationMicros": 23
+    },
+    {
+      "id": "bash.git-push-repeat",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "git"
+      ],
+      "diagnostics": [],
+      "syntaxMatches": true,
+      "durationMicros": 41
+    },
+    {
+      "id": "bash.unzip",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "unzip"
+      ],
+      "diagnostics": [],
+      "syntaxMatches": true,
+      "durationMicros": 26
+    },
+    {
+      "id": "bash.sips",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "sips"
+      ],
+      "diagnostics": [],
+      "syntaxMatches": true,
+      "durationMicros": 37
+    },
+    {
+      "id": "bash.trash",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "trash"
+      ],
+      "diagnostics": [],
+      "syntaxMatches": true,
+      "durationMicros": 22
+    },
+    {
+      "id": "bash.npm",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "npm"
+      ],
+      "diagnostics": [],
+      "syntaxMatches": true,
+      "durationMicros": 37
+    },
+    {
+      "id": "bash.npx",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "npx"
+      ],
+      "diagnostics": [],
+      "syntaxMatches": true,
+      "durationMicros": 34
+    },
+    {
+      "id": "bash.go-test",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "go"
+      ],
+      "diagnostics": [],
+      "syntaxMatches": true,
+      "durationMicros": 35
+    },
+    {
+      "id": "bash.go-test-json",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "go"
+      ],
+      "diagnostics": [],
+      "syntaxMatches": true,
+      "durationMicros": 44
+    },
+    {
+      "id": "bash.empty",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "printf"
+      ],
+      "diagnostics": [],
+      "syntaxMatches": true,
+      "durationMicros": 24
+    },
+    {
+      "id": "bash.concat",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "printf"
+      ],
+      "diagnostics": [],
+      "syntaxMatches": true,
+      "durationMicros": 34
+    },
+    {
+      "id": "bash.escaped",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [],
+      "syntaxMatches": true,
+      "durationMicros": 31
+    },
+    {
+      "id": "bash.env",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "tool"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 41
+    },
+    {
+      "id": "bash.variable",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 45
+    },
+    {
+      "id": "bash.exit-status",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "partial",
+        "classification": "not-run"
+      },
+      "calls": [
+        "false",
+        "rm"
+      ],
+      "diagnostics": [],
+      "syntaxMatches": true,
+      "durationMicros": 41
+    },
+    {
+      "id": "bash.dynamic-command",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "git"
+      ],
+      "diagnostics": [
+        "dynamic_command_name",
+        "profile_unchecked",
+        "shadowable_name",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 50
+    },
+    {
+      "id": "bash.substitution",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo",
+        "git"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 36
+    },
+    {
+      "id": "bash.substitution-default",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo",
+        "fallback"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 42
+    },
+    {
+      "id": "bash.process-substitution",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "diff",
+        "sort",
+        "sort"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 44
+    },
+    {
+      "id": "bash.redirect-substitution",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "cat",
+        "target"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 32
+    },
+    {
+      "id": "bash.assignment-substitution",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "probe",
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 42
+    },
+    {
+      "id": "bash.heredoc",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "cat",
+        "probe"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 41
+    },
+    {
+      "id": "bash.heredoc-quoted",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "python3"
+      ],
+      "diagnostics": [
+        "embedded_program",
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 38
+    },
+    {
+      "id": "bash.herestring",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "cat"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 28
+    },
+    {
+      "id": "bash.redirect-order-a",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "tool"
+      ],
+      "diagnostics": [],
+      "syntaxMatches": true,
+      "durationMicros": 30
+    },
+    {
+      "id": "bash.redirect-order-b",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "tool"
+      ],
+      "diagnostics": [],
+      "syntaxMatches": true,
+      "durationMicros": 28
+    },
+    {
+      "id": "bash.close-fd",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "tool"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 29
+    },
+    {
+      "id": "bash.append",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "tool"
+      ],
+      "diagnostics": [],
+      "syntaxMatches": true,
+      "durationMicros": 33
+    },
+    {
+      "id": "bash.background",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "tool",
+        "wait",
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 39
+    },
+    {
+      "id": "bash.subshell",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "cd",
+        "git",
+        "cat"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 48
+    },
+    {
+      "id": "bash.block",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo",
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 42
+    },
+    {
+      "id": "bash.if",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "probe",
+        "first",
+        "probe",
+        "second",
+        "third"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 64
+    },
+    {
+      "id": "bash.for",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "probe"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 50
+    },
+    {
+      "id": "bash.while",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "probe",
+        "step"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 34
+    },
+    {
+      "id": "bash.until",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "ready",
+        "wait_step"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 37
+    },
+    {
+      "id": "bash.case",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "first",
+        "last"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 47
+    },
+    {
+      "id": "bash.function",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "probe",
+        "f"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 48
+    },
+    {
+      "id": "bash.shadow-function",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "testit",
+        "probe",
+        "git"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 55
+    },
+    {
+      "id": "bash.array",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "probe",
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "reparse_site",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 60
+    },
+    {
+      "id": "bash.associative",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "declare",
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "reparse_site",
+        "shadowable_name",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 61
+    },
+    {
+      "id": "bash.arith",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "reparse_site",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 51
+    },
+    {
+      "id": "bash.arith-injection",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "reparse_site",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 35
+    },
+    {
+      "id": "bash.test-arith",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [],
+      "diagnostics": [
+        "profile_unchecked",
+        "reparse_site",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 32
+    },
+    {
+      "id": "bash.indirection",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "reparse_site",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 29
+    },
+    {
+      "id": "bash.let",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [],
+      "diagnostics": [
+        "profile_unchecked",
+        "reparse_site",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 31
+    },
+    {
+      "id": "bash.glob",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "printf"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 33
+    },
+    {
+      "id": "bash.brace",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 24
+    },
+    {
+      "id": "bash.tilde",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 26
+    },
+    {
+      "id": "bash.ansi",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "printf"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 19
+    },
+    {
+      "id": "bash.eval",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "eval"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "reparse_site",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 60
+    },
+    {
+      "id": "bash.eval-dynamic",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "eval",
+        "git"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "reparse_site",
+        "shadowable_name",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 34
+    },
+    {
+      "id": "bash.source",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "source",
+        "git"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "reparse_site",
+        "shadowable_name",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 32
+    },
+    {
+      "id": "bash.trap",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "trap"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "reparse_site",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 48
+    },
+    {
+      "id": "bash.alias",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "alias",
+        "e"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "reparse_site",
+        "shadowable_name",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 38
+    },
+    {
+      "id": "bash.shopt",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "mismatch",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "shopt",
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_mismatch",
+        "reparse_site",
+        "shadowable_name",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 39
+    },
+    {
+      "id": "bash.nested-shell",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "bash"
+      ],
+      "diagnostics": [
+        "nested_shell_candidate"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 96
+    },
+    {
+      "id": "bash.nested-env",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "bash"
+      ],
+      "diagnostics": [
+        "nested_shell_candidate",
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 48
+    },
+    {
+      "id": "bash.nested-dynamic",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "sh"
+      ],
+      "diagnostics": [
+        "nested_shell_candidate",
+        "profile_unchecked",
+        "structural_dynamic",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 28
+    },
+    {
+      "id": "bash.python",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "python3"
+      ],
+      "diagnostics": [
+        "embedded_program"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 27
+    },
+    {
+      "id": "bash.node",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "node"
+      ],
+      "diagnostics": [
+        "embedded_program"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 26
+    },
+    {
+      "id": "bash.pipe-stderr",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "tool",
+        "cat"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 27
+    },
+    {
+      "id": "bash.coproc",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "tool"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 32
+    },
+    {
+      "id": "bash.named-fd",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "exec"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 30
+    },
+    {
+      "id": "bash.comment",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo",
+        "probe"
+      ],
+      "diagnostics": [],
+      "syntaxMatches": true,
+      "durationMicros": 36
+    },
+    {
+      "id": "bash.unicode",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [],
+      "syntaxMatches": true,
+      "durationMicros": 27
+    },
+    {
+      "id": "bash.crlf",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo",
+        "echo"
+      ],
+      "diagnostics": [
+        "known_parser_divergence",
+        "profile_unchecked",
+        "text_hazard",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 30
+    },
+    {
+      "id": "bash.bare-cr",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "known_parser_divergence",
+        "profile_unchecked",
+        "text_hazard",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 28
+    },
+    {
+      "id": "bash.zero-width",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "text_hazard",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 24
+    },
+    {
+      "id": "bash.bidi",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "text_hazard",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 23
+    },
+    {
+      "id": "bash.invalid-quote",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [],
+      "diagnostics": [
+        "profile_unchecked",
+        "syntax_error",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 23
+    },
+    {
+      "id": "bash.invalid-paren",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [],
+      "diagnostics": [
+        "profile_unchecked",
+        "syntax_error",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 18
+    },
+    {
+      "id": "bash.invalid-pipe",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [],
+      "diagnostics": [
+        "profile_unchecked",
+        "syntax_error",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 17
+    },
+    {
+      "id": "bash.invalid-unexpected",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "syntax_error",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 24
+    },
+    {
+      "id": "bash.invalid-bad-and",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [],
+      "diagnostics": [
+        "profile_unchecked",
+        "syntax_error",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 13
+    },
+    {
+      "id": "sh.pipeline",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "git",
+        "head"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 45
+    },
+    {
+      "id": "sh.multi-pipe",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "find",
+        "xargs",
+        "sort",
+        "head"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 67
+    },
+    {
+      "id": "sh.and-or",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "git",
+        "git",
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 45
+    },
+    {
+      "id": "sh.sequence",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "cal",
+        "echo",
+        "free",
+        "sw_vers",
+        "xcrun"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 51
+    },
+    {
+      "id": "sh.empty",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "printf"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 35
+    },
+    {
+      "id": "sh.concat",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "printf"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 32
+    },
+    {
+      "id": "sh.env",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "tool"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 33
+    },
+    {
+      "id": "sh.variable",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 39
+    },
+    {
+      "id": "sh.substitution",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo",
+        "git"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 36
+    },
+    {
+      "id": "sh.heredoc",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "cat",
+        "probe"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 36
+    },
+    {
+      "id": "sh.heredoc-quoted",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "python3"
+      ],
+      "diagnostics": [
+        "embedded_program",
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 29
+    },
+    {
+      "id": "sh.redirect-order-a",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "tool"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 33
+    },
+    {
+      "id": "sh.redirect-order-b",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "tool"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 29
+    },
+    {
+      "id": "sh.background",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "tool",
+        "wait",
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 36
+    },
+    {
+      "id": "sh.subshell",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "cd",
+        "git",
+        "cat"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 74
+    },
+    {
+      "id": "sh.block",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo",
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 38
+    },
+    {
+      "id": "sh.if",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "probe",
+        "first",
+        "probe",
+        "second",
+        "third"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 57
+    },
+    {
+      "id": "sh.for",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "probe"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 41
+    },
+    {
+      "id": "sh.while",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "probe",
+        "step"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 30
+    },
+    {
+      "id": "sh.until",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "ready",
+        "wait_step"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 31
+    },
+    {
+      "id": "sh.case",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "first",
+        "last"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 587
+    },
+    {
+      "id": "sh.function",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "probe",
+        "f"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 64
+    },
+    {
+      "id": "sh.eval",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "eval"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "reparse_site",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 56
+    },
+    {
+      "id": "sh.source",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "source",
+        "git"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "reparse_site",
+        "shadowable_name",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 35
+    },
+    {
+      "id": "sh.alias",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "alias",
+        "e"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "reparse_site",
+        "shadowable_name",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 22
+    },
+    {
+      "id": "sh.unicode",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 28
+    },
+    {
+      "id": "sh.crlf",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo",
+        "echo"
+      ],
+      "diagnostics": [
+        "known_parser_divergence",
+        "profile_unchecked",
+        "text_hazard",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 33
+    },
+    {
+      "id": "zsh.array",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "print"
+      ],
+      "diagnostics": [
+        "experimental_dialect",
+        "profile_unchecked",
+        "reparse_site",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 36
+    },
+    {
+      "id": "zsh.param-flags",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "print"
+      ],
+      "diagnostics": [
+        "experimental_dialect",
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 26
+    },
+    {
+      "id": "zsh.glob-qualifier",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "print"
+      ],
+      "diagnostics": [
+        "experimental_dialect",
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 25
+    },
+    {
+      "id": "zsh.extended-glob",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "print"
+      ],
+      "diagnostics": [
+        "experimental_dialect",
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 26
+    },
+    {
+      "id": "zsh.anonymous",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "print"
+      ],
+      "diagnostics": [
+        "experimental_dialect",
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 26
+    },
+    {
+      "id": "zsh.repeat",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "print"
+      ],
+      "diagnostics": [
+        "experimental_dialect",
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 28
+    },
+    {
+      "id": "zsh.autoload",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "autoload",
+        "compinit"
+      ],
+      "diagnostics": [
+        "experimental_dialect",
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 27
+    },
+    {
+      "id": "zsh.setopt",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "setopt",
+        "print"
+      ],
+      "diagnostics": [
+        "experimental_dialect",
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 31
+    },
+    {
+      "id": "zsh.process-substitution",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "diff",
+        "sort",
+        "sort"
+      ],
+      "diagnostics": [
+        "experimental_dialect",
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 39
+    },
+    {
+      "id": "zsh.nested",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "zsh"
+      ],
+      "diagnostics": [
+        "experimental_dialect",
+        "nested_shell_candidate",
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 52
+    },
+    {
+      "id": "zsh.unicode",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "print"
+      ],
+      "diagnostics": [
+        "experimental_dialect",
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 23
+    },
+    {
+      "id": "zsh.invalid",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [],
+      "diagnostics": [
+        "experimental_dialect",
+        "profile_unchecked",
+        "syntax_error",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 21
+    },
+    {
+      "id": "powershell.pipeline",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Get-ChildItem",
+        "Where-Object",
+        "Select-Object"
+      ],
+      "diagnostics": [
+        "code_execution_site",
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 187983
+    },
+    {
+      "id": "powershell.nested-scriptblock",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Get-ChildItem",
+        "ForEach-Object",
+        "Remove-Item"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 153612
+    },
+    {
+      "id": "powershell.quoted-pipe",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Write-Output"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 152877
+    },
+    {
+      "id": "powershell.and-or",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "a",
+        "b",
+        "c"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 151458
+    },
+    {
+      "id": "powershell.sequence",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Get-Date",
+        "Get-Location",
+        "Write-Output"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 146239
+    },
+    {
+      "id": "powershell.redirection-a",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "git"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 151465
+    },
+    {
+      "id": "powershell.redirection-b",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "git"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 156654
+    },
+    {
+      "id": "powershell.all-streams",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Get-Process"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 152043
+    },
+    {
+      "id": "powershell.append",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Get-Process"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 154339
+    },
+    {
+      "id": "powershell.merge-warning",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Write-Warning"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 153765
+    },
+    {
+      "id": "powershell.dynamic",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [],
+      "diagnostics": [
+        "dynamic_command_name",
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 152009
+    },
+    {
+      "id": "powershell.literal-invoke",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "C:\\Program Files\\Tool\\tool.exe"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 148969
+    },
+    {
+      "id": "powershell.dotsource",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        ".\\env.ps1",
+        "git"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 155796
+    },
+    {
+      "id": "powershell.subexpression",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Write-Output",
+        "Get-Date"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 156066
+    },
+    {
+      "id": "powershell.array-subexpression",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Get-ChildItem",
+        "Get-Date",
+        "git"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 151338
+    },
+    {
+      "id": "powershell.splat",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Get-ChildItem"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 150244
+    },
+    {
+      "id": "powershell.array",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "git"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 150237
+    },
+    {
+      "id": "powershell.hashtable",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 155004
+    },
+    {
+      "id": "powershell.here-string",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Write-Output"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 152189
+    },
+    {
+      "id": "powershell.here-interpolated",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Write-Output",
+        "Get-Date"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 150677
+    },
+    {
+      "id": "powershell.function",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Write-Output",
+        "Test-Probe"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 156391
+    },
+    {
+      "id": "powershell.filter",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Write-Output"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 153805
+    },
+    {
+      "id": "powershell.if",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Get-Date",
+        "Get-Location",
+        "Write-Output"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 147896
+    },
+    {
+      "id": "powershell.for",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Write-Output"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 152059
+    },
+    {
+      "id": "powershell.foreach",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Get-Content"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 152157
+    },
+    {
+      "id": "powershell.while",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Get-Date"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 151369
+    },
+    {
+      "id": "powershell.do-until",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Get-Date"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 153792
+    },
+    {
+      "id": "powershell.switch",
+      "status": {
+        "syntax": "invalid",
+        "recovered": true,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Get-Date",
+        "Get-Location"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "recovered_node",
+        "syntax_error",
+        "unverified_construct"
+      ],
+      "syntaxMatches": false,
+      "durationMicros": 155233
+    },
+    {
+      "id": "powershell.try",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Get-Content",
+        "Write-Error",
+        "Write-Output"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 150029
+    },
+    {
+      "id": "powershell.class",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [],
+      "diagnostics": [
+        "code_execution_site",
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 148892
+    },
+    {
+      "id": "powershell.enum",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 154028
+    },
+    {
+      "id": "powershell.param",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Write-Output"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 153860
+    },
+    {
+      "id": "powershell.using",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Get-Date"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 154687
+    },
+    {
+      "id": "powershell.requires",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Get-Date"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 149734
+    },
+    {
+      "id": "powershell.member",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [],
+      "diagnostics": [
+        "code_execution_site",
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 159305
+    },
+    {
+      "id": "powershell.method",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [],
+      "diagnostics": [
+        "code_execution_site",
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 150204
+    },
+    {
+      "id": "powershell.static",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [],
+      "diagnostics": [
+        "code_execution_site",
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 154688
+    },
+    {
+      "id": "powershell.cast",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [],
+      "diagnostics": [
+        "code_execution_site",
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 152653
+    },
+    {
+      "id": "powershell.scriptblock-create",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [],
+      "diagnostics": [
+        "code_execution_site",
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 152685
+    },
+    {
+      "id": "powershell.iex",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "iex",
+        "git"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "reparse_site",
+        "shadowable_name",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 154445
+    },
+    {
+      "id": "powershell.iex-literal",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Invoke-Expression"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "reparse_site",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 151363
+    },
+    {
+      "id": "powershell.add-type",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Add-Type"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "reparse_site",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 150182
+    },
+    {
+      "id": "powershell.stop-parsing",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "tool.exe"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 151310
+    },
+    {
+      "id": "powershell.ternary",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 154447
+    },
+    {
+      "id": "powershell.null-coalesce",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 152662
+    },
+    {
+      "id": "powershell.null-assign",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 155498
+    },
+    {
+      "id": "powershell.null-conditional",
+      "status": {
+        "syntax": "invalid",
+        "recovered": true,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [],
+      "diagnostics": [
+        "code_execution_site",
+        "profile_unchecked",
+        "recovered_node",
+        "syntax_error",
+        "unverified_construct"
+      ],
+      "syntaxMatches": false,
+      "durationMicros": 153473
+    },
+    {
+      "id": "powershell.native-array",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "git"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 148290
+    },
+    {
+      "id": "powershell.nested",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "powershell"
+      ],
+      "diagnostics": [
+        "nested_shell_candidate",
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 308099
+    },
+    {
+      "id": "powershell.encoded",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "pwsh"
+      ],
+      "diagnostics": [
+        "nested_shell_candidate",
+        "profile_unchecked",
+        "structural_dynamic",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 158914
+    },
+    {
+      "id": "powershell.file",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "powershell"
+      ],
+      "diagnostics": [
+        "nested_shell_candidate",
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 152599
+    },
+    {
+      "id": "powershell.background",
+      "status": {
+        "syntax": "invalid",
+        "recovered": true,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Get-Process"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "recovered_node",
+        "syntax_error",
+        "unverified_construct"
+      ],
+      "syntaxMatches": false,
+      "durationMicros": 153450
+    },
+    {
+      "id": "powershell.unicode",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Write-Output"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 151612
+    },
+    {
+      "id": "powershell.crlf",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Get-Date",
+        "Write-Output"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 154054
+    },
+    {
+      "id": "powershell.smart-dash",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Write-Output"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "text_hazard",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 155215
+    },
+    {
+      "id": "powershell.smart-quote",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Write-Output"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "text_hazard",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 151982
+    },
+    {
+      "id": "powershell.escaped",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Write-Output"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 154230
+    },
+    {
+      "id": "powershell.empty",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "tool"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 152737
+    },
+    {
+      "id": "powershell.comment",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Get-Date",
+        "Get-Location"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 150234
+    },
+    {
+      "id": "powershell.invalid-quote",
+      "status": {
+        "syntax": "invalid",
+        "recovered": true,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Write-Output"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "recovered_node",
+        "syntax_error",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 160544
+    },
+    {
+      "id": "powershell.invalid-block",
+      "status": {
+        "syntax": "invalid",
+        "recovered": true,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Get-Date"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "recovered_node",
+        "syntax_error",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 152805
+    },
+    {
+      "id": "powershell.invalid-pipe",
+      "status": {
+        "syntax": "invalid",
+        "recovered": true,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "Get-Date"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "recovered_node",
+        "syntax_error",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 151902
+    },
+    {
+      "id": "powershell.invalid-here",
+      "status": {
+        "syntax": "invalid",
+        "recovered": true,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [],
+      "diagnostics": [
+        "profile_unchecked",
+        "recovered_node",
+        "syntax_error",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 157406
+    },
+    {
+      "id": "powershell.ps51-and-or",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "mismatch",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "a",
+        "b",
+        "c"
+      ],
+      "diagnostics": [
+        "profile_mismatch",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 154621
+    },
+    {
+      "id": "powershell.ps51-ternary",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "mismatch",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [],
+      "diagnostics": [
+        "profile_mismatch",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 146698
+    },
+    {
+      "id": "powershell.ps51-null-coalesce",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "mismatch",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [],
+      "diagnostics": [
+        "profile_mismatch",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 149869
+    },
+    {
+      "id": "cmd.simple",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "git"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 58145
+    },
+    {
+      "id": "cmd.pipeline",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "dir",
+        "sort",
+        "findstr"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 60072
+    },
+    {
+      "id": "cmd.and-or",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "git",
+        "echo",
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 61685
+    },
+    {
+      "id": "cmd.sequence",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo",
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 59694
+    },
+    {
+      "id": "cmd.quoted-pipe",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 59885
+    },
+    {
+      "id": "cmd.escape",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 59393
+    },
+    {
+      "id": "cmd.caret-newline",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 62009
+    },
+    {
+      "id": "cmd.redirection-a",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "tool"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 59803
+    },
+    {
+      "id": "cmd.redirection-b",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "tool"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 62465
+    },
+    {
+      "id": "cmd.append",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "tool"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 59870
+    },
+    {
+      "id": "cmd.group",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo",
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 60728
+    },
+    {
+      "id": "cmd.if-exist",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "type",
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 65195
+    },
+    {
+      "id": "cmd.if-errorlevel",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 65045
+    },
+    {
+      "id": "cmd.if-compare",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 70883
+    },
+    {
+      "id": "cmd.for-files",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "type"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "structural_dynamic",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 65569
+    },
+    {
+      "id": "cmd.for-range",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "structural_dynamic",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 72074
+    },
+    {
+      "id": "cmd.for-f",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "structural_dynamic",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 65306
+    },
+    {
+      "id": "cmd.for-f-command",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "structural_dynamic",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 65117
+    },
+    {
+      "id": "cmd.for-usebackq",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "structural_dynamic",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 72232
+    },
+    {
+      "id": "cmd.for-recursive",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "structural_dynamic",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 66515
+    },
+    {
+      "id": "cmd.call-file",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "script.cmd"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 62420
+    },
+    {
+      "id": "cmd.call-label",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "arg",
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "structural_dynamic",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 60239
+    },
+    {
+      "id": "cmd.call-expansion",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "structural_dynamic",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 62129
+    },
+    {
+      "id": "cmd.goto",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo",
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 59602
+    },
+    {
+      "id": "cmd.set",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "set",
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "reparse_site",
+        "shadowable_name",
+        "structural_dynamic",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 62226
+    },
+    {
+      "id": "cmd.set-arithmetic",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "set",
+        "/A"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "reparse_site",
+        "shadowable_name",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 61230
+    },
+    {
+      "id": "cmd.set-prompt",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "set"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "reparse_site",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 60120
+    },
+    {
+      "id": "cmd.setlocal",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "set",
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "reparse_site",
+        "shadowable_name",
+        "structural_dynamic",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 63576
+    },
+    {
+      "id": "cmd.delayed",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "structural_dynamic",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 62048
+    },
+    {
+      "id": "cmd.percent",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "structural_dynamic",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 63006
+    },
+    {
+      "id": "cmd.parameter-mod",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "structural_dynamic",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 62015
+    },
+    {
+      "id": "cmd.variable-slice",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "structural_dynamic",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 60372
+    },
+    {
+      "id": "cmd.echo-off",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 61437
+    },
+    {
+      "id": "cmd.label",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 60163
+    },
+    {
+      "id": "cmd.exit",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "1"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 61220
+    },
+    {
+      "id": "cmd.nested",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "cmd"
+      ],
+      "diagnostics": [
+        "nested_shell_candidate",
+        "profile_unchecked",
+        "structural_dynamic",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 59067
+    },
+    {
+      "id": "cmd.parenthesis-echo",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 61117
+    },
+    {
+      "id": "cmd.pipe-group",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo",
+        "echo",
+        "findstr"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 61589
+    },
+    {
+      "id": "cmd.unicode",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 61543
+    },
+    {
+      "id": "cmd.invalid-paren",
+      "status": {
+        "syntax": "invalid",
+        "recovered": true,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "recovered_node",
+        "syntax_error",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 60205
+    },
+    {
+      "id": "cmd.invalid-pipe",
+      "status": {
+        "syntax": "invalid",
+        "recovered": true,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "recovered_node",
+        "syntax_error",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 61056
+    },
+    {
+      "id": "cmd.no-final-newline",
+      "status": {
+        "syntax": "invalid",
+        "recovered": true,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "git"
+      ],
+      "diagnostics": [
+        "profile_unchecked",
+        "recovered_node",
+        "syntax_error",
+        "unverified_construct"
+      ],
+      "syntaxMatches": false,
+      "durationMicros": 62611
+    },
+    {
+      "id": "bash.profile32-coproc",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "mismatch",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "cat"
+      ],
+      "diagnostics": [
+        "profile_mismatch",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 25
+    },
+    {
+      "id": "bash.profile32-named-fd",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "mismatch",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "exec"
+      ],
+      "diagnostics": [
+        "profile_mismatch",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 16
+    },
+    {
+      "id": "bash.profile32-pipe-stderr",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "mismatch",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo",
+        "cat"
+      ],
+      "diagnostics": [
+        "profile_mismatch",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 17
+    },
+    {
+      "id": "bash.profile32-append-both",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "mismatch",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_mismatch",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 11
+    },
+    {
+      "id": "bash.profile32-lowercase",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "mismatch",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_mismatch",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 14
+    },
+    {
+      "id": "bash.profile32-case-fallthrough",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "mismatch",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "calls": [
+        "echo"
+      ],
+      "diagnostics": [
+        "profile_mismatch",
+        "unverified_construct"
+      ],
+      "syntaxMatches": true,
+      "durationMicros": 15
+    }
+  ]
+}

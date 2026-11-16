@@ -1,0 +1,4319 @@
+{
+  "schemaVersion": 1,
+  "safety": "parse-only; never execute corpus commands",
+  "userBaseline": "reconstructed shape examples, NOT the unavailable original 22 inputs",
+  "cases": [
+    {
+      "id": "bash.pipeline",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "git -C /project status | head -20 > result.txt",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "git",
+          "head"
+        ]
+      },
+      "tags": [
+        "pipeline",
+        "redirection"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.multi-pipe",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "find /project -type f -print0 | xargs -0 du -k | sort -nr | head -20",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "find",
+          "xargs",
+          "sort",
+          "head"
+        ]
+      },
+      "tags": [
+        "pipeline",
+        "runtime-data"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.multi-pipe-size",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "find /project -name '*.go' -print0 | xargs -0 wc -l | sort -n | tail -5",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "find",
+          "xargs",
+          "sort",
+          "tail"
+        ]
+      },
+      "tags": [
+        "pipeline",
+        "quotes"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.and-or",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "git status && git diff || echo failed",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "git",
+          "echo"
+        ]
+      },
+      "tags": [
+        "condition"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.sequence",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "cal; echo ok; free -h; sw_vers; xcrun --show-sdk-path",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "cal",
+          "echo",
+          "free",
+          "sw_vers",
+          "xcrun"
+        ]
+      },
+      "tags": [
+        "sequence"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.git-stash",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "git -C /project stash push -m \"work in progress\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "git"
+        ]
+      },
+      "tags": [
+        "arguments",
+        "quotes"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.git-remote",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "git remote -v; git branch --show-current; git log -5 --oneline",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "git"
+        ]
+      },
+      "tags": [
+        "sequence",
+        "arguments"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.git-merge",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "git merge --no-ff fix/steer-caller-identity",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "git"
+        ]
+      },
+      "tags": [
+        "branch-name"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.git-push",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "git push origin HEAD:refs/heads/fix/mailbox",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "git"
+        ]
+      },
+      "tags": [
+        "remote-text"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.git-push-repeat",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "git push --force-with-lease origin feature/topic",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "git"
+        ]
+      },
+      "tags": [
+        "remote-text"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.unzip",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "unzip -l '/downloads/project archive.zip'",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "unzip"
+        ]
+      },
+      "tags": [
+        "quotes",
+        "arguments"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.sips",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "sips -Z 1024 \"/project/image a.png\" --out /project/out.png",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "sips"
+        ]
+      },
+      "tags": [
+        "arguments"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.trash",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "trash -- '/project/old file.txt'",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "trash"
+        ]
+      },
+      "tags": [
+        "arguments"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.npm",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "npm --prefix /project run build -- --mode test",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "npm"
+        ]
+      },
+      "tags": [
+        "arguments"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.npx",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "npx jest --runInBand --testPathPattern 'src/(a|b).test.ts'",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "npx"
+        ]
+      },
+      "tags": [
+        "quoted-pipe"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.go-test",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "go test -overlay /tmp/overlay.json ./internal/... -run 'Compact|Summary' -count=1",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "go"
+        ]
+      },
+      "tags": [
+        "quoted-pipe"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.go-test-json",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "go test -json ./... -run 'Test(Compact|Summary)' > /tmp/results.json",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "go"
+        ]
+      },
+      "tags": [
+        "quoted-pipe",
+        "redirection"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.empty",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "printf '%s\\n' '' \"\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "printf"
+        ]
+      },
+      "tags": [
+        "empty-argument",
+        "quotes"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.concat",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "printf '%s' a' b'\"c\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "printf"
+        ]
+      },
+      "tags": [
+        "concatenation"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.escaped",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "echo a\\ b \\| \\* \\$HOME",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "echo"
+        ]
+      },
+      "tags": [
+        "escape"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.env",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "LANG=C X='hello world' tool --flag",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "tool"
+        ]
+      },
+      "tags": [
+        "assignment"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.variable",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "echo $X \"$Y\" \"$@\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "echo"
+        ]
+      },
+      "tags": [
+        "variable",
+        "arity"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.exit-status",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "false; rm -rf \"/data/run$?\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "false",
+          "rm"
+        ]
+      },
+      "tags": [
+        "exit-status",
+        "symbolic"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.dynamic-command",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "$TOOL -rf x; git status",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "git"
+        ]
+      },
+      "tags": [
+        "dynamic-name",
+        "shadow"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.substitution",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "echo \"$(git status --short)\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "echo",
+          "git"
+        ]
+      },
+      "tags": [
+        "substitution"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.substitution-default",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "echo \"${X:-$(fallback arg)}\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "echo",
+          "fallback"
+        ]
+      },
+      "tags": [
+        "substitution",
+        "parameter"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.process-substitution",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "diff <(sort a) <(sort b)",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "diff",
+          "sort"
+        ]
+      },
+      "tags": [
+        "process-substitution"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.redirect-substitution",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "cat > \"$(target)\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "cat",
+          "target"
+        ]
+      },
+      "tags": [
+        "redirect",
+        "substitution"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.assignment-substitution",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "X=$(probe a); echo \"$X\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "probe",
+          "echo"
+        ]
+      },
+      "tags": [
+        "assignment",
+        "substitution"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.heredoc",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "cat <<EOF\nhello $(probe a)\nEOF\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "cat",
+          "probe"
+        ]
+      },
+      "tags": [
+        "heredoc",
+        "substitution"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.heredoc-quoted",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "python3 - <<'EOF'\nprint('$(not_a_call)')\nEOF\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "python3"
+        ]
+      },
+      "tags": [
+        "heredoc",
+        "literal",
+        "embedded"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.herestring",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "cat <<< \"$X\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "cat"
+        ]
+      },
+      "tags": [
+        "herestring"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.redirect-order-a",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "tool 2>&1 >out",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "tool"
+        ]
+      },
+      "tags": [
+        "redirect-order"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.redirect-order-b",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "tool >out 2>&1",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "tool"
+        ]
+      },
+      "tags": [
+        "redirect-order"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.close-fd",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "tool 3<&- 4>&-",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "tool"
+        ]
+      },
+      "tags": [
+        "fd-close"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.append",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "tool >>out 2>>err",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "tool"
+        ]
+      },
+      "tags": [
+        "redirect"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.background",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "tool a & wait; echo done",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "tool",
+          "wait",
+          "echo"
+        ]
+      },
+      "tags": [
+        "background"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.subshell",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "(cd /project; git status) | cat",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "cd",
+          "git",
+          "cat"
+        ]
+      },
+      "tags": [
+        "scope",
+        "pipeline"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.block",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "{ echo a; echo b; } >out",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "echo"
+        ]
+      },
+      "tags": [
+        "scope",
+        "redirect"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.if",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "if probe a; then first; elif probe b; then second; else third; fi",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "probe",
+          "first",
+          "second",
+          "third"
+        ]
+      },
+      "tags": [
+        "branch"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.for",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "for f in a b \"c d\"; do probe \"$f\"; done",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "probe"
+        ]
+      },
+      "tags": [
+        "loop"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.while",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "while probe; do step; done",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "probe",
+          "step"
+        ]
+      },
+      "tags": [
+        "loop"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.until",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "until ready; do wait_step; done",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "ready",
+          "wait_step"
+        ]
+      },
+      "tags": [
+        "loop"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.case",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "case \"$X\" in a|b) first;; *) last;; esac",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "first",
+          "last"
+        ]
+      },
+      "tags": [
+        "switch"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.function",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "f() { probe \"$1\"; }; f arg",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "probe",
+          "f"
+        ]
+      },
+      "tags": [
+        "function"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.shadow-function",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "if testit; then git() { probe; }; fi; git status",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "testit",
+          "probe",
+          "git"
+        ]
+      },
+      "tags": [
+        "function",
+        "shadow"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.array",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "a=(one \"two three\" $(probe)); echo \"${a[@]}\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "probe",
+          "echo"
+        ]
+      },
+      "tags": [
+        "array",
+        "arity",
+        "substitution"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.associative",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "declare -A a; a[key]=value; echo \"${a[key]}\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "declare",
+          "echo"
+        ]
+      },
+      "tags": [
+        "array",
+        "reparse"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.arith",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "x=1; echo $((x+1)); ((x++))",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "echo"
+        ]
+      },
+      "tags": [
+        "arithmetic",
+        "reparse"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.arith-injection",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "x='a[$(id)]'; echo $(( x ))",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "echo"
+        ]
+      },
+      "tags": [
+        "arithmetic",
+        "reparse"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.test-arith",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "[[ $x -eq 0 ]]",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "test",
+        "reparse"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.indirection",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "echo \"${!x}\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "echo"
+        ]
+      },
+      "tags": [
+        "indirection",
+        "reparse"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.let",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "let \"x[$i]++\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "arithmetic",
+        "reparse"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.glob",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "printf \"%s\\n\" **/*.go ?.[ch]",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "printf"
+        ]
+      },
+      "tags": [
+        "glob",
+        "arity"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.brace",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "echo a{b,c}{1..3}",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "echo"
+        ]
+      },
+      "tags": [
+        "brace",
+        "arity"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.tilde",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "echo ~/Documents ~user/x",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "echo"
+        ]
+      },
+      "tags": [
+        "tilde"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.ansi",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "printf $'a\\n\\x41'",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "printf"
+        ]
+      },
+      "tags": [
+        "ansi-c"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.eval",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "eval 'probe arg'",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "eval"
+        ]
+      },
+      "tags": [
+        "reparse",
+        "literal"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.eval-dynamic",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "eval \"$CODE\"; git status",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "eval",
+          "git"
+        ]
+      },
+      "tags": [
+        "reparse",
+        "dynamic",
+        "shadow"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.source",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "source ./env.sh; git status",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "source",
+          "git"
+        ]
+      },
+      "tags": [
+        "external-script",
+        "shadow"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.trap",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "trap 'probe cleanup' EXIT",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "trap"
+        ]
+      },
+      "tags": [
+        "reparse"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.alias",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "alias e=echo\ne hi",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "alias",
+          "e"
+        ]
+      },
+      "tags": [
+        "alias"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.shopt",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "shopt -s extglob; echo @(a|b)",
+      "expect": {
+        "syntax": "invalid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "shopt",
+          "echo"
+        ]
+      },
+      "tags": [
+        "option-change"
+      ],
+      "expectedEvidence": "macOS /bin/bash 3.2 -n confirms same-line extglob activation is too late; no input executed"
+    },
+    {
+      "id": "bash.nested-shell",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "bash -c 'rm -rf \"$1\"' _ x",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "bash"
+        ]
+      },
+      "tags": [
+        "nested-shell"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.nested-env",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "BASH_ENV=./x.sh bash -c true",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "bash"
+        ]
+      },
+      "tags": [
+        "nested-shell",
+        "external-script"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.nested-dynamic",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "sh -c \"$SCRIPT\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "sh"
+        ]
+      },
+      "tags": [
+        "nested-shell",
+        "symbolic"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.python",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "python3 -c 'import os; print(os.getcwd())'",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "python3"
+        ]
+      },
+      "tags": [
+        "embedded"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.node",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "node -e 'console.log(\"hi|bye\")'",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "node"
+        ]
+      },
+      "tags": [
+        "embedded",
+        "quoted-pipe"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.pipe-stderr",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "tool |& cat",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "tool",
+          "cat"
+        ]
+      },
+      "tags": [
+        "pipeline",
+        "version"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.coproc",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "coproc worker { tool; }",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "tool"
+        ]
+      },
+      "tags": [
+        "scope",
+        "version"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.named-fd",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "exec {fd}>out",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "exec"
+        ]
+      },
+      "tags": [
+        "redirect",
+        "version"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.comment",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "echo hi # probe fake\nprobe actual",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "echo",
+          "probe"
+        ]
+      },
+      "tags": [
+        "comment"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.unicode",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "echo 中文 😀 \"空 格\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "echo"
+        ]
+      },
+      "tags": [
+        "unicode",
+        "position"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.crlf",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "echo 中文\r\necho 😀\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "echo"
+        ]
+      },
+      "tags": [
+        "crlf",
+        "divergence"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.bare-cr",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "echo a\rb",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "echo"
+        ]
+      },
+      "tags": [
+        "cr",
+        "divergence"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.zero-width",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "echo a​b",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "echo"
+        ]
+      },
+      "tags": [
+        "text-hazard"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.bidi",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "echo a‮b",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "echo"
+        ]
+      },
+      "tags": [
+        "text-hazard"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.invalid-quote",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "echo 'unterminated",
+      "expect": {
+        "syntax": "invalid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "invalid",
+        "recovery"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.invalid-paren",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "(echo a",
+      "expect": {
+        "syntax": "invalid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "invalid",
+        "recovery"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.invalid-pipe",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "echo a |",
+      "expect": {
+        "syntax": "invalid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "invalid",
+        "recovery"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.invalid-unexpected",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "echo LINE1\nfi",
+      "expect": {
+        "syntax": "invalid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "invalid",
+        "recovery"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.invalid-bad-and",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "mode": "script",
+      "command": "&& echo a",
+      "expect": {
+        "syntax": "invalid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "invalid",
+        "recovery"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "sh.pipeline",
+      "os": "macos/linux",
+      "dialect": "sh",
+      "profile": "sh-dash",
+      "mode": "script",
+      "command": "git -C /project status | head -20 > result.txt",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "git",
+          "head"
+        ]
+      },
+      "tags": [
+        "pipeline",
+        "redirection"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "sh.multi-pipe",
+      "os": "macos/linux",
+      "dialect": "sh",
+      "profile": "sh-dash",
+      "mode": "script",
+      "command": "find /project -type f -print0 | xargs -0 du -k | sort -nr | head -20",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "find",
+          "xargs",
+          "sort",
+          "head"
+        ]
+      },
+      "tags": [
+        "pipeline",
+        "runtime-data"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "sh.and-or",
+      "os": "macos/linux",
+      "dialect": "sh",
+      "profile": "sh-dash",
+      "mode": "script",
+      "command": "git status && git diff || echo failed",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "git",
+          "echo"
+        ]
+      },
+      "tags": [
+        "condition"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "sh.sequence",
+      "os": "macos/linux",
+      "dialect": "sh",
+      "profile": "sh-dash",
+      "mode": "script",
+      "command": "cal; echo ok; free -h; sw_vers; xcrun --show-sdk-path",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "cal",
+          "echo",
+          "free",
+          "sw_vers",
+          "xcrun"
+        ]
+      },
+      "tags": [
+        "sequence"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "sh.empty",
+      "os": "macos/linux",
+      "dialect": "sh",
+      "profile": "sh-dash",
+      "mode": "script",
+      "command": "printf '%s\\n' '' \"\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "printf"
+        ]
+      },
+      "tags": [
+        "empty-argument",
+        "quotes"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "sh.concat",
+      "os": "macos/linux",
+      "dialect": "sh",
+      "profile": "sh-dash",
+      "mode": "script",
+      "command": "printf '%s' a' b'\"c\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "printf"
+        ]
+      },
+      "tags": [
+        "concatenation"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "sh.env",
+      "os": "macos/linux",
+      "dialect": "sh",
+      "profile": "sh-dash",
+      "mode": "script",
+      "command": "LANG=C X='hello world' tool --flag",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "tool"
+        ]
+      },
+      "tags": [
+        "assignment"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "sh.variable",
+      "os": "macos/linux",
+      "dialect": "sh",
+      "profile": "sh-dash",
+      "mode": "script",
+      "command": "echo $X \"$Y\" \"$@\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "echo"
+        ]
+      },
+      "tags": [
+        "variable",
+        "arity"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "sh.substitution",
+      "os": "macos/linux",
+      "dialect": "sh",
+      "profile": "sh-dash",
+      "mode": "script",
+      "command": "echo \"$(git status --short)\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "echo",
+          "git"
+        ]
+      },
+      "tags": [
+        "substitution"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "sh.heredoc",
+      "os": "macos/linux",
+      "dialect": "sh",
+      "profile": "sh-dash",
+      "mode": "script",
+      "command": "cat <<EOF\nhello $(probe a)\nEOF\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "cat",
+          "probe"
+        ]
+      },
+      "tags": [
+        "heredoc",
+        "substitution"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "sh.heredoc-quoted",
+      "os": "macos/linux",
+      "dialect": "sh",
+      "profile": "sh-dash",
+      "mode": "script",
+      "command": "python3 - <<'EOF'\nprint('$(not_a_call)')\nEOF\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "python3"
+        ]
+      },
+      "tags": [
+        "heredoc",
+        "literal",
+        "embedded"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "sh.redirect-order-a",
+      "os": "macos/linux",
+      "dialect": "sh",
+      "profile": "sh-dash",
+      "mode": "script",
+      "command": "tool 2>&1 >out",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "tool"
+        ]
+      },
+      "tags": [
+        "redirect-order"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "sh.redirect-order-b",
+      "os": "macos/linux",
+      "dialect": "sh",
+      "profile": "sh-dash",
+      "mode": "script",
+      "command": "tool >out 2>&1",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "tool"
+        ]
+      },
+      "tags": [
+        "redirect-order"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "sh.background",
+      "os": "macos/linux",
+      "dialect": "sh",
+      "profile": "sh-dash",
+      "mode": "script",
+      "command": "tool a & wait; echo done",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "tool",
+          "wait",
+          "echo"
+        ]
+      },
+      "tags": [
+        "background"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "sh.subshell",
+      "os": "macos/linux",
+      "dialect": "sh",
+      "profile": "sh-dash",
+      "mode": "script",
+      "command": "(cd /project; git status) | cat",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "cd",
+          "git",
+          "cat"
+        ]
+      },
+      "tags": [
+        "scope",
+        "pipeline"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "sh.block",
+      "os": "macos/linux",
+      "dialect": "sh",
+      "profile": "sh-dash",
+      "mode": "script",
+      "command": "{ echo a; echo b; } >out",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "echo"
+        ]
+      },
+      "tags": [
+        "scope",
+        "redirect"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "sh.if",
+      "os": "macos/linux",
+      "dialect": "sh",
+      "profile": "sh-dash",
+      "mode": "script",
+      "command": "if probe a; then first; elif probe b; then second; else third; fi",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "probe",
+          "first",
+          "second",
+          "third"
+        ]
+      },
+      "tags": [
+        "branch"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "sh.for",
+      "os": "macos/linux",
+      "dialect": "sh",
+      "profile": "sh-dash",
+      "mode": "script",
+      "command": "for f in a b \"c d\"; do probe \"$f\"; done",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "probe"
+        ]
+      },
+      "tags": [
+        "loop"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "sh.while",
+      "os": "macos/linux",
+      "dialect": "sh",
+      "profile": "sh-dash",
+      "mode": "script",
+      "command": "while probe; do step; done",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "probe",
+          "step"
+        ]
+      },
+      "tags": [
+        "loop"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "sh.until",
+      "os": "macos/linux",
+      "dialect": "sh",
+      "profile": "sh-dash",
+      "mode": "script",
+      "command": "until ready; do wait_step; done",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "ready",
+          "wait_step"
+        ]
+      },
+      "tags": [
+        "loop"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "sh.case",
+      "os": "macos/linux",
+      "dialect": "sh",
+      "profile": "sh-dash",
+      "mode": "script",
+      "command": "case \"$X\" in a|b) first;; *) last;; esac",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "first",
+          "last"
+        ]
+      },
+      "tags": [
+        "switch"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "sh.function",
+      "os": "macos/linux",
+      "dialect": "sh",
+      "profile": "sh-dash",
+      "mode": "script",
+      "command": "f() { probe \"$1\"; }; f arg",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "probe",
+          "f"
+        ]
+      },
+      "tags": [
+        "function"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "sh.eval",
+      "os": "macos/linux",
+      "dialect": "sh",
+      "profile": "sh-dash",
+      "mode": "script",
+      "command": "eval 'probe arg'",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "eval"
+        ]
+      },
+      "tags": [
+        "reparse",
+        "literal"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "sh.source",
+      "os": "macos/linux",
+      "dialect": "sh",
+      "profile": "sh-dash",
+      "mode": "script",
+      "command": "source ./env.sh; git status",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "source",
+          "git"
+        ]
+      },
+      "tags": [
+        "external-script",
+        "shadow"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "sh.alias",
+      "os": "macos/linux",
+      "dialect": "sh",
+      "profile": "sh-dash",
+      "mode": "script",
+      "command": "alias e=echo\ne hi",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "alias",
+          "e"
+        ]
+      },
+      "tags": [
+        "alias"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "sh.unicode",
+      "os": "macos/linux",
+      "dialect": "sh",
+      "profile": "sh-dash",
+      "mode": "script",
+      "command": "echo 中文 😀 \"空 格\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "echo"
+        ]
+      },
+      "tags": [
+        "unicode",
+        "position"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "sh.crlf",
+      "os": "macos/linux",
+      "dialect": "sh",
+      "profile": "sh-dash",
+      "mode": "script",
+      "command": "echo 中文\r\necho 😀\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque",
+        "containsCalls": [
+          "echo"
+        ]
+      },
+      "tags": [
+        "crlf",
+        "divergence"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "zsh.array",
+      "os": "macos/linux",
+      "dialect": "zsh",
+      "profile": "zsh-5.9",
+      "mode": "script",
+      "command": "a=(one two); print -l $a",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "zsh",
+        "experimental"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "zsh.param-flags",
+      "os": "macos/linux",
+      "dialect": "zsh",
+      "profile": "zsh-5.9",
+      "mode": "script",
+      "command": "print ${(j:,:)arr}",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "zsh",
+        "experimental"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "zsh.glob-qualifier",
+      "os": "macos/linux",
+      "dialect": "zsh",
+      "profile": "zsh-5.9",
+      "mode": "script",
+      "command": "print -l *(.)",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "zsh",
+        "experimental"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "zsh.extended-glob",
+      "os": "macos/linux",
+      "dialect": "zsh",
+      "profile": "zsh-5.9",
+      "mode": "script",
+      "command": "print **/*(.om[1,5])",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "zsh",
+        "experimental"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "zsh.anonymous",
+      "os": "macos/linux",
+      "dialect": "zsh",
+      "profile": "zsh-5.9",
+      "mode": "script",
+      "command": "() { print hi; }",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "zsh",
+        "experimental"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "zsh.repeat",
+      "os": "macos/linux",
+      "dialect": "zsh",
+      "profile": "zsh-5.9",
+      "mode": "script",
+      "command": "repeat 3; do print hi; done",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "zsh",
+        "experimental"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "zsh.autoload",
+      "os": "macos/linux",
+      "dialect": "zsh",
+      "profile": "zsh-5.9",
+      "mode": "script",
+      "command": "autoload -Uz compinit; compinit",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "zsh",
+        "experimental"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "zsh.setopt",
+      "os": "macos/linux",
+      "dialect": "zsh",
+      "profile": "zsh-5.9",
+      "mode": "script",
+      "command": "setopt EXTENDED_GLOB; print ^foo",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "zsh",
+        "experimental"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "zsh.process-substitution",
+      "os": "macos/linux",
+      "dialect": "zsh",
+      "profile": "zsh-5.9",
+      "mode": "script",
+      "command": "diff <(sort a) =(sort b)",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "zsh",
+        "experimental"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "zsh.nested",
+      "os": "macos/linux",
+      "dialect": "zsh",
+      "profile": "zsh-5.9",
+      "mode": "script",
+      "command": "zsh -c 'print $1' _ x",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "zsh",
+        "experimental"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "zsh.unicode",
+      "os": "macos/linux",
+      "dialect": "zsh",
+      "profile": "zsh-5.9",
+      "mode": "script",
+      "command": "print 中文 😀",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "zsh",
+        "experimental"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "zsh.invalid",
+      "os": "macos/linux",
+      "dialect": "zsh",
+      "profile": "zsh-5.9",
+      "mode": "script",
+      "command": "print \"bad",
+      "expect": {
+        "syntax": "invalid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "zsh",
+        "experimental"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.pipeline",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "Get-ChildItem | Where-Object { $_.Length -gt 10 } | Select-Object Name",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "pipeline"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.nested-scriptblock",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "Get-ChildItem | ForEach-Object { Remove-Item $_ }",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "nested-scriptblock"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.quoted-pipe",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "Write-Output 'a|b' \"x|y\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "quoted-pipe"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.and-or",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "pwsh-7.6",
+      "mode": "script",
+      "command": "a && b || c",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "and-or"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.sequence",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "Get-Date; Get-Location\nWrite-Output ok",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "sequence"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.redirection-a",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "git status 2>&1 > out.txt",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "redirection-a"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.redirection-b",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "git status > out.txt 2>&1",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "redirection-b"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.all-streams",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "Get-Process *> out.txt",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "all-streams"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.append",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "Get-Process >> out.txt",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "append"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.merge-warning",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "Write-Warning x 3>&1",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "merge-warning"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.dynamic",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "& $command @args",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "dynamic"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.literal-invoke",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "& 'C:\\Program Files\\Tool\\tool.exe' -x",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "literal-invoke"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.dotsource",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": ". '.\\env.ps1'; git status",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "dotsource"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.subexpression",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "Write-Output \"result $(Get-Date)\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "subexpression"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.array-subexpression",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "$a = @(Get-ChildItem; Get-Date); git $a",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "array-subexpression"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.splat",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "$o = @{Path=\".\";Recurse=$true}; Get-ChildItem @o",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "splat"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.array",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "$a = \"x\",\"y\"; git $a",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "array"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.hashtable",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "@{name=\"x\"; data=@(1,2)}",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "hashtable"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.here-string",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "Write-Output @'\nhello | $(not_a_call)\n'@\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "here-string"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.here-interpolated",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "Write-Output @\"\nhello $(Get-Date)\n\"@\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "here-interpolated"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.function",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "function Test-Probe($x) { Write-Output $x }; Test-Probe hi",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "function"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.filter",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "filter Test-Probe { $_ | Write-Output }",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "filter"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.if",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "if ($x) { Get-Date } elseif ($y) { Get-Location } else { Write-Output no }",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "if"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.for",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "for ($i=0; $i -lt 3; $i++) { Write-Output $i }",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "for"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.foreach",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "foreach ($f in $files) { Get-Content $f }",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "foreach"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.while",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "while ($x) { Get-Date; break }",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "while"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.do-until",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "do { Get-Date } until ($ready)",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "do-until"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.switch",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "switch -Regex ($x) { \"a|b\" { Get-Date } default { Get-Location } }",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "switch"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately",
+      "knownDivergence": "grammar recovery; pending official Windows AST comparison"
+    },
+    {
+      "id": "powershell.try",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "try { Get-Content x } catch { Write-Error $_ } finally { Write-Output done }",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "try"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.class",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "class Probe { [string] $Name; [string] GetName() { return $this.Name } }",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "class"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.enum",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "enum Color { Red; Green; Blue }",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "enum"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.param",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "param([string]$Name=\"a\") Write-Output $Name",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "param"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.using",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "using module ./module.psm1\nGet-Date",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "using"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.requires",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "#Requires -Version 5.1\nGet-Date",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "requires"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.member",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "$obj.Name",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "member"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.method",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "$obj.Run()",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "method"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.static",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "[IO.File]::ReadAllText($p)",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "static"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.cast",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "[int]$value",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "cast"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.scriptblock-create",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "[scriptblock]::Create($s).Invoke()",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "scriptblock-create"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.iex",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "iex $s; git status",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "iex"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.iex-literal",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "Invoke-Expression 'Get-Date'",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "iex-literal"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.add-type",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "Add-Type -TypeDefinition $code",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "add-type"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.stop-parsing",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "tool.exe --% a|b >x",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "stop-parsing"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.ternary",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "pwsh-7.6",
+      "mode": "script",
+      "command": "$x ? \"yes\" : \"no\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "ternary"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.null-coalesce",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "pwsh-7.6",
+      "mode": "script",
+      "command": "$x ?? \"default\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "null-coalesce"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.null-assign",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "pwsh-7.6",
+      "mode": "script",
+      "command": "$x ??= \"default\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "null-assign"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.null-conditional",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "pwsh-7.6",
+      "mode": "script",
+      "command": "$x?.Name",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "null-conditional"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately",
+      "knownDivergence": "grammar recovery; pending official pwsh AST comparison"
+    },
+    {
+      "id": "powershell.native-array",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "git @(\"x\",\"y\")",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "native-array"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.nested",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "powershell -Command 'Get-Date'",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "nested"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.encoded",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "pwsh -EncodedCommand RwBlAHQALQBEAGEAdABlAA==",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "encoded"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.file",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "powershell -File ./script.ps1",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "file"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.background",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "pwsh-7.6",
+      "mode": "script",
+      "command": "Get-Process &",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "background"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately",
+      "knownDivergence": "grammar recovery for background operator; pending official pwsh comparison"
+    },
+    {
+      "id": "powershell.unicode",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "Write-Output 中文 😀",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "unicode"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.crlf",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "Get-Date\r\nWrite-Output 中文\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "crlf"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.smart-dash",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "Write-Output a –b",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "smart-dash"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.smart-quote",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "Write-Output “hello”",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "smart-quote"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.escaped",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "Write-Output \"a`\"b\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "escaped"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.empty",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "tool '' \"\"",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "empty"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.comment",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "Get-Date # ignored | fake\nGet-Location",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "comment"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.invalid-quote",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "Write-Output 'bad",
+      "expect": {
+        "syntax": "invalid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "invalid-quote"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.invalid-block",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "if ($x) { Get-Date",
+      "expect": {
+        "syntax": "invalid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "invalid-block"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.invalid-pipe",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "Get-Date |",
+      "expect": {
+        "syntax": "invalid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "invalid-pipe"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.invalid-here",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "@'\nx\n",
+      "expect": {
+        "syntax": "invalid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "powershell",
+        "invalid-here"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.ps51-and-or",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "a && b || c",
+      "expect": {
+        "syntax": "invalid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "profile-mismatch"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.ps51-ternary",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "$x ? \"yes\" : \"no\"",
+      "expect": {
+        "syntax": "invalid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "profile-mismatch"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "powershell.ps51-null-coalesce",
+      "os": "windows",
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "mode": "script",
+      "command": "$x ?? \"default\"",
+      "expect": {
+        "syntax": "invalid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "profile-mismatch"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.simple",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "git status\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "simple"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.pipeline",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "dir /b | sort | findstr /i txt\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "pipeline"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.and-or",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "git status && echo ok || echo fail\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "and-or"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.sequence",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "echo a & echo b\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "sequence"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.quoted-pipe",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "echo \"a|b\"\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "quoted-pipe"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.escape",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "echo a^|b ^& c\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "escape"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.caret-newline",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "echo hello ^\r\nworld\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "caret-newline"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.redirection-a",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "tool 2>&1 >out\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "redirection-a"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.redirection-b",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "tool >out 2>&1\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "redirection-b"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.append",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "tool >>out 2>>err\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "append"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.group",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "(echo a & echo b) >out\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "group"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.if-exist",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "if exist file.txt (type file.txt) else (echo missing)\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "if-exist"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.if-errorlevel",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "if errorlevel 1 echo failed\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "if-errorlevel"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.if-compare",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "if /I \"%X%\"==\"hello\" echo yes\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "if-compare"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.for-files",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "for %%F in (*.txt) do type \"%%F\"\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "for-files"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.for-range",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "for /L %%i in (1,1,5) do echo %%i\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "for-range"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.for-f",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "for /F \"tokens=1,2 delims=,\" %%a in (data.csv) do echo %%a %%b\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "for-f"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.for-f-command",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "for /F \"delims=\" %%a in ('dir /b') do echo %%a\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "for-f-command"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.for-usebackq",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "for /F \"usebackq delims=\" %%a in (`dir /b`) do echo %%a\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "for-usebackq"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.for-recursive",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "for /R . %%F in (*.go) do echo %%~fF\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "for-recursive"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.call-file",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "call script.cmd arg\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "call-file"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.call-label",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "call :worker arg\ngoto :eof\n:worker\necho %1\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "call-label"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.call-expansion",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "call echo %%X%%\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "call-expansion"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.goto",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "goto done\necho skipped\n:done\necho done\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "goto"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.set",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "set \"X=a & del x\"\necho %X%\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "set"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.set-arithmetic",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "set /A x=1+2\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "set-arithmetic"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.set-prompt",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "set /P X=Name: \r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "set-prompt"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.setlocal",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "setlocal enabledelayedexpansion\nset X=a\necho !X!\nendlocal\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "setlocal"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.delayed",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "echo !X!\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "delayed"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.percent",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "echo %PATH% %~dp0 %1 %%i\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "percent"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.parameter-mod",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "echo %~f1 %~nx1 %~dp0\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "parameter-mod"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.variable-slice",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "echo %X:~0,3% %X:a=b%\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "variable-slice"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.echo-off",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "@echo off\necho hello\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "echo-off"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.label",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": ":: comment\n:label\necho hi\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "label"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.exit",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "exit /b 1\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "exit"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.nested",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "cmd /d /s /c \"echo hello\"\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "nested"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.parenthesis-echo",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "echo hello (world)\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "parenthesis-echo"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.pipe-group",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "(echo a & echo b) | findstr a\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "pipe-group"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.unicode",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "echo 中文 😀\r\n",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "unicode"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.invalid-paren",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "(echo a\r\n",
+      "expect": {
+        "syntax": "invalid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "invalid-paren"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.invalid-pipe",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "echo a |\r\n",
+      "expect": {
+        "syntax": "invalid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "invalid-pipe"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "cmd.no-final-newline",
+      "os": "windows",
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "mode": "batch",
+      "command": "git status",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "cmd",
+        "no-final-newline"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately",
+      "knownDivergence": "grammar requires final line terminator; no automatic source rewriting"
+    },
+    {
+      "id": "bash.profile32-coproc",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-3.2",
+      "mode": "script",
+      "command": "coproc cat",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "profile-mismatch"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.profile32-named-fd",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-3.2",
+      "mode": "script",
+      "command": "exec {fd}>/dev/null",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "profile-mismatch"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.profile32-pipe-stderr",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-3.2",
+      "mode": "script",
+      "command": "echo a |& cat",
+      "expect": {
+        "syntax": "invalid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "profile-mismatch"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.profile32-append-both",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-3.2",
+      "mode": "script",
+      "command": "echo a &>> f",
+      "expect": {
+        "syntax": "invalid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "profile-mismatch"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.profile32-lowercase",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-3.2",
+      "mode": "script",
+      "command": "echo ${x,,}",
+      "expect": {
+        "syntax": "valid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "profile-mismatch"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    },
+    {
+      "id": "bash.profile32-case-fallthrough",
+      "os": "macos/linux",
+      "dialect": "bash",
+      "profile": "bash-3.2",
+      "mode": "script",
+      "command": "case x in x) echo x ;& esac",
+      "expect": {
+        "syntax": "invalid",
+        "gradeCeiling": "opaque"
+      },
+      "tags": [
+        "profile-mismatch"
+      ],
+      "expectedEvidence": "declared fixture expectation; native differential evidence stored separately"
+    }
+  ]
+}

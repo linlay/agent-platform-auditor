@@ -1,0 +1,5715 @@
+[
+  {
+    "usage": {
+      "aggregateNativeNodes": 22,
+      "nativeNodes": 22,
+      "depth": 6,
+      "wasmLinearMemoryBytes": 0,
+      "authorizationInputBytes": 65536,
+      "authorizationNodes": 2048,
+      "authorizationDepth": 64
+    },
+    "schemaVersion": "shell-surface/v1-draft",
+    "tool": "shell-ast development",
+    "consumer": "diagnostic",
+    "shell": {
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "options": {
+        "expand_aliases": false,
+        "extglob": false,
+        "posix": false
+      },
+      "tier": "authorization-candidate",
+      "mode": "script"
+    },
+    "assumptions": [
+      "no predefined aliases or functions",
+      "startup files have no effect (including .zshenv and login files)",
+      "platform startup prefixes are outside input",
+      "no PATH or program identity resolution",
+      "PowerShell FullLanguage; native argv is unknown",
+      "CMD registry defaults are replaced by explicit recorded options"
+    ],
+    "parser": {
+      "backend": "mvdan/sh syntax snapshot",
+      "revision": "cc0731cd7a1c0a08a6cbd8a2c0df4228413c3287",
+      "runtime": "pure-go"
+    },
+    "source": {
+      "id": "s1",
+      "origin": "argument",
+      "encoding": "utf-8",
+      "bom": false,
+      "text": "git -C /project status | head -20 > result.txt",
+      "bytes": 46,
+      "sha256": "a3b8ce883408c9d7c9c387e0ef18b3ab9f93ebb2cd05ba532971da4f86214590"
+    },
+    "status": {
+      "syntax": "valid",
+      "recovered": false,
+      "profile": "valid",
+      "coverage": "complete",
+      "executionModel": "incremental",
+      "tier": "authorization-candidate",
+      "grade": "exact",
+      "classification": "not-run"
+    },
+    "nativeTree": {
+      "id": "n1",
+      "kind": "File",
+      "sourceId": "s1",
+      "range": {
+        "start": {
+          "offset": 0,
+          "line": 1,
+          "column": 1
+        },
+        "end": {
+          "offset": 46,
+          "line": 1,
+          "column": 47
+        }
+      },
+      "named": true,
+      "metadata": {
+        "Name": ""
+      },
+      "children": [
+        {
+          "id": "n2",
+          "kind": "Stmt",
+          "sourceId": "s1",
+          "field": "Stmts",
+          "range": {
+            "start": {
+              "offset": 0,
+              "line": 1,
+              "column": 1
+            },
+            "end": {
+              "offset": 46,
+              "line": 1,
+              "column": 47
+            }
+          },
+          "named": true,
+          "metadata": {
+            "Background": false,
+            "Coprocess": false,
+            "Disown": false,
+            "Negated": false,
+            "Position": {
+              "offset": 0,
+              "recovered": false,
+              "valid": true
+            },
+            "Semicolon": {
+              "offset": 0,
+              "recovered": false,
+              "valid": false
+            }
+          },
+          "children": [
+            {
+              "id": "n3",
+              "kind": "BinaryCmd",
+              "sourceId": "s1",
+              "field": "Cmd",
+              "range": {
+                "start": {
+                  "offset": 0,
+                  "line": 1,
+                  "column": 1
+                },
+                "end": {
+                  "offset": 46,
+                  "line": 1,
+                  "column": 47
+                }
+              },
+              "named": true,
+              "metadata": {
+                "Op": "|",
+                "OpPos": {
+                  "offset": 23,
+                  "recovered": false,
+                  "valid": true
+                }
+              },
+              "children": [
+                {
+                  "id": "n4",
+                  "kind": "Stmt",
+                  "sourceId": "s1",
+                  "field": "X",
+                  "range": {
+                    "start": {
+                      "offset": 0,
+                      "line": 1,
+                      "column": 1
+                    },
+                    "end": {
+                      "offset": 22,
+                      "line": 1,
+                      "column": 23
+                    }
+                  },
+                  "named": true,
+                  "metadata": {
+                    "Background": false,
+                    "Coprocess": false,
+                    "Disown": false,
+                    "Negated": false,
+                    "Position": {
+                      "offset": 0,
+                      "recovered": false,
+                      "valid": true
+                    },
+                    "Semicolon": {
+                      "offset": 0,
+                      "recovered": false,
+                      "valid": false
+                    }
+                  },
+                  "children": [
+                    {
+                      "id": "n5",
+                      "kind": "CallExpr",
+                      "sourceId": "s1",
+                      "field": "Cmd",
+                      "range": {
+                        "start": {
+                          "offset": 0,
+                          "line": 1,
+                          "column": 1
+                        },
+                        "end": {
+                          "offset": 22,
+                          "line": 1,
+                          "column": 23
+                        }
+                      },
+                      "named": true,
+                      "children": [
+                        {
+                          "id": "n6",
+                          "kind": "Word",
+                          "sourceId": "s1",
+                          "field": "Args",
+                          "range": {
+                            "start": {
+                              "offset": 0,
+                              "line": 1,
+                              "column": 1
+                            },
+                            "end": {
+                              "offset": 3,
+                              "line": 1,
+                              "column": 4
+                            }
+                          },
+                          "named": true,
+                          "children": [
+                            {
+                              "id": "n7",
+                              "kind": "Lit",
+                              "sourceId": "s1",
+                              "field": "Parts",
+                              "range": {
+                                "start": {
+                                  "offset": 0,
+                                  "line": 1,
+                                  "column": 1
+                                },
+                                "end": {
+                                  "offset": 3,
+                                  "line": 1,
+                                  "column": 4
+                                }
+                              },
+                              "named": true,
+                              "metadata": {
+                                "Value": "git",
+                                "ValueEnd": {
+                                  "offset": 3,
+                                  "recovered": false,
+                                  "valid": true
+                                },
+                                "ValuePos": {
+                                  "offset": 0,
+                                  "recovered": false,
+                                  "valid": true
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "n8",
+                          "kind": "Word",
+                          "sourceId": "s1",
+                          "field": "Args",
+                          "range": {
+                            "start": {
+                              "offset": 4,
+                              "line": 1,
+                              "column": 5
+                            },
+                            "end": {
+                              "offset": 6,
+                              "line": 1,
+                              "column": 7
+                            }
+                          },
+                          "named": true,
+                          "children": [
+                            {
+                              "id": "n9",
+                              "kind": "Lit",
+                              "sourceId": "s1",
+                              "field": "Parts",
+                              "range": {
+                                "start": {
+                                  "offset": 4,
+                                  "line": 1,
+                                  "column": 5
+                                },
+                                "end": {
+                                  "offset": 6,
+                                  "line": 1,
+                                  "column": 7
+                                }
+                              },
+                              "named": true,
+                              "metadata": {
+                                "Value": "-C",
+                                "ValueEnd": {
+                                  "offset": 6,
+                                  "recovered": false,
+                                  "valid": true
+                                },
+                                "ValuePos": {
+                                  "offset": 4,
+                                  "recovered": false,
+                                  "valid": true
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "n10",
+                          "kind": "Word",
+                          "sourceId": "s1",
+                          "field": "Args",
+                          "range": {
+                            "start": {
+                              "offset": 7,
+                              "line": 1,
+                              "column": 8
+                            },
+                            "end": {
+                              "offset": 15,
+                              "line": 1,
+                              "column": 16
+                            }
+                          },
+                          "named": true,
+                          "children": [
+                            {
+                              "id": "n11",
+                              "kind": "Lit",
+                              "sourceId": "s1",
+                              "field": "Parts",
+                              "range": {
+                                "start": {
+                                  "offset": 7,
+                                  "line": 1,
+                                  "column": 8
+                                },
+                                "end": {
+                                  "offset": 15,
+                                  "line": 1,
+                                  "column": 16
+                                }
+                              },
+                              "named": true,
+                              "metadata": {
+                                "Value": "/project",
+                                "ValueEnd": {
+                                  "offset": 15,
+                                  "recovered": false,
+                                  "valid": true
+                                },
+                                "ValuePos": {
+                                  "offset": 7,
+                                  "recovered": false,
+                                  "valid": true
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "n12",
+                          "kind": "Word",
+                          "sourceId": "s1",
+                          "field": "Args",
+                          "range": {
+                            "start": {
+                              "offset": 16,
+                              "line": 1,
+                              "column": 17
+                            },
+                            "end": {
+                              "offset": 22,
+                              "line": 1,
+                              "column": 23
+                            }
+                          },
+                          "named": true,
+                          "children": [
+                            {
+                              "id": "n13",
+                              "kind": "Lit",
+                              "sourceId": "s1",
+                              "field": "Parts",
+                              "range": {
+                                "start": {
+                                  "offset": 16,
+                                  "line": 1,
+                                  "column": 17
+                                },
+                                "end": {
+                                  "offset": 22,
+                                  "line": 1,
+                                  "column": 23
+                                }
+                              },
+                              "named": true,
+                              "metadata": {
+                                "Value": "status",
+                                "ValueEnd": {
+                                  "offset": 22,
+                                  "recovered": false,
+                                  "valid": true
+                                },
+                                "ValuePos": {
+                                  "offset": 16,
+                                  "recovered": false,
+                                  "valid": true
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "n14",
+                  "kind": "Stmt",
+                  "sourceId": "s1",
+                  "field": "Y",
+                  "range": {
+                    "start": {
+                      "offset": 25,
+                      "line": 1,
+                      "column": 26
+                    },
+                    "end": {
+                      "offset": 46,
+                      "line": 1,
+                      "column": 47
+                    }
+                  },
+                  "named": true,
+                  "metadata": {
+                    "Background": false,
+                    "Coprocess": false,
+                    "Disown": false,
+                    "Negated": false,
+                    "Position": {
+                      "offset": 25,
+                      "recovered": false,
+                      "valid": true
+                    },
+                    "Semicolon": {
+                      "offset": 0,
+                      "recovered": false,
+                      "valid": false
+                    }
+                  },
+                  "children": [
+                    {
+                      "id": "n15",
+                      "kind": "CallExpr",
+                      "sourceId": "s1",
+                      "field": "Cmd",
+                      "range": {
+                        "start": {
+                          "offset": 25,
+                          "line": 1,
+                          "column": 26
+                        },
+                        "end": {
+                          "offset": 33,
+                          "line": 1,
+                          "column": 34
+                        }
+                      },
+                      "named": true,
+                      "children": [
+                        {
+                          "id": "n16",
+                          "kind": "Word",
+                          "sourceId": "s1",
+                          "field": "Args",
+                          "range": {
+                            "start": {
+                              "offset": 25,
+                              "line": 1,
+                              "column": 26
+                            },
+                            "end": {
+                              "offset": 29,
+                              "line": 1,
+                              "column": 30
+                            }
+                          },
+                          "named": true,
+                          "children": [
+                            {
+                              "id": "n17",
+                              "kind": "Lit",
+                              "sourceId": "s1",
+                              "field": "Parts",
+                              "range": {
+                                "start": {
+                                  "offset": 25,
+                                  "line": 1,
+                                  "column": 26
+                                },
+                                "end": {
+                                  "offset": 29,
+                                  "line": 1,
+                                  "column": 30
+                                }
+                              },
+                              "named": true,
+                              "metadata": {
+                                "Value": "head",
+                                "ValueEnd": {
+                                  "offset": 29,
+                                  "recovered": false,
+                                  "valid": true
+                                },
+                                "ValuePos": {
+                                  "offset": 25,
+                                  "recovered": false,
+                                  "valid": true
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "n18",
+                          "kind": "Word",
+                          "sourceId": "s1",
+                          "field": "Args",
+                          "range": {
+                            "start": {
+                              "offset": 30,
+                              "line": 1,
+                              "column": 31
+                            },
+                            "end": {
+                              "offset": 33,
+                              "line": 1,
+                              "column": 34
+                            }
+                          },
+                          "named": true,
+                          "children": [
+                            {
+                              "id": "n19",
+                              "kind": "Lit",
+                              "sourceId": "s1",
+                              "field": "Parts",
+                              "range": {
+                                "start": {
+                                  "offset": 30,
+                                  "line": 1,
+                                  "column": 31
+                                },
+                                "end": {
+                                  "offset": 33,
+                                  "line": 1,
+                                  "column": 34
+                                }
+                              },
+                              "named": true,
+                              "metadata": {
+                                "Value": "-20",
+                                "ValueEnd": {
+                                  "offset": 33,
+                                  "recovered": false,
+                                  "valid": true
+                                },
+                                "ValuePos": {
+                                  "offset": 30,
+                                  "recovered": false,
+                                  "valid": true
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "n20",
+                      "kind": "Redirect",
+                      "sourceId": "s1",
+                      "field": "Redirs",
+                      "range": {
+                        "start": {
+                          "offset": 34,
+                          "line": 1,
+                          "column": 35
+                        },
+                        "end": {
+                          "offset": 46,
+                          "line": 1,
+                          "column": 47
+                        }
+                      },
+                      "named": true,
+                      "metadata": {
+                        "ClosePos": {
+                          "offset": 0,
+                          "recovered": false,
+                          "valid": false
+                        },
+                        "Op": ">",
+                        "OpPos": {
+                          "offset": 34,
+                          "recovered": false,
+                          "valid": true
+                        }
+                      },
+                      "children": [
+                        {
+                          "id": "n21",
+                          "kind": "Word",
+                          "sourceId": "s1",
+                          "field": "Word",
+                          "range": {
+                            "start": {
+                              "offset": 36,
+                              "line": 1,
+                              "column": 37
+                            },
+                            "end": {
+                              "offset": 46,
+                              "line": 1,
+                              "column": 47
+                            }
+                          },
+                          "named": true,
+                          "children": [
+                            {
+                              "id": "n22",
+                              "kind": "Lit",
+                              "sourceId": "s1",
+                              "field": "Parts",
+                              "range": {
+                                "start": {
+                                  "offset": 36,
+                                  "line": 1,
+                                  "column": 37
+                                },
+                                "end": {
+                                  "offset": 46,
+                                  "line": 1,
+                                  "column": 47
+                                }
+                              },
+                              "named": true,
+                              "metadata": {
+                                "Value": "result.txt",
+                                "ValueEnd": {
+                                  "offset": 46,
+                                  "recovered": false,
+                                  "valid": true
+                                },
+                                "ValuePos": {
+                                  "offset": 36,
+                                  "recovered": false,
+                                  "valid": true
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "structure": {
+      "id": "s-n1",
+      "kind": "Script",
+      "nativeId": "n1",
+      "range": {
+        "start": {
+          "offset": 0,
+          "line": 1,
+          "column": 1
+        },
+        "end": {
+          "offset": 46,
+          "line": 1,
+          "column": 47
+        }
+      },
+      "children": [
+        {
+          "id": "s-n2",
+          "kind": "Sequence",
+          "nativeId": "n2",
+          "range": {
+            "start": {
+              "offset": 0,
+              "line": 1,
+              "column": 1
+            },
+            "end": {
+              "offset": 46,
+              "line": 1,
+              "column": 47
+            }
+          },
+          "children": [
+            {
+              "id": "s-n3",
+              "kind": "Pipeline",
+              "nativeId": "n3",
+              "range": {
+                "start": {
+                  "offset": 0,
+                  "line": 1,
+                  "column": 1
+                },
+                "end": {
+                  "offset": 46,
+                  "line": 1,
+                  "column": 47
+                }
+              },
+              "children": [
+                {
+                  "id": "s-n4",
+                  "kind": "Sequence",
+                  "nativeId": "n4",
+                  "range": {
+                    "start": {
+                      "offset": 0,
+                      "line": 1,
+                      "column": 1
+                    },
+                    "end": {
+                      "offset": 22,
+                      "line": 1,
+                      "column": 23
+                    }
+                  },
+                  "children": [
+                    {
+                      "id": "s-e-n5",
+                      "kind": "Exec",
+                      "nativeId": "n5",
+                      "range": {
+                        "start": {
+                          "offset": 0,
+                          "line": 1,
+                          "column": 1
+                        },
+                        "end": {
+                          "offset": 22,
+                          "line": 1,
+                          "column": 23
+                        }
+                      },
+                      "execId": "e-n5"
+                    }
+                  ]
+                },
+                {
+                  "id": "s-n14",
+                  "kind": "Sequence",
+                  "nativeId": "n14",
+                  "range": {
+                    "start": {
+                      "offset": 25,
+                      "line": 1,
+                      "column": 26
+                    },
+                    "end": {
+                      "offset": 46,
+                      "line": 1,
+                      "column": 47
+                    }
+                  },
+                  "children": [
+                    {
+                      "id": "s-e-n15",
+                      "kind": "Exec",
+                      "nativeId": "n15",
+                      "range": {
+                        "start": {
+                          "offset": 25,
+                          "line": 1,
+                          "column": 26
+                        },
+                        "end": {
+                          "offset": 33,
+                          "line": 1,
+                          "column": 34
+                        }
+                      },
+                      "execId": "e-n15"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "execPoints": [
+      {
+        "conditional": false,
+        "id": "e-n5",
+        "kind": "call",
+        "nativeId": "n5",
+        "range": {
+          "start": {
+            "offset": 0,
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "offset": 22,
+            "line": 1,
+            "column": 23
+          }
+        },
+        "words": [
+          {
+            "nativeId": "n6",
+            "range": {
+              "start": {
+                "offset": 0,
+                "line": 1,
+                "column": 1
+              },
+              "end": {
+                "offset": 3,
+                "line": 1,
+                "column": 4
+              }
+            },
+            "parts": [
+              {
+                "kind": "literal",
+                "nativeId": "n7",
+                "range": {
+                  "start": {
+                    "offset": 0,
+                    "line": 1,
+                    "column": 1
+                  },
+                  "end": {
+                    "offset": 3,
+                    "line": 1,
+                    "column": 4
+                  }
+                }
+              }
+            ],
+            "value": {
+              "state": "literal",
+              "text": "git"
+            },
+            "expansions": [],
+            "arity": "1"
+          },
+          {
+            "nativeId": "n8",
+            "range": {
+              "start": {
+                "offset": 4,
+                "line": 1,
+                "column": 5
+              },
+              "end": {
+                "offset": 6,
+                "line": 1,
+                "column": 7
+              }
+            },
+            "parts": [
+              {
+                "kind": "literal",
+                "nativeId": "n9",
+                "range": {
+                  "start": {
+                    "offset": 4,
+                    "line": 1,
+                    "column": 5
+                  },
+                  "end": {
+                    "offset": 6,
+                    "line": 1,
+                    "column": 7
+                  }
+                }
+              }
+            ],
+            "value": {
+              "state": "literal",
+              "text": "-C"
+            },
+            "expansions": [],
+            "arity": "1"
+          },
+          {
+            "nativeId": "n10",
+            "range": {
+              "start": {
+                "offset": 7,
+                "line": 1,
+                "column": 8
+              },
+              "end": {
+                "offset": 15,
+                "line": 1,
+                "column": 16
+              }
+            },
+            "parts": [
+              {
+                "kind": "literal",
+                "nativeId": "n11",
+                "range": {
+                  "start": {
+                    "offset": 7,
+                    "line": 1,
+                    "column": 8
+                  },
+                  "end": {
+                    "offset": 15,
+                    "line": 1,
+                    "column": 16
+                  }
+                }
+              }
+            ],
+            "value": {
+              "state": "literal",
+              "text": "/project"
+            },
+            "expansions": [],
+            "arity": "1"
+          },
+          {
+            "nativeId": "n12",
+            "range": {
+              "start": {
+                "offset": 16,
+                "line": 1,
+                "column": 17
+              },
+              "end": {
+                "offset": 22,
+                "line": 1,
+                "column": 23
+              }
+            },
+            "parts": [
+              {
+                "kind": "literal",
+                "nativeId": "n13",
+                "range": {
+                  "start": {
+                    "offset": 16,
+                    "line": 1,
+                    "column": 17
+                  },
+                  "end": {
+                    "offset": 22,
+                    "line": 1,
+                    "column": 23
+                  }
+                }
+              }
+            ],
+            "value": {
+              "state": "literal",
+              "text": "status"
+            },
+            "expansions": [],
+            "arity": "1"
+          }
+        ],
+        "assignments": [],
+        "redirects": [],
+        "stableArgPrefix": 4,
+        "grade": "exact",
+        "scope": "root",
+        "mayExecute": true
+      },
+      {
+        "conditional": false,
+        "id": "e-n15",
+        "kind": "call",
+        "nativeId": "n15",
+        "range": {
+          "start": {
+            "offset": 25,
+            "line": 1,
+            "column": 26
+          },
+          "end": {
+            "offset": 33,
+            "line": 1,
+            "column": 34
+          }
+        },
+        "words": [
+          {
+            "nativeId": "n16",
+            "range": {
+              "start": {
+                "offset": 25,
+                "line": 1,
+                "column": 26
+              },
+              "end": {
+                "offset": 29,
+                "line": 1,
+                "column": 30
+              }
+            },
+            "parts": [
+              {
+                "kind": "literal",
+                "nativeId": "n17",
+                "range": {
+                  "start": {
+                    "offset": 25,
+                    "line": 1,
+                    "column": 26
+                  },
+                  "end": {
+                    "offset": 29,
+                    "line": 1,
+                    "column": 30
+                  }
+                }
+              }
+            ],
+            "value": {
+              "state": "literal",
+              "text": "head"
+            },
+            "expansions": [],
+            "arity": "1"
+          },
+          {
+            "nativeId": "n18",
+            "range": {
+              "start": {
+                "offset": 30,
+                "line": 1,
+                "column": 31
+              },
+              "end": {
+                "offset": 33,
+                "line": 1,
+                "column": 34
+              }
+            },
+            "parts": [
+              {
+                "kind": "literal",
+                "nativeId": "n19",
+                "range": {
+                  "start": {
+                    "offset": 30,
+                    "line": 1,
+                    "column": 31
+                  },
+                  "end": {
+                    "offset": 33,
+                    "line": 1,
+                    "column": 34
+                  }
+                }
+              }
+            ],
+            "value": {
+              "state": "literal",
+              "text": "-20"
+            },
+            "expansions": [],
+            "arity": "1"
+          }
+        ],
+        "assignments": [],
+        "redirects": [
+          {
+            "nativeId": "n20",
+            "range": {
+              "start": {
+                "offset": 34,
+                "line": 1,
+                "column": 35
+              },
+              "end": {
+                "offset": 46,
+                "line": 1,
+                "column": 47
+              }
+            },
+            "stream": "1",
+            "operation": ">",
+            "target": {
+              "nativeId": "n21",
+              "range": {
+                "start": {
+                  "offset": 36,
+                  "line": 1,
+                  "column": 37
+                },
+                "end": {
+                  "offset": 46,
+                  "line": 1,
+                  "column": 47
+                }
+              },
+              "parts": [
+                {
+                  "kind": "literal",
+                  "nativeId": "n22",
+                  "range": {
+                    "start": {
+                      "offset": 36,
+                      "line": 1,
+                      "column": 37
+                    },
+                    "end": {
+                      "offset": 46,
+                      "line": 1,
+                      "column": 47
+                    }
+                  }
+                }
+              ],
+              "value": {
+                "state": "literal",
+                "text": "result.txt"
+              },
+              "expansions": [],
+              "arity": "1"
+            }
+          }
+        ],
+        "stableArgPrefix": 2,
+        "grade": "exact",
+        "scope": "root",
+        "mayExecute": true
+      }
+    ],
+    "relations": [
+      {
+        "kind": "pipe",
+        "from": "s-n4",
+        "to": "s-n14",
+        "via": "s-n3",
+        "detail": "default byte stream connection; ordered explicit redirects may override it"
+      }
+    ],
+    "opaque": [],
+    "diagnostics": [],
+    "executesBeforeError": [],
+    "limits": {
+      "inputBytes": 1048576,
+      "nodes": 20000,
+      "depth": 128,
+      "outputBytes": 33554432,
+      "timeoutNs": 5000000000
+    }
+  },
+  {
+    "usage": {
+      "aggregateNativeNodes": 16,
+      "nativeNodes": 16,
+      "depth": 6,
+      "wasmLinearMemoryBytes": 0,
+      "authorizationInputBytes": 65536,
+      "authorizationNodes": 2048,
+      "authorizationDepth": 64
+    },
+    "schemaVersion": "shell-surface/v1-draft",
+    "tool": "shell-ast development",
+    "consumer": "diagnostic",
+    "shell": {
+      "dialect": "bash",
+      "profile": "bash-3.2",
+      "options": {
+        "expand_aliases": false,
+        "extglob": false,
+        "posix": false
+      },
+      "tier": "authorization-candidate",
+      "mode": "script"
+    },
+    "assumptions": [
+      "no predefined aliases or functions",
+      "startup files have no effect (including .zshenv and login files)",
+      "platform startup prefixes are outside input",
+      "no PATH or program identity resolution",
+      "PowerShell FullLanguage; native argv is unknown",
+      "CMD registry defaults are replaced by explicit recorded options"
+    ],
+    "parser": {
+      "backend": "mvdan/sh syntax snapshot",
+      "revision": "cc0731cd7a1c0a08a6cbd8a2c0df4228413c3287",
+      "runtime": "pure-go"
+    },
+    "source": {
+      "id": "s1",
+      "origin": "argument",
+      "encoding": "utf-8",
+      "bom": false,
+      "text": "false; rm -rf \"/data/run$?\"",
+      "bytes": 27,
+      "sha256": "a740192b1cd92ce8e5d47daeb91648b3ed7656afe58c550f656fb207b0e2272c"
+    },
+    "status": {
+      "syntax": "valid",
+      "recovered": false,
+      "profile": "valid",
+      "coverage": "complete",
+      "executionModel": "incremental",
+      "tier": "authorization-candidate",
+      "grade": "partial",
+      "classification": "not-run"
+    },
+    "nativeTree": {
+      "id": "n1",
+      "kind": "File",
+      "sourceId": "s1",
+      "range": {
+        "start": {
+          "offset": 0,
+          "line": 1,
+          "column": 1
+        },
+        "end": {
+          "offset": 27,
+          "line": 1,
+          "column": 28
+        }
+      },
+      "named": true,
+      "metadata": {
+        "Name": ""
+      },
+      "children": [
+        {
+          "id": "n2",
+          "kind": "Stmt",
+          "sourceId": "s1",
+          "field": "Stmts",
+          "range": {
+            "start": {
+              "offset": 0,
+              "line": 1,
+              "column": 1
+            },
+            "end": {
+              "offset": 6,
+              "line": 1,
+              "column": 7
+            }
+          },
+          "named": true,
+          "metadata": {
+            "Background": false,
+            "Coprocess": false,
+            "Disown": false,
+            "Negated": false,
+            "Position": {
+              "offset": 0,
+              "recovered": false,
+              "valid": true
+            },
+            "Semicolon": {
+              "offset": 5,
+              "recovered": false,
+              "valid": true
+            }
+          },
+          "children": [
+            {
+              "id": "n3",
+              "kind": "CallExpr",
+              "sourceId": "s1",
+              "field": "Cmd",
+              "range": {
+                "start": {
+                  "offset": 0,
+                  "line": 1,
+                  "column": 1
+                },
+                "end": {
+                  "offset": 5,
+                  "line": 1,
+                  "column": 6
+                }
+              },
+              "named": true,
+              "children": [
+                {
+                  "id": "n4",
+                  "kind": "Word",
+                  "sourceId": "s1",
+                  "field": "Args",
+                  "range": {
+                    "start": {
+                      "offset": 0,
+                      "line": 1,
+                      "column": 1
+                    },
+                    "end": {
+                      "offset": 5,
+                      "line": 1,
+                      "column": 6
+                    }
+                  },
+                  "named": true,
+                  "children": [
+                    {
+                      "id": "n5",
+                      "kind": "Lit",
+                      "sourceId": "s1",
+                      "field": "Parts",
+                      "range": {
+                        "start": {
+                          "offset": 0,
+                          "line": 1,
+                          "column": 1
+                        },
+                        "end": {
+                          "offset": 5,
+                          "line": 1,
+                          "column": 6
+                        }
+                      },
+                      "named": true,
+                      "metadata": {
+                        "Value": "false",
+                        "ValueEnd": {
+                          "offset": 5,
+                          "recovered": false,
+                          "valid": true
+                        },
+                        "ValuePos": {
+                          "offset": 0,
+                          "recovered": false,
+                          "valid": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "n6",
+          "kind": "Stmt",
+          "sourceId": "s1",
+          "field": "Stmts",
+          "range": {
+            "start": {
+              "offset": 7,
+              "line": 1,
+              "column": 8
+            },
+            "end": {
+              "offset": 27,
+              "line": 1,
+              "column": 28
+            }
+          },
+          "named": true,
+          "metadata": {
+            "Background": false,
+            "Coprocess": false,
+            "Disown": false,
+            "Negated": false,
+            "Position": {
+              "offset": 7,
+              "recovered": false,
+              "valid": true
+            },
+            "Semicolon": {
+              "offset": 0,
+              "recovered": false,
+              "valid": false
+            }
+          },
+          "children": [
+            {
+              "id": "n7",
+              "kind": "CallExpr",
+              "sourceId": "s1",
+              "field": "Cmd",
+              "range": {
+                "start": {
+                  "offset": 7,
+                  "line": 1,
+                  "column": 8
+                },
+                "end": {
+                  "offset": 27,
+                  "line": 1,
+                  "column": 28
+                }
+              },
+              "named": true,
+              "children": [
+                {
+                  "id": "n8",
+                  "kind": "Word",
+                  "sourceId": "s1",
+                  "field": "Args",
+                  "range": {
+                    "start": {
+                      "offset": 7,
+                      "line": 1,
+                      "column": 8
+                    },
+                    "end": {
+                      "offset": 9,
+                      "line": 1,
+                      "column": 10
+                    }
+                  },
+                  "named": true,
+                  "children": [
+                    {
+                      "id": "n9",
+                      "kind": "Lit",
+                      "sourceId": "s1",
+                      "field": "Parts",
+                      "range": {
+                        "start": {
+                          "offset": 7,
+                          "line": 1,
+                          "column": 8
+                        },
+                        "end": {
+                          "offset": 9,
+                          "line": 1,
+                          "column": 10
+                        }
+                      },
+                      "named": true,
+                      "metadata": {
+                        "Value": "rm",
+                        "ValueEnd": {
+                          "offset": 9,
+                          "recovered": false,
+                          "valid": true
+                        },
+                        "ValuePos": {
+                          "offset": 7,
+                          "recovered": false,
+                          "valid": true
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "n10",
+                  "kind": "Word",
+                  "sourceId": "s1",
+                  "field": "Args",
+                  "range": {
+                    "start": {
+                      "offset": 10,
+                      "line": 1,
+                      "column": 11
+                    },
+                    "end": {
+                      "offset": 13,
+                      "line": 1,
+                      "column": 14
+                    }
+                  },
+                  "named": true,
+                  "children": [
+                    {
+                      "id": "n11",
+                      "kind": "Lit",
+                      "sourceId": "s1",
+                      "field": "Parts",
+                      "range": {
+                        "start": {
+                          "offset": 10,
+                          "line": 1,
+                          "column": 11
+                        },
+                        "end": {
+                          "offset": 13,
+                          "line": 1,
+                          "column": 14
+                        }
+                      },
+                      "named": true,
+                      "metadata": {
+                        "Value": "-rf",
+                        "ValueEnd": {
+                          "offset": 13,
+                          "recovered": false,
+                          "valid": true
+                        },
+                        "ValuePos": {
+                          "offset": 10,
+                          "recovered": false,
+                          "valid": true
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "n12",
+                  "kind": "Word",
+                  "sourceId": "s1",
+                  "field": "Args",
+                  "range": {
+                    "start": {
+                      "offset": 14,
+                      "line": 1,
+                      "column": 15
+                    },
+                    "end": {
+                      "offset": 27,
+                      "line": 1,
+                      "column": 28
+                    }
+                  },
+                  "named": true,
+                  "children": [
+                    {
+                      "id": "n13",
+                      "kind": "DblQuoted",
+                      "sourceId": "s1",
+                      "field": "Parts",
+                      "range": {
+                        "start": {
+                          "offset": 14,
+                          "line": 1,
+                          "column": 15
+                        },
+                        "end": {
+                          "offset": 27,
+                          "line": 1,
+                          "column": 28
+                        }
+                      },
+                      "named": true,
+                      "metadata": {
+                        "Dollar": false,
+                        "Left": {
+                          "offset": 14,
+                          "recovered": false,
+                          "valid": true
+                        },
+                        "Right": {
+                          "offset": 26,
+                          "recovered": false,
+                          "valid": true
+                        }
+                      },
+                      "children": [
+                        {
+                          "id": "n14",
+                          "kind": "Lit",
+                          "sourceId": "s1",
+                          "field": "Parts",
+                          "range": {
+                            "start": {
+                              "offset": 15,
+                              "line": 1,
+                              "column": 16
+                            },
+                            "end": {
+                              "offset": 24,
+                              "line": 1,
+                              "column": 25
+                            }
+                          },
+                          "named": true,
+                          "metadata": {
+                            "Value": "/data/run",
+                            "ValueEnd": {
+                              "offset": 24,
+                              "recovered": false,
+                              "valid": true
+                            },
+                            "ValuePos": {
+                              "offset": 15,
+                              "recovered": false,
+                              "valid": true
+                            }
+                          }
+                        },
+                        {
+                          "id": "n15",
+                          "kind": "ParamExp",
+                          "sourceId": "s1",
+                          "field": "Parts",
+                          "range": {
+                            "start": {
+                              "offset": 24,
+                              "line": 1,
+                              "column": 25
+                            },
+                            "end": {
+                              "offset": 26,
+                              "line": 1,
+                              "column": 27
+                            }
+                          },
+                          "named": true,
+                          "metadata": {
+                            "Dollar": {
+                              "offset": 24,
+                              "recovered": false,
+                              "valid": true
+                            },
+                            "Excl": false,
+                            "GlobSubst": 0,
+                            "IsSet": false,
+                            "Length": false,
+                            "Names": "illegalTok",
+                            "Rbrace": {
+                              "offset": 0,
+                              "recovered": false,
+                              "valid": false
+                            },
+                            "RcExpand": 0,
+                            "Short": true,
+                            "Split": 0,
+                            "Width": false
+                          },
+                          "children": [
+                            {
+                              "id": "n16",
+                              "kind": "Lit",
+                              "sourceId": "s1",
+                              "field": "Param",
+                              "range": {
+                                "start": {
+                                  "offset": 25,
+                                  "line": 1,
+                                  "column": 26
+                                },
+                                "end": {
+                                  "offset": 26,
+                                  "line": 1,
+                                  "column": 27
+                                }
+                              },
+                              "named": true,
+                              "metadata": {
+                                "Value": "?",
+                                "ValueEnd": {
+                                  "offset": 26,
+                                  "recovered": false,
+                                  "valid": true
+                                },
+                                "ValuePos": {
+                                  "offset": 25,
+                                  "recovered": false,
+                                  "valid": true
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "structure": {
+      "id": "s-n1",
+      "kind": "Script",
+      "nativeId": "n1",
+      "range": {
+        "start": {
+          "offset": 0,
+          "line": 1,
+          "column": 1
+        },
+        "end": {
+          "offset": 27,
+          "line": 1,
+          "column": 28
+        }
+      },
+      "children": [
+        {
+          "id": "s-n2",
+          "kind": "Sequence",
+          "nativeId": "n2",
+          "range": {
+            "start": {
+              "offset": 0,
+              "line": 1,
+              "column": 1
+            },
+            "end": {
+              "offset": 6,
+              "line": 1,
+              "column": 7
+            }
+          },
+          "children": [
+            {
+              "id": "s-e-n3",
+              "kind": "Exec",
+              "nativeId": "n3",
+              "range": {
+                "start": {
+                  "offset": 0,
+                  "line": 1,
+                  "column": 1
+                },
+                "end": {
+                  "offset": 5,
+                  "line": 1,
+                  "column": 6
+                }
+              },
+              "execId": "e-n3"
+            }
+          ]
+        },
+        {
+          "id": "s-n6",
+          "kind": "Sequence",
+          "nativeId": "n6",
+          "range": {
+            "start": {
+              "offset": 7,
+              "line": 1,
+              "column": 8
+            },
+            "end": {
+              "offset": 27,
+              "line": 1,
+              "column": 28
+            }
+          },
+          "children": [
+            {
+              "id": "s-e-n7",
+              "kind": "Exec",
+              "nativeId": "n7",
+              "range": {
+                "start": {
+                  "offset": 7,
+                  "line": 1,
+                  "column": 8
+                },
+                "end": {
+                  "offset": 27,
+                  "line": 1,
+                  "column": 28
+                }
+              },
+              "execId": "e-n7"
+            }
+          ]
+        }
+      ]
+    },
+    "execPoints": [
+      {
+        "conditional": false,
+        "id": "e-n3",
+        "kind": "call",
+        "nativeId": "n3",
+        "range": {
+          "start": {
+            "offset": 0,
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "offset": 5,
+            "line": 1,
+            "column": 6
+          }
+        },
+        "words": [
+          {
+            "nativeId": "n4",
+            "range": {
+              "start": {
+                "offset": 0,
+                "line": 1,
+                "column": 1
+              },
+              "end": {
+                "offset": 5,
+                "line": 1,
+                "column": 6
+              }
+            },
+            "parts": [
+              {
+                "kind": "literal",
+                "nativeId": "n5",
+                "range": {
+                  "start": {
+                    "offset": 0,
+                    "line": 1,
+                    "column": 1
+                  },
+                  "end": {
+                    "offset": 5,
+                    "line": 1,
+                    "column": 6
+                  }
+                }
+              }
+            ],
+            "value": {
+              "state": "literal",
+              "text": "false"
+            },
+            "expansions": [],
+            "arity": "1"
+          }
+        ],
+        "assignments": [],
+        "redirects": [],
+        "stableArgPrefix": 1,
+        "grade": "exact",
+        "scope": "root",
+        "mayExecute": true
+      },
+      {
+        "conditional": false,
+        "id": "e-n7",
+        "kind": "call",
+        "nativeId": "n7",
+        "range": {
+          "start": {
+            "offset": 7,
+            "line": 1,
+            "column": 8
+          },
+          "end": {
+            "offset": 27,
+            "line": 1,
+            "column": 28
+          }
+        },
+        "words": [
+          {
+            "nativeId": "n8",
+            "range": {
+              "start": {
+                "offset": 7,
+                "line": 1,
+                "column": 8
+              },
+              "end": {
+                "offset": 9,
+                "line": 1,
+                "column": 10
+              }
+            },
+            "parts": [
+              {
+                "kind": "literal",
+                "nativeId": "n9",
+                "range": {
+                  "start": {
+                    "offset": 7,
+                    "line": 1,
+                    "column": 8
+                  },
+                  "end": {
+                    "offset": 9,
+                    "line": 1,
+                    "column": 10
+                  }
+                }
+              }
+            ],
+            "value": {
+              "state": "literal",
+              "text": "rm"
+            },
+            "expansions": [],
+            "arity": "1"
+          },
+          {
+            "nativeId": "n10",
+            "range": {
+              "start": {
+                "offset": 10,
+                "line": 1,
+                "column": 11
+              },
+              "end": {
+                "offset": 13,
+                "line": 1,
+                "column": 14
+              }
+            },
+            "parts": [
+              {
+                "kind": "literal",
+                "nativeId": "n11",
+                "range": {
+                  "start": {
+                    "offset": 10,
+                    "line": 1,
+                    "column": 11
+                  },
+                  "end": {
+                    "offset": 13,
+                    "line": 1,
+                    "column": 14
+                  }
+                }
+              }
+            ],
+            "value": {
+              "state": "literal",
+              "text": "-rf"
+            },
+            "expansions": [],
+            "arity": "1"
+          },
+          {
+            "nativeId": "n12",
+            "range": {
+              "start": {
+                "offset": 14,
+                "line": 1,
+                "column": 15
+              },
+              "end": {
+                "offset": 27,
+                "line": 1,
+                "column": 28
+              }
+            },
+            "parts": [
+              {
+                "kind": "doubleQuote",
+                "nativeId": "n13",
+                "range": {
+                  "start": {
+                    "offset": 14,
+                    "line": 1,
+                    "column": 15
+                  },
+                  "end": {
+                    "offset": 27,
+                    "line": 1,
+                    "column": 28
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "nativeId": "n14",
+                "range": {
+                  "start": {
+                    "offset": 15,
+                    "line": 1,
+                    "column": 16
+                  },
+                  "end": {
+                    "offset": 24,
+                    "line": 1,
+                    "column": 25
+                  }
+                }
+              },
+              {
+                "kind": "parameterExpansion",
+                "nativeId": "n15",
+                "range": {
+                  "start": {
+                    "offset": 24,
+                    "line": 1,
+                    "column": 25
+                  },
+                  "end": {
+                    "offset": 26,
+                    "line": 1,
+                    "column": 27
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "nativeId": "n16",
+                "range": {
+                  "start": {
+                    "offset": 25,
+                    "line": 1,
+                    "column": 26
+                  },
+                  "end": {
+                    "offset": 26,
+                    "line": 1,
+                    "column": 27
+                  }
+                }
+              }
+            ],
+            "value": {
+              "state": "symbolic"
+            },
+            "expansions": [
+              "runtime"
+            ],
+            "arity": "1"
+          }
+        ],
+        "assignments": [],
+        "redirects": [],
+        "stableArgPrefix": 3,
+        "grade": "partial",
+        "scope": "root",
+        "mayExecute": true
+      }
+    ],
+    "relations": [
+      {
+        "kind": "seq",
+        "from": "s-n2",
+        "to": "s-n6",
+        "via": "s-n1"
+      }
+    ],
+    "opaque": [],
+    "diagnostics": [],
+    "executesBeforeError": [],
+    "limits": {
+      "inputBytes": 1048576,
+      "nodes": 20000,
+      "depth": 128,
+      "outputBytes": 33554432,
+      "timeoutNs": 5000000000
+    }
+  },
+  {
+    "usage": {
+      "aggregateNativeNodes": 24,
+      "nativeNodes": 13,
+      "depth": 4,
+      "wasmLinearMemoryBytes": 0,
+      "authorizationInputBytes": 65536,
+      "authorizationNodes": 2048,
+      "authorizationDepth": 64
+    },
+    "nested": [
+      {
+        "execId": "e-n3",
+        "kind": "shell",
+        "candidate": true,
+        "outerRange": {
+          "start": {
+            "offset": 8,
+            "line": 1,
+            "column": 9
+          },
+          "end": {
+            "offset": 21,
+            "line": 1,
+            "column": 22
+          }
+        },
+        "mapping": [
+          {
+            "innerStart": 0,
+            "innerEnd": 1,
+            "outerStart": 9,
+            "outerEnd": 10
+          },
+          {
+            "innerStart": 1,
+            "innerEnd": 2,
+            "outerStart": 10,
+            "outerEnd": 11
+          },
+          {
+            "innerStart": 2,
+            "innerEnd": 3,
+            "outerStart": 11,
+            "outerEnd": 12
+          },
+          {
+            "innerStart": 3,
+            "innerEnd": 4,
+            "outerStart": 12,
+            "outerEnd": 13
+          },
+          {
+            "innerStart": 4,
+            "innerEnd": 5,
+            "outerStart": 13,
+            "outerEnd": 14
+          },
+          {
+            "innerStart": 5,
+            "innerEnd": 6,
+            "outerStart": 14,
+            "outerEnd": 15
+          },
+          {
+            "innerStart": 6,
+            "innerEnd": 7,
+            "outerStart": 15,
+            "outerEnd": 16
+          },
+          {
+            "innerStart": 7,
+            "innerEnd": 8,
+            "outerStart": 16,
+            "outerEnd": 17
+          },
+          {
+            "innerStart": 8,
+            "innerEnd": 9,
+            "outerStart": 17,
+            "outerEnd": 18
+          },
+          {
+            "innerStart": 9,
+            "innerEnd": 10,
+            "outerStart": 18,
+            "outerEnd": 19
+          },
+          {
+            "innerStart": 10,
+            "innerEnd": 11,
+            "outerStart": 19,
+            "outerEnd": 20
+          }
+        ],
+        "report": {
+          "usage": {
+            "aggregateNativeNodes": 24,
+            "nativeNodes": 11,
+            "depth": 6,
+            "wasmLinearMemoryBytes": 0,
+            "authorizationInputBytes": 65536,
+            "authorizationNodes": 2048,
+            "authorizationDepth": 64
+          },
+          "schemaVersion": "shell-surface/v1-draft",
+          "tool": "shell-ast development",
+          "consumer": "diagnostic",
+          "shell": {
+            "dialect": "bash",
+            "options": {
+              "expand_aliases": false,
+              "extglob": false,
+              "posix": false
+            },
+            "tier": "authorization-candidate",
+            "mode": "script"
+          },
+          "assumptions": [
+            "no predefined aliases or functions",
+            "startup files have no effect (including .zshenv and login files)",
+            "platform startup prefixes are outside input",
+            "no PATH or program identity resolution",
+            "PowerShell FullLanguage; native argv is unknown",
+            "CMD registry defaults are replaced by explicit recorded options"
+          ],
+          "parser": {
+            "backend": "mvdan/sh syntax snapshot",
+            "revision": "cc0731cd7a1c0a08a6cbd8a2c0df4228413c3287",
+            "runtime": "pure-go"
+          },
+          "source": {
+            "id": "s1",
+            "origin": "nested-literal",
+            "encoding": "utf-8",
+            "bom": false,
+            "text": "rm -rf \"$1\"",
+            "bytes": 11,
+            "sha256": "a879446b3e2199febe8a58275929453ec6aa47a9e7386bc8bcdf6874a9088155"
+          },
+          "status": {
+            "syntax": "valid",
+            "recovered": false,
+            "profile": "unchecked",
+            "coverage": "complete",
+            "executionModel": "incremental",
+            "tier": "authorization-candidate",
+            "grade": "opaque",
+            "classification": "not-run"
+          },
+          "nativeTree": {
+            "id": "n1",
+            "kind": "File",
+            "sourceId": "s1",
+            "range": {
+              "start": {
+                "offset": 0,
+                "line": 1,
+                "column": 1
+              },
+              "end": {
+                "offset": 11,
+                "line": 1,
+                "column": 12
+              }
+            },
+            "named": true,
+            "metadata": {
+              "Name": ""
+            },
+            "children": [
+              {
+                "id": "n2",
+                "kind": "Stmt",
+                "sourceId": "s1",
+                "field": "Stmts",
+                "range": {
+                  "start": {
+                    "offset": 0,
+                    "line": 1,
+                    "column": 1
+                  },
+                  "end": {
+                    "offset": 11,
+                    "line": 1,
+                    "column": 12
+                  }
+                },
+                "named": true,
+                "metadata": {
+                  "Background": false,
+                  "Coprocess": false,
+                  "Disown": false,
+                  "Negated": false,
+                  "Position": {
+                    "offset": 0,
+                    "recovered": false,
+                    "valid": true
+                  },
+                  "Semicolon": {
+                    "offset": 0,
+                    "recovered": false,
+                    "valid": false
+                  }
+                },
+                "children": [
+                  {
+                    "id": "n3",
+                    "kind": "CallExpr",
+                    "sourceId": "s1",
+                    "field": "Cmd",
+                    "range": {
+                      "start": {
+                        "offset": 0,
+                        "line": 1,
+                        "column": 1
+                      },
+                      "end": {
+                        "offset": 11,
+                        "line": 1,
+                        "column": 12
+                      }
+                    },
+                    "named": true,
+                    "children": [
+                      {
+                        "id": "n4",
+                        "kind": "Word",
+                        "sourceId": "s1",
+                        "field": "Args",
+                        "range": {
+                          "start": {
+                            "offset": 0,
+                            "line": 1,
+                            "column": 1
+                          },
+                          "end": {
+                            "offset": 2,
+                            "line": 1,
+                            "column": 3
+                          }
+                        },
+                        "named": true,
+                        "children": [
+                          {
+                            "id": "n5",
+                            "kind": "Lit",
+                            "sourceId": "s1",
+                            "field": "Parts",
+                            "range": {
+                              "start": {
+                                "offset": 0,
+                                "line": 1,
+                                "column": 1
+                              },
+                              "end": {
+                                "offset": 2,
+                                "line": 1,
+                                "column": 3
+                              }
+                            },
+                            "named": true,
+                            "metadata": {
+                              "Value": "rm",
+                              "ValueEnd": {
+                                "offset": 2,
+                                "recovered": false,
+                                "valid": true
+                              },
+                              "ValuePos": {
+                                "offset": 0,
+                                "recovered": false,
+                                "valid": true
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "id": "n6",
+                        "kind": "Word",
+                        "sourceId": "s1",
+                        "field": "Args",
+                        "range": {
+                          "start": {
+                            "offset": 3,
+                            "line": 1,
+                            "column": 4
+                          },
+                          "end": {
+                            "offset": 6,
+                            "line": 1,
+                            "column": 7
+                          }
+                        },
+                        "named": true,
+                        "children": [
+                          {
+                            "id": "n7",
+                            "kind": "Lit",
+                            "sourceId": "s1",
+                            "field": "Parts",
+                            "range": {
+                              "start": {
+                                "offset": 3,
+                                "line": 1,
+                                "column": 4
+                              },
+                              "end": {
+                                "offset": 6,
+                                "line": 1,
+                                "column": 7
+                              }
+                            },
+                            "named": true,
+                            "metadata": {
+                              "Value": "-rf",
+                              "ValueEnd": {
+                                "offset": 6,
+                                "recovered": false,
+                                "valid": true
+                              },
+                              "ValuePos": {
+                                "offset": 3,
+                                "recovered": false,
+                                "valid": true
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "id": "n8",
+                        "kind": "Word",
+                        "sourceId": "s1",
+                        "field": "Args",
+                        "range": {
+                          "start": {
+                            "offset": 7,
+                            "line": 1,
+                            "column": 8
+                          },
+                          "end": {
+                            "offset": 11,
+                            "line": 1,
+                            "column": 12
+                          }
+                        },
+                        "named": true,
+                        "children": [
+                          {
+                            "id": "n9",
+                            "kind": "DblQuoted",
+                            "sourceId": "s1",
+                            "field": "Parts",
+                            "range": {
+                              "start": {
+                                "offset": 7,
+                                "line": 1,
+                                "column": 8
+                              },
+                              "end": {
+                                "offset": 11,
+                                "line": 1,
+                                "column": 12
+                              }
+                            },
+                            "named": true,
+                            "metadata": {
+                              "Dollar": false,
+                              "Left": {
+                                "offset": 7,
+                                "recovered": false,
+                                "valid": true
+                              },
+                              "Right": {
+                                "offset": 10,
+                                "recovered": false,
+                                "valid": true
+                              }
+                            },
+                            "children": [
+                              {
+                                "id": "n10",
+                                "kind": "ParamExp",
+                                "sourceId": "s1",
+                                "field": "Parts",
+                                "range": {
+                                  "start": {
+                                    "offset": 8,
+                                    "line": 1,
+                                    "column": 9
+                                  },
+                                  "end": {
+                                    "offset": 10,
+                                    "line": 1,
+                                    "column": 11
+                                  }
+                                },
+                                "named": true,
+                                "metadata": {
+                                  "Dollar": {
+                                    "offset": 8,
+                                    "recovered": false,
+                                    "valid": true
+                                  },
+                                  "Excl": false,
+                                  "GlobSubst": 0,
+                                  "IsSet": false,
+                                  "Length": false,
+                                  "Names": "illegalTok",
+                                  "Rbrace": {
+                                    "offset": 0,
+                                    "recovered": false,
+                                    "valid": false
+                                  },
+                                  "RcExpand": 0,
+                                  "Short": true,
+                                  "Split": 0,
+                                  "Width": false
+                                },
+                                "children": [
+                                  {
+                                    "id": "n11",
+                                    "kind": "Lit",
+                                    "sourceId": "s1",
+                                    "field": "Param",
+                                    "range": {
+                                      "start": {
+                                        "offset": 9,
+                                        "line": 1,
+                                        "column": 10
+                                      },
+                                      "end": {
+                                        "offset": 10,
+                                        "line": 1,
+                                        "column": 11
+                                      }
+                                    },
+                                    "named": true,
+                                    "metadata": {
+                                      "Value": "1",
+                                      "ValueEnd": {
+                                        "offset": 10,
+                                        "recovered": false,
+                                        "valid": true
+                                      },
+                                      "ValuePos": {
+                                        "offset": 9,
+                                        "recovered": false,
+                                        "valid": true
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "structure": {
+            "id": "s-n1",
+            "kind": "Script",
+            "nativeId": "n1",
+            "range": {
+              "start": {
+                "offset": 0,
+                "line": 1,
+                "column": 1
+              },
+              "end": {
+                "offset": 11,
+                "line": 1,
+                "column": 12
+              }
+            },
+            "children": [
+              {
+                "id": "s-n2",
+                "kind": "Sequence",
+                "nativeId": "n2",
+                "range": {
+                  "start": {
+                    "offset": 0,
+                    "line": 1,
+                    "column": 1
+                  },
+                  "end": {
+                    "offset": 11,
+                    "line": 1,
+                    "column": 12
+                  }
+                },
+                "children": [
+                  {
+                    "id": "s-e-n3",
+                    "kind": "Exec",
+                    "nativeId": "n3",
+                    "range": {
+                      "start": {
+                        "offset": 0,
+                        "line": 1,
+                        "column": 1
+                      },
+                      "end": {
+                        "offset": 11,
+                        "line": 1,
+                        "column": 12
+                      }
+                    },
+                    "execId": "e-n3"
+                  }
+                ]
+              }
+            ]
+          },
+          "execPoints": [
+            {
+              "conditional": false,
+              "id": "e-n3",
+              "kind": "call",
+              "nativeId": "n3",
+              "range": {
+                "start": {
+                  "offset": 0,
+                  "line": 1,
+                  "column": 1
+                },
+                "end": {
+                  "offset": 11,
+                  "line": 1,
+                  "column": 12
+                }
+              },
+              "words": [
+                {
+                  "nativeId": "n4",
+                  "range": {
+                    "start": {
+                      "offset": 0,
+                      "line": 1,
+                      "column": 1
+                    },
+                    "end": {
+                      "offset": 2,
+                      "line": 1,
+                      "column": 3
+                    }
+                  },
+                  "parts": [
+                    {
+                      "kind": "literal",
+                      "nativeId": "n5",
+                      "range": {
+                        "start": {
+                          "offset": 0,
+                          "line": 1,
+                          "column": 1
+                        },
+                        "end": {
+                          "offset": 2,
+                          "line": 1,
+                          "column": 3
+                        }
+                      }
+                    }
+                  ],
+                  "value": {
+                    "state": "literal",
+                    "text": "rm"
+                  },
+                  "expansions": [],
+                  "arity": "1"
+                },
+                {
+                  "nativeId": "n6",
+                  "range": {
+                    "start": {
+                      "offset": 3,
+                      "line": 1,
+                      "column": 4
+                    },
+                    "end": {
+                      "offset": 6,
+                      "line": 1,
+                      "column": 7
+                    }
+                  },
+                  "parts": [
+                    {
+                      "kind": "literal",
+                      "nativeId": "n7",
+                      "range": {
+                        "start": {
+                          "offset": 3,
+                          "line": 1,
+                          "column": 4
+                        },
+                        "end": {
+                          "offset": 6,
+                          "line": 1,
+                          "column": 7
+                        }
+                      }
+                    }
+                  ],
+                  "value": {
+                    "state": "literal",
+                    "text": "-rf"
+                  },
+                  "expansions": [],
+                  "arity": "1"
+                },
+                {
+                  "nativeId": "n8",
+                  "range": {
+                    "start": {
+                      "offset": 7,
+                      "line": 1,
+                      "column": 8
+                    },
+                    "end": {
+                      "offset": 11,
+                      "line": 1,
+                      "column": 12
+                    }
+                  },
+                  "parts": [
+                    {
+                      "kind": "doubleQuote",
+                      "nativeId": "n9",
+                      "range": {
+                        "start": {
+                          "offset": 7,
+                          "line": 1,
+                          "column": 8
+                        },
+                        "end": {
+                          "offset": 11,
+                          "line": 1,
+                          "column": 12
+                        }
+                      }
+                    },
+                    {
+                      "kind": "parameterExpansion",
+                      "nativeId": "n10",
+                      "range": {
+                        "start": {
+                          "offset": 8,
+                          "line": 1,
+                          "column": 9
+                        },
+                        "end": {
+                          "offset": 10,
+                          "line": 1,
+                          "column": 11
+                        }
+                      }
+                    },
+                    {
+                      "kind": "literal",
+                      "nativeId": "n11",
+                      "range": {
+                        "start": {
+                          "offset": 9,
+                          "line": 1,
+                          "column": 10
+                        },
+                        "end": {
+                          "offset": 10,
+                          "line": 1,
+                          "column": 11
+                        }
+                      }
+                    }
+                  ],
+                  "value": {
+                    "state": "symbolic"
+                  },
+                  "expansions": [
+                    "runtime"
+                  ],
+                  "arity": "1"
+                }
+              ],
+              "assignments": [],
+              "redirects": [],
+              "stableArgPrefix": 3,
+              "grade": "opaque",
+              "scope": "root",
+              "mayExecute": true
+            }
+          ],
+          "relations": [],
+          "opaque": [
+            {
+              "nativeId": "n1",
+              "range": {
+                "start": {
+                  "offset": 0,
+                  "line": 1,
+                  "column": 1
+                },
+                "end": {
+                  "offset": 11,
+                  "line": 1,
+                  "column": 12
+                }
+              },
+              "reason": "profile_unchecked",
+              "mayContainExecution": true
+            },
+            {
+              "nativeId": "n1",
+              "range": {
+                "start": {
+                  "offset": 0,
+                  "line": 1,
+                  "column": 1
+                },
+                "end": {
+                  "offset": 11,
+                  "line": 1,
+                  "column": 12
+                }
+              },
+              "reason": "unverified_construct",
+              "mayContainExecution": true
+            }
+          ],
+          "diagnostics": [
+            {
+              "code": "profile_unchecked",
+              "severity": "warning",
+              "message": "no native-shell profile specified",
+              "nodeId": "n1",
+              "range": {
+                "start": {
+                  "offset": 0,
+                  "line": 1,
+                  "column": 1
+                },
+                "end": {
+                  "offset": 11,
+                  "line": 1,
+                  "column": 12
+                }
+              }
+            },
+            {
+              "code": "unverified_construct",
+              "severity": "warning",
+              "message": "this construct/profile/options combination is outside the recorded native differential allowlist",
+              "nodeId": "n1",
+              "range": {
+                "start": {
+                  "offset": 0,
+                  "line": 1,
+                  "column": 1
+                },
+                "end": {
+                  "offset": 11,
+                  "line": 1,
+                  "column": 12
+                }
+              }
+            }
+          ],
+          "executesBeforeError": [],
+          "limits": {
+            "inputBytes": 1048576,
+            "nodes": 20000,
+            "depth": 128,
+            "outputBytes": 33554432,
+            "timeoutNs": 5000000000
+          }
+        }
+      }
+    ],
+    "schemaVersion": "shell-surface/v1-draft",
+    "tool": "shell-ast development",
+    "consumer": "diagnostic",
+    "shell": {
+      "dialect": "bash",
+      "profile": "bash-5.2",
+      "options": {
+        "expand_aliases": false,
+        "extglob": false,
+        "posix": false
+      },
+      "tier": "authorization-candidate",
+      "mode": "script"
+    },
+    "assumptions": [
+      "no predefined aliases or functions",
+      "startup files have no effect (including .zshenv and login files)",
+      "platform startup prefixes are outside input",
+      "no PATH or program identity resolution",
+      "PowerShell FullLanguage; native argv is unknown",
+      "CMD registry defaults are replaced by explicit recorded options"
+    ],
+    "parser": {
+      "backend": "mvdan/sh syntax snapshot",
+      "revision": "cc0731cd7a1c0a08a6cbd8a2c0df4228413c3287",
+      "runtime": "pure-go"
+    },
+    "source": {
+      "id": "s1",
+      "origin": "argument",
+      "encoding": "utf-8",
+      "bom": false,
+      "text": "bash -c 'rm -rf \"$1\"' _ x",
+      "bytes": 25,
+      "sha256": "9222bdbed434b877e4a27c9d6b5a983556ac33a97e63527ac91d61d056b58266"
+    },
+    "status": {
+      "syntax": "valid",
+      "recovered": false,
+      "profile": "valid",
+      "coverage": "complete",
+      "executionModel": "incremental",
+      "tier": "authorization-candidate",
+      "grade": "exact",
+      "classification": "not-run"
+    },
+    "nativeTree": {
+      "id": "n1",
+      "kind": "File",
+      "sourceId": "s1",
+      "range": {
+        "start": {
+          "offset": 0,
+          "line": 1,
+          "column": 1
+        },
+        "end": {
+          "offset": 25,
+          "line": 1,
+          "column": 26
+        }
+      },
+      "named": true,
+      "metadata": {
+        "Name": ""
+      },
+      "children": [
+        {
+          "id": "n2",
+          "kind": "Stmt",
+          "sourceId": "s1",
+          "field": "Stmts",
+          "range": {
+            "start": {
+              "offset": 0,
+              "line": 1,
+              "column": 1
+            },
+            "end": {
+              "offset": 25,
+              "line": 1,
+              "column": 26
+            }
+          },
+          "named": true,
+          "metadata": {
+            "Background": false,
+            "Coprocess": false,
+            "Disown": false,
+            "Negated": false,
+            "Position": {
+              "offset": 0,
+              "recovered": false,
+              "valid": true
+            },
+            "Semicolon": {
+              "offset": 0,
+              "recovered": false,
+              "valid": false
+            }
+          },
+          "children": [
+            {
+              "id": "n3",
+              "kind": "CallExpr",
+              "sourceId": "s1",
+              "field": "Cmd",
+              "range": {
+                "start": {
+                  "offset": 0,
+                  "line": 1,
+                  "column": 1
+                },
+                "end": {
+                  "offset": 25,
+                  "line": 1,
+                  "column": 26
+                }
+              },
+              "named": true,
+              "children": [
+                {
+                  "id": "n4",
+                  "kind": "Word",
+                  "sourceId": "s1",
+                  "field": "Args",
+                  "range": {
+                    "start": {
+                      "offset": 0,
+                      "line": 1,
+                      "column": 1
+                    },
+                    "end": {
+                      "offset": 4,
+                      "line": 1,
+                      "column": 5
+                    }
+                  },
+                  "named": true,
+                  "children": [
+                    {
+                      "id": "n5",
+                      "kind": "Lit",
+                      "sourceId": "s1",
+                      "field": "Parts",
+                      "range": {
+                        "start": {
+                          "offset": 0,
+                          "line": 1,
+                          "column": 1
+                        },
+                        "end": {
+                          "offset": 4,
+                          "line": 1,
+                          "column": 5
+                        }
+                      },
+                      "named": true,
+                      "metadata": {
+                        "Value": "bash",
+                        "ValueEnd": {
+                          "offset": 4,
+                          "recovered": false,
+                          "valid": true
+                        },
+                        "ValuePos": {
+                          "offset": 0,
+                          "recovered": false,
+                          "valid": true
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "n6",
+                  "kind": "Word",
+                  "sourceId": "s1",
+                  "field": "Args",
+                  "range": {
+                    "start": {
+                      "offset": 5,
+                      "line": 1,
+                      "column": 6
+                    },
+                    "end": {
+                      "offset": 7,
+                      "line": 1,
+                      "column": 8
+                    }
+                  },
+                  "named": true,
+                  "children": [
+                    {
+                      "id": "n7",
+                      "kind": "Lit",
+                      "sourceId": "s1",
+                      "field": "Parts",
+                      "range": {
+                        "start": {
+                          "offset": 5,
+                          "line": 1,
+                          "column": 6
+                        },
+                        "end": {
+                          "offset": 7,
+                          "line": 1,
+                          "column": 8
+                        }
+                      },
+                      "named": true,
+                      "metadata": {
+                        "Value": "-c",
+                        "ValueEnd": {
+                          "offset": 7,
+                          "recovered": false,
+                          "valid": true
+                        },
+                        "ValuePos": {
+                          "offset": 5,
+                          "recovered": false,
+                          "valid": true
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "n8",
+                  "kind": "Word",
+                  "sourceId": "s1",
+                  "field": "Args",
+                  "range": {
+                    "start": {
+                      "offset": 8,
+                      "line": 1,
+                      "column": 9
+                    },
+                    "end": {
+                      "offset": 21,
+                      "line": 1,
+                      "column": 22
+                    }
+                  },
+                  "named": true,
+                  "children": [
+                    {
+                      "id": "n9",
+                      "kind": "SglQuoted",
+                      "sourceId": "s1",
+                      "field": "Parts",
+                      "range": {
+                        "start": {
+                          "offset": 8,
+                          "line": 1,
+                          "column": 9
+                        },
+                        "end": {
+                          "offset": 21,
+                          "line": 1,
+                          "column": 22
+                        }
+                      },
+                      "named": true,
+                      "metadata": {
+                        "Dollar": false,
+                        "Left": {
+                          "offset": 8,
+                          "recovered": false,
+                          "valid": true
+                        },
+                        "Right": {
+                          "offset": 20,
+                          "recovered": false,
+                          "valid": true
+                        },
+                        "Value": "rm -rf \"$1\""
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "n10",
+                  "kind": "Word",
+                  "sourceId": "s1",
+                  "field": "Args",
+                  "range": {
+                    "start": {
+                      "offset": 22,
+                      "line": 1,
+                      "column": 23
+                    },
+                    "end": {
+                      "offset": 23,
+                      "line": 1,
+                      "column": 24
+                    }
+                  },
+                  "named": true,
+                  "children": [
+                    {
+                      "id": "n11",
+                      "kind": "Lit",
+                      "sourceId": "s1",
+                      "field": "Parts",
+                      "range": {
+                        "start": {
+                          "offset": 22,
+                          "line": 1,
+                          "column": 23
+                        },
+                        "end": {
+                          "offset": 23,
+                          "line": 1,
+                          "column": 24
+                        }
+                      },
+                      "named": true,
+                      "metadata": {
+                        "Value": "_",
+                        "ValueEnd": {
+                          "offset": 23,
+                          "recovered": false,
+                          "valid": true
+                        },
+                        "ValuePos": {
+                          "offset": 22,
+                          "recovered": false,
+                          "valid": true
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "n12",
+                  "kind": "Word",
+                  "sourceId": "s1",
+                  "field": "Args",
+                  "range": {
+                    "start": {
+                      "offset": 24,
+                      "line": 1,
+                      "column": 25
+                    },
+                    "end": {
+                      "offset": 25,
+                      "line": 1,
+                      "column": 26
+                    }
+                  },
+                  "named": true,
+                  "children": [
+                    {
+                      "id": "n13",
+                      "kind": "Lit",
+                      "sourceId": "s1",
+                      "field": "Parts",
+                      "range": {
+                        "start": {
+                          "offset": 24,
+                          "line": 1,
+                          "column": 25
+                        },
+                        "end": {
+                          "offset": 25,
+                          "line": 1,
+                          "column": 26
+                        }
+                      },
+                      "named": true,
+                      "metadata": {
+                        "Value": "x",
+                        "ValueEnd": {
+                          "offset": 25,
+                          "recovered": false,
+                          "valid": true
+                        },
+                        "ValuePos": {
+                          "offset": 24,
+                          "recovered": false,
+                          "valid": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "structure": {
+      "id": "s-n1",
+      "kind": "Script",
+      "nativeId": "n1",
+      "range": {
+        "start": {
+          "offset": 0,
+          "line": 1,
+          "column": 1
+        },
+        "end": {
+          "offset": 25,
+          "line": 1,
+          "column": 26
+        }
+      },
+      "children": [
+        {
+          "id": "s-n2",
+          "kind": "Sequence",
+          "nativeId": "n2",
+          "range": {
+            "start": {
+              "offset": 0,
+              "line": 1,
+              "column": 1
+            },
+            "end": {
+              "offset": 25,
+              "line": 1,
+              "column": 26
+            }
+          },
+          "children": [
+            {
+              "id": "s-e-n3",
+              "kind": "Exec",
+              "nativeId": "n3",
+              "range": {
+                "start": {
+                  "offset": 0,
+                  "line": 1,
+                  "column": 1
+                },
+                "end": {
+                  "offset": 25,
+                  "line": 1,
+                  "column": 26
+                }
+              },
+              "execId": "e-n3"
+            }
+          ]
+        }
+      ]
+    },
+    "execPoints": [
+      {
+        "conditional": false,
+        "id": "e-n3",
+        "kind": "call",
+        "nativeId": "n3",
+        "range": {
+          "start": {
+            "offset": 0,
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "offset": 25,
+            "line": 1,
+            "column": 26
+          }
+        },
+        "words": [
+          {
+            "nativeId": "n4",
+            "range": {
+              "start": {
+                "offset": 0,
+                "line": 1,
+                "column": 1
+              },
+              "end": {
+                "offset": 4,
+                "line": 1,
+                "column": 5
+              }
+            },
+            "parts": [
+              {
+                "kind": "literal",
+                "nativeId": "n5",
+                "range": {
+                  "start": {
+                    "offset": 0,
+                    "line": 1,
+                    "column": 1
+                  },
+                  "end": {
+                    "offset": 4,
+                    "line": 1,
+                    "column": 5
+                  }
+                }
+              }
+            ],
+            "value": {
+              "state": "literal",
+              "text": "bash"
+            },
+            "expansions": [],
+            "arity": "1"
+          },
+          {
+            "nativeId": "n6",
+            "range": {
+              "start": {
+                "offset": 5,
+                "line": 1,
+                "column": 6
+              },
+              "end": {
+                "offset": 7,
+                "line": 1,
+                "column": 8
+              }
+            },
+            "parts": [
+              {
+                "kind": "literal",
+                "nativeId": "n7",
+                "range": {
+                  "start": {
+                    "offset": 5,
+                    "line": 1,
+                    "column": 6
+                  },
+                  "end": {
+                    "offset": 7,
+                    "line": 1,
+                    "column": 8
+                  }
+                }
+              }
+            ],
+            "value": {
+              "state": "literal",
+              "text": "-c"
+            },
+            "expansions": [],
+            "arity": "1"
+          },
+          {
+            "nativeId": "n8",
+            "range": {
+              "start": {
+                "offset": 8,
+                "line": 1,
+                "column": 9
+              },
+              "end": {
+                "offset": 21,
+                "line": 1,
+                "column": 22
+              }
+            },
+            "parts": [
+              {
+                "kind": "singleQuote",
+                "nativeId": "n9",
+                "range": {
+                  "start": {
+                    "offset": 8,
+                    "line": 1,
+                    "column": 9
+                  },
+                  "end": {
+                    "offset": 21,
+                    "line": 1,
+                    "column": 22
+                  }
+                }
+              }
+            ],
+            "value": {
+              "state": "literal",
+              "text": "rm -rf \"$1\""
+            },
+            "expansions": [],
+            "arity": "1"
+          },
+          {
+            "nativeId": "n10",
+            "range": {
+              "start": {
+                "offset": 22,
+                "line": 1,
+                "column": 23
+              },
+              "end": {
+                "offset": 23,
+                "line": 1,
+                "column": 24
+              }
+            },
+            "parts": [
+              {
+                "kind": "literal",
+                "nativeId": "n11",
+                "range": {
+                  "start": {
+                    "offset": 22,
+                    "line": 1,
+                    "column": 23
+                  },
+                  "end": {
+                    "offset": 23,
+                    "line": 1,
+                    "column": 24
+                  }
+                }
+              }
+            ],
+            "value": {
+              "state": "literal",
+              "text": "_"
+            },
+            "expansions": [],
+            "arity": "1"
+          },
+          {
+            "nativeId": "n12",
+            "range": {
+              "start": {
+                "offset": 24,
+                "line": 1,
+                "column": 25
+              },
+              "end": {
+                "offset": 25,
+                "line": 1,
+                "column": 26
+              }
+            },
+            "parts": [
+              {
+                "kind": "literal",
+                "nativeId": "n13",
+                "range": {
+                  "start": {
+                    "offset": 24,
+                    "line": 1,
+                    "column": 25
+                  },
+                  "end": {
+                    "offset": 25,
+                    "line": 1,
+                    "column": 26
+                  }
+                }
+              }
+            ],
+            "value": {
+              "state": "literal",
+              "text": "x"
+            },
+            "expansions": [],
+            "arity": "1"
+          }
+        ],
+        "assignments": [],
+        "redirects": [],
+        "stableArgPrefix": 5,
+        "grade": "exact",
+        "scope": "root",
+        "candidate": true,
+        "mayExecute": true
+      }
+    ],
+    "relations": [
+      {
+        "kind": "nestedOf",
+        "from": "nested:e-n3",
+        "to": "e-n3",
+        "via": "n3",
+        "detail": "nested report has a separate source/id namespace; mapping points to this source"
+      }
+    ],
+    "opaque": [],
+    "diagnostics": [
+      {
+        "code": "nested_shell_candidate",
+        "severity": "info",
+        "message": "text-name candidate only; identity, startup files and referenced scripts are unknown",
+        "nodeId": "n3",
+        "range": {
+          "start": {
+            "offset": 0,
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "offset": 25,
+            "line": 1,
+            "column": 26
+          }
+        }
+      }
+    ],
+    "executesBeforeError": [],
+    "limits": {
+      "inputBytes": 1048576,
+      "nodes": 20000,
+      "depth": 128,
+      "outputBytes": 33554432,
+      "timeoutNs": 5000000000
+    }
+  },
+  {
+    "usage": {
+      "aggregateNativeNodes": 32,
+      "nativeNodes": 32,
+      "depth": 17,
+      "wasmLinearMemoryBytes": 33554432,
+      "authorizationInputBytes": 65536,
+      "authorizationNodes": 2048,
+      "authorizationDepth": 64
+    },
+    "schemaVersion": "shell-surface/v1-draft",
+    "tool": "shell-ast development",
+    "consumer": "diagnostic",
+    "shell": {
+      "dialect": "powershell",
+      "profile": "windows-powershell-5.1",
+      "options": {},
+      "tier": "authorization-candidate",
+      "mode": "script"
+    },
+    "assumptions": [
+      "no predefined aliases or functions",
+      "startup files have no effect (including .zshenv and login files)",
+      "platform startup prefixes are outside input",
+      "no PATH or program identity resolution",
+      "PowerShell FullLanguage; native argv is unknown",
+      "CMD registry defaults are replaced by explicit recorded options"
+    ],
+    "parser": {
+      "backend": "tree-sitter-powershell",
+      "revision": "21b365bdcf4609a431f4acfd3af9eeca9a348927",
+      "runtime": "wazero v1.10.1 / go-tree-sitter runtime v0.25.0",
+      "sha256": "f9349285843ee37340b0d2a782a59980b88874e68c3eddaae3ead5a62e23bbad"
+    },
+    "source": {
+      "id": "s1",
+      "origin": "argument",
+      "encoding": "utf-8",
+      "bom": false,
+      "text": "Get-ChildItem | ForEach-Object { Remove-Item $_ }",
+      "bytes": 49,
+      "sha256": "dca5788621a86cc169c80fe1ff5cc9b82ed6934fb1f947f923b1f2f96973e59a"
+    },
+    "status": {
+      "syntax": "valid",
+      "recovered": false,
+      "profile": "unchecked",
+      "coverage": "complete",
+      "executionModel": "whole",
+      "tier": "authorization-candidate",
+      "grade": "opaque",
+      "classification": "not-run"
+    },
+    "nativeTree": {
+      "id": "n1",
+      "kind": "program",
+      "sourceId": "s1",
+      "range": {
+        "start": {
+          "offset": 0,
+          "line": 1,
+          "column": 1
+        },
+        "end": {
+          "offset": 49,
+          "line": 1,
+          "column": 50
+        }
+      },
+      "named": true,
+      "children": [
+        {
+          "id": "n2",
+          "kind": "statement_list",
+          "sourceId": "s1",
+          "range": {
+            "start": {
+              "offset": 0,
+              "line": 1,
+              "column": 1
+            },
+            "end": {
+              "offset": 49,
+              "line": 1,
+              "column": 50
+            }
+          },
+          "named": true,
+          "children": [
+            {
+              "id": "n3",
+              "kind": "pipeline",
+              "sourceId": "s1",
+              "range": {
+                "start": {
+                  "offset": 0,
+                  "line": 1,
+                  "column": 1
+                },
+                "end": {
+                  "offset": 49,
+                  "line": 1,
+                  "column": 50
+                }
+              },
+              "named": true,
+              "children": [
+                {
+                  "id": "n4",
+                  "kind": "pipeline_chain",
+                  "sourceId": "s1",
+                  "range": {
+                    "start": {
+                      "offset": 0,
+                      "line": 1,
+                      "column": 1
+                    },
+                    "end": {
+                      "offset": 49,
+                      "line": 1,
+                      "column": 50
+                    }
+                  },
+                  "named": true,
+                  "children": [
+                    {
+                      "id": "n5",
+                      "kind": "command",
+                      "sourceId": "s1",
+                      "range": {
+                        "start": {
+                          "offset": 0,
+                          "line": 1,
+                          "column": 1
+                        },
+                        "end": {
+                          "offset": 14,
+                          "line": 1,
+                          "column": 15
+                        }
+                      },
+                      "named": true,
+                      "children": [
+                        {
+                          "id": "n6",
+                          "kind": "command_name",
+                          "sourceId": "s1",
+                          "field": "command_name",
+                          "range": {
+                            "start": {
+                              "offset": 0,
+                              "line": 1,
+                              "column": 1
+                            },
+                            "end": {
+                              "offset": 13,
+                              "line": 1,
+                              "column": 14
+                            }
+                          },
+                          "named": true
+                        },
+                        {
+                          "id": "n7",
+                          "kind": "command_elements",
+                          "sourceId": "s1",
+                          "field": "command_elements",
+                          "range": {
+                            "start": {
+                              "offset": 13,
+                              "line": 1,
+                              "column": 14
+                            },
+                            "end": {
+                              "offset": 14,
+                              "line": 1,
+                              "column": 15
+                            }
+                          },
+                          "named": true,
+                          "children": [
+                            {
+                              "id": "n8",
+                              "kind": "command_argument_sep",
+                              "sourceId": "s1",
+                              "range": {
+                                "start": {
+                                  "offset": 13,
+                                  "line": 1,
+                                  "column": 14
+                                },
+                                "end": {
+                                  "offset": 14,
+                                  "line": 1,
+                                  "column": 15
+                                }
+                              },
+                              "named": true,
+                              "children": [
+                                {
+                                  "id": "n9",
+                                  "kind": " ",
+                                  "sourceId": "s1",
+                                  "range": {
+                                    "start": {
+                                      "offset": 13,
+                                      "line": 1,
+                                      "column": 14
+                                    },
+                                    "end": {
+                                      "offset": 14,
+                                      "line": 1,
+                                      "column": 15
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "n10",
+                      "kind": "|",
+                      "sourceId": "s1",
+                      "range": {
+                        "start": {
+                          "offset": 14,
+                          "line": 1,
+                          "column": 15
+                        },
+                        "end": {
+                          "offset": 15,
+                          "line": 1,
+                          "column": 16
+                        }
+                      }
+                    },
+                    {
+                      "id": "n11",
+                      "kind": "command",
+                      "sourceId": "s1",
+                      "range": {
+                        "start": {
+                          "offset": 16,
+                          "line": 1,
+                          "column": 17
+                        },
+                        "end": {
+                          "offset": 49,
+                          "line": 1,
+                          "column": 50
+                        }
+                      },
+                      "named": true,
+                      "children": [
+                        {
+                          "id": "n12",
+                          "kind": "command_name",
+                          "sourceId": "s1",
+                          "field": "command_name",
+                          "range": {
+                            "start": {
+                              "offset": 16,
+                              "line": 1,
+                              "column": 17
+                            },
+                            "end": {
+                              "offset": 30,
+                              "line": 1,
+                              "column": 31
+                            }
+                          },
+                          "named": true
+                        },
+                        {
+                          "id": "n13",
+                          "kind": "command_elements",
+                          "sourceId": "s1",
+                          "field": "command_elements",
+                          "range": {
+                            "start": {
+                              "offset": 30,
+                              "line": 1,
+                              "column": 31
+                            },
+                            "end": {
+                              "offset": 49,
+                              "line": 1,
+                              "column": 50
+                            }
+                          },
+                          "named": true,
+                          "children": [
+                            {
+                              "id": "n14",
+                              "kind": "command_argument_sep",
+                              "sourceId": "s1",
+                              "range": {
+                                "start": {
+                                  "offset": 30,
+                                  "line": 1,
+                                  "column": 31
+                                },
+                                "end": {
+                                  "offset": 31,
+                                  "line": 1,
+                                  "column": 32
+                                }
+                              },
+                              "named": true,
+                              "children": [
+                                {
+                                  "id": "n15",
+                                  "kind": " ",
+                                  "sourceId": "s1",
+                                  "range": {
+                                    "start": {
+                                      "offset": 30,
+                                      "line": 1,
+                                      "column": 31
+                                    },
+                                    "end": {
+                                      "offset": 31,
+                                      "line": 1,
+                                      "column": 32
+                                    }
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "id": "n16",
+                              "kind": "unary_expression",
+                              "sourceId": "s1",
+                              "range": {
+                                "start": {
+                                  "offset": 31,
+                                  "line": 1,
+                                  "column": 32
+                                },
+                                "end": {
+                                  "offset": 49,
+                                  "line": 1,
+                                  "column": 50
+                                }
+                              },
+                              "named": true,
+                              "children": [
+                                {
+                                  "id": "n17",
+                                  "kind": "script_block_expression",
+                                  "sourceId": "s1",
+                                  "range": {
+                                    "start": {
+                                      "offset": 31,
+                                      "line": 1,
+                                      "column": 32
+                                    },
+                                    "end": {
+                                      "offset": 49,
+                                      "line": 1,
+                                      "column": 50
+                                    }
+                                  },
+                                  "named": true,
+                                  "children": [
+                                    {
+                                      "id": "n18",
+                                      "kind": "{",
+                                      "sourceId": "s1",
+                                      "range": {
+                                        "start": {
+                                          "offset": 31,
+                                          "line": 1,
+                                          "column": 32
+                                        },
+                                        "end": {
+                                          "offset": 32,
+                                          "line": 1,
+                                          "column": 33
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "id": "n19",
+                                      "kind": "script_block",
+                                      "sourceId": "s1",
+                                      "range": {
+                                        "start": {
+                                          "offset": 33,
+                                          "line": 1,
+                                          "column": 34
+                                        },
+                                        "end": {
+                                          "offset": 47,
+                                          "line": 1,
+                                          "column": 48
+                                        }
+                                      },
+                                      "named": true,
+                                      "children": [
+                                        {
+                                          "id": "n20",
+                                          "kind": "script_block_body",
+                                          "sourceId": "s1",
+                                          "field": "script_block_body",
+                                          "range": {
+                                            "start": {
+                                              "offset": 33,
+                                              "line": 1,
+                                              "column": 34
+                                            },
+                                            "end": {
+                                              "offset": 47,
+                                              "line": 1,
+                                              "column": 48
+                                            }
+                                          },
+                                          "named": true,
+                                          "children": [
+                                            {
+                                              "id": "n21",
+                                              "kind": "statement_list",
+                                              "sourceId": "s1",
+                                              "field": "statement_list",
+                                              "range": {
+                                                "start": {
+                                                  "offset": 33,
+                                                  "line": 1,
+                                                  "column": 34
+                                                },
+                                                "end": {
+                                                  "offset": 47,
+                                                  "line": 1,
+                                                  "column": 48
+                                                }
+                                              },
+                                              "named": true,
+                                              "children": [
+                                                {
+                                                  "id": "n22",
+                                                  "kind": "pipeline",
+                                                  "sourceId": "s1",
+                                                  "range": {
+                                                    "start": {
+                                                      "offset": 33,
+                                                      "line": 1,
+                                                      "column": 34
+                                                    },
+                                                    "end": {
+                                                      "offset": 47,
+                                                      "line": 1,
+                                                      "column": 48
+                                                    }
+                                                  },
+                                                  "named": true,
+                                                  "children": [
+                                                    {
+                                                      "id": "n23",
+                                                      "kind": "pipeline_chain",
+                                                      "sourceId": "s1",
+                                                      "range": {
+                                                        "start": {
+                                                          "offset": 33,
+                                                          "line": 1,
+                                                          "column": 34
+                                                        },
+                                                        "end": {
+                                                          "offset": 47,
+                                                          "line": 1,
+                                                          "column": 48
+                                                        }
+                                                      },
+                                                      "named": true,
+                                                      "children": [
+                                                        {
+                                                          "id": "n24",
+                                                          "kind": "command",
+                                                          "sourceId": "s1",
+                                                          "range": {
+                                                            "start": {
+                                                              "offset": 33,
+                                                              "line": 1,
+                                                              "column": 34
+                                                            },
+                                                            "end": {
+                                                              "offset": 47,
+                                                              "line": 1,
+                                                              "column": 48
+                                                            }
+                                                          },
+                                                          "named": true,
+                                                          "children": [
+                                                            {
+                                                              "id": "n25",
+                                                              "kind": "command_name",
+                                                              "sourceId": "s1",
+                                                              "field": "command_name",
+                                                              "range": {
+                                                                "start": {
+                                                                  "offset": 33,
+                                                                  "line": 1,
+                                                                  "column": 34
+                                                                },
+                                                                "end": {
+                                                                  "offset": 44,
+                                                                  "line": 1,
+                                                                  "column": 45
+                                                                }
+                                                              },
+                                                              "named": true
+                                                            },
+                                                            {
+                                                              "id": "n26",
+                                                              "kind": "command_elements",
+                                                              "sourceId": "s1",
+                                                              "field": "command_elements",
+                                                              "range": {
+                                                                "start": {
+                                                                  "offset": 44,
+                                                                  "line": 1,
+                                                                  "column": 45
+                                                                },
+                                                                "end": {
+                                                                  "offset": 47,
+                                                                  "line": 1,
+                                                                  "column": 48
+                                                                }
+                                                              },
+                                                              "named": true,
+                                                              "children": [
+                                                                {
+                                                                  "id": "n27",
+                                                                  "kind": "command_argument_sep",
+                                                                  "sourceId": "s1",
+                                                                  "range": {
+                                                                    "start": {
+                                                                      "offset": 44,
+                                                                      "line": 1,
+                                                                      "column": 45
+                                                                    },
+                                                                    "end": {
+                                                                      "offset": 45,
+                                                                      "line": 1,
+                                                                      "column": 46
+                                                                    }
+                                                                  },
+                                                                  "named": true,
+                                                                  "children": [
+                                                                    {
+                                                                      "id": "n28",
+                                                                      "kind": " ",
+                                                                      "sourceId": "s1",
+                                                                      "range": {
+                                                                        "start": {
+                                                                          "offset": 44,
+                                                                          "line": 1,
+                                                                          "column": 45
+                                                                        },
+                                                                        "end": {
+                                                                          "offset": 45,
+                                                                          "line": 1,
+                                                                          "column": 46
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  ]
+                                                                },
+                                                                {
+                                                                  "id": "n29",
+                                                                  "kind": "unary_expression",
+                                                                  "sourceId": "s1",
+                                                                  "range": {
+                                                                    "start": {
+                                                                      "offset": 45,
+                                                                      "line": 1,
+                                                                      "column": 46
+                                                                    },
+                                                                    "end": {
+                                                                      "offset": 47,
+                                                                      "line": 1,
+                                                                      "column": 48
+                                                                    }
+                                                                  },
+                                                                  "named": true,
+                                                                  "children": [
+                                                                    {
+                                                                      "id": "n30",
+                                                                      "kind": "variable",
+                                                                      "sourceId": "s1",
+                                                                      "range": {
+                                                                        "start": {
+                                                                          "offset": 45,
+                                                                          "line": 1,
+                                                                          "column": 46
+                                                                        },
+                                                                        "end": {
+                                                                          "offset": 47,
+                                                                          "line": 1,
+                                                                          "column": 48
+                                                                        }
+                                                                      },
+                                                                      "named": true,
+                                                                      "children": [
+                                                                        {
+                                                                          "id": "n31",
+                                                                          "kind": "$_",
+                                                                          "sourceId": "s1",
+                                                                          "range": {
+                                                                            "start": {
+                                                                              "offset": 45,
+                                                                              "line": 1,
+                                                                              "column": 46
+                                                                            },
+                                                                            "end": {
+                                                                              "offset": 47,
+                                                                              "line": 1,
+                                                                              "column": 48
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      ]
+                                                                    }
+                                                                  ]
+                                                                }
+                                                              ]
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "id": "n32",
+                                      "kind": "}",
+                                      "sourceId": "s1",
+                                      "range": {
+                                        "start": {
+                                          "offset": 48,
+                                          "line": 1,
+                                          "column": 49
+                                        },
+                                        "end": {
+                                          "offset": 49,
+                                          "line": 1,
+                                          "column": 50
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "structure": {
+      "id": "s-n1",
+      "kind": "Script",
+      "nativeId": "n1",
+      "range": {
+        "start": {
+          "offset": 0,
+          "line": 1,
+          "column": 1
+        },
+        "end": {
+          "offset": 49,
+          "line": 1,
+          "column": 50
+        }
+      },
+      "children": [
+        {
+          "id": "s-n2",
+          "kind": "Sequence",
+          "nativeId": "n2",
+          "range": {
+            "start": {
+              "offset": 0,
+              "line": 1,
+              "column": 1
+            },
+            "end": {
+              "offset": 49,
+              "line": 1,
+              "column": 50
+            }
+          },
+          "children": [
+            {
+              "id": "s-n3",
+              "kind": "Sequence",
+              "nativeId": "n3",
+              "range": {
+                "start": {
+                  "offset": 0,
+                  "line": 1,
+                  "column": 1
+                },
+                "end": {
+                  "offset": 49,
+                  "line": 1,
+                  "column": 50
+                }
+              },
+              "children": [
+                {
+                  "id": "s-n4",
+                  "kind": "Pipeline",
+                  "nativeId": "n4",
+                  "range": {
+                    "start": {
+                      "offset": 0,
+                      "line": 1,
+                      "column": 1
+                    },
+                    "end": {
+                      "offset": 49,
+                      "line": 1,
+                      "column": 50
+                    }
+                  },
+                  "children": [
+                    {
+                      "id": "s-e-n5",
+                      "kind": "Exec",
+                      "nativeId": "n5",
+                      "range": {
+                        "start": {
+                          "offset": 0,
+                          "line": 1,
+                          "column": 1
+                        },
+                        "end": {
+                          "offset": 14,
+                          "line": 1,
+                          "column": 15
+                        }
+                      },
+                      "execId": "e-n5"
+                    },
+                    {
+                      "id": "s-e-n11",
+                      "kind": "Exec",
+                      "nativeId": "n11",
+                      "range": {
+                        "start": {
+                          "offset": 16,
+                          "line": 1,
+                          "column": 17
+                        },
+                        "end": {
+                          "offset": 49,
+                          "line": 1,
+                          "column": 50
+                        }
+                      },
+                      "execId": "e-n11",
+                      "children": [
+                        {
+                          "id": "s-n17",
+                          "kind": "ScriptBlock",
+                          "nativeId": "n17",
+                          "range": {
+                            "start": {
+                              "offset": 31,
+                              "line": 1,
+                              "column": 32
+                            },
+                            "end": {
+                              "offset": 49,
+                              "line": 1,
+                              "column": 50
+                            }
+                          },
+                          "children": [
+                            {
+                              "id": "s-n19",
+                              "kind": "ScriptBlock",
+                              "nativeId": "n19",
+                              "range": {
+                                "start": {
+                                  "offset": 33,
+                                  "line": 1,
+                                  "column": 34
+                                },
+                                "end": {
+                                  "offset": 47,
+                                  "line": 1,
+                                  "column": 48
+                                }
+                              },
+                              "children": [
+                                {
+                                  "id": "s-n21",
+                                  "kind": "Sequence",
+                                  "nativeId": "n21",
+                                  "range": {
+                                    "start": {
+                                      "offset": 33,
+                                      "line": 1,
+                                      "column": 34
+                                    },
+                                    "end": {
+                                      "offset": 47,
+                                      "line": 1,
+                                      "column": 48
+                                    }
+                                  },
+                                  "children": [
+                                    {
+                                      "id": "s-n22",
+                                      "kind": "Sequence",
+                                      "nativeId": "n22",
+                                      "range": {
+                                        "start": {
+                                          "offset": 33,
+                                          "line": 1,
+                                          "column": 34
+                                        },
+                                        "end": {
+                                          "offset": 47,
+                                          "line": 1,
+                                          "column": 48
+                                        }
+                                      },
+                                      "children": [
+                                        {
+                                          "id": "s-n23",
+                                          "kind": "Pipeline",
+                                          "nativeId": "n23",
+                                          "range": {
+                                            "start": {
+                                              "offset": 33,
+                                              "line": 1,
+                                              "column": 34
+                                            },
+                                            "end": {
+                                              "offset": 47,
+                                              "line": 1,
+                                              "column": 48
+                                            }
+                                          },
+                                          "children": [
+                                            {
+                                              "id": "s-e-n24",
+                                              "kind": "Exec",
+                                              "nativeId": "n24",
+                                              "range": {
+                                                "start": {
+                                                  "offset": 33,
+                                                  "line": 1,
+                                                  "column": 34
+                                                },
+                                                "end": {
+                                                  "offset": 47,
+                                                  "line": 1,
+                                                  "column": 48
+                                                }
+                                              },
+                                              "execId": "e-n24"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "execPoints": [
+      {
+        "conditional": false,
+        "id": "e-n5",
+        "kind": "call",
+        "nativeId": "n5",
+        "range": {
+          "start": {
+            "offset": 0,
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "offset": 14,
+            "line": 1,
+            "column": 15
+          }
+        },
+        "words": [
+          {
+            "nativeId": "n6",
+            "range": {
+              "start": {
+                "offset": 0,
+                "line": 1,
+                "column": 1
+              },
+              "end": {
+                "offset": 13,
+                "line": 1,
+                "column": 14
+              }
+            },
+            "parts": [
+              {
+                "kind": "literal",
+                "nativeId": "n6",
+                "range": {
+                  "start": {
+                    "offset": 0,
+                    "line": 1,
+                    "column": 1
+                  },
+                  "end": {
+                    "offset": 13,
+                    "line": 1,
+                    "column": 14
+                  }
+                }
+              }
+            ],
+            "value": {
+              "state": "literal",
+              "text": "Get-ChildItem"
+            },
+            "expansions": [],
+            "arity": "1"
+          }
+        ],
+        "assignments": [],
+        "redirects": [],
+        "stableArgPrefix": 1,
+        "grade": "opaque",
+        "scope": "root",
+        "nativeArgv": "unknown",
+        "mayExecute": true
+      },
+      {
+        "conditional": false,
+        "id": "e-n11",
+        "kind": "call",
+        "nativeId": "n11",
+        "range": {
+          "start": {
+            "offset": 16,
+            "line": 1,
+            "column": 17
+          },
+          "end": {
+            "offset": 49,
+            "line": 1,
+            "column": 50
+          }
+        },
+        "words": [
+          {
+            "nativeId": "n12",
+            "range": {
+              "start": {
+                "offset": 16,
+                "line": 1,
+                "column": 17
+              },
+              "end": {
+                "offset": 30,
+                "line": 1,
+                "column": 31
+              }
+            },
+            "parts": [
+              {
+                "kind": "literal",
+                "nativeId": "n12",
+                "range": {
+                  "start": {
+                    "offset": 16,
+                    "line": 1,
+                    "column": 17
+                  },
+                  "end": {
+                    "offset": 30,
+                    "line": 1,
+                    "column": 31
+                  }
+                }
+              }
+            ],
+            "value": {
+              "state": "literal",
+              "text": "ForEach-Object"
+            },
+            "expansions": [],
+            "arity": "1"
+          },
+          {
+            "nativeId": "n16",
+            "range": {
+              "start": {
+                "offset": 31,
+                "line": 1,
+                "column": 32
+              },
+              "end": {
+                "offset": 49,
+                "line": 1,
+                "column": 50
+              }
+            },
+            "parts": [
+              {
+                "kind": "scriptBlock",
+                "nativeId": "n17",
+                "range": {
+                  "start": {
+                    "offset": 31,
+                    "line": 1,
+                    "column": 32
+                  },
+                  "end": {
+                    "offset": 49,
+                    "line": 1,
+                    "column": 50
+                  }
+                }
+              },
+              {
+                "kind": "literal",
+                "nativeId": "n25",
+                "range": {
+                  "start": {
+                    "offset": 33,
+                    "line": 1,
+                    "column": 34
+                  },
+                  "end": {
+                    "offset": 44,
+                    "line": 1,
+                    "column": 45
+                  }
+                }
+              },
+              {
+                "kind": "parameterExpansion",
+                "nativeId": "n30",
+                "range": {
+                  "start": {
+                    "offset": 45,
+                    "line": 1,
+                    "column": 46
+                  },
+                  "end": {
+                    "offset": 47,
+                    "line": 1,
+                    "column": 48
+                  }
+                }
+              }
+            ],
+            "value": {
+              "state": "symbolic"
+            },
+            "expansions": [
+              "runtime"
+            ],
+            "arity": "unknown"
+          }
+        ],
+        "assignments": [],
+        "redirects": [],
+        "stableArgPrefix": 1,
+        "grade": "opaque",
+        "scope": "root",
+        "nativeArgv": "unknown",
+        "mayExecute": true
+      },
+      {
+        "conditional": true,
+        "id": "e-n24",
+        "kind": "call",
+        "nativeId": "n24",
+        "range": {
+          "start": {
+            "offset": 33,
+            "line": 1,
+            "column": 34
+          },
+          "end": {
+            "offset": 47,
+            "line": 1,
+            "column": 48
+          }
+        },
+        "words": [
+          {
+            "nativeId": "n25",
+            "range": {
+              "start": {
+                "offset": 33,
+                "line": 1,
+                "column": 34
+              },
+              "end": {
+                "offset": 44,
+                "line": 1,
+                "column": 45
+              }
+            },
+            "parts": [
+              {
+                "kind": "literal",
+                "nativeId": "n25",
+                "range": {
+                  "start": {
+                    "offset": 33,
+                    "line": 1,
+                    "column": 34
+                  },
+                  "end": {
+                    "offset": 44,
+                    "line": 1,
+                    "column": 45
+                  }
+                }
+              }
+            ],
+            "value": {
+              "state": "literal",
+              "text": "Remove-Item"
+            },
+            "expansions": [],
+            "arity": "1"
+          },
+          {
+            "nativeId": "n29",
+            "range": {
+              "start": {
+                "offset": 45,
+                "line": 1,
+                "column": 46
+              },
+              "end": {
+                "offset": 47,
+                "line": 1,
+                "column": 48
+              }
+            },
+            "parts": [
+              {
+                "kind": "parameterExpansion",
+                "nativeId": "n30",
+                "range": {
+                  "start": {
+                    "offset": 45,
+                    "line": 1,
+                    "column": 46
+                  },
+                  "end": {
+                    "offset": 47,
+                    "line": 1,
+                    "column": 48
+                  }
+                }
+              }
+            ],
+            "value": {
+              "state": "symbolic"
+            },
+            "expansions": [
+              "runtime"
+            ],
+            "arity": "unknown"
+          }
+        ],
+        "assignments": [],
+        "redirects": [],
+        "stableArgPrefix": 1,
+        "grade": "opaque",
+        "scope": "s-n19",
+        "nativeArgv": "unknown",
+        "mayExecute": true
+      }
+    ],
+    "relations": [
+      {
+        "kind": "scriptBlockArgOf",
+        "from": "s-n17",
+        "to": "e-n11",
+        "via": "n17",
+        "detail": "possible execution inside expression"
+      },
+      {
+        "kind": "scriptBlockArgOf",
+        "from": "s-n21",
+        "to": "s-n19",
+        "via": "s-n19"
+      },
+      {
+        "kind": "scriptBlockArgOf",
+        "from": "s-n19",
+        "to": "s-n17",
+        "via": "s-n17"
+      },
+      {
+        "kind": "pipe",
+        "from": "s-e-n5",
+        "to": "s-e-n11",
+        "via": "s-n4",
+        "detail": "objectPipeline"
+      }
+    ],
+    "opaque": [
+      {
+        "nativeId": "n1",
+        "range": {
+          "start": {
+            "offset": 0,
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "offset": 49,
+            "line": 1,
+            "column": 50
+          }
+        },
+        "reason": "unverified_construct",
+        "mayContainExecution": true
+      }
+    ],
+    "diagnostics": [
+      {
+        "code": "profile_unchecked",
+        "severity": "info",
+        "message": "native version/options conformance remains unverified for this input"
+      },
+      {
+        "code": "unverified_construct",
+        "severity": "warning",
+        "message": "this construct/profile/options combination is outside the recorded native differential allowlist",
+        "nodeId": "n1",
+        "range": {
+          "start": {
+            "offset": 0,
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "offset": 49,
+            "line": 1,
+            "column": 50
+          }
+        }
+      }
+    ],
+    "executesBeforeError": [],
+    "limits": {
+      "inputBytes": 1048576,
+      "nodes": 20000,
+      "depth": 128,
+      "outputBytes": 33554432,
+      "timeoutNs": 5000000000
+    }
+  },
+  {
+    "usage": {
+      "aggregateNativeNodes": 17,
+      "nativeNodes": 17,
+      "depth": 5,
+      "wasmLinearMemoryBytes": 33554432,
+      "authorizationInputBytes": 65536,
+      "authorizationNodes": 2048,
+      "authorizationDepth": 64
+    },
+    "schemaVersion": "shell-surface/v1-draft",
+    "tool": "shell-ast development",
+    "consumer": "diagnostic",
+    "shell": {
+      "dialect": "cmd",
+      "profile": "cmd-batch",
+      "options": {
+        "delayedexpansion": false,
+        "extensions": true
+      },
+      "tier": "diagnostic",
+      "mode": "batch"
+    },
+    "assumptions": [
+      "no predefined aliases or functions",
+      "startup files have no effect (including .zshenv and login files)",
+      "platform startup prefixes are outside input",
+      "no PATH or program identity resolution",
+      "PowerShell FullLanguage; native argv is unknown",
+      "CMD registry defaults are replaced by explicit recorded options"
+    ],
+    "parser": {
+      "backend": "tree-sitter-cmd",
+      "revision": "2aa22f00d7f5bbe58556b8eef0b1fc1629508603",
+      "runtime": "wazero v1.10.1 / go-tree-sitter runtime v0.25.0",
+      "sha256": "cd6d4432e77a70074f29574f7b825c2e8b19b98175bf4b364726304e0f3cec8b"
+    },
+    "source": {
+      "id": "s1",
+      "origin": "argument",
+      "encoding": "utf-8",
+      "bom": false,
+      "text": "git status && echo ok || echo fail\r\n",
+      "bytes": 36,
+      "sha256": "48cd8befa17c29506d56c9c1aee4a42798ddb360876aa65a38eaec8fa1fd3dee"
+    },
+    "status": {
+      "syntax": "valid",
+      "recovered": false,
+      "profile": "unchecked",
+      "coverage": "complete",
+      "executionModel": "line",
+      "tier": "diagnostic",
+      "grade": "opaque",
+      "classification": "not-run"
+    },
+    "nativeTree": {
+      "id": "n1",
+      "kind": "program",
+      "sourceId": "s1",
+      "range": {
+        "start": {
+          "offset": 0,
+          "line": 1,
+          "column": 1
+        },
+        "end": {
+          "offset": 36,
+          "line": 2,
+          "column": 1
+        }
+      },
+      "named": true,
+      "children": [
+        {
+          "id": "n2",
+          "kind": "cond_exec",
+          "sourceId": "s1",
+          "range": {
+            "start": {
+              "offset": 0,
+              "line": 1,
+              "column": 1
+            },
+            "end": {
+              "offset": 34,
+              "line": 1,
+              "column": 35
+            }
+          },
+          "named": true,
+          "children": [
+            {
+              "id": "n3",
+              "kind": "cond_exec",
+              "sourceId": "s1",
+              "range": {
+                "start": {
+                  "offset": 0,
+                  "line": 1,
+                  "column": 1
+                },
+                "end": {
+                  "offset": 21,
+                  "line": 1,
+                  "column": 22
+                }
+              },
+              "named": true,
+              "children": [
+                {
+                  "id": "n4",
+                  "kind": "cmd",
+                  "sourceId": "s1",
+                  "range": {
+                    "start": {
+                      "offset": 0,
+                      "line": 1,
+                      "column": 1
+                    },
+                    "end": {
+                      "offset": 10,
+                      "line": 1,
+                      "column": 11
+                    }
+                  },
+                  "named": true,
+                  "children": [
+                    {
+                      "id": "n5",
+                      "kind": "command_name",
+                      "sourceId": "s1",
+                      "range": {
+                        "start": {
+                          "offset": 0,
+                          "line": 1,
+                          "column": 1
+                        },
+                        "end": {
+                          "offset": 3,
+                          "line": 1,
+                          "column": 4
+                        }
+                      },
+                      "named": true
+                    },
+                    {
+                      "id": "n6",
+                      "kind": "argument_list",
+                      "sourceId": "s1",
+                      "range": {
+                        "start": {
+                          "offset": 4,
+                          "line": 1,
+                          "column": 5
+                        },
+                        "end": {
+                          "offset": 10,
+                          "line": 1,
+                          "column": 11
+                        }
+                      },
+                      "named": true,
+                      "children": [
+                        {
+                          "id": "n7",
+                          "kind": "argument_value",
+                          "sourceId": "s1",
+                          "range": {
+                            "start": {
+                              "offset": 4,
+                              "line": 1,
+                              "column": 5
+                            },
+                            "end": {
+                              "offset": 10,
+                              "line": 1,
+                              "column": 11
+                            }
+                          },
+                          "named": true
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "n8",
+                  "kind": "&&",
+                  "sourceId": "s1",
+                  "range": {
+                    "start": {
+                      "offset": 11,
+                      "line": 1,
+                      "column": 12
+                    },
+                    "end": {
+                      "offset": 13,
+                      "line": 1,
+                      "column": 14
+                    }
+                  }
+                },
+                {
+                  "id": "n9",
+                  "kind": "cmd",
+                  "sourceId": "s1",
+                  "range": {
+                    "start": {
+                      "offset": 14,
+                      "line": 1,
+                      "column": 15
+                    },
+                    "end": {
+                      "offset": 21,
+                      "line": 1,
+                      "column": 22
+                    }
+                  },
+                  "named": true,
+                  "children": [
+                    {
+                      "id": "n10",
+                      "kind": "command_name",
+                      "sourceId": "s1",
+                      "range": {
+                        "start": {
+                          "offset": 14,
+                          "line": 1,
+                          "column": 15
+                        },
+                        "end": {
+                          "offset": 18,
+                          "line": 1,
+                          "column": 19
+                        }
+                      },
+                      "named": true
+                    },
+                    {
+                      "id": "n11",
+                      "kind": "argument_list",
+                      "sourceId": "s1",
+                      "range": {
+                        "start": {
+                          "offset": 19,
+                          "line": 1,
+                          "column": 20
+                        },
+                        "end": {
+                          "offset": 21,
+                          "line": 1,
+                          "column": 22
+                        }
+                      },
+                      "named": true,
+                      "children": [
+                        {
+                          "id": "n12",
+                          "kind": "argument_value",
+                          "sourceId": "s1",
+                          "range": {
+                            "start": {
+                              "offset": 19,
+                              "line": 1,
+                              "column": 20
+                            },
+                            "end": {
+                              "offset": 21,
+                              "line": 1,
+                              "column": 22
+                            }
+                          },
+                          "named": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "n13",
+              "kind": "||",
+              "sourceId": "s1",
+              "range": {
+                "start": {
+                  "offset": 22,
+                  "line": 1,
+                  "column": 23
+                },
+                "end": {
+                  "offset": 24,
+                  "line": 1,
+                  "column": 25
+                }
+              }
+            },
+            {
+              "id": "n14",
+              "kind": "cmd",
+              "sourceId": "s1",
+              "range": {
+                "start": {
+                  "offset": 25,
+                  "line": 1,
+                  "column": 26
+                },
+                "end": {
+                  "offset": 34,
+                  "line": 1,
+                  "column": 35
+                }
+              },
+              "named": true,
+              "children": [
+                {
+                  "id": "n15",
+                  "kind": "command_name",
+                  "sourceId": "s1",
+                  "range": {
+                    "start": {
+                      "offset": 25,
+                      "line": 1,
+                      "column": 26
+                    },
+                    "end": {
+                      "offset": 29,
+                      "line": 1,
+                      "column": 30
+                    }
+                  },
+                  "named": true
+                },
+                {
+                  "id": "n16",
+                  "kind": "argument_list",
+                  "sourceId": "s1",
+                  "range": {
+                    "start": {
+                      "offset": 30,
+                      "line": 1,
+                      "column": 31
+                    },
+                    "end": {
+                      "offset": 34,
+                      "line": 1,
+                      "column": 35
+                    }
+                  },
+                  "named": true,
+                  "children": [
+                    {
+                      "id": "n17",
+                      "kind": "argument_value",
+                      "sourceId": "s1",
+                      "range": {
+                        "start": {
+                          "offset": 30,
+                          "line": 1,
+                          "column": 31
+                        },
+                        "end": {
+                          "offset": 34,
+                          "line": 1,
+                          "column": 35
+                        }
+                      },
+                      "named": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "structure": {
+      "id": "s-n1",
+      "kind": "Script",
+      "nativeId": "n1",
+      "range": {
+        "start": {
+          "offset": 0,
+          "line": 1,
+          "column": 1
+        },
+        "end": {
+          "offset": 36,
+          "line": 2,
+          "column": 1
+        }
+      },
+      "children": [
+        {
+          "id": "s-n2",
+          "kind": "Or",
+          "nativeId": "n2",
+          "range": {
+            "start": {
+              "offset": 0,
+              "line": 1,
+              "column": 1
+            },
+            "end": {
+              "offset": 34,
+              "line": 1,
+              "column": 35
+            }
+          },
+          "children": [
+            {
+              "id": "s-n3",
+              "kind": "And",
+              "nativeId": "n3",
+              "range": {
+                "start": {
+                  "offset": 0,
+                  "line": 1,
+                  "column": 1
+                },
+                "end": {
+                  "offset": 21,
+                  "line": 1,
+                  "column": 22
+                }
+              },
+              "children": [
+                {
+                  "id": "s-e-n4",
+                  "kind": "Exec",
+                  "nativeId": "n4",
+                  "range": {
+                    "start": {
+                      "offset": 0,
+                      "line": 1,
+                      "column": 1
+                    },
+                    "end": {
+                      "offset": 10,
+                      "line": 1,
+                      "column": 11
+                    }
+                  },
+                  "execId": "e-n4"
+                },
+                {
+                  "id": "s-e-n9",
+                  "kind": "Exec",
+                  "nativeId": "n9",
+                  "range": {
+                    "start": {
+                      "offset": 14,
+                      "line": 1,
+                      "column": 15
+                    },
+                    "end": {
+                      "offset": 21,
+                      "line": 1,
+                      "column": 22
+                    }
+                  },
+                  "execId": "e-n9"
+                }
+              ]
+            },
+            {
+              "id": "s-e-n14",
+              "kind": "Exec",
+              "nativeId": "n14",
+              "range": {
+                "start": {
+                  "offset": 25,
+                  "line": 1,
+                  "column": 26
+                },
+                "end": {
+                  "offset": 34,
+                  "line": 1,
+                  "column": 35
+                }
+              },
+              "execId": "e-n14"
+            }
+          ]
+        }
+      ]
+    },
+    "execPoints": [
+      {
+        "conditional": false,
+        "id": "e-n4",
+        "kind": "call",
+        "nativeId": "n4",
+        "range": {
+          "start": {
+            "offset": 0,
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "offset": 10,
+            "line": 1,
+            "column": 11
+          }
+        },
+        "words": [
+          {
+            "nativeId": "n5",
+            "range": {
+              "start": {
+                "offset": 0,
+                "line": 1,
+                "column": 1
+              },
+              "end": {
+                "offset": 3,
+                "line": 1,
+                "column": 4
+              }
+            },
+            "parts": [
+              {
+                "kind": "literal",
+                "nativeId": "n5",
+                "range": {
+                  "start": {
+                    "offset": 0,
+                    "line": 1,
+                    "column": 1
+                  },
+                  "end": {
+                    "offset": 3,
+                    "line": 1,
+                    "column": 4
+                  }
+                }
+              }
+            ],
+            "value": {
+              "state": "literal",
+              "text": "git"
+            },
+            "expansions": [],
+            "arity": "1"
+          },
+          {
+            "nativeId": "n7",
+            "range": {
+              "start": {
+                "offset": 4,
+                "line": 1,
+                "column": 5
+              },
+              "end": {
+                "offset": 10,
+                "line": 1,
+                "column": 11
+              }
+            },
+            "parts": [
+              {
+                "kind": "literal",
+                "nativeId": "n7",
+                "range": {
+                  "start": {
+                    "offset": 4,
+                    "line": 1,
+                    "column": 5
+                  },
+                  "end": {
+                    "offset": 10,
+                    "line": 1,
+                    "column": 11
+                  }
+                }
+              }
+            ],
+            "value": {
+              "state": "literal",
+              "text": "status"
+            },
+            "expansions": [],
+            "arity": "1"
+          }
+        ],
+        "assignments": [],
+        "redirects": [],
+        "stableArgPrefix": 2,
+        "grade": "opaque",
+        "scope": "root",
+        "nativeArgv": "unknown",
+        "mayExecute": true
+      },
+      {
+        "conditional": false,
+        "id": "e-n9",
+        "kind": "call",
+        "nativeId": "n9",
+        "range": {
+          "start": {
+            "offset": 14,
+            "line": 1,
+            "column": 15
+          },
+          "end": {
+            "offset": 21,
+            "line": 1,
+            "column": 22
+          }
+        },
+        "words": [
+          {
+            "nativeId": "n10",
+            "range": {
+              "start": {
+                "offset": 14,
+                "line": 1,
+                "column": 15
+              },
+              "end": {
+                "offset": 18,
+                "line": 1,
+                "column": 19
+              }
+            },
+            "parts": [
+              {
+                "kind": "literal",
+                "nativeId": "n10",
+                "range": {
+                  "start": {
+                    "offset": 14,
+                    "line": 1,
+                    "column": 15
+                  },
+                  "end": {
+                    "offset": 18,
+                    "line": 1,
+                    "column": 19
+                  }
+                }
+              }
+            ],
+            "value": {
+              "state": "literal",
+              "text": "echo"
+            },
+            "expansions": [],
+            "arity": "1"
+          },
+          {
+            "nativeId": "n12",
+            "range": {
+              "start": {
+                "offset": 19,
+                "line": 1,
+                "column": 20
+              },
+              "end": {
+                "offset": 21,
+                "line": 1,
+                "column": 22
+              }
+            },
+            "parts": [
+              {
+                "kind": "literal",
+                "nativeId": "n12",
+                "range": {
+                  "start": {
+                    "offset": 19,
+                    "line": 1,
+                    "column": 20
+                  },
+                  "end": {
+                    "offset": 21,
+                    "line": 1,
+                    "column": 22
+                  }
+                }
+              }
+            ],
+            "value": {
+              "state": "literal",
+              "text": "ok"
+            },
+            "expansions": [],
+            "arity": "1"
+          }
+        ],
+        "assignments": [],
+        "redirects": [],
+        "stableArgPrefix": 2,
+        "grade": "opaque",
+        "scope": "root",
+        "nativeArgv": "unknown",
+        "mayExecute": true
+      },
+      {
+        "conditional": false,
+        "id": "e-n14",
+        "kind": "call",
+        "nativeId": "n14",
+        "range": {
+          "start": {
+            "offset": 25,
+            "line": 1,
+            "column": 26
+          },
+          "end": {
+            "offset": 34,
+            "line": 1,
+            "column": 35
+          }
+        },
+        "words": [
+          {
+            "nativeId": "n15",
+            "range": {
+              "start": {
+                "offset": 25,
+                "line": 1,
+                "column": 26
+              },
+              "end": {
+                "offset": 29,
+                "line": 1,
+                "column": 30
+              }
+            },
+            "parts": [
+              {
+                "kind": "literal",
+                "nativeId": "n15",
+                "range": {
+                  "start": {
+                    "offset": 25,
+                    "line": 1,
+                    "column": 26
+                  },
+                  "end": {
+                    "offset": 29,
+                    "line": 1,
+                    "column": 30
+                  }
+                }
+              }
+            ],
+            "value": {
+              "state": "literal",
+              "text": "echo"
+            },
+            "expansions": [],
+            "arity": "1"
+          },
+          {
+            "nativeId": "n17",
+            "range": {
+              "start": {
+                "offset": 30,
+                "line": 1,
+                "column": 31
+              },
+              "end": {
+                "offset": 34,
+                "line": 1,
+                "column": 35
+              }
+            },
+            "parts": [
+              {
+                "kind": "literal",
+                "nativeId": "n17",
+                "range": {
+                  "start": {
+                    "offset": 30,
+                    "line": 1,
+                    "column": 31
+                  },
+                  "end": {
+                    "offset": 34,
+                    "line": 1,
+                    "column": 35
+                  }
+                }
+              }
+            ],
+            "value": {
+              "state": "literal",
+              "text": "fail"
+            },
+            "expansions": [],
+            "arity": "1"
+          }
+        ],
+        "assignments": [],
+        "redirects": [],
+        "stableArgPrefix": 2,
+        "grade": "opaque",
+        "scope": "root",
+        "nativeArgv": "unknown",
+        "mayExecute": true
+      }
+    ],
+    "relations": [
+      {
+        "kind": "and",
+        "from": "s-e-n4",
+        "to": "s-e-n9",
+        "via": "s-n3"
+      },
+      {
+        "kind": "or",
+        "from": "s-n3",
+        "to": "s-e-n14",
+        "via": "s-n2"
+      }
+    ],
+    "opaque": [
+      {
+        "nativeId": "n1",
+        "range": {
+          "start": {
+            "offset": 0,
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "offset": 36,
+            "line": 2,
+            "column": 1
+          }
+        },
+        "reason": "unverified_construct",
+        "mayContainExecution": true
+      }
+    ],
+    "diagnostics": [
+      {
+        "code": "profile_unchecked",
+        "severity": "info",
+        "message": "native version/options conformance remains unverified for this input"
+      },
+      {
+        "code": "unverified_construct",
+        "severity": "warning",
+        "message": "this construct/profile/options combination is outside the recorded native differential allowlist",
+        "nodeId": "n1",
+        "range": {
+          "start": {
+            "offset": 0,
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "offset": 36,
+            "line": 2,
+            "column": 1
+          }
+        }
+      }
+    ],
+    "executesBeforeError": [],
+    "limits": {
+      "inputBytes": 1048576,
+      "nodes": 20000,
+      "depth": 128,
+      "outputBytes": 33554432,
+      "timeoutNs": 5000000000
+    }
+  }
+]

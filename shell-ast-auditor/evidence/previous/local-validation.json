@@ -1,0 +1,5869 @@
+{
+  "at": "2026-11-16T01:12:17.095Z",
+  "host": "darwin/arm64",
+  "count": 317,
+  "differences": [
+    {
+      "id": "powershell.switch",
+      "status": {
+        "syntax": "invalid",
+        "recovered": true,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 247,
+      "syntaxMatches": false,
+      "missingCalls": [],
+      "knownDifference": true
+    },
+    {
+      "id": "powershell.null-conditional",
+      "status": {
+        "syntax": "invalid",
+        "recovered": true,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 317,
+      "syntaxMatches": false,
+      "missingCalls": [],
+      "knownDifference": true
+    },
+    {
+      "id": "powershell.background",
+      "status": {
+        "syntax": "invalid",
+        "recovered": true,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 224,
+      "syntaxMatches": false,
+      "missingCalls": [],
+      "knownDifference": true
+    },
+    {
+      "id": "cmd.no-final-newline",
+      "status": {
+        "syntax": "invalid",
+        "recovered": true,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 79,
+      "syntaxMatches": false,
+      "missingCalls": [],
+      "knownDifference": true
+    }
+  ],
+  "results": [
+    {
+      "id": "bash.pipeline",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 16,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.multi-pipe",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 15,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.and-or",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.multi-pipe-size",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.sequence",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.git-stash",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.git-merge",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.git-remote",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.git-push",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.git-push-repeat",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.unzip",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.sips",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.trash",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.npm",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.npx",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.go-test",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.empty",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.go-test-json",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.concat",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.escaped",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.env",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.variable",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.exit-status",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "partial",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.dynamic-command",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.substitution",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.substitution-default",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.redirect-substitution",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.process-substitution",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.assignment-substitution",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.heredoc",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.heredoc-quoted",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.herestring",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.redirect-order-a",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.redirect-order-b",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.close-fd",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.append",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.background",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.subshell",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.block",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.if",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.for",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.while",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.until",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.case",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.function",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.shadow-function",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.array",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.associative",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.arith",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.arith-injection",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.test-arith",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.indirection",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.let",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.glob",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.brace",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.tilde",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.ansi",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.eval",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.eval-dynamic",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.source",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.trap",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.alias",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.shopt",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "mismatch",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.nested-shell",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.nested-env",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.nested-dynamic",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.python",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.node",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.pipe-stderr",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.coproc",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.named-fd",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.comment",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.unicode",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.crlf",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.bare-cr",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.zero-width",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.bidi",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.invalid-quote",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.invalid-paren",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.invalid-pipe",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.invalid-unexpected",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.invalid-bad-and",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "sh.pipeline",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "sh.multi-pipe",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "sh.and-or",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "sh.sequence",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "sh.empty",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "sh.concat",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "sh.env",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "sh.variable",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "sh.substitution",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "sh.heredoc",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "sh.heredoc-quoted",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "sh.redirect-order-a",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "sh.redirect-order-b",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "sh.background",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "sh.subshell",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "sh.block",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "sh.if",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "sh.for",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "sh.while",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "sh.until",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "sh.case",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "sh.function",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "sh.eval",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "sh.source",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "sh.alias",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "sh.unicode",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "sh.crlf",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "zsh.array",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "zsh.param-flags",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "zsh.glob-qualifier",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "zsh.extended-glob",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "zsh.anonymous",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "zsh.repeat",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "zsh.autoload",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "zsh.setopt",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "zsh.process-substitution",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "zsh.nested",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "zsh.unicode",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "zsh.invalid",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.pipeline",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 230,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.nested-scriptblock",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 232,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.quoted-pipe",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 207,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.and-or",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 205,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.redirection-a",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 206,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.sequence",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 211,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.all-streams",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 205,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.redirection-b",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 211,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.append",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 204,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.merge-warning",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 207,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.dynamic",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 201,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.literal-invoke",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 210,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.dotsource",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 206,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.subexpression",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 212,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.array-subexpression",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 217,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.splat",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 217,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.array",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 198,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.hashtable",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 197,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.here-string",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 196,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.here-interpolated",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 197,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.function",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 197,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.filter",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 201,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.if",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 197,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.for",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 196,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.foreach",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 213,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.while",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 219,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.do-until",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 261,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.switch",
+      "status": {
+        "syntax": "invalid",
+        "recovered": true,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 247,
+      "syntaxMatches": false,
+      "missingCalls": [],
+      "knownDifference": true
+    },
+    {
+      "id": "powershell.try",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 234,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.class",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 233,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.enum",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 210,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.param",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 217,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.using",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 220,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.requires",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 230,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.member",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 214,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.method",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 215,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.static",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 320,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.cast",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 413,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.scriptblock-create",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 447,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.iex",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 363,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.iex-literal",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 290,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.add-type",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 292,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.stop-parsing",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 243,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.ternary",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 243,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.null-coalesce",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 217,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.null-assign",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 245,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.null-conditional",
+      "status": {
+        "syntax": "invalid",
+        "recovered": true,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 317,
+      "syntaxMatches": false,
+      "missingCalls": [],
+      "knownDifference": true
+    },
+    {
+      "id": "powershell.native-array",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 294,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.encoded",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 233,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.nested",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 460,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.file",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 257,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.background",
+      "status": {
+        "syntax": "invalid",
+        "recovered": true,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 224,
+      "syntaxMatches": false,
+      "missingCalls": [],
+      "knownDifference": true
+    },
+    {
+      "id": "powershell.unicode",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 232,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.crlf",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 237,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.smart-dash",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 225,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.smart-quote",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 201,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.escaped",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 205,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.empty",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 202,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.comment",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 203,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.invalid-quote",
+      "status": {
+        "syntax": "invalid",
+        "recovered": true,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 211,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.invalid-block",
+      "status": {
+        "syntax": "invalid",
+        "recovered": true,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 212,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.invalid-pipe",
+      "status": {
+        "syntax": "invalid",
+        "recovered": true,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 212,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.invalid-here",
+      "status": {
+        "syntax": "invalid",
+        "recovered": true,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 214,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.ps51-and-or",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "mismatch",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 218,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.ps51-ternary",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "mismatch",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 217,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.simple",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 86,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "powershell.ps51-null-coalesce",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "mismatch",
+        "coverage": "complete",
+        "executionModel": "whole",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 202,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.pipeline",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 81,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.and-or",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 82,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.sequence",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 80,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.quoted-pipe",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 80,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.escape",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 77,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.caret-newline",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 80,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.redirection-a",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 78,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.redirection-b",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 79,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.append",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 81,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.group",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 79,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.if-exist",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 78,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.if-errorlevel",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 79,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.if-compare",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 79,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.for-files",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 79,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.for-range",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 77,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.for-f",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 79,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.for-f-command",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 80,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.for-usebackq",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 78,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.for-recursive",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 80,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.call-file",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 78,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.call-label",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 79,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.call-expansion",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 79,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.goto",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 80,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.set",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 79,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.set-arithmetic",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 79,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.set-prompt",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 81,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.setlocal",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 84,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.delayed",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 83,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.percent",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 80,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.parameter-mod",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 81,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.variable-slice",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 80,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.echo-off",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 79,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.label",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 76,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.exit",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 77,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.nested",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 78,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.parenthesis-echo",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 77,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.pipe-group",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 79,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.unicode",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 78,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.invalid-paren",
+      "status": {
+        "syntax": "invalid",
+        "recovered": true,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 77,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "cmd.invalid-pipe",
+      "status": {
+        "syntax": "invalid",
+        "recovered": true,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 77,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.profile32-coproc",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "mismatch",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.profile32-named-fd",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "mismatch",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.profile32-pipe-stderr",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "mismatch",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.profile32-append-both",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "mismatch",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.profile32-lowercase",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "mismatch",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 4,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.profile32-case-fallthrough",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "mismatch",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false
+    },
+    {
+      "id": "bash.pipeline.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.pipeline"
+    },
+    {
+      "id": "bash.multi-pipe.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.multi-pipe"
+    },
+    {
+      "id": "bash.multi-pipe-size.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.multi-pipe-size"
+    },
+    {
+      "id": "bash.and-or.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.and-or"
+    },
+    {
+      "id": "cmd.no-final-newline",
+      "status": {
+        "syntax": "invalid",
+        "recovered": true,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "line",
+        "tier": "diagnostic",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 79,
+      "syntaxMatches": false,
+      "missingCalls": [],
+      "knownDifference": true
+    },
+    {
+      "id": "bash.sequence.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.sequence"
+    },
+    {
+      "id": "bash.git-stash.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.git-stash"
+    },
+    {
+      "id": "bash.git-remote.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.git-remote"
+    },
+    {
+      "id": "bash.git-merge.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.git-merge"
+    },
+    {
+      "id": "bash.git-push.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.git-push"
+    },
+    {
+      "id": "bash.git-push-repeat.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.git-push-repeat"
+    },
+    {
+      "id": "bash.unzip.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.unzip"
+    },
+    {
+      "id": "bash.sips.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.sips"
+    },
+    {
+      "id": "bash.trash.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.trash"
+    },
+    {
+      "id": "bash.npm.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.npm"
+    },
+    {
+      "id": "bash.npx.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.npx"
+    },
+    {
+      "id": "bash.go-test.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.go-test"
+    },
+    {
+      "id": "bash.go-test-json.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.go-test-json"
+    },
+    {
+      "id": "bash.empty.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.empty"
+    },
+    {
+      "id": "bash.concat.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.concat"
+    },
+    {
+      "id": "bash.escaped.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.escaped"
+    },
+    {
+      "id": "bash.env.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.env"
+    },
+    {
+      "id": "bash.variable.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.variable"
+    },
+    {
+      "id": "bash.exit-status.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "partial",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.exit-status"
+    },
+    {
+      "id": "bash.dynamic-command.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.dynamic-command"
+    },
+    {
+      "id": "bash.substitution.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.substitution"
+    },
+    {
+      "id": "bash.substitution-default.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.substitution-default"
+    },
+    {
+      "id": "bash.process-substitution.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.process-substitution"
+    },
+    {
+      "id": "bash.redirect-substitution.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.redirect-substitution"
+    },
+    {
+      "id": "bash.assignment-substitution.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.assignment-substitution"
+    },
+    {
+      "id": "bash.heredoc.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.heredoc"
+    },
+    {
+      "id": "bash.heredoc-quoted.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.heredoc-quoted"
+    },
+    {
+      "id": "bash.herestring.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.herestring"
+    },
+    {
+      "id": "bash.redirect-order-a.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.redirect-order-a"
+    },
+    {
+      "id": "bash.redirect-order-b.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.redirect-order-b"
+    },
+    {
+      "id": "bash.close-fd.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.close-fd"
+    },
+    {
+      "id": "bash.append.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.append"
+    },
+    {
+      "id": "bash.background.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.background"
+    },
+    {
+      "id": "bash.subshell.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.subshell"
+    },
+    {
+      "id": "bash.block.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.block"
+    },
+    {
+      "id": "bash.for.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.for"
+    },
+    {
+      "id": "bash.if.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.if"
+    },
+    {
+      "id": "bash.while.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.while"
+    },
+    {
+      "id": "bash.until.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.until"
+    },
+    {
+      "id": "bash.case.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.case"
+    },
+    {
+      "id": "bash.function.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.function"
+    },
+    {
+      "id": "bash.shadow-function.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.shadow-function"
+    },
+    {
+      "id": "bash.array.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.array"
+    },
+    {
+      "id": "bash.arith.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.arith"
+    },
+    {
+      "id": "bash.associative.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.associative"
+    },
+    {
+      "id": "bash.arith-injection.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.arith-injection"
+    },
+    {
+      "id": "bash.test-arith.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.test-arith"
+    },
+    {
+      "id": "bash.let.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.let"
+    },
+    {
+      "id": "bash.indirection.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.indirection"
+    },
+    {
+      "id": "bash.brace.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.brace"
+    },
+    {
+      "id": "bash.glob.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.glob"
+    },
+    {
+      "id": "bash.tilde.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 4,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.tilde"
+    },
+    {
+      "id": "bash.ansi.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 4,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.ansi"
+    },
+    {
+      "id": "bash.eval-dynamic.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.eval-dynamic"
+    },
+    {
+      "id": "bash.eval.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.eval"
+    },
+    {
+      "id": "bash.source.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 4,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.source"
+    },
+    {
+      "id": "bash.trap.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.trap"
+    },
+    {
+      "id": "bash.alias.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.alias"
+    },
+    {
+      "id": "bash.shopt.macos32",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "mismatch",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.shopt"
+    },
+    {
+      "id": "bash.nested-env.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.nested-env"
+    },
+    {
+      "id": "bash.nested-shell.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.nested-shell"
+    },
+    {
+      "id": "bash.python.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.python"
+    },
+    {
+      "id": "bash.nested-dynamic.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.nested-dynamic"
+    },
+    {
+      "id": "bash.node.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.node"
+    },
+    {
+      "id": "bash.pipe-stderr.macos32",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "mismatch",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.pipe-stderr"
+    },
+    {
+      "id": "bash.named-fd.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "mismatch",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.named-fd"
+    },
+    {
+      "id": "bash.coproc.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "mismatch",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.coproc"
+    },
+    {
+      "id": "bash.unicode.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.unicode"
+    },
+    {
+      "id": "bash.comment.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "valid",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "exact",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 4,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.comment"
+    },
+    {
+      "id": "bash.crlf.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.crlf"
+    },
+    {
+      "id": "bash.bare-cr.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.bare-cr"
+    },
+    {
+      "id": "bash.zero-width.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.zero-width"
+    },
+    {
+      "id": "bash.bidi.macos32",
+      "status": {
+        "syntax": "valid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 0,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.bidi"
+    },
+    {
+      "id": "bash.invalid-quote.macos32",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.invalid-quote"
+    },
+    {
+      "id": "bash.invalid-paren.macos32",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.invalid-paren"
+    },
+    {
+      "id": "bash.invalid-pipe.macos32",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 3,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.invalid-pipe"
+    },
+    {
+      "id": "bash.invalid-unexpected.macos32",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.invalid-unexpected"
+    },
+    {
+      "id": "bash.invalid-bad-and.macos32",
+      "status": {
+        "syntax": "invalid",
+        "recovered": false,
+        "profile": "unchecked",
+        "coverage": "complete",
+        "executionModel": "incremental",
+        "tier": "authorization-candidate",
+        "grade": "opaque",
+        "classification": "not-run"
+      },
+      "exitCode": 10,
+      "durationMs": 2,
+      "syntaxMatches": true,
+      "missingCalls": [],
+      "knownDifference": false,
+      "adaptedFrom": "bash.invalid-bad-and"
+    }
+  ]
+}

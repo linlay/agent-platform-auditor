@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "id": "shell-core",
+  "title": "跨平台 Shell 核心测试集",
+  "version": "3",
+  "description": "235 条来源用例 + 82 条 macOS Bash 3.2 适配；修正 PowerShell 空条件语法和 Bash 3.2 语义断言；三档审批预期与解析判断独立。",
+  "files": [
+    "bash.jsonl",
+    "sh.jsonl",
+    "zsh.jsonl",
+    "powershell.jsonl",
+    "cmd.jsonl"
+  ]
+}

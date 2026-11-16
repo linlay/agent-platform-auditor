@@ -1,0 +1,49 @@
+{
+  "checkedAt": "2026-11-16T01:36:08.585317+00:00",
+  "host": "darwin/arm64",
+  "parserSha256": "d8f35bf30d73941775c06fce6a62cb156eefbc87ac818b04b5fed8d62a53541f",
+  "checks": [
+    "npm test",
+    "npm run build",
+    "go test -race ./...",
+    "npm run test:integration",
+    "npm run test:browser"
+  ],
+  "coreRun": {
+    "id": "run-20261116T013420-c5b13e98b8d4",
+    "count": 317,
+    "counts": {
+      "known-difference": 4,
+      "match": 313
+    },
+    "expectedComparison": "expectations-run-20261116T013420-c5b13e98b8d4"
+  },
+  "runComparison": {
+    "id": "compare-20261116T013456-f7a8aa08eb39",
+    "baseRunId": "run-20261116T013430-20e4e0f95fe2",
+    "targetRunId": "run-20261116T013454-2452e61686ee",
+    "counts": {
+      "unchanged": 8
+    }
+  },
+  "browser": {
+    "at": "2026-11-16T01:34:57.409Z",
+    "checks": [
+      "testset switch",
+      "batch parse",
+      "source highlight",
+      "execution points",
+      "reload run/report",
+      "known recovery",
+      "expected vs actual",
+      "run vs run",
+      "reload comparison",
+      "mobile render"
+    ],
+    "runId": "run-20261116T013454-2452e61686ee",
+    "comparisonId": "compare-20261116T013456-f7a8aa08eb39",
+    "pageErrors": []
+  },
+  "scope": "local diagnostic parser regression only; Windows native acceptance pending; no command execution",
+  "storage": "Full raw reports in local results/runs; summaries only here, generated run history is gitignored."
+}

@@ -1,0 +1,66 @@
+{
+  "checkedAt": "2026-11-16T02:51:48.781154+00:00",
+  "parser": {
+    "supportsPolicy": true,
+    "sha256": "a0f8f9a2b3421412d12eeb482aee8f3c84acb3722a7dcc2463f7070af01fed93",
+    "mode": "syntax-only",
+    "sourceCommit": "27fc407cb0f962bba6329cd4efc19fff441932d0",
+    "sourceDirty": false,
+    "sourceFingerprint": "4124386c6f5227ddecdedbaa63cce0d7eec114c1ba6520d59f25520fc7b7d28f",
+    "builtAt": "2026-11-16T02:49:44.860290+00:00",
+    "goVersion": "go version go1.26.1 darwin/arm64"
+  },
+  "core": {
+    "runId": "run-20261116T025045-06296227371c",
+    "counts": {
+      "known-difference": 4,
+      "match": 313
+    }
+  },
+  "policy": {
+    "runId": "run-20261116T025057-b282539f8855",
+    "counts": {
+      "match": 6
+    }
+  },
+  "oldVsNew": {
+    "id": "compare-20261116T025057-1a9ed0762436",
+    "baseRunId": "run-20261116T024214-0fcb55c24570",
+    "targetRunId": "run-20261116T025045-06296227371c",
+    "counts": {
+      "unchanged": 317
+    }
+  },
+  "duplicateStartup": "Integration spawned duplicate auditor while core run was active: exit=0, already-running message, run not interrupted",
+  "checks": [
+    "npm test",
+    "npm run build",
+    "go test -race ./...",
+    "npm run test:integration",
+    "npm run test:browser",
+    "npm run server:status",
+    "npm run server:stop"
+  ],
+  "scope": "local Host preflight; no command execution, no live Run receipts, no Windows native acceptance",
+  "browser": {
+    "at": "2026-11-16T02:53:25.215Z",
+    "checks": [
+      "testset switch",
+      "batch parse",
+      "source highlight",
+      "execution points",
+      "reload run/report",
+      "known recovery",
+      "expected vs actual",
+      "run vs run",
+      "reload comparison",
+      "mobile render",
+      "classification without access level",
+      "auto_approve from UI",
+      "temporary command excluded from fixed batch"
+    ],
+    "runId": "run-20261116T025322-6f74bd9911b2",
+    "comparisonId": "compare-20261116T025324-36edf502e8ed",
+    "pageErrors": []
+  }
+}
