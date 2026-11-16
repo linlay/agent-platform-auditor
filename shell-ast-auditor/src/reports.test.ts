@@ -16,6 +16,22 @@ const item = (c = tc(), r: Result | undefined = done()): ReportItem => ({ key: `
 const data = (items: ReportItem[]): ReportData => ({ schemaVersion: "shell-ast-audit-export/v1", generatedAt: "2026-11-16T00:00:00Z", scope: "accumulated", testsetId: "set", testsetTitle: "测试集", items, baseline: [], runs: { r: run("r", items.map(i => i.snapshot), Object.fromEntries(items.filter(i => i.result).map(i => [i.snapshot.id, i.result!]))) } });
 
 describe("frozen export sources", () => {
+  it("exports a free input independently of testsets and preserves its own parser provenance", async () => {
+    const c = tc("custom"), r = full();
+    c.command = "printf '%s' 中文\nnode --version";
+    r.parser = { sha256: "free-sha", sourceDirty: false, mode: "syntax-only", supportsPolicy: true };
+    r.input = { command: c.command, projectDir: "/original-free-directory", review: { mode: "classification", cwd: "/original-free-cwd" } };
+    const read = vi.fn();
+    const d = await collectReportData({ scope: "free", testsetId: "free", testsetTitle: "自由测试", cases: [c], results: { custom: r } }, read);
+    expect(read).not.toHaveBeenCalled();
+    expect(d.items).toHaveLength(1);
+    expect(provenance(d, d.items[0]).parserSha256).toBe("free-sha");
+    expect(reproduction(d, d.items[0]).invocation.stdin).toBe(c.command);
+    expect(reproduction(d, d.items[0]).expected).toBeNull();
+    expect(rawReport(d).cases[0].expect).toBeNull();
+    expect(humanReport(d)).toContain("自由测试");
+    expect(humanReport(d)).not.toContain("单用例累计结果");
+  });
   it("recovers each retained result from its original version and does not use edited case definitions", async () => {
     const a = tc("a"), b = tc("b");
     const runs = { a: run("a", [a], { a: done() }), b: run("b", [b], { b: done() }) };

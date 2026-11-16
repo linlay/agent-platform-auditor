@@ -2,7 +2,7 @@ import { expectedPolicy } from "./domain";
 import { strToU8, zipSync } from "fflate";
 import { J, obj } from "./domain";
 import { judgments } from "./judgments";
-import { provenance, ReportData, ReportItem, sourceRuns } from "./report-data";
+import { exportedCase, provenance, ReportData, ReportItem, sourceRuns } from "./report-data";
 
 type FindingKind = "expectation-deviation" | "known-difference" | "parser-error" | "capability-improvement" | "policy-review" | "comparison-review";
 export interface FindingGroup {
@@ -164,7 +164,7 @@ export function feedbackFiles(data: ReportData): Record<string, string> {
     }),
   }));
   for (const item of all.filter(i => keys.has(i.key))) files[paths.get(item.key)!] = JSON.stringify({
-    key: item.key, source: provenance(data, item), snapshot: item.snapshot,
+    key: item.key, source: provenance(data, item), snapshot: exportedCase(item.snapshot),
     result: item.result ?? null, rawReportAvailable: !!item.result?.report,
   }, null, 2);
   files["cases.jsonl"] = all.map(item => JSON.stringify(reproduction(data, item))).join("\n") + "\n";

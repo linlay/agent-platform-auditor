@@ -1,6 +1,6 @@
 import { label as zh, statusName } from "./ui-labels";
 import { Tag } from "./Tag";
-import { PolicyPanel } from "./PolicyPanel";
+import { PolicyCategories, PolicyPanel } from "./PolicyPanel";
 import { JudgmentBadge } from "./JudgmentBadge";
 import { judgments } from "./judgments";
 import { ExpectationPanel } from "./ExpectationPanel";
@@ -74,14 +74,14 @@ export function Inspector({
     <section className="inspector">
       {c && (
         <>
-          <h2>{c.id}</h2>
+          <h2>{c.id === "custom" ? "解析结果" : c.id}</h2>
           <div className="case-meta">
             <Tag code={c.profile} />
             <Tag code={c.review?.mode ?? "syntax-only"} />
             {c.review?.accessLevel && <Tag code={c.review.accessLevel} />}
-            <span title={"expect.syntax=" + c.expect.syntax}>
+            {c.id !== "custom" && <span title={"expect.syntax=" + c.expect.syntax}>
               预期语法{zh(c.expect.syntax)}
-            </span>
+            </span>}
           </div>
           <div className="source-box">
             <pre className="source">
@@ -141,7 +141,7 @@ export function Inspector({
               <small>上方为本次实际解析的命令，源码范围与高亮以此为准。映射目录：{result?.input?.projectDir ?? c.projectDir}</small>
             </details>
           )}
-          <div className="judgment-summary">
+          {c.id !== "custom" && <div className="judgment-summary">
             <JudgmentBadge
               kind="解析判断"
               value={judgments(c, result).parsing}
@@ -150,7 +150,7 @@ export function Inspector({
               kind="审批判断"
               value={judgments(c, result).approval}
             />
-          </div>
+          </div>}
           <div className="status" title={result?.runId?'结果记录：'+result.runId:undefined}>
             解析：{zh(result?.state ?? "未运行")} · {result?.durationMs ?? "—"}{" "}
             ms ·
@@ -196,6 +196,7 @@ export function Inspector({
                   </div>
                 </details>
               </div>
+              {c.id !== "custom" && <PolicyCategories policy={report.policy} />}
             </>
           )}
           <nav role="tablist" aria-label="当前命令详情">
@@ -210,7 +211,7 @@ export function Inspector({
               "原生树",
               "完整 JSON",
               "来源",
-            ].map((t) => (
+            ].filter(t => c.id !== "custom" || t !== "解析判断").map((t) => (
               <button
                 role="tab"
                 tabIndex={tab === t ? 0 : -1}
@@ -248,7 +249,7 @@ export function Inspector({
                   setPicked(null);
                 }}
               >
-                {t}
+                {c.id === "custom" && t === "审批判断" ? "分类与审批" : t}
               </button>
             ))}
           </nav>
@@ -262,13 +263,13 @@ export function Inspector({
               <ExpectationPanel testCase={c} result={result} />
             ) : tab === "审批判断" ? (
               <>
-              <ExpectationPanel testCase={c} result={result} kind="approval" />
+              {c.id !== "custom" && <ExpectationPanel testCase={c} result={result} kind="approval" />}
               {report?.policy ? (
-                <PolicyPanel policy={report.policy} />
+                <PolicyPanel policy={report.policy} showExpectationHint={c.id !== "custom"} />
               ) : (
                 <p className="empty">
                   {report
-                    ? "本次只解析语法，未进行分类或审批预审。可在运行模式中选择相应模式后重新解析。"
+                    ? "本次报告未包含分类或审批预审。可选择“只看分类”或“评估审批要求”后重新解析；若已选择，请查看诊断或错误信息。"
                     : result?.state === "error"
                       ? "本次解析失败，没有分类或预审报告。"
                       : "解析后将在此显示当前命令的分类与审批结果。"}

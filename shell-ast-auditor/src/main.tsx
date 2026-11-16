@@ -12,12 +12,12 @@ import {
   describeCheck,
 } from "./domain";
 import "./style.css";
-import { api, download, downloadFile } from "./api";
+import { api } from "./api";
+import { FreeTest } from "./FreeTest";
+import { exportResultReport } from "./export-report";
 import { ExportMenu } from "./ExportMenu";
 import { BatchVersion } from "./BatchVersion";
-import { collectReportData, ExportKind, loadReportEvidence, rawReport } from "./report-data";
-import { feedbackEvidenceKeys, feedbackZip } from "./report-feedback";
-import { humanReport } from "./report-html";
+import { ExportKind } from "./report-data";
 import { ReviewControls } from "./ReviewControls";
 import { label } from "./ui-labels";
 import { judgments } from "./judgments";
@@ -46,7 +46,7 @@ function App() {
     }
   }
   const definitions = useRef<Case[]>([]);
-  const [workMode, setWorkMode] = useState<"single" | "batch">("single");
+  const [workMode, setWorkMode] = useState<"single" | "batch" | "free">("single");
   const [manualReview, setManualReview] = useState<ReviewOptions>({
     mode: "classification",
   });
@@ -59,13 +59,8 @@ function App() {
     [results, setResults] = useState<Record<string, Result>>({}),
     [query, setQuery] = useState(""),
     [filters, setFilters] = useState<Record<string, string>>({}),
-    [fatal, setFatal] = useState(""),
-    [custom, setCustom] = useState("node --version"),
-    [profile, setProfile] = useState("bash-3.2");
+    [fatal, setFatal] = useState("");
   const [reviewOverride, setReviewOverride] = useState<ReviewOptions>();
-  const [customReview, setCustomReview] = useState<ReviewOptions>({
-    mode: "classification",
-  });
   const [exporting, setExporting] = useState(false);
   const [health, setHealth] = useState<Health>();
   const [projectDir, setProjectDir] = useState<string | undefined>(() => {
@@ -84,9 +79,9 @@ function App() {
     [comparison, setComparison] = useState<Comparison>(),
     [baseId, setBaseId] = useState(""),
     [targetId, setTargetId] = useState(""),
-    [customBusy, setCustomBusy] = useState(false);
+    [freeBusy, setFreeBusy] = useState(false);
   const busy =
-    loadingSet || starting || currentRun?.state === "running" || customBusy;
+    loadingSet || starting || currentRun?.state === "running" || freeBusy;
   const progress = {
     done: Object.keys(currentRun?.results ?? {}).length,
     total: currentRun?.cases?.length ?? 0,
@@ -150,7 +145,7 @@ function App() {
     setRuns(r);
     setComparisons(c);
   }
-  async function loadSet(id: string, target: "single" | "batch" = workMode) {
+  async function loadSet(id: string, target: "single" | "batch" = workMode === "batch" ? "batch" : "single") {
     const ticket = ++navigation.current;
     setWorkMode(target);
     setLoadingSet(true);
@@ -199,7 +194,7 @@ function App() {
     void refresh().catch((e) => setFatal(String(e)));
   }, []);
   useEffect(() => {
-    if (!runId) return;
+    if (!runId || workMode === "free") return;
     let stopped = false;
     let timer: ReturnType<typeof setTimeout>;
     async function poll() {
@@ -241,7 +236,7 @@ function App() {
     report = result?.report;
   useEffect(() => {
     const source = result?.runId;
-    if (!source || result?.state !== "done" || report) return;
+    if (workMode === "free" || !source || result?.state !== "done" || report) return;
     let stopped = false;
     const epoch = clearEpoch.current;
     api<Result>("/api/runs/" + source + "/cases/" + encodeURIComponent(active))
@@ -337,26 +332,6 @@ function App() {
     for (const c of list) pending[c.id] = { state: "running" };
     setResults((s) => (workMode === "single" ? { ...s, ...pending } : pending));
     try {
-      if (list[0].id === "custom") {
-        navigation.current++;
-        setDetailTab(
-          list[0].review?.mode === "syntax-only" ? "执行面" : "审批判断",
-        );
-        setCustomBusy(true);
-        setRunId("");
-        setCurrentRun(undefined);
-        setResults((s) => ({ ...s, custom: { state: "running" } }));
-        const data = await api<Result>("/api/parse", {
-          command: list[0].command,
-          dialect: list[0].dialect,
-          profile: list[0].profile,
-          options: {},
-          review: list[0].review,
-          projectDir: mappedProjectDir,
-        });
-        setResults((s) => ({ ...s, custom: { ...data, state: "done" } }));
-        return;
-      }
       const r = await api<Run>("/api/runs", {
         testsetId,
         caseIds: list.map((x) => x.id),
@@ -379,7 +354,6 @@ function App() {
       else setResults((s) => ({ ...s, ...failures }));
     } finally {
       setStarting(false);
-      setCustomBusy(false);
     }
   }
   async function makeComparison() {
@@ -398,20 +372,11 @@ function App() {
     if (exporting) return;
     setExporting(true);
     try {
-      const data = await collectReportData({
+      await exportResultReport({
         scope: mode === "结果对比" ? "comparison" : workMode === "single" ? "accumulated" : "batch",
         testsetId, testsetTitle: testsets.find(s => s.id === testsetId)?.title ?? testsetId,
         cases, results, runId: currentRun?.id, comparison: mode === "结果对比" ? comparison : undefined,
-      }, id => api<Run>("/api/runs/" + encodeURIComponent(id)));
-      const name = [data.testsetId, data.scope === "batch" ? data.items[0]?.runId : data.scope === "comparison" ? data.comparison?.id : "accumulated", data.generatedAt.replace(/[:.]/g, "-")].join("-");
-      if (kind === "human") {
-        downloadFile(new Blob([humanReport(data)], { type: "text/html;charset=utf-8" }), name + "-report.html");
-      } else {
-        const keys = kind === "raw" ? new Set([...data.items, ...data.baseline].map(i => i.key)) : feedbackEvidenceKeys(data);
-        await loadReportEvidence(data, keys, (run, id) => api<Result>(`/api/runs/${encodeURIComponent(run)}/cases/${encodeURIComponent(id)}`));
-        if (kind === "raw") download(rawReport(data), name + "-full.json");
-        else downloadFile(new Blob([new Uint8Array(feedbackZip(data))], { type: "application/zip" }), name + "-feedback.zip");
-      }
+      }, kind);
     } catch (e) {
       setFatal("报告导出失败：" + String(e));
     } finally {
@@ -490,6 +455,11 @@ function App() {
           >
             整集测试
           </button>
+          <button
+            disabled={initializing || busy}
+            className={workMode === "free" ? "chosen" : ""}
+            onClick={() => { navigation.current++; setWorkMode("free"); setFatal(""); }}
+          >自由测试</button>
         </nav>
         <span className="safety-note">仅分析，不执行命令</span>
         <button
@@ -503,7 +473,7 @@ function App() {
           <details className="parser-info">
             <summary>版本信息</summary>
             <div>
-              <p>测试集：testsets/{testsetId}/</p>
+              {workMode === "free" ? <p>自由测试 · 自定义输入</p> : <p>测试集：testsets/{testsetId}/</p>}
               {health?.parser && (
                 <>
                   <p>
@@ -524,7 +494,7 @@ function App() {
         <details className="app-help">
           <summary>使用说明</summary>
           <div>
-            <p>选择测试集和模式，解析当前命令或批量运行，再查看结果。</p>
+            <p>单用例测试支持多选，整集测试生成批次报告，自由测试直接输入命令。</p>
             <p>
               只看分类时不设权限，也不产生审批决定；审批预审使用你选择的权限档位。
             </p>
@@ -565,9 +535,11 @@ function App() {
       <main>
         {" "}
         {fatal && <p role="alert">{fatal}</p>}
-        {cases.some(c => !c.expect.policyByLevel && definitions.current.some(d => d.id === c.id && d.expect.policyByLevel)) && (
+        {workMode !== "free" && cases.some(c => !c.expect.policyByLevel && definitions.current.some(d => d.id === c.id && d.expect.policyByLevel)) && (
           <p className="active-filter-note">当前结果保留的是旧版用例预期。三档预期已补齐，请重新运行以使用新版预期；历史记录不会被改写。</p>
         )}
+        <FreeTest active={workMode === "free"} projectDir={mappedProjectDir} onBusyChange={setFreeBusy} />
+        {workMode !== "free" && <>
         <section className="dataset">
           <label>
             测试集{" "}
@@ -945,71 +917,9 @@ function App() {
                 defaultTab={detailTab}
               />
             </div>
-            {workMode === "single" && (
-              <section className="custom">
-                <h2>自定义命令</h2>
-                <ReviewControls
-                  value={customReview}
-                  projectDir={mappedProjectDir}
-                  onChange={(v) =>
-                    setCustomReview(v ?? { mode: "classification" })
-                  }
-                  disabled={busy}
-                />
-                <CompactSelect
-                  value={profile}
-                  onChange={(e) => setProfile(e.target.value)}
-                >
-                  {choices.profile.map((p) => (
-                    <option key={p} value={p}>
-                      {label(p)}
-                    </option>
-                  ))}
-                </CompactSelect>
-                <textarea
-                  aria-label="自定义命令"
-                  value={custom}
-                  onChange={(e) => setCustom(e.target.value)}
-                />
-                <button
-                  disabled={busy}
-                  onClick={() => {
-                    const dialect = profile.startsWith("bash")
-                      ? "bash"
-                      : profile.startsWith("sh-")
-                        ? "sh"
-                        : profile.startsWith("zsh")
-                          ? "zsh"
-                          : profile.startsWith("cmd")
-                            ? "cmd"
-                            : "powershell";
-                    const x: Case = {
-                      review: customReview,
-                      id: "custom",
-                      command: custom,
-                      dialect,
-                      profile,
-                      platforms: [],
-                      tags: ["custom"],
-                      expect: { syntax: "valid", gradeCeiling: "opaque" },
-                      source:
-                        "user input; expectation is editable only via fixed corpus",
-                    };
-                    setCases((s) => [...s.filter((c) => c.id !== "custom"), x]);
-                    setActive(x.id);
-                    setMode("测试集");
-                    void run([x]);
-                  }}
-                >
-                  解析自定义
-                </button>
-                <small>
-                  临时输入不保存到测试集。预审结果与权限档位及运行环境有关。
-                </small>
-              </section>
-            )}
           </>
         )}
+        </>}
       </main>
     </>
   );

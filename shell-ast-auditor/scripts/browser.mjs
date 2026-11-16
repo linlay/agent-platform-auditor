@@ -120,10 +120,9 @@ try {
   const multi = await (await multiResponse).json();
   assert.equal(multi.kind, "manual");
   assert.equal(multi.cases.length, 2);
-  await expect(item("bash.sequence").locator(".judgment-green")).toHaveCount(1);
-  await expect(item("bash.git-stash").locator(".judgment-green")).toHaveCount(
-    1,
-  );
+  await expect(item("bash.sequence").getByLabel("解析：符合预期", { exact: true })).toBeVisible();
+  await expect(item("bash.sequence").getByLabel("审批：符合预期", { exact: true })).toBeVisible();
+  await expect(item("bash.git-stash").getByLabel("解析：符合预期", { exact: true })).toBeVisible();
   assert.equal(await item("bash.and-or").locator(".judgment-green").count(), 1);
   assert.equal(await page.locator(".history").count(), 0);
   await page.getByLabel("全选当前列表", { exact: true }).check();
@@ -156,8 +155,8 @@ try {
   const feedback = JSON.parse(strFromU8(zip["feedback.json"]));
   assert.ok(feedback.sourceRuns[a.id] && feedback.sourceRuns[b2.id]);
   assert.equal(strFromU8(zip["cases.jsonl"]).trim().split("\n").length, 4);
-  assert.ok(feedback.findings.some(f => f.kind === "policy-review"));
-  assert.ok(!feedback.findings.some(f => f.kind === "expectation-deviation"));
+  assert.ok(feedback.findings.some(f => f.kind === "expectation-deviation" && f.cases.some(c => c.caseId === "bash.pipeline")));
+  assert.ok(!feedback.findings.some(f => f.kind === "policy-review" && f.cases.some(c => c.caseId === "bash.pipeline")));
   for (const finding of feedback.findings) for (const e of finding.evidence) assert.ok(zip[e.file]);
   const exported = JSON.parse((await exportAs("完整数据", "sample-full-results.json")).toString("utf8"));
   assert.equal(exported.results["bash.and-or"].runId, a.id);

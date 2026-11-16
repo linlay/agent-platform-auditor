@@ -1,0 +1,40 @@
+.policy-category-summary {
+  margin: 10px 0;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  min-width: 0;
+}
+.policy-category-summary h4 {
+  margin: 0 0 6px;
+  font-size: inherit;
+}
+.policy-category-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 6px;
+}
+.policy-category-list:empty {
+  display: none;
+}
+.policy-category-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 5px 8px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  max-width: 100%;
+  min-width: 0;
+}
+.policy-category-list code {
+  font-size: 12px;
+  overflow-wrap: anywhere;
+  user-select: text;
+}
+.policy-category-list span {
+  font-size: 12px;
+}

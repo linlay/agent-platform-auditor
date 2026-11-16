@@ -12,7 +12,7 @@ export interface ReportItem {
 export interface ReportData {
   schemaVersion: "shell-ast-audit-export/v1";
   generatedAt: string;
-  scope: "accumulated" | "batch" | "comparison";
+  scope: "accumulated" | "batch" | "comparison" | "free";
   testsetId: string;
   testsetTitle: string;
   items: ReportItem[];
@@ -117,13 +117,17 @@ export function sourceRuns(data: ReportData) {
   }));
 }
 
+export function exportedCase(snapshot: Case) {
+  return snapshot.id === "custom" ? { ...snapshot, expect: null } : snapshot;
+}
+
 export function rawReport(data: ReportData) {
   return {
     schemaVersion: data.schemaVersion, generatedAt: data.generatedAt,
     testsetId: data.testsetId, scope: data.scope, sourceRuns: sourceRuns(data),
-    cases: data.items.map(i => i.snapshot),
+    cases: data.items.map(i => exportedCase(i.snapshot)),
     results: Object.fromEntries(data.items.map(i => [i.snapshot.id, i.result])),
-    baseline: { cases: data.baseline.map(i => i.snapshot), results: Object.fromEntries(data.baseline.map(i => [i.snapshot.id, i.result])) },
+    baseline: { cases: data.baseline.map(i => exportedCase(i.snapshot)), results: Object.fromEntries(data.baseline.map(i => [i.snapshot.id, i.result])) },
     comparison: data.comparison,
   };
 }

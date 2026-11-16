@@ -279,6 +279,8 @@ fieldset {
 .history,
 .comparison,
 .custom,
+.free-editor,
+.free-test > .inspector,
 .workspace {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -292,6 +294,44 @@ fieldset {
   align-items: center;
   flex-wrap: wrap;
   margin-bottom: 12px;
+}
+.free-test {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+.free-editor {
+  padding: 8px 12px;
+  position: relative;
+  z-index: 20;
+}
+.free-editor:has(.context-settings[open]) {
+  z-index: 60;
+}
+.free-editor:has(.export-options) {
+  z-index: 70;
+}
+.free-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.free-toolbar > label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.free-editor textarea {
+  margin: 8px 0 0;
+}
+.free-test > .inspector {
+  height: auto;
+  overflow: visible;
+  min-height: 320px;
+}
+.free-stale {
+  margin: 0 4px;
 }
 .dataset > label,
 .filter-field {
@@ -1104,7 +1144,10 @@ td code {
   .app-header {
     padding: 0 12px;
     gap: 8px;
-    height: 96px;
+    height: auto;
+    min-height: 96px;
+    flex: 0 0 auto;
+    padding-block: 4px;
     flex-wrap: wrap;
     align-content: center;
     justify-content: space-between;
@@ -1124,8 +1167,14 @@ td code {
     display: none;
   }
   main {
-    height: calc(100dvh - 96px);
+    height: auto;
+    flex: 1;
+    min-height: 0;
     padding: 12px;
+  }
+  #root {
+    display: flex;
+    flex-direction: column;
   }
   .app-help {
     margin-left: auto;

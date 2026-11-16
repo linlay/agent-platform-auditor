@@ -36,13 +36,14 @@ try {
     path: "artifacts/compact-after.png",
     fullPage: true,
   });
+  await page.locator(".sections").getByRole("button", { name: "自由测试", exact: true }).click();
   await page
     .getByLabel("自定义命令", { exact: true })
     .fill("git -C /project status");
   await page
     .getByLabel("自定义审查模式", { exact: true })
     .selectOption("evaluation");
-  await page.getByRole("button", { name: "解析自定义", exact: true }).click();
+  await page.getByRole("button", { name: "解析命令", exact: true }).click();
   await page
     .locator(".policy-panel .decision")
     .filter({ hasText: "需要人工确认" })
@@ -50,10 +51,10 @@ try {
   assert.ok(
     (await page.locator(".policy-reasons").innerText()).includes("/project"),
   );
-  const tag = page
-    .locator(".policy-categories .tag")
-    .filter({ hasText: "读取范围外路径" });
-  assert.equal(await tag.getAttribute("title"), "read-outside-roots");
+  const category = page.locator(".policy-panel .policy-category-list li").filter({ hasText: "读取范围外路径" });
+  assert.equal(await category.locator("code").innerText(), "read-outside-roots");
+  const tag = page.locator(".policy-panel .policy-meta .tag").filter({ hasText: "评估审批要求" });
+  assert.equal(await tag.getAttribute("title"), "evaluation");
   assert.equal(
     await page
       .locator(".policy-panel .technical-details")
@@ -72,7 +73,7 @@ try {
   await tag.hover();
   assert.equal(
     await page.getByRole("tooltip").innerText(),
-    "read-outside-roots",
+    "evaluation",
   );
   await page.screenshot({
     path: "artifacts/compact-tooltip.png",
@@ -84,7 +85,7 @@ try {
   await page.keyboard.press("Shift+Tab");
   assert.equal(
     await page.getByRole("tooltip").innerText(),
-    "read-outside-roots",
+    "evaluation",
   );
   checks.push(
     "Chinese policy decision/reasons/categories; hover and keyboard show English; original report preserved",
@@ -96,6 +97,8 @@ try {
   await page.emulateMedia({ colorScheme: "dark" });
   await page.screenshot({ path: "artifacts/compact-dark.png", fullPage: true });
   await page.emulateMedia({ colorScheme: "light" });
+  await page.locator(".sections").getByRole("button", { name: "单用例测试", exact: true }).click();
+  await page.getByLabel("搜索用例", { exact: true }).waitFor();
   for (const width of [1280, 1024, 760, 390, 320]) {
     await page.setViewportSize({ width, height: 1000 });
     assert.equal(

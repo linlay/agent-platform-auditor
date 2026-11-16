@@ -80,9 +80,10 @@ try {
   await page.getByRole("button", { name: "设置用例内目录", exact: true }).click();
   assert.equal(await page.getByLabel("用例 /project 映射目录", { exact: true }).inputValue(), directory);
   await page.keyboard.press("Escape");
+  await page.locator(".sections").getByRole("button", { name: "自由测试", exact: true }).click();
   await page.getByLabel("自定义命令", { exact: true }).fill(command);
   const response = page.waitForResponse((r) => r.url().endsWith("/api/parse") && r.request().method() === "POST");
-  await page.getByRole("button", { name: "解析自定义", exact: true }).click();
+  await page.getByRole("button", { name: "解析命令", exact: true }).click();
   assert.equal((await (await response).json()).input.templateCommand, command);
   await page.locator(".template-source").waitFor();
   for (const width of [1366, 760, 390, 320]) {

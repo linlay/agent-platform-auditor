@@ -1,7 +1,37 @@
 import { Policy } from "./domain";
+import "./PolicyPanel.css";
 import { Tag } from "./Tag";
 import { label, reasonLines } from "./ui-labels";
-export function PolicyPanel({ policy: p }: { policy: Policy }) {
+export function PolicyCategories({ policy }: { policy?: Policy }) {
+  return (
+    <section className="policy-category-summary" aria-label="审批策略项">
+      <h4>审批策略项</h4>
+      {policy ? (
+        <>
+          <ul className="policy-category-list">
+            {policy.categories.map((category) => (
+              <li key={category}>
+                <code>{category}</code>
+                {label(category) !== category && <span>{label(category)}</span>}
+              </li>
+            ))}
+          </ul>
+          <small>
+            {policy.categories.length === 0
+              ? "已完成分类，未命中额外策略项。"
+              : "以上为本次命中的行为分类；放行或 HITL 取决于权限档位及策略预审。"}
+          </small>
+        </>
+      ) : (
+        <small>
+          本次报告未包含审批策略项。纯语法模式只拆解命令；选择“只看分类”或“评估审批要求”后重新解析可查看策略项。
+        </small>
+      )}
+    </section>
+  );
+}
+
+export function PolicyPanel({ policy: p, showExpectationHint = true }: { policy: Policy; showExpectationHint?: boolean }) {
   const decision = p.decision;
   const tone =
     decision?.value === "block"
@@ -29,7 +59,7 @@ export function PolicyPanel({ policy: p }: { policy: Policy }) {
           {p.accessLevel && <Tag code={p.accessLevel} />}
         </div>
       </div>
-      <small>以上为实际预审结论；是否符合用例的审批预期，见上方“审批判断”。</small>
+      {showExpectationHint && <small>以上为实际预审结论；是否符合用例的审批预期，见上方“审批判断”。</small>}
       {reasons.length > 0 ? (
         <ul className="policy-reasons">
           {reasons.map((r, i) => (
@@ -41,12 +71,7 @@ export function PolicyPanel({ policy: p }: { policy: Policy }) {
       ) : !decision ? (
         <p>未设置权限档位，因此未评估是否需要审批。</p>
       ) : null}
-      <div className="chips policy-categories" aria-label="检测到的行为">
-        {p.categories.map((c) => (
-          <Tag code={c} key={c} />
-        ))}
-        {p.categories.length === 0 && <small>未发现额外行为类别</small>}
-      </div>
+      <PolicyCategories policy={p} />
       <details className="technical-details">
         <summary>预审说明与原始报告</summary>
         <p>
