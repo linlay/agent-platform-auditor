@@ -10,6 +10,7 @@
     "test": "node scripts/catalog.mjs --check && go test ./... && vitest run",
     "build": "tsc --noEmit && vite build && go build -o bin/auditor ./cmd/server",
     "test:integration": "node scripts/integration.mjs",
+    "test:integration:powershell": "node scripts/powershell-integration.mjs",
     "test:browser": "node scripts/browser.mjs",
     "test:free": "node scripts/free-test.mjs",
     "test:project-mapping": "node scripts/project-mapping.mjs",

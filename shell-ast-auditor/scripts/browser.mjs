@@ -179,7 +179,7 @@ try {
   assert.equal(await page.getByLabel("自定义命令", { exact: true }).count(), 0);
   assert.equal(
     await page.getByLabel("测试集", { exact: true }).locator("option").count(),
-    3,
+    4,
   );
   await page.getByLabel("搜索用例", { exact: true }).fill("readonly");
   const batchResponse = page.waitForResponse(
@@ -217,7 +217,7 @@ try {
   await page.getByRole("heading", { name: /实际结果对预期/ }).waitFor();
   assert.equal(await page.locator(".comparison tbody tr").count(), 6);
   checks.push(
-    "whole-set mode retains 3 testsets, ignores viewing filters for execution, shows batch ID/report and per-case details",
+    "whole-set mode retains 4 testsets, ignores viewing filters for execution, shows batch ID/report and per-case details",
   );
   await single.click();
   await page.getByLabel("测试集", { exact: true }).selectOption("shell-core");

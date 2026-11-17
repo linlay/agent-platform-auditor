@@ -36,6 +36,7 @@ flowchart LR
 shell-ast-auditor/
 ├── testsets/                # 人工维护的测试输入、预期；唯一生效来源
 │   ├── shell-core/          # 317 条，各方言一个 JSONL
+│   ├── powershell-compat/   # 105 组输入 × 5.1/7.6；210 条文档推导用例
 │   ├── smoke/               # 引用 8 条已有 caseId
 │   └── policy-smoke/        # 6 条分类/权限预审（Host 相关）
 ├── results/                 # 生成数据，运行记录和对比结果，默认 Git 忽略

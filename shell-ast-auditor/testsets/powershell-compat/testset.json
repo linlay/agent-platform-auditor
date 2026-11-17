@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "id": "powershell-compat",
+  "title": "Windows PowerShell 双版本扩展测试集",
+  "version": "1",
+  "description": "105 组相同输入 × Windows PowerShell 5.1 / PowerShell 7.6，共 210 条；覆盖引用、参数、管道、控制流、定义、动态调用、表达式、版本差异与错误语法。文档推导预期，Windows 原生验证待完成；三档审批沿用 macOS 缺少 Windows 启动器的 Host 前提。",
+  "files": [
+    "cases.jsonl"
+  ]
+}

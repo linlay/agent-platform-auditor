@@ -1,6 +1,7 @@
 # 测试集：先看命令，再看预期
 
 - [核心集：317 条命令](shell-core/COMMANDS.md) — 按 Bash、sh、Zsh、PowerShell、CMD 列出原文。
+- [PowerShell 双版本扩展：210 条](powershell-compat/COMMANDS.md) — 105 组相同输入分别覆盖 5.1 / 7.6；[范围与依据](powershell-compat/README.md)。加上核心集，PowerShell 共 276 条（5.1：165；7.6：111）。
 - [快速集：8 条引用](smoke/COMMANDS.md) — 通过稳定 ID 引用核心集，不再复制命令。
 
 `COMMANDS.md` 是可读目录，由 `npm run catalog` 生成；**机器读取的唯一维护源是 `testset.json` 和 JSONL 文件**。一行 JSONL 是一条完整用例，`command` 紧跟 `id`，不夹带历史实际结果。多行 Shell 命令用 JSON 的 `\n` 原样编码，目录中显示为代码块。
@@ -63,7 +64,7 @@ npm test && npm run build
 
 所有内置用例在 `expect.policyByLevel` 同时声明 `ask_for_approval`、`auto_approve`、`full_access`。每档包含 `mode: evaluation`、对应 `accessLevel`、明确的 `decision` 和一致的 `requiresHITL`，`policyBasis` 说明依据及环境前提。不能只保存当前档，也不能根据实际报告的档位选择预期。只有实际请求 evaluation 时才比较对应档，纯语法/分类保持未评估；原 expect.policy 仅用于兼容固定模式预期。
 
-预期由命令语义、默认策略动作和硬限制制定，不从 results/ 自动录制。不满足文中上下文条件或遇到识别缺口时，保留真实差异，核对预期与实现来源；不得以全部放行或回填当前结果消除红点。此次版本 3 声明 323 条独立用例 / 969 个档位，快速集继承其中 8 条。历史快照不修改，重新运行读取新预期。
+预期由命令语义、默认策略动作和硬限制制定，不从 results/ 自动录制。不满足文中上下文条件或遇到识别缺口时，保留真实差异，核对预期与实现来源；不得以全部放行或回填当前结果消除红点。核心版本 3 与分类集共 323 条；双版本扩展另增 210 条，目前共 533 条独立用例 / 1599 个档位，快速集继承其中 8 条。历史快照不修改，重新运行读取新预期。
 
 ## 版本 3 的语义断言
 
