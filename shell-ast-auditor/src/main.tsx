@@ -33,6 +33,12 @@ import {
 } from "./workspace";
 import { Inspector } from "./Inspector";
 import { ComparisonPanel } from "./ComparisonPanel";
+
+const defaultManualReview: ReviewOptions = {
+  mode: "evaluation",
+  accessLevel: "ask_for_approval",
+};
+
 function App() {
   const directoryDialog = useRef<HTMLDialogElement>(null);
   const navigation = useRef(0);
@@ -47,13 +53,10 @@ function App() {
   }
   const definitions = useRef<Case[]>([]);
   const [workMode, setWorkMode] = useState<"single" | "batch" | "free">("single");
-  const [manualReview, setManualReview] = useState<ReviewOptions>({
-    mode: "classification",
-  });
+  const [manualReview, setManualReview] = useState(defaultManualReview);
   const [initializing, setInitializing] = useState(true);
   const [loadingSet, setLoadingSet] = useState(false);
   const [selected, setSelected] = useState<Set<string>>(new Set());
-  const [detailTab, setDetailTab] = useState("解析判断");
   const [cases, setCases] = useState<Case[]>([]),
     [active, setActive] = useState(""),
     [results, setResults] = useState<Record<string, Result>>({}),
@@ -134,7 +137,6 @@ function App() {
     setFilters({});
     setQuery("");
     setFatal("");
-    setDetailTab("解析判断");
     setSelected(new Set());
   }
   async function refresh() {
@@ -329,7 +331,6 @@ function App() {
     setStarting(true);
     const selectedId = list.some((c) => c.id === active) ? active : list[0].id;
     setActive(selectedId);
-    setDetailTab("解析判断");
     setMode("测试集");
     setRunId("");
     setCurrentRun(undefined);
@@ -575,7 +576,7 @@ function App() {
                 projectDir={mappedProjectDir}
                 value={manualReview}
                 onChange={(v) =>
-                  setManualReview(v ?? { mode: "classification" })
+                  setManualReview(v ?? defaultManualReview)
                 }
                 disabled={busy}
               />
@@ -752,7 +753,6 @@ function App() {
             onCase={(runId, caseId) => {
               setQuery("");
               setFilters({});
-              setDetailTab("解析判断");
               void openRun(runId, { selectedId: caseId });
             }}
           />
@@ -920,10 +920,9 @@ function App() {
                 ))}
               </aside>
               <Inspector
-                key={active + runId}
+                key={`${testsetId}:${active}:${runId}`}
                 c={c}
                 result={result}
-                defaultTab={detailTab}
               />
             </div>
           </>

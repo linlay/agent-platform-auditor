@@ -17,6 +17,10 @@ try {
     .getByRole("heading", { name: "bash.pipeline", exact: true })
     .waitFor();
   const inspector = page.locator(".inspector");
+  const approvalTab = inspector.getByRole("tab", { name: "审批判断", exact: true });
+  const parsingTab = inspector.getByRole("tab", { name: "解析判断", exact: true });
+  const manualMode = page.getByLabel("单用例模式", { exact: true });
+  const manualAccess = page.getByLabel("单用例权限档位", { exact: true });
   const item = (id) => page.locator(`aside .case[data-case-id="${id}"]`);
   const single = page
     .locator(".sections")
@@ -27,6 +31,7 @@ try {
   async function choose(id) {
     await item(id).click();
     await inspector.getByRole("heading", { name: id, exact: true }).waitFor();
+    await expect(approvalTab).toHaveAttribute("aria-selected", "true");
   }
   async function parseCurrent() {
     const response = page.waitForResponse(
@@ -37,16 +42,21 @@ try {
     assert.equal(run.kind, "manual");
     assert.ok((await single.getAttribute("class")).includes("chosen"));
     assert.equal(await page.locator(".history").count(), 0);
+    await expect(page.getByRole("button", { name: "解析当前", exact: true })).toBeEnabled();
+    await expect(approvalTab).toHaveAttribute("aria-selected", "true");
+    await parsingTab.click();
     await inspector
       .locator(".expectation-panel")
       .getByText("符合预期", { exact: true })
       .waitFor();
     return run;
   }
-  await page
-    .getByLabel("单用例模式", { exact: true })
-    .selectOption("syntax-only");
+  await expect(manualMode).toHaveValue("evaluation");
+  await expect(manualAccess).toHaveValue("ask_for_approval");
+  await expect(approvalTab).toHaveAttribute("aria-selected", "true");
+  await manualMode.selectOption("syntax-only");
   await choose("bash.and-or");
+  await expect(manualMode).toHaveValue("syntax-only");
   const a = await parseCurrent();
   await expect(
     inspector
@@ -62,6 +72,7 @@ try {
     1,
   );
   await choose("bash.and-or");
+  await parsingTab.click();
   await expect(
     inspector
       .getByRole("row", { name: /应识别的程序/ })
@@ -80,6 +91,7 @@ try {
     .getByRole("heading", { name: "bash.pipeline", exact: true })
     .waitFor();
   await choose("bash.and-or");
+  await parsingTab.click();
   await expect(
     inspector
       .getByRole("row", { name: /应识别的程序/ })
@@ -112,14 +124,13 @@ try {
   await page.getByLabel("测试集", { exact: true }).selectOption("shell-core");
   await expect(item("bash.and-or").locator(".judgment-green")).toHaveCount(1);
   checks.push("testset switching retains isolated manual workspaces");
-  await page
-    .getByLabel("单用例模式", { exact: true })
-    .selectOption("evaluation");
-  await page
-    .getByLabel("单用例权限档位", { exact: true })
-    .selectOption("ask_for_approval");
+  await expect(manualMode).toHaveValue("evaluation");
+  await expect(manualAccess).toHaveValue("ask_for_approval");
   await choose("bash.pipeline");
   const b2 = await parseCurrent();
+  assert.equal(b2.cases[0].review.mode, "evaluation");
+  assert.equal(b2.cases[0].review.accessLevel, "ask_for_approval");
+  checks.push("manual testing defaults to evaluation with ask_for_approval; selecting a different case opens the approval tab");
   assert.equal(await item("bash.and-or").locator(".judgment-green").count(), 1);
   assert.equal(await item("bash.pipeline").locator(".judgment-red").count(), 1);
   assert.notEqual(b.id, b2.id);
@@ -213,7 +224,6 @@ try {
   await page.getByLabel("搜索用例", { exact: true }).fill("");
   assert.equal(await page.locator("aside .case").count(), 6);
   await choose("policy.ask-node");
-  await inspector.getByRole("tab", { name: "审批判断", exact: true }).click();
   await inspector
     .locator(".policy-panel .decision")
     .filter({ hasText: "需要人工确认" })

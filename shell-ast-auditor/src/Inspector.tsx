@@ -41,7 +41,7 @@ function Tree({
 export function Inspector({
   c,
   result,
-  defaultTab = "解析判断",
+  defaultTab = "审批判断",
 }: {
   c?: Case;
   result?: Result;
