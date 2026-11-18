@@ -41,7 +41,7 @@ assert.match(await bad.text(), /映射目录必须是本机已存在的目录/);
 
 const original = fs.readFileSync("testsets/shell-core/bash.jsonl", "utf8");
 const batch = await completed(await api("/api/runs", { testsetId: "shell-core", kind: "batch", projectDir: directory }));
-assert.equal(batch.cases.length, 317);
+assert.equal(batch.cases.length, 233);
 assert.equal(batch.counts.error ?? 0, 0);
 assertCoreParsingRun(batch);
 const pipeline = batch.cases.find((c) => c.id === "bash.pipeline.macos32");
@@ -96,7 +96,7 @@ try {
     await page.keyboard.press("Escape");
   }
   assert.deepEqual(pageErrors, []);
-  const evidence = { batchRun: batch.id, counts: batch.counts, comparison: comparison.id, directory, parsedDecision: parsed.report.policy.decision, pageErrors, checks: ["actual CLI input and unchanged corpus", "missing directory returns 400", "317-case batch with mapping", "snapshot and comparison provenance", "header button, source, custom and persisted preference", "1366/760/390/320px dialog bounds"] };
+  const evidence = { batchRun: batch.id, counts: batch.counts, comparison: comparison.id, directory, parsedDecision: parsed.report.policy.decision, pageErrors, checks: ["actual CLI input and unchanged corpus", "missing directory returns 400", "233-case batch with mapping", "snapshot and comparison provenance", "header button, source, custom and persisted preference", "1366/760/390/320px dialog bounds"] };
   fs.writeFileSync("artifacts/project-mapping-validation.json", JSON.stringify(evidence, null, 2));
   console.log("PASS " + JSON.stringify(evidence));
 } finally { await browser.close(); }

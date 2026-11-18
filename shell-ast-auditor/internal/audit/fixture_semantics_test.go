@@ -31,16 +31,23 @@ func TestExactArgvCannotBeReplacedByACommandNameOrUnknownWord(t *testing.T) {
 	}
 }
 
-func TestBundledVersionThreeKeepsNativeSemanticsAndHardBlocksSeparate(t *testing.T) {
+func TestBundledPlatformSplitKeepsNativeSemanticsAndHardBlocksSeparate(t *testing.T) {
 	core, err := (&Store{Root: "../.."}).Testset("shell-core")
 	if err != nil {
 		t.Fatal(err)
 	}
-	if core.Version != "3" || len(core.Cases) != 317 {
+	if core.Version != "5" || len(core.Cases) != 233 {
 		t.Fatalf("unexpected fixture version/count: %s/%d", core.Version, len(core.Cases))
 	}
 	cases := map[string]Case{}
 	for _, c := range core.Cases {
+		cases[c.ID] = c
+	}
+	windows, err := (&Store{Root: "../.."}).Testset("windows-core")
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, c := range windows.Cases {
 		cases[c.ID] = c
 	}
 	ps := cases["powershell.null-conditional"]

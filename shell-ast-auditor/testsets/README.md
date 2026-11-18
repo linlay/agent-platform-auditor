@@ -1,14 +1,21 @@
 # 测试集：先看命令，再看预期
 
-- [核心集：317 条命令](shell-core/COMMANDS.md) — 按 Bash、sh、Zsh、PowerShell、CMD 列出原文。
-- [PowerShell 双版本扩展：210 条](powershell-compat/COMMANDS.md) — 105 组相同输入分别覆盖 5.1 / 7.6；[范围与依据](powershell-compat/README.md)。加上核心集，PowerShell 共 276 条（5.1：165；7.6：111）。
-- [快速集：8 条引用](smoke/COMMANDS.md) — 通过稳定 ID 引用核心集，不再复制命令。
+| 平台组 | 测试集 | 数量 |
+| --- | --- | ---: |
+| Windows | [核心集](windows-core/COMMANDS.md)：PowerShell 5.1/7.6、CMD/Batch | 108 |
+| Windows | [PowerShell 双版本扩展](powershell-compat/COMMANDS.md)（[范围与依据](powershell-compat/README.md)） | 210 |
+| Windows | [快速集](windows-smoke/COMMANDS.md)：引用 Windows 核心用例 | 3 条引用 |
+| macOS / Linux | [核心集](shell-core/COMMANDS.md)：Bash、sh、Zsh | 233 |
+| macOS / Linux | [快速集](smoke/COMMANDS.md)：引用 macOS/Linux 核心用例 | 5 条引用 |
+| macOS / Linux | [分类与权限预审](policy-smoke/COMMANDS.md)（Host 相关） | 6 |
+
+页面的测试集选择按这两组展示。Windows 共 318 条独立输入/profile 用例，macOS/Linux 共 239 条，快速集只引用、不重复计数。PowerShell 共 276 条（5.1：165；7.6：111）。原 shell-core 版本 3 的 317 条拆分时分为 shell-core 版本 4 的 209 条和 windows-core 的 108 条；稳定 caseId、命令及预期保持不变，旧运行快照不修改。原 smoke 的 8 条拆为 5 + 3 条。版本 5 再新增 24 条用户适配用例，macOS/Linux 核心集现为 233 条。
 
 `COMMANDS.md` 是可读目录，由 `npm run catalog` 生成；**机器读取的唯一维护源是 `testset.json` 和 JSONL 文件**。一行 JSONL 是一条完整用例，`command` 紧跟 `id`，不夹带历史实际结果。多行 Shell 命令用 JSON 的 `\n` 原样编码，目录中显示为代码块。
 
 ## 新增一条测试
 
-在核心集对应的方言文件中加一行，例如 `shell-core/bash.jsonl`：
+在对应平台核心集的方言文件中加一行，例如 `shell-core/bash.jsonl`：
 
 ```json
 {"id":"bash.my-status","command":"git status --short","dialect":"bash","profile":"bash-5.2","platforms":["linux"],"mode":"script","options":{},"tags":["git","arguments"],"expect":{"syntax":"valid","gradeCeiling":"opaque","containsCalls":["git"]},"source":{"kind":"manual","note":"说明来源，不假冒用户原始输入"},"expectedEvidence":"declared expectation; not native acceptance"}
@@ -62,9 +69,9 @@ npm test && npm run build
 
 ## 三档审批预期
 
-所有内置用例在 `expect.policyByLevel` 同时声明 `ask_for_approval`、`auto_approve`、`full_access`。每档包含 `mode: evaluation`、对应 `accessLevel`、明确的 `decision` 和一致的 `requiresHITL`，`policyBasis` 说明依据及环境前提。不能只保存当前档，也不能根据实际报告的档位选择预期。只有实际请求 evaluation 时才比较对应档，纯语法/分类保持未评估；原 expect.policy 仅用于兼容固定模式预期。
+macOS/Linux 的 239 条独立用例在 `expect.policyByLevel` 同时声明 `ask_for_approval`、`auto_approve`、`full_access`。每档包含 `mode: evaluation`、对应 `accessLevel`、明确的 `decision` 和一致的 `requiresHITL`。以 `policyBasis` 记录规则依据及环境前提。按请求的档位比较，纯语法和只分类时显示“未评估审批”。原 `expect.policy` 用于兼容固定模式预期。
 
-预期由命令语义、默认策略动作和硬限制制定，不从 results/ 自动录制。不满足文中上下文条件或遇到识别缺口时，保留真实差异，核对预期与实现来源；不得以全部放行或回填当前结果消除红点。核心版本 3 与分类集共 323 条；双版本扩展另增 210 条，目前共 533 条独立用例 / 1599 个档位，快速集继承其中 8 条。历史快照不修改，重新运行读取新预期。
+Windows 的 318 条独立用例仅声明解析预期。预审可以收集实际分类和决定，审批判断显示“未设预期”。快速集继承引用用例的预期。预期来自命令语义、策略规则及适用环境条件，运行结果用于差异比较。重新运行读取当前预期，历史记录使用运行时的快照。
 
 ## 版本 3 的语义断言
 
@@ -73,3 +80,5 @@ npm test && npm run build
 Bash 3.2 的 `coproc cat` 是普通命令调用，`exec {fd}>out` 的 `{fd}` 是字面参数；带花括号体的 `coproc worker { tool; }` 则语法无效。三档审批仍按 Platform 已登记的命令名硬限制保留 block，不随当前漏检结果改写。PowerShell 空条件正例改为 `${x}?.Name`；旧输入的 knownDifference 不移植到新输入。当前解析器若不满足修正后的预期，应保留真实差异。
 
 `--profile` 是诊断语法配置，不会自动安装或选择对应版本的 Shell；原生语法/语义验收须独立记录实际程序和版本。纯语法、Host 预审、原生 Shell 验证不能互相替代。历史 results 和 evidence 不修改。
+
+[本次用户命令补充与去重说明](shell-core/USER-COMMANDS.md)：12 组 Bash 3.2/5.2 对照，共 24 条。

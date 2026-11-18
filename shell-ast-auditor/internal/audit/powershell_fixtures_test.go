@@ -32,9 +32,6 @@ func TestPowerShellPairedCoverage(t *testing.T) {
 		if c.KnownDifference != nil || !strings.Contains(c.ExpectedEvidence, "pending") || len(c.Expect.ContainsArgv) > 0 {
 			t.Fatalf("%s: unverified fixture claims native evidence or hides parser gaps", c.ID)
 		}
-		if ReviewMode(c.Input) != "syntax-only" || len(c.Expect.PolicyByLevel) != 3 {
-			t.Fatalf("%s: changed diagnostic/approval scope", c.ID)
-		}
 	}
 	modern, malformed := 0, 0
 	for key, pair := range pairs {

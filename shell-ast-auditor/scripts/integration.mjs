@@ -50,8 +50,14 @@ async function run(testsetId, checkDuplicate = false) {
 }
 const sets = await api("/api/testsets");
 assert.ok(sets.some((x) => x.id === "policy-smoke"));
-assert.equal(sets.find((x) => x.id === "shell-core").cases.length, 317);
-assert.equal(sets.find((x) => x.id === "smoke").cases.length, 8);
+assert.equal(sets.find((x) => x.id === "shell-core").cases.length, 233);
+assert.equal(sets.find((x) => x.id === "smoke").cases.length, 5);
+assert.equal(sets.find((x) => x.id === "windows-core").cases.length, 108);
+assert.equal(sets.find((x) => x.id === "windows-smoke").cases.length, 3);
+for (const set of sets) {
+  const windows = set.cases[0].platforms.includes("windows");
+  assert.ok(set.cases.every(c => c.platforms.every(p => windows ? p === "windows" : p === "macos" || p === "linux")), set.id);
+}
 const health = await api("/api/health");
 assert.equal(health.app, "shell-ast-auditor");
 assert.equal(health.parser.mode, "syntax-only");
@@ -66,7 +72,11 @@ const core = await run("shell-core", true);
 assert.equal(core.parser.mode, "syntax-only");
 assert.equal(core.parserSha256, health.parser.sha256);
 assertCoreParsingRun(core);
-assert.equal(Object.keys(core.results).length, 317);
+assert.equal(Object.keys(core.results).length, 233);
+const windows = await run("windows-core");
+assertCoreParsingRun(windows);
+const windowsSmoke = await run("windows-smoke");
+assertCoreParsingRun(windowsSmoke);
 let versionComparison;
 if (previous) {
   versionComparison = await api("/api/comparisons", {
@@ -75,8 +85,8 @@ if (previous) {
   });
   assert.equal(
     versionComparison.rows.filter(row => row.verdict === "input-changed" || row.verdict === "unchanged" || (row.verdict === "changed" && row.changedFields?.every(field => field === "expectation"))).length,
-    317,
-    "syntax-only adapter changed the original 317 report results",
+    core.cases.filter(c => previous.cases.some(old => old.id === c.id)).length,
+    "syntax-only adapter changed the retained macOS/Linux report results",
   );
 }
 const policy = await run("policy-smoke");
@@ -112,9 +122,9 @@ const comparison = await api("/api/comparisons", {
   baseRunId: a.id,
   targetRunId: b.id,
 });
-assert.equal(comparison.counts.unchanged, 8);
+assert.equal(comparison.counts.unchanged, 5);
 const restored = await api("/api/comparisons/" + comparison.id);
-assert.equal(restored.rows.length, 8);
+assert.equal(restored.rows.length, 5);
 const expectations = await api("/api/comparisons/expectations-" + core.id);
 assert.deepEqual(expectations.counts, core.counts);
 const report = await api("/api/runs/" + core.id + "/cases/bash.pipeline");
@@ -152,6 +162,9 @@ console.log(
         : null,
       duplicateStartup: "passed; exit 0, no run recovery",
       coreCounts: core.counts,
+      windowsRun: windows.id,
+      windowsCounts: windows.counts,
+      windowsSmokeRun: windowsSmoke.id,
       policyRun: policy.id,
       policyCounts: policy.counts,
       overrideRun: overridden.id,

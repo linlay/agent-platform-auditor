@@ -1,6 +1,6 @@
 # Windows PowerShell 双版本扩展
 
-105 组输入，每组分别声明 `windows-powershell-5.1` 与 `pwsh-7.6`，共 210 条独立 profile 用例。机器维护源为 `cases.jsonl`；[COMMANDS.md](COMMANDS.md) 由 `npm run catalog` 生成。此集在页面自动发现，核心集保留 317 条。
+105 组输入，每组分别声明 `windows-powershell-5.1` 与 `pwsh-7.6`，共 210 条独立 profile 用例。机器维护源为 `cases.jsonl`；[COMMANDS.md](COMMANDS.md) 由 `npm run catalog` 生成。此集在页面 Windows 分组中展示；Windows 核心集另有 108 条，macOS/Linux 核心集为 233 条。
 
 | 覆盖方向 | 输入组 | profile 用例数 |
 | --- | ---: | ---: |
@@ -26,7 +26,7 @@
 - [5.1 高级函数](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_functions_advanced?view=powershell-5.1)
 - [5.1 与 7.x 的差异](https://learn.microsoft.com/en-us/powershell/scripting/whats-new/differences-from-windows-powershell?view=powershell-7.6)
 
-三档审批沿用现有 Windows 用例的 **macOS Host 缺少 Windows 启动器** 前提，预期为硬阻断。这只在显式 evaluation 时比较，与命令安全程度无关，不能移植为 Windows 原生审批结论。默认仍为 syntax-only。
+用例只声明解析预期，默认使用 syntax-only。显式预审会记录当前 Host 的实际分类与决定，审批判断显示“未设预期”。
 
 在本项目目录启动服务后，执行独立集成命令：
 
@@ -36,4 +36,4 @@ npm run test:integration:powershell
 
 脚本通过本地 API 生成真实批次，原始报告写入 `results/runs/<runId>/`；输出解析差异，存在差异时非零退出，不自动登记 knownDifference，也不回填预期。它只调用 shell-ast 诊断解析器，不执行输入中的任何命令；不是 Windows 原生验收。`npm test` 仅校验加载合同、成对覆盖和应用逻辑。
 
-本次本地诊断观测：210 条均返回报告，185 条符合预期、25 条语法状态不符；集成命令按差异非零退出。见[诊断摘要](../../evidence/powershell-compat-validation.json)，原始报告保存在摘要指定的本机运行目录。上述差异待官方解析器复核，尚不直接判定为平台缺陷。
+版本 1 的本地诊断共返回 210 条报告，其中 185 条符合预期、25 条语法状态不符。见[诊断摘要](../../evidence/powershell-compat-validation.json)，原始报告保存在摘要指定的本机运行目录。上述差异待官方解析器复核。

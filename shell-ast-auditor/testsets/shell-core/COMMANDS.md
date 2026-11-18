@@ -1,6 +1,6 @@
-# 跨平台 Shell 核心测试集
+# macOS / Linux 核心测试集
 
-235 条来源用例 + 82 条 macOS Bash 3.2 适配；修正 PowerShell 空条件语法和 Bash 3.2 语义断言；三档审批预期与解析判断独立。
+233 条 macOS/Linux 用例：Bash、sh、Zsh，含 12 组用户命令适配的 Bash 3.2/5.2 用例；Windows 已独立到 windows-core。
 
 本文件由 `npm run catalog` 生成，修改命令请编辑同目录 JSONL，不手工维护此目录。
 
@@ -3391,1803 +3391,436 @@ print "bad
 
 预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：sh/Zsh 的启动语法没有生产 Bash 的已验证合同；UnknownDialect 在受限两档强制人工确认，full_access 允许。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-## powershell.jsonl · 66 条
+## user-commands.jsonl · 24 条
 
-### powershell.pipeline
+### bash.user.go-env-cache-version.linux52
 
-windows · powershell · windows-powershell-5.1 · 预期 valid
+linux · bash · bash-5.2 · 预期 valid
 
 ```text
-Get-ChildItem | Where-Object { $_.Length -gt 10 } | Select-Object Name
+go env GOMODCACHE GOVERSION
 ```
 
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.nested-scriptblock
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-Get-ChildItem | ForEach-Object { Remove-Item $_ }
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.quoted-pipe
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-Write-Output 'a|b' "x|y"
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.and-or
-
-windows · powershell · pwsh-7.6 · 预期 valid
-
-```text
-a && b || c
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.sequence
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-Get-Date; Get-Location
-Write-Output ok
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.redirection-a
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-git status 2>&1 > out.txt
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.redirection-b
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-git status > out.txt 2>&1
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.all-streams
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-Get-Process *> out.txt
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.append
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-Get-Process >> out.txt
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.merge-warning
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-Write-Warning x 3>&1
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.dynamic
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-& $command @args
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.literal-invoke
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-& 'C:\Program Files\Tool\tool.exe' -x
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.dotsource
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-. '.\env.ps1'; git status
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.subexpression
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-Write-Output "result $(Get-Date)"
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.array-subexpression
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-$a = @(Get-ChildItem; Get-Date); git $a
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.splat
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-$o = @{Path=".";Recurse=$true}; Get-ChildItem @o
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.array
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-$a = "x","y"; git $a
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.hashtable
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-@{name="x"; data=@(1,2)}
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.here-string
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-Write-Output @'
-hello | $(not_a_call)
-'@
-
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.here-interpolated
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-Write-Output @"
-hello $(Get-Date)
-"@
-
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.function
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-function Test-Probe($x) { Write-Output $x }; Test-Probe hi
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.filter
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-filter Test-Probe { $_ | Write-Output }
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.if
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-if ($x) { Get-Date } elseif ($y) { Get-Location } else { Write-Output no }
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.for
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-for ($i=0; $i -lt 3; $i++) { Write-Output $i }
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.foreach
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-foreach ($f in $files) { Get-Content $f }
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.while
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-while ($x) { Get-Date; break }
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.do-until
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-do { Get-Date } until ($ready)
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.switch
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-switch -Regex ($x) { "a|b" { Get-Date } default { Get-Location } }
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.try
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-try { Get-Content x } catch { Write-Error $_ } finally { Write-Output done }
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.class
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-class Probe { [string] $Name; [string] GetName() { return $this.Name } }
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.enum
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-enum Color { Red; Green; Blue }
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.param
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-param([string]$Name="a") Write-Output $Name
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.using
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-using module ./module.psm1
-Get-Date
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.requires
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-#Requires -Version 5.1
-Get-Date
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.member
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-$obj.Name
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.method
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-$obj.Run()
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.static
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-[IO.File]::ReadAllText($p)
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.cast
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-[int]$value
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.scriptblock-create
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-[scriptblock]::Create($s).Invoke()
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.iex
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-iex $s; git status
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.iex-literal
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-Invoke-Expression 'Get-Date'
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.add-type
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-Add-Type -TypeDefinition $code
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.stop-parsing
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-tool.exe --% a|b >x
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.ternary
-
-windows · powershell · pwsh-7.6 · 预期 valid
-
-```text
-$x ? "yes" : "no"
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.null-coalesce
-
-windows · powershell · pwsh-7.6 · 预期 valid
-
-```text
-$x ?? "default"
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.null-assign
-
-windows · powershell · pwsh-7.6 · 预期 valid
-
-```text
-$x ??= "default"
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.null-conditional
-
-windows · powershell · pwsh-7.6 · 预期 valid
-
-```text
-${x}?.Name
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.native-array
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-git @("x","y")
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.nested
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-powershell -Command 'Get-Date'
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.encoded
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-pwsh -EncodedCommand RwBlAHQALQBEAGEAdABlAA==
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.file
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-powershell -File ./script.ps1
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.background
-
-windows · powershell · pwsh-7.6 · 预期 valid
-
-```text
-Get-Process &
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.unicode
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-Write-Output 中文 😀
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.crlf
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-Get-Date
-Write-Output 中文
-
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.smart-dash
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-Write-Output a –b
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.smart-quote
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-Write-Output “hello”
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.escaped
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-Write-Output "a`"b"
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.empty
-
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-tool '' ""
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.comment
+精确命令参数预期：`[["go","env","GOMODCACHE","GOVERSION"]]`
 
-windows · powershell · windows-powershell-5.1 · 预期 valid
-
-```text
-Get-Date # ignored | fake
-Get-Location
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.invalid-quote
-
-windows · powershell · windows-powershell-5.1 · 预期 invalid
-
-```text
-Write-Output 'bad
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.invalid-block
-
-windows · powershell · windows-powershell-5.1 · 预期 invalid
-
-```text
-if ($x) { Get-Date
-```
-
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
 
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
+预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。未完整建模的程序、动态参数或复杂语法：BashOpaqueCommand/BashComplexFilesystem 与运行时包装器按三档默认动作处理。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### powershell.invalid-pipe
+### bash.user.go-env-cache-version.macos32
 
-windows · powershell · windows-powershell-5.1 · 预期 invalid
+macos · bash · bash-3.2 · 预期 valid
 
 ```text
-Get-Date |
+go env GOMODCACHE GOVERSION
 ```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.invalid-here
-
-windows · powershell · windows-powershell-5.1 · 预期 invalid
 
-```text
-@'
-x
-
-```
+精确命令参数预期：`[["go","env","GOMODCACHE","GOVERSION"]]`
 
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
 
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
+预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。未完整建模的程序、动态参数或复杂语法：BashOpaqueCommand/BashComplexFilesystem 与运行时包装器按三档默认动作处理。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### powershell.ps51-and-or
+### bash.user.file-grep-module-path.linux52
 
-windows · powershell · windows-powershell-5.1 · 预期 invalid
+linux · bash · bash-5.2 · 预期 valid
 
 ```text
-a && b || c
+file_grep /Users/fixture/go/pkg/mod/mvdan.cc/sh/v3@v3.13.1/syntax/nodes.go
 ```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### powershell.ps51-ternary
 
-windows · powershell · windows-powershell-5.1 · 预期 invalid
+精确命令参数预期：`[["file_grep","/Users/fixture/go/pkg/mod/mvdan.cc/sh/v3@v3.13.1/syntax/nodes.go"]]`
 
-```text
-$x ? "yes" : "no"
-```
-
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
 
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
+预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。未完整建模的程序、动态参数或复杂语法：BashOpaqueCommand/BashComplexFilesystem 与运行时包装器按三档默认动作处理。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### powershell.ps51-null-coalesce
+### bash.user.file-grep-module-path.macos32
 
-windows · powershell · windows-powershell-5.1 · 预期 invalid
+macos · bash · bash-3.2 · 预期 valid
 
 ```text
-$x ?? "default"
+file_grep /Users/fixture/go/pkg/mod/mvdan.cc/sh/v3@v3.13.1/syntax/nodes.go
 ```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-## cmd.jsonl · 42 条
-
-### cmd.simple
-
-windows · cmd · cmd-batch · 预期 valid
-
-```text
-git status
 
-```
+精确命令参数预期：`[["file_grep","/Users/fixture/go/pkg/mod/mvdan.cc/sh/v3@v3.13.1/syntax/nodes.go"]]`
 
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
 
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
+预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。未完整建模的程序、动态参数或复杂语法：BashOpaqueCommand/BashComplexFilesystem 与运行时包装器按三档默认动作处理。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### cmd.pipeline
+### bash.user.ps-explicit-columns.linux52
 
-windows · cmd · cmd-batch · 预期 valid
+linux · bash · bash-5.2 · 预期 valid
 
 ```text
-dir /b | sort | findstr /i txt
-
+ps -eo pid,ppid,user,etime,args
 ```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### cmd.and-or
-
-windows · cmd · cmd-batch · 预期 valid
 
-```text
-git status && echo ok || echo fail
-
-```
+精确命令参数预期：`[["ps","-eo","pid,ppid,user,etime,args"]]`
 
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
 
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
+预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。未完整建模的程序、动态参数或复杂语法：BashOpaqueCommand/BashComplexFilesystem 与运行时包装器按三档默认动作处理。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### cmd.sequence
+### bash.user.ps-explicit-columns.macos32
 
-windows · cmd · cmd-batch · 预期 valid
+macos · bash · bash-3.2 · 预期 valid
 
 ```text
-echo a & echo b
-
+ps -eo pid,ppid,user,etime,args
 ```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### cmd.quoted-pipe
+精确命令参数预期：`[["ps","-eo","pid,ppid,user,etime,args"]]`
 
-windows · cmd · cmd-batch · 预期 valid
-
-```text
-echo "a|b"
-
-```
-
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
 
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
+预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。未完整建模的程序、动态参数或复杂语法：BashOpaqueCommand/BashComplexFilesystem 与运行时包装器按三档默认动作处理。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### cmd.escape
+### bash.user.docker-format-unquoted.linux52
 
-windows · cmd · cmd-batch · 预期 valid
+linux · bash · bash-5.2 · 预期 valid
 
 ```text
-echo a^|b ^& c
-
+docker ps --format {{.ID}}|{{.Image}}|{{.Names}}|{{.Status}}
 ```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### cmd.caret-newline
-
-windows · cmd · cmd-batch · 预期 valid
 
-```text
-echo hello ^
-world
-
-```
+精确命令参数预期：`[["docker","ps","--format","{{.ID}}"],["{{.Image}}"],["{{.Names}}"],["{{.Status}}"]]`
 
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
 
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
+预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。未完整建模的程序、动态参数或复杂语法：BashOpaqueCommand/BashComplexFilesystem 与运行时包装器按三档默认动作处理。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### cmd.redirection-a
+### bash.user.docker-format-unquoted.macos32
 
-windows · cmd · cmd-batch · 预期 valid
+macos · bash · bash-3.2 · 预期 valid
 
 ```text
-tool 2>&1 >out
-
+docker ps --format {{.ID}}|{{.Image}}|{{.Names}}|{{.Status}}
 ```
 
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### cmd.redirection-b
-
-windows · cmd · cmd-batch · 预期 valid
-
-```text
-tool >out 2>&1
-
-```
+精确命令参数预期：`[["docker","ps","--format","{{.ID}}"],["{{.Image}}"],["{{.Names}}"],["{{.Status}}"]]`
 
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
 
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
+预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。未完整建模的程序、动态参数或复杂语法：BashOpaqueCommand/BashComplexFilesystem 与运行时包装器按三档默认动作处理。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### cmd.append
+### bash.user.docker-format-quoted.linux52
 
-windows · cmd · cmd-batch · 预期 valid
+linux · bash · bash-5.2 · 预期 valid
 
 ```text
-tool >>out 2>>err
-
+docker ps --format '{{.ID}}|{{.Image}}|{{.Names}}|{{.Status}}'
 ```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### cmd.group
-
-windows · cmd · cmd-batch · 预期 valid
 
-```text
-(echo a & echo b) >out
-
-```
+精确命令参数预期：`[["docker","ps","--format","{{.ID}}|{{.Image}}|{{.Names}}|{{.Status}}"]]`
 
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
 
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
+预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。未完整建模的程序、动态参数或复杂语法：BashOpaqueCommand/BashComplexFilesystem 与运行时包装器按三档默认动作处理。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### cmd.if-exist
+### bash.user.docker-format-quoted.macos32
 
-windows · cmd · cmd-batch · 预期 valid
+macos · bash · bash-3.2 · 预期 valid
 
 ```text
-if exist file.txt (type file.txt) else (echo missing)
-
+docker ps --format '{{.ID}}|{{.Image}}|{{.Names}}|{{.Status}}'
 ```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### cmd.if-errorlevel
+精确命令参数预期：`[["docker","ps","--format","{{.ID}}|{{.Image}}|{{.Names}}|{{.Status}}"]]`
 
-windows · cmd · cmd-batch · 预期 valid
-
-```text
-if errorlevel 1 echo failed
-
-```
-
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
 
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
+预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。未完整建模的程序、动态参数或复杂语法：BashOpaqueCommand/BashComplexFilesystem 与运行时包装器按三档默认动作处理。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### cmd.if-compare
+### bash.user.git-status-ignored.linux52
 
-windows · cmd · cmd-batch · 预期 valid
+linux · bash · bash-5.2 · 预期 valid
 
 ```text
-if /I "%X%"=="hello" echo yes
-
+git status --short --ignored
 ```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### cmd.for-files
-
-windows · cmd · cmd-batch · 预期 valid
 
-```text
-for %%F in (*.txt) do type "%%F"
-
-```
+精确命令参数预期：`[["git","status","--short","--ignored"]]`
 
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
+| ask_for_approval | allow |
+| auto_approve | allow |
+| full_access | allow |
 
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
+预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。按只读/输出或工作区内非破坏性写入语义预期直接允许；Git 查询/本地操作要求系统 Git 与配置可核验且无外部 helper/活动 hook；未覆盖选项导致的保守审批保留为能力差异。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### cmd.for-range
+### bash.user.git-status-ignored.macos32
 
-windows · cmd · cmd-batch · 预期 valid
+macos · bash · bash-3.2 · 预期 valid
 
 ```text
-for /L %%i in (1,1,5) do echo %%i
-
+git status --short --ignored
 ```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### cmd.for-f
-
-windows · cmd · cmd-batch · 预期 valid
-
-```text
-for /F "tokens=1,2 delims=," %%a in (data.csv) do echo %%a %%b
 
-```
+精确命令参数预期：`[["git","status","--short","--ignored"]]`
 
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
+| ask_for_approval | allow |
+| auto_approve | allow |
+| full_access | allow |
 
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
+预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。按只读/输出或工作区内非破坏性写入语义预期直接允许；Git 查询/本地操作要求系统 Git 与配置可核验且无外部 helper/活动 hook；未覆盖选项导致的保守审批保留为能力差异。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### cmd.for-f-command
+### bash.user.ssh-disk-query.linux52
 
-windows · cmd · cmd-batch · 预期 valid
+linux · bash · bash-5.2 · 预期 valid
 
 ```text
-for /F "delims=" %%a in ('dir /b') do echo %%a
-
+ssh fixture-host "df -h"
 ```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### cmd.for-usebackq
-
-windows · cmd · cmd-batch · 预期 valid
 
-```text
-for /F "usebackq delims=" %%a in (`dir /b`) do echo %%a
-
-```
+精确命令参数预期：`[["ssh","fixture-host","df -h"]]`
 
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
 
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
+预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。未完整建模的程序、动态参数或复杂语法：BashOpaqueCommand/BashComplexFilesystem 与运行时包装器按三档默认动作处理。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### cmd.for-recursive
+### bash.user.ssh-disk-query.macos32
 
-windows · cmd · cmd-batch · 预期 valid
+macos · bash · bash-3.2 · 预期 valid
 
 ```text
-for /R . %%F in (*.go) do echo %%~fF
-
+ssh fixture-host "df -h"
 ```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### cmd.call-file
+精确命令参数预期：`[["ssh","fixture-host","df -h"]]`
 
-windows · cmd · cmd-batch · 预期 valid
-
-```text
-call script.cmd arg
-
-```
-
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
 
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
+预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。未完整建模的程序、动态参数或复杂语法：BashOpaqueCommand/BashComplexFilesystem 与运行时包装器按三档默认动作处理。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### cmd.call-label
+### bash.user.ssh-quoted-process-summary.linux52
 
-windows · cmd · cmd-batch · 预期 valid
+linux · bash · bash-5.2 · 预期 valid
 
 ```text
-call :worker arg
-goto :eof
-:worker
-echo %1
-
+ssh fixture-host "uptime; echo '---'; ps aux --sort=-%mem | head -8"
 ```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### cmd.call-expansion
-
-windows · cmd · cmd-batch · 预期 valid
 
-```text
-call echo %%X%%
-
-```
+精确命令参数预期：`[["ssh","fixture-host","uptime; echo '---'; ps aux --sort=-%mem | head -8"]]`
 
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
 
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
+预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。未完整建模的程序、动态参数或复杂语法：BashOpaqueCommand/BashComplexFilesystem 与运行时包装器按三档默认动作处理。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### cmd.goto
+### bash.user.ssh-quoted-process-summary.macos32
 
-windows · cmd · cmd-batch · 预期 valid
+macos · bash · bash-3.2 · 预期 valid
 
 ```text
-goto done
-echo skipped
-:done
-echo done
-
+ssh fixture-host "uptime; echo '---'; ps aux --sort=-%mem | head -8"
 ```
 
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### cmd.set
-
-windows · cmd · cmd-batch · 预期 valid
-
-```text
-set "X=a & del x"
-echo %X%
-
-```
+精确命令参数预期：`[["ssh","fixture-host","uptime; echo '---'; ps aux --sort=-%mem | head -8"]]`
 
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
 
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
+预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。未完整建模的程序、动态参数或复杂语法：BashOpaqueCommand/BashComplexFilesystem 与运行时包装器按三档默认动作处理。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### cmd.set-arithmetic
+### bash.user.ssh-inventory-script.linux52
 
-windows · cmd · cmd-batch · 预期 valid
+linux · bash · bash-5.2 · 预期 valid
 
 ```text
-set /A x=1+2
-
+ssh -o ConnectTimeout=10 -o BatchMode=yes fixture-host 'echo "= KES TREE ="; ls -la /kingbase/apps/KingbaseES/; echo "= DATA DIR ="; ls -la /kingbase/apps/KingbaseES/data 2>/dev/null | head -30; echo "= DATA USAGE ="; du -xhd1 /kingbase/apps/KingbaseES/data 2>/dev/null | sort -h | tail -12; echo "= SOFTWARE ="; ls -la /kingbase/software'
 ```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### cmd.set-prompt
-
-windows · cmd · cmd-batch · 预期 valid
 
-```text
-set /P X=Name: 
-
-```
+精确命令参数预期：`[["ssh","-o","ConnectTimeout=10","-o","BatchMode=yes","fixture-host","echo \"= KES TREE =\"; ls -la /kingbase/apps/KingbaseES/; echo \"= DATA DIR =\"; ls -la /kingbase/apps/KingbaseES/data 2>/dev/null | head -30; echo \"= DATA USAGE =\"; du -xhd1 /kingbase/apps/KingbaseES/data 2>/dev/null | sort -h | tail -12; echo \"= SOFTWARE =\"; ls -la /kingbase/software"]]`
 
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
 
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
+预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。未完整建模的程序、动态参数或复杂语法：BashOpaqueCommand/BashComplexFilesystem 与运行时包装器按三档默认动作处理。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### cmd.setlocal
+### bash.user.ssh-inventory-script.macos32
 
-windows · cmd · cmd-batch · 预期 valid
+macos · bash · bash-3.2 · 预期 valid
 
 ```text
-setlocal enabledelayedexpansion
-set X=a
-echo !X!
-endlocal
-
+ssh -o ConnectTimeout=10 -o BatchMode=yes fixture-host 'echo "= KES TREE ="; ls -la /kingbase/apps/KingbaseES/; echo "= DATA DIR ="; ls -la /kingbase/apps/KingbaseES/data 2>/dev/null | head -30; echo "= DATA USAGE ="; du -xhd1 /kingbase/apps/KingbaseES/data 2>/dev/null | sort -h | tail -12; echo "= SOFTWARE ="; ls -la /kingbase/software'
 ```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### cmd.delayed
+精确命令参数预期：`[["ssh","-o","ConnectTimeout=10","-o","BatchMode=yes","fixture-host","echo \"= KES TREE =\"; ls -la /kingbase/apps/KingbaseES/; echo \"= DATA DIR =\"; ls -la /kingbase/apps/KingbaseES/data 2>/dev/null | head -30; echo \"= DATA USAGE =\"; du -xhd1 /kingbase/apps/KingbaseES/data 2>/dev/null | sort -h | tail -12; echo \"= SOFTWARE =\"; ls -la /kingbase/software"]]`
 
-windows · cmd · cmd-batch · 预期 valid
-
-```text
-echo !X!
-
-```
-
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
 
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
+预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。未完整建模的程序、动态参数或复杂语法：BashOpaqueCommand/BashComplexFilesystem 与运行时包装器按三档默认动作处理。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### cmd.percent
+### bash.user.ssh-sql-read-script.linux52
 
-windows · cmd · cmd-batch · 预期 valid
+linux · bash · bash-5.2 · 预期 valid
 
 ```text
-echo %PATH% %~dp0 %1 %%i
-
+ssh -o ConnectTimeout=10 -o BatchMode=yes fixture-host 'cd /tmp && sudo -u kingbase /kingbase/apps/KingbaseES/KESRealPro/V009R001C010/Server/bin/ksql -U system -d postgres -c "select datname, pg_database_size(datname) from pg_database order by 1;" 2>&1 | head -30'
 ```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### cmd.parameter-mod
-
-windows · cmd · cmd-batch · 预期 valid
 
-```text
-echo %~f1 %~nx1 %~dp0
-
-```
+精确命令参数预期：`[["ssh","-o","ConnectTimeout=10","-o","BatchMode=yes","fixture-host","cd /tmp && sudo -u kingbase /kingbase/apps/KingbaseES/KESRealPro/V009R001C010/Server/bin/ksql -U system -d postgres -c \"select datname, pg_database_size(datname) from pg_database order by 1;\" 2>&1 | head -30"]]`
 
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
 
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
+预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。未完整建模的程序、动态参数或复杂语法：BashOpaqueCommand/BashComplexFilesystem 与运行时包装器按三档默认动作处理。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### cmd.variable-slice
+### bash.user.ssh-sql-read-script.macos32
 
-windows · cmd · cmd-batch · 预期 valid
+macos · bash · bash-3.2 · 预期 valid
 
 ```text
-echo %X:~0,3% %X:a=b%
-
+ssh -o ConnectTimeout=10 -o BatchMode=yes fixture-host 'cd /tmp && sudo -u kingbase /kingbase/apps/KingbaseES/KESRealPro/V009R001C010/Server/bin/ksql -U system -d postgres -c "select datname, pg_database_size(datname) from pg_database order by 1;" 2>&1 | head -30'
 ```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### cmd.echo-off
-
-windows · cmd · cmd-batch · 预期 valid
-
-```text
-@echo off
-echo hello
 
-```
+精确命令参数预期：`[["ssh","-o","ConnectTimeout=10","-o","BatchMode=yes","fixture-host","cd /tmp && sudo -u kingbase /kingbase/apps/KingbaseES/KESRealPro/V009R001C010/Server/bin/ksql -U system -d postgres -c \"select datname, pg_database_size(datname) from pg_database order by 1;\" 2>&1 | head -30"]]`
 
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
 
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
+预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。未完整建模的程序、动态参数或复杂语法：BashOpaqueCommand/BashComplexFilesystem 与运行时包装器按三档默认动作处理。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### cmd.label
+### bash.user.ssh-loop-literal-db.linux52
 
-windows · cmd · cmd-batch · 预期 valid
+linux · bash · bash-5.2 · 预期 valid
 
 ```text
-:: comment
-:label
-echo hi
-
+ssh -o ConnectTimeout=10 -o BatchMode=yes fixture-host 'cd /tmp; for db in test TEST kingbase KES zc40_app_cq zc40_flow_cq; do echo "--- try db ---"; sudo -u kingbase /kingbase/apps/KingbaseES/KESRealPro/V009R001C010/Server/bin/ksql -U system -d "db" -c "select datname, pg_database_size(datname) from pg_database order by 1;" 2>&1 | head -20; done'
 ```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### cmd.exit
-
-windows · cmd · cmd-batch · 预期 valid
 
-```text
-exit /b 1
-
-```
+精确命令参数预期：`[["ssh","-o","ConnectTimeout=10","-o","BatchMode=yes","fixture-host","cd /tmp; for db in test TEST kingbase KES zc40_app_cq zc40_flow_cq; do echo \"--- try db ---\"; sudo -u kingbase /kingbase/apps/KingbaseES/KESRealPro/V009R001C010/Server/bin/ksql -U system -d \"db\" -c \"select datname, pg_database_size(datname) from pg_database order by 1;\" 2>&1 | head -20; done"]]`
 
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
 
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
+预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。未完整建模的程序、动态参数或复杂语法：BashOpaqueCommand/BashComplexFilesystem 与运行时包装器按三档默认动作处理。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### cmd.nested
+### bash.user.ssh-loop-literal-db.macos32
 
-windows · cmd · cmd-batch · 预期 valid
+macos · bash · bash-3.2 · 预期 valid
 
 ```text
-cmd /d /s /c "echo hello"
-
+ssh -o ConnectTimeout=10 -o BatchMode=yes fixture-host 'cd /tmp; for db in test TEST kingbase KES zc40_app_cq zc40_flow_cq; do echo "--- try db ---"; sudo -u kingbase /kingbase/apps/KingbaseES/KESRealPro/V009R001C010/Server/bin/ksql -U system -d "db" -c "select datname, pg_database_size(datname) from pg_database order by 1;" 2>&1 | head -20; done'
 ```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### cmd.parenthesis-echo
+精确命令参数预期：`[["ssh","-o","ConnectTimeout=10","-o","BatchMode=yes","fixture-host","cd /tmp; for db in test TEST kingbase KES zc40_app_cq zc40_flow_cq; do echo \"--- try db ---\"; sudo -u kingbase /kingbase/apps/KingbaseES/KESRealPro/V009R001C010/Server/bin/ksql -U system -d \"db\" -c \"select datname, pg_database_size(datname) from pg_database order by 1;\" 2>&1 | head -20; done"]]`
 
-windows · cmd · cmd-batch · 预期 valid
-
-```text
-echo hello (world)
-
-```
-
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
 
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
+预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。未完整建模的程序、动态参数或复杂语法：BashOpaqueCommand/BashComplexFilesystem 与运行时包装器按三档默认动作处理。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### cmd.pipe-group
+### bash.user.ssh-loop-variable-db.linux52
 
-windows · cmd · cmd-batch · 预期 valid
+linux · bash · bash-5.2 · 预期 valid
 
 ```text
-(echo a & echo b) | findstr a
-
+ssh -o ConnectTimeout=10 -o BatchMode=yes fixture-host 'cd /tmp; for db in test TEST kingbase KES zc40_app_cq zc40_flow_cq; do echo "--- try db ---"; sudo -u kingbase /kingbase/apps/KingbaseES/KESRealPro/V009R001C010/Server/bin/ksql -U system -d "$db" -c "select datname, pg_database_size(datname) from pg_database order by 1;" 2>&1 | head -20; done'
 ```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### cmd.unicode
-
-windows · cmd · cmd-batch · 预期 valid
 
-```text
-echo 中文 😀
-
-```
+精确命令参数预期：`[["ssh","-o","ConnectTimeout=10","-o","BatchMode=yes","fixture-host","cd /tmp; for db in test TEST kingbase KES zc40_app_cq zc40_flow_cq; do echo \"--- try db ---\"; sudo -u kingbase /kingbase/apps/KingbaseES/KESRealPro/V009R001C010/Server/bin/ksql -U system -d \"$db\" -c \"select datname, pg_database_size(datname) from pg_database order by 1;\" 2>&1 | head -20; done"]]`
 
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
 
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
+预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。未完整建模的程序、动态参数或复杂语法：BashOpaqueCommand/BashComplexFilesystem 与运行时包装器按三档默认动作处理。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
 
-### cmd.invalid-paren
+### bash.user.ssh-loop-variable-db.macos32
 
-windows · cmd · cmd-batch · 预期 invalid
+macos · bash · bash-3.2 · 预期 valid
 
 ```text
-(echo a
-
+ssh -o ConnectTimeout=10 -o BatchMode=yes fixture-host 'cd /tmp; for db in test TEST kingbase KES zc40_app_cq zc40_flow_cq; do echo "--- try db ---"; sudo -u kingbase /kingbase/apps/KingbaseES/KESRealPro/V009R001C010/Server/bin/ksql -U system -d "$db" -c "select datname, pg_database_size(datname) from pg_database order by 1;" 2>&1 | head -20; done'
 ```
 
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### cmd.invalid-pipe
-
-windows · cmd · cmd-batch · 预期 invalid
-
-```text
-echo a |
-
-```
+精确命令参数预期：`[["ssh","-o","ConnectTimeout=10","-o","BatchMode=yes","fixture-host","cd /tmp; for db in test TEST kingbase KES zc40_app_cq zc40_flow_cq; do echo \"--- try db ---\"; sudo -u kingbase /kingbase/apps/KingbaseES/KESRealPro/V009R001C010/Server/bin/ksql -U system -d \"$db\" -c \"select datname, pg_database_size(datname) from pg_database order by 1;\" 2>&1 | head -20; done"]]`
 
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
-
-### cmd.no-final-newline
-
-windows · cmd · cmd-batch · 预期 valid
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
 
-```text
-git status
-```
-
-| 权限档位 | 预期决定 |
-| --- | --- |
-| ask_for_approval | block |
-| auto_approve | block |
-| full_access | block |
-
-预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。macOS Host 基线：Windows PowerShell/CMD 启动器不可用，启动准备硬阻断；这不是 Windows 原生审批验收。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。
+预期依据：默认策略与命令语义合同；macOS Host；Workspace 与 cwd 为同一普通可访问目录、editing=true、无已有批准。未完整建模的程序、动态参数或复杂语法：BashOpaqueCommand/BashComplexFilesystem 与运行时包装器按三档默认动作处理。 目录映射或实际环境不满足条件时保留不符预期，不用本次结果改写预期。

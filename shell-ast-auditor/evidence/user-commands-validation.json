@@ -1,0 +1,201 @@
+{
+  "scope": "syntax-only CLI and local literal argv checks; no fixture command executed; no Host approval or remote native validation",
+  "parserSha256": "9271743d46e24f8261f4565994638e065e908d6faf14d2ca37bc898d64d954ae",
+  "fixtureSha256": "11b39f738855435ebafffa108955d2dd34ca5c12f545ed28098a699efb56f617",
+  "localBashSyntaxChecks": 24,
+  "counts": {
+    "match": 22,
+    "mismatch": 2
+  },
+  "results": [
+    {
+      "id": "bash.user.go-env-cache-version.linux52",
+      "exitCode": 0,
+      "verdict": "match",
+      "issues": [],
+      "rawReportPath": "artifacts/user-commands-20261117T135258Z/bash.user.go-env-cache-version.linux52.json"
+    },
+    {
+      "id": "bash.user.go-env-cache-version.macos32",
+      "exitCode": 0,
+      "verdict": "match",
+      "issues": [],
+      "rawReportPath": "artifacts/user-commands-20261117T135258Z/bash.user.go-env-cache-version.macos32.json"
+    },
+    {
+      "id": "bash.user.file-grep-module-path.linux52",
+      "exitCode": 0,
+      "verdict": "match",
+      "issues": [],
+      "rawReportPath": "artifacts/user-commands-20261117T135258Z/bash.user.file-grep-module-path.linux52.json"
+    },
+    {
+      "id": "bash.user.file-grep-module-path.macos32",
+      "exitCode": 0,
+      "verdict": "match",
+      "issues": [],
+      "rawReportPath": "artifacts/user-commands-20261117T135258Z/bash.user.file-grep-module-path.macos32.json"
+    },
+    {
+      "id": "bash.user.ps-explicit-columns.linux52",
+      "exitCode": 0,
+      "verdict": "match",
+      "issues": [],
+      "rawReportPath": "artifacts/user-commands-20261117T135258Z/bash.user.ps-explicit-columns.linux52.json"
+    },
+    {
+      "id": "bash.user.ps-explicit-columns.macos32",
+      "exitCode": 0,
+      "verdict": "match",
+      "issues": [],
+      "rawReportPath": "artifacts/user-commands-20261117T135258Z/bash.user.ps-explicit-columns.macos32.json"
+    },
+    {
+      "id": "bash.user.docker-format-unquoted.linux52",
+      "exitCode": 0,
+      "verdict": "mismatch",
+      "issues": [
+        "missing exact argv: [\"docker\", \"ps\", \"--format\", \"{{.ID}}\"]",
+        "missing exact argv: [\"{{.Image}}\"]",
+        "missing exact argv: [\"{{.Names}}\"]",
+        "missing exact argv: [\"{{.Status}}\"]",
+        "missing call: {{.Image}}",
+        "missing call: {{.Names}}",
+        "missing call: {{.Status}}"
+      ],
+      "rawReportPath": "artifacts/user-commands-20261117T135258Z/bash.user.docker-format-unquoted.linux52.json"
+    },
+    {
+      "id": "bash.user.docker-format-unquoted.macos32",
+      "exitCode": 0,
+      "verdict": "mismatch",
+      "issues": [
+        "missing exact argv: [\"docker\", \"ps\", \"--format\", \"{{.ID}}\"]",
+        "missing exact argv: [\"{{.Image}}\"]",
+        "missing exact argv: [\"{{.Names}}\"]",
+        "missing exact argv: [\"{{.Status}}\"]",
+        "missing call: {{.Image}}",
+        "missing call: {{.Names}}",
+        "missing call: {{.Status}}"
+      ],
+      "rawReportPath": "artifacts/user-commands-20261117T135258Z/bash.user.docker-format-unquoted.macos32.json"
+    },
+    {
+      "id": "bash.user.docker-format-quoted.linux52",
+      "exitCode": 0,
+      "verdict": "match",
+      "issues": [],
+      "rawReportPath": "artifacts/user-commands-20261117T135258Z/bash.user.docker-format-quoted.linux52.json"
+    },
+    {
+      "id": "bash.user.docker-format-quoted.macos32",
+      "exitCode": 0,
+      "verdict": "match",
+      "issues": [],
+      "rawReportPath": "artifacts/user-commands-20261117T135258Z/bash.user.docker-format-quoted.macos32.json"
+    },
+    {
+      "id": "bash.user.git-status-ignored.linux52",
+      "exitCode": 0,
+      "verdict": "match",
+      "issues": [],
+      "rawReportPath": "artifacts/user-commands-20261117T135258Z/bash.user.git-status-ignored.linux52.json"
+    },
+    {
+      "id": "bash.user.git-status-ignored.macos32",
+      "exitCode": 0,
+      "verdict": "match",
+      "issues": [],
+      "rawReportPath": "artifacts/user-commands-20261117T135258Z/bash.user.git-status-ignored.macos32.json"
+    },
+    {
+      "id": "bash.user.ssh-disk-query.linux52",
+      "exitCode": 0,
+      "verdict": "match",
+      "issues": [],
+      "rawReportPath": "artifacts/user-commands-20261117T135258Z/bash.user.ssh-disk-query.linux52.json"
+    },
+    {
+      "id": "bash.user.ssh-disk-query.macos32",
+      "exitCode": 0,
+      "verdict": "match",
+      "issues": [],
+      "rawReportPath": "artifacts/user-commands-20261117T135258Z/bash.user.ssh-disk-query.macos32.json"
+    },
+    {
+      "id": "bash.user.ssh-quoted-process-summary.linux52",
+      "exitCode": 0,
+      "verdict": "match",
+      "issues": [],
+      "rawReportPath": "artifacts/user-commands-20261117T135258Z/bash.user.ssh-quoted-process-summary.linux52.json"
+    },
+    {
+      "id": "bash.user.ssh-quoted-process-summary.macos32",
+      "exitCode": 0,
+      "verdict": "match",
+      "issues": [],
+      "rawReportPath": "artifacts/user-commands-20261117T135258Z/bash.user.ssh-quoted-process-summary.macos32.json"
+    },
+    {
+      "id": "bash.user.ssh-inventory-script.linux52",
+      "exitCode": 0,
+      "verdict": "match",
+      "issues": [],
+      "rawReportPath": "artifacts/user-commands-20261117T135258Z/bash.user.ssh-inventory-script.linux52.json"
+    },
+    {
+      "id": "bash.user.ssh-inventory-script.macos32",
+      "exitCode": 0,
+      "verdict": "match",
+      "issues": [],
+      "rawReportPath": "artifacts/user-commands-20261117T135258Z/bash.user.ssh-inventory-script.macos32.json"
+    },
+    {
+      "id": "bash.user.ssh-sql-read-script.linux52",
+      "exitCode": 0,
+      "verdict": "match",
+      "issues": [],
+      "rawReportPath": "artifacts/user-commands-20261117T135258Z/bash.user.ssh-sql-read-script.linux52.json"
+    },
+    {
+      "id": "bash.user.ssh-sql-read-script.macos32",
+      "exitCode": 0,
+      "verdict": "match",
+      "issues": [],
+      "rawReportPath": "artifacts/user-commands-20261117T135258Z/bash.user.ssh-sql-read-script.macos32.json"
+    },
+    {
+      "id": "bash.user.ssh-loop-literal-db.linux52",
+      "exitCode": 0,
+      "verdict": "match",
+      "issues": [],
+      "rawReportPath": "artifacts/user-commands-20261117T135258Z/bash.user.ssh-loop-literal-db.linux52.json"
+    },
+    {
+      "id": "bash.user.ssh-loop-literal-db.macos32",
+      "exitCode": 0,
+      "verdict": "match",
+      "issues": [],
+      "rawReportPath": "artifacts/user-commands-20261117T135258Z/bash.user.ssh-loop-literal-db.macos32.json"
+    },
+    {
+      "id": "bash.user.ssh-loop-variable-db.linux52",
+      "exitCode": 0,
+      "verdict": "match",
+      "issues": [],
+      "rawReportPath": "artifacts/user-commands-20261117T135258Z/bash.user.ssh-loop-variable-db.linux52.json"
+    },
+    {
+      "id": "bash.user.ssh-loop-variable-db.macos32",
+      "exitCode": 0,
+      "verdict": "match",
+      "issues": [],
+      "rawReportPath": "artifacts/user-commands-20261117T135258Z/bash.user.ssh-loop-variable-db.macos32.json"
+    }
+  ],
+  "limitations": [
+    "This is a syntax-only CLI observation, not Host approval, remote execution or native argv acceptance.",
+    "Raw reports are local artifacts; summary does not embed AST.",
+    "Unquoted Docker brace tokens remain authored literal argv expectations; current symbolic reports remain mismatches."
+  ]
+}

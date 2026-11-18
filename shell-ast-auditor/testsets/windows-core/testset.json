@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "windows-core",
+  "title": "Windows 核心测试集",
+  "version": "2",
+  "description": "108 条 Windows PowerShell 5.1、PowerShell 7.6 与 CMD/Batch 用例，仅声明解析预期。Windows 原生验证待完成。",
+  "files": [
+    "powershell.jsonl",
+    "cmd.jsonl"
+  ]
+}

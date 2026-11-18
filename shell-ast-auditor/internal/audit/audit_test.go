@@ -202,11 +202,11 @@ func TestBundledTestsets(t *testing.T) {
 	if e != nil {
 		t.Fatal(e)
 	}
-	if len(sets) != 4 {
+	if len(sets) != 6 {
 		t.Fatal(len(sets))
 	}
 	core, e := s.Testset("shell-core")
-	if e != nil || len(core.Cases) != 317 {
+	if e != nil || len(core.Cases) != 233 {
 		t.Fatal(len(core.Cases), e)
 	}
 	for _, c := range core.Cases {
@@ -215,7 +215,7 @@ func TestBundledTestsets(t *testing.T) {
 		}
 	}
 	smoke, e := s.Testset("smoke")
-	if e != nil || len(smoke.Cases) != 8 {
+	if e != nil || len(smoke.Cases) != 5 {
 		t.Fatal(len(smoke.Cases), e)
 	}
 }

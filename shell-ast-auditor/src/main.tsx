@@ -154,6 +154,11 @@ function App() {
       if (ticket !== navigation.current) return;
       definitions.current = set.cases;
       setTestsetId(id);
+      setFilters(previous => ({
+        ...previous,
+        platform: set.cases.some(c => c.platforms.includes(previous.platform)) ? previous.platform : "",
+        profile: set.cases.some(c => c.profile === previous.profile) ? previous.profile : "",
+      }));
       setWorkMode(target);
       const restored =
         target === "single"
@@ -386,7 +391,7 @@ function App() {
   const exportControl = <ExportMenu onExport={exportReport} busy={exporting} disabled={busy || (mode === "结果对比" ? !comparison : workMode === "single" ? Object.keys(results).length === 0 : !currentRun)} />;
   const choices: Record<string, string[]> = {
     attention: ["red", "expectation-red", "approval-red"],
-    platform: ["macos", "windows", "linux"],
+    platform: [...new Set(cases.flatMap(c => c.platforms))],
     profile: [...new Set(cases.map((x) => x.profile))],
     expected: ["valid", "invalid"],
     syntax: ["未运行", "valid", "invalid"],
@@ -535,8 +540,8 @@ function App() {
       <main>
         {" "}
         {fatal && <p role="alert">{fatal}</p>}
-        {workMode !== "free" && cases.some(c => !c.expect.policyByLevel && definitions.current.some(d => d.id === c.id && d.expect.policyByLevel)) && (
-          <p className="active-filter-note">当前结果保留的是旧版用例预期。三档预期已补齐，请重新运行以使用新版预期；历史记录不会被改写。</p>
+        {workMode !== "free" && cases.some(c => definitions.current.some(d => d.id === c.id && Boolean(d.expect.policyByLevel) !== Boolean(c.expect.policyByLevel))) && (
+          <p className="active-filter-note">当前结果含旧版审批预期。重新运行可使用现行用例预期。</p>
         )}
         <FreeTest active={workMode === "free"} projectDir={mappedProjectDir} onBusyChange={setFreeBusy} />
         {workMode !== "free" && <>
@@ -552,10 +557,14 @@ function App() {
               value={testsetId}
               onChange={(e) => void loadSet(e.target.value)}
             >
-              {testsets.map((s) => (
+              {[{ label: "Windows", windows: true }, { label: "macOS / Linux", windows: false }].map(group => (
+                <optgroup label={group.label} key={group.label}>
+                {testsets.filter(s => s.cases.every(c => c.platforms.includes("windows")) === group.windows).map((s) => (
                 <option value={s.id} key={s.id}>
                   {s.title} ({s.cases.length})
                 </option>
+                ))}
+                </optgroup>
               ))}
             </CompactSelect>
           </label>

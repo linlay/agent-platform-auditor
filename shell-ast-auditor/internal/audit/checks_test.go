@@ -84,9 +84,14 @@ func TestIndependentParsingAndApprovalChecks(t *testing.T) {
 	}
 	// Never invent an approval expectation from the actual result.
 	c.Expect.Policy = nil
-	if checks = compare(); checks.Approval.Verdict != "not-set" || checks.Parsing.Verdict != "match" {
+	if checks = compare(); checks.Approval.Verdict != "not-set" || checks.Parsing.Verdict != "match" || CombineChecks(checks).Verdict != "match" {
 		t.Fatal(checks)
 	}
+	report.Status.Syntax = "invalid"
+	if checks = compare(); checks.Approval.Verdict != "not-set" || CombineChecks(checks).Verdict != "mismatch" {
+		t.Fatal(checks)
+	}
+	report.Status.Syntax = "valid"
 	// Missing policy still fails the requested report contract independently.
 	report.Policy = nil
 	if checks = compare(); checks.Approval.Verdict != "error" || checks.Parsing.Verdict != "match" {
@@ -134,7 +139,7 @@ func TestApprovalMatrixSelectsRequestedLevel(t *testing.T) {
 	}
 }
 
-func TestAllCatalogCasesHaveThreeAuthoredApprovalLevels(t *testing.T) {
+func TestBundledMacLinuxCasesHaveThreeAuthoredApprovalLevels(t *testing.T) {
 	s := &Store{Root: filepath.Join("..", "..")}
 	for _, id := range []string{"shell-core", "smoke", "policy-smoke"} {
 		set, err := s.Testset(id)

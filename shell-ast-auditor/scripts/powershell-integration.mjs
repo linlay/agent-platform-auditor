@@ -40,7 +40,8 @@ for (const c of run.cases) {
     deviations.push({ id: c.id, state: result.state, error: result.error });
     continue;
   }
-  assert.equal(result.checks.approval.verdict, "not-evaluated", c.id);
+  assert.equal(result.checks.approval.verdict, "not-set", c.id);
+  assert.deepEqual(result.check, result.checks.parsing, c.id);
   if (result.checks.parsing.verdict !== "match") {
     deviations.push({ id: c.id, state: result.state, check: result.checks.parsing });
   }

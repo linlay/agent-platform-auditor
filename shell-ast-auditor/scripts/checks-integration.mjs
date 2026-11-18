@@ -18,5 +18,5 @@ assert.equal(different.checks.parsing.verdict,"match");assert.equal(different.ch
 const detailed=await api(`/api/runs/${changed.id}/cases/policy.readonly-workspace`);
 assert.deepEqual(detailed.checks,different.checks);
 assert.equal(fs.existsSync("auditor-policy-sentinel"),false);
-const evidence={coreRun:core.id,coreCounts:core.counts,policyRun:policy.id,policyCounts:policy.counts,changedRun:changed.id,checks:different.checks,checksVerified:["317 version-3 parsing expectations checked; unresolved upstream gaps remain mismatches; syntax-only does not evaluate approval","6 policy expectations match independently, including HITL and block","unexpected allow fails approval only","summaries and detail agree; input never executed"]};
+const evidence={coreRun:core.id,coreCounts:core.counts,policyRun:policy.id,policyCounts:policy.counts,changedRun:changed.id,checks:different.checks,checksVerified:["233 version-5 parsing expectations checked; unresolved upstream gaps remain mismatches; syntax-only does not evaluate approval","6 policy expectations match independently, including HITL and block","unexpected allow fails approval only","summaries and detail agree; input never executed"]};
 fs.mkdirSync("artifacts",{recursive:true});fs.writeFileSync("artifacts/checks-validation.json",JSON.stringify(evidence,null,2));console.log("PASS "+JSON.stringify(evidence));

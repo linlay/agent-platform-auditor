@@ -94,8 +94,21 @@ try {
     "reload restores references and fetches earlier A from its original run",
   );
   await page.getByLabel("测试集", { exact: true }).selectOption("smoke");
-  await expect(page.locator("aside .case")).toHaveCount(8);
+  await expect(page.locator("aside .case")).toHaveCount(5);
   assert.equal(await item("bash.and-or").locator(".judgment-green").count(), 0);
+  const selector = page.getByLabel("测试集", { exact: true });
+  await expect(selector.locator('optgroup[label="Windows"] option')).toHaveCount(3);
+  await expect(selector.locator('optgroup[label="macOS / Linux"] option')).toHaveCount(3);
+  await page.getByLabel("更多筛选条件", { exact: true }).click();
+  await page.getByLabel("platform", { exact: true }).selectOption("macos");
+  await selector.selectOption("windows-smoke");
+  await expect(page.locator("aside .case")).toHaveCount(3);
+  await expect(page.getByLabel("platform", { exact: true })).toHaveValue("");
+  await expect(page.getByLabel("platform", { exact: true }).locator('option[value="macos"]')).toHaveCount(0);
+  await page.getByLabel("更多筛选条件", { exact: true }).click();
+  await expect(item("bash.pipeline")).toHaveCount(0);
+  await expect(item("powershell.switch")).toHaveCount(1);
+  checks.push("Windows and macOS/Linux have separate groups and smoke inputs");
   await page.getByLabel("测试集", { exact: true }).selectOption("shell-core");
   await expect(item("bash.and-or").locator(".judgment-green")).toHaveCount(1);
   checks.push("testset switching retains isolated manual workspaces");
@@ -127,7 +140,7 @@ try {
   assert.equal(await page.locator(".history").count(), 0);
   await page.getByLabel("全选当前列表", { exact: true }).check();
   await expect(
-    page.getByRole("button", { name: "解析选中 (317)", exact: true }),
+    page.getByRole("button", { name: "解析选中 (233)", exact: true }),
   ).toBeEnabled();
   await page.getByLabel("全选当前列表", { exact: true }).uncheck();
   checks.push(
@@ -179,7 +192,7 @@ try {
   assert.equal(await page.getByLabel("自定义命令", { exact: true }).count(), 0);
   assert.equal(
     await page.getByLabel("测试集", { exact: true }).locator("option").count(),
-    4,
+    6,
   );
   await page.getByLabel("搜索用例", { exact: true }).fill("readonly");
   const batchResponse = page.waitForResponse(
@@ -217,7 +230,7 @@ try {
   await page.getByRole("heading", { name: /实际结果对预期/ }).waitFor();
   assert.equal(await page.locator(".comparison tbody tr").count(), 6);
   checks.push(
-    "whole-set mode retains 4 testsets, ignores viewing filters for execution, shows batch ID/report and per-case details",
+    "whole-set mode retains 6 testsets, ignores viewing filters for execution, shows batch ID/report and per-case details",
   );
   await single.click();
   await page.getByLabel("测试集", { exact: true }).selectOption("shell-core");
@@ -240,6 +253,7 @@ try {
   const after = await (await page.request.get(origin + "/api/runs")).json();
   assert.equal(after.length, before.length);
   await whole.click();
+  await expect(page.getByLabel("测试集", { exact: true })).toBeEnabled();
   await page.getByLabel("已保存批次", { exact: true }).selectOption(batch.id);
   await page
     .getByRole("heading", { name: "批次号：" + batch.id, exact: true })
