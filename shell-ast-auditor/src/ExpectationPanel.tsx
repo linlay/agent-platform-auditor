@@ -110,9 +110,11 @@ export function ExpectationPanel({
         <h3>{heading}</h3>
         <Tag code={check?.verdict ?? "not-run"} text={verdict.text} tone={verdict.tone === "green" ? "success" : verdict.tone === "red" ? "danger" : "neutral"} />
       </div>
-      <p className="expectation-context">
-        当前用例：<code>{c.id}</code>。对照本次运行保存的预期与实际结果。
-      </p>
+      {kind === "parsing" && (
+        <p className="expectation-context">
+          当前用例：<code>{c.id}</code>。对照本次运行保存的预期与实际结果。
+        </p>
+      )}
       {check?.issues.length ? (
         <ul className="expectation-issues">
           {check.issues.map((issue, i) => (
@@ -128,7 +130,9 @@ export function ExpectationPanel({
       )}
       {kind === "approval" && c.expect.policyByLevel && (
         <>
-          <p>{c.review?.mode === "evaluation" ? `本次按“${label(c.review.accessLevel ?? "")}”的预期比较。` : "已设置三档预期；选择评估审批要求及权限档位后运行。"}</p>
+          {c.review?.mode !== "evaluation" && (
+            <p>已设置三档预期；选择评估审批要求及权限档位后运行。</p>
+          )}
           <div className="expectation-table approval-level-table">
             <table>
               <thead><tr><th>权限档位</th><th>预期决定</th><th>本次实际</th></tr></thead>
@@ -143,7 +147,6 @@ export function ExpectationPanel({
               })}</tbody>
             </table>
           </div>
-          <small>预期依据：{c.expect.policyBasis}</small>
         </>
       )}
       {rows.length > 0 && <div className="expectation-table">

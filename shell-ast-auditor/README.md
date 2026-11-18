@@ -14,7 +14,7 @@ Go 1.26 API + React/TypeScript strict 的 Shell 解析诊断与回归应用。�
 
 旧 `data/` 已迁移。目录中没有多份同时生效的 cases/corpus/results。
 
-测试集按 **Windows** 与 **macOS / Linux** 分组。Windows 核心集 108 条（PowerShell 66、CMD/Batch 42），[PowerShell 双版本扩展](testsets/powershell-compat/README.md) 210 条，Windows 快速集引用其中 3 条；macOS/Linux 核心集 233 条（Bash、sh、Zsh），分类预审集 6 条，快速集引用其中 5 条。独立用例共 557 条；PowerShell 合计 276 条（5.1：165；7.6：111）。Windows 原生验证待完成。平台与方言、profile 分开；macOS/Linux 公共用例用 platforms 明确复用。原始最初 22 项用户输入仍未取得，不伪造原文。
+测试集按 **Windows** 与 **macOS / Linux** 分组。Windows 核心集 166 条（PowerShell 124、CMD/Batch 42），[PowerShell 双版本扩展](testsets/powershell-compat/README.md) 210 条，Windows 快速集引用其中 3 条；macOS/Linux 核心集 233 条（Bash、sh、Zsh），分类预审集 6 条，快速集引用其中 5 条。独立用例共 615 条；PowerShell 合计 334 条（5.1：194；7.6：140）。Windows 原生验证待完成。平台与方言、profile 分开；macOS/Linux 公共用例用 platforms 明确复用。原始最初 22 项用户输入仍未取得，不伪造原文。
 
 页面提供 6 个测试集，提供“单用例测试 / 整集测试”两种运行方式。支持搜索与平台/profile/标签/预期/状态/grade/已知差异筛选，单条、选中、筛选集合及全量运行，取消后创建新运行重跑。运行和比较会保存，刷新后可重新打开。执行面、执行点及词、重定向、关系、opaque、诊断、原生 CST/树、完整 JSON 与 UTF-8 源码高亮保留。自定义面板为临时解析，需加入测试集文件才成为可重复测试。
 
@@ -129,7 +129,7 @@ macOS/Linux 核心集与 `policy-smoke` 的 239 条独立用例在 `expect.polic
 
 这些审批预期依据发布默认策略和 macOS Host 条件编写。前提通常为普通可访问的工作区、cwd 与工作区相同、允许编辑、无已有批准；Git 配置可核验且无外部 helper/活动 hook。sh/Zsh 未验证启动合同按保守规则。程序、目录或配置条件变化以及当前 reviewer 的识别缺口可产生红色差异。
 
-用例有三档预期时，纯语法或只分类显示“未评估审批”。选“评估审批要求”和某档后运行，才比较该档。318 条独立 Windows 用例仅断言解析，详情注明“未设置审批预期”。快速集继承引用用例的预期。旧运行保留当时的用例快照，创建新运行会读取当前版本。
+用例有三档预期时，纯语法或只分类显示“未评估审批”。选“评估审批要求”和某档后运行，才比较该档。376 条独立 Windows 用例仅断言解析，详情注明“未设置审批预期”。快速集继承引用用例的预期。旧运行保留当时的用例快照，创建新运行会读取当前版本。
 
 判断筛选中的“有红点”“解析不符预期”“审批不符预期”均使用独立预期比较结果，需审批或禁止执行本身不再当作测试异常。运行记录保存 `checks.parsing` 与 `checks.approval`，旧 `check` 保留综合结论供批次统计和兼容使用；打开旧记录详情时按其冻结用例和原始报告只读补算两项判断，不改写历史。旧摘要无法安全拆分的失败显示“待重新判断”，不猜测归因。
 

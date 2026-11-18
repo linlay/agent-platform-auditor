@@ -42,6 +42,7 @@ const defaultManualReview: ReviewOptions = {
 
 function App() {
   const directoryDialog = useRef<HTMLDialogElement>(null);
+  const helpDialog = useRef<HTMLDialogElement>(null);
   const navigation = useRef(0);
   const clearEpoch = useRef(0);
   const cache = useRef<Workspaces | null>(null);
@@ -391,58 +392,14 @@ function App() {
     }
   }
   const exportControl = <ExportMenu onExport={exportReport} busy={exporting} disabled={busy || (mode === "结果对比" ? !comparison : workMode === "single" ? Object.keys(results).length === 0 : !currentRun)} />;
-  const choices: Record<string, string[]> = {
-    attention: ["red", "expectation-red", "approval-red"],
-    platform: [...new Set(cases.flatMap(c => c.platforms))],
-    profile: [...new Set(cases.map((x) => x.profile))],
-    expected: ["valid", "invalid"],
-    syntax: ["未运行", "valid", "invalid"],
-    grade: ["未运行", "exact", "partial", "opaque"],
-    difference: ["true", "false"],
-  };
-  function renderFilter(k: string, values: string[]) {
-    const name = (
-      {
-        attention: "筛选",
-        platform: "平台",
-        profile: "Shell 环境",
-        expected: "预期语法",
-        syntax: "实际语法",
-        grade: "解析程度",
-        difference: "已知差异",
-      } as Record<string, string>
-    )[k];
-    return (
-      <label key={k} className="filter-field">
-        {name}
-        <CompactSelect
-          aria-label={k}
-          title={filters[k] || name}
-          value={filters[k] ?? ""}
-          onChange={(e) => setFilters((s) => ({ ...s, [k]: e.target.value }))}
-        >
-          <option value="">全部</option>
-          {values.map((v) => (
-            <option value={v} key={v}>
-              {k === "attention"
-                ? (
-                    {
-                      red: "有红点",
-                      "expectation-red": "解析不符预期",
-                      "approval-red": "审批不符预期",
-                    } as Record<string, string>
-                  )[v]
-                : k === "difference"
-                  ? v === "true"
-                    ? "有已知差异"
-                    : "无已知差异"
-                  : label(v)}
-            </option>
-          ))}
-        </CompactSelect>
-      </label>
-    );
-  }
+  const advancedFilters = [
+    { key: "platform", name: "平台", values: [...new Set(cases.flatMap(c => c.platforms))] },
+    { key: "profile", name: "Shell 环境", values: [...new Set(cases.map(c => c.profile))] },
+    { key: "expected", name: "预期语法", values: ["valid", "invalid"] },
+    { key: "syntax", name: "实际语法", values: ["未运行", "valid", "invalid"] },
+    { key: "grade", name: "解析程度", values: ["未运行", "exact", "partial", "opaque"] },
+    { key: "difference", name: "已知差异", values: ["true", "false"] },
+  ];
   return (
     <>
       <header className="app-header">
@@ -498,20 +455,30 @@ function App() {
               )}
             </div>
           </details>
-        <details className="app-help">
-          <summary>使用说明</summary>
-          <div>
-            <p>单用例测试支持多选，整集测试生成批次报告，自由测试直接输入命令。</p>
-            <p>
-              只看分类时不设权限，也不产生审批决定；审批预审使用你选择的权限档位。
-            </p>
-            <p>
-              语法解析程度不等于执行许可。此应用不执行命令，不替换生产审查；Windows
-              原生验收尚未完成。Bash 的精确结果仅限已验证的语法范围。
-            </p>
-          </div>
-        </details>
+        <button className="app-help" aria-haspopup="dialog" onClick={() => helpDialog.current?.showModal()}>
+          使用说明
+        </button>
       </header>
+      <dialog ref={helpDialog} className="app-help-dialog" aria-labelledby="app-help-title">
+        <div className="app-help-heading">
+          <h2 id="app-help-title">使用说明</h2>
+          <form method="dialog"><button>关闭</button></form>
+        </div>
+        <p>单用例测试支持多选，整集测试生成批次报告，自由测试直接输入命令。</p>
+        <p>
+          只看分类时不设权限，也不产生审批决定；审批预审使用你选择的权限档位。
+        </p>
+        <p>
+          语法解析程度不等于执行许可。此应用不执行命令，不替换生产审查；Windows
+          原生验收尚未完成。Bash 的精确结果仅限已验证的语法范围。
+        </p>
+        {workMode !== "free" && mode !== "结果对比" && c?.expect.policyBasis && (
+          <section>
+            <h3>预期依据 <code>{c.id}</code></h3>
+            <p>{c.expect.policyBasis}</p>
+          </section>
+        )}
+      </dialog>
       <dialog ref={directoryDialog} className="directory-dialog" aria-labelledby="directory-dialog-title">
         <h2 id="directory-dialog-title">设置用例内目录</h2>
         <label>
@@ -788,7 +755,20 @@ function App() {
                         onChange={(e) => setQuery(e.target.value)}
                       />
                     </label>
-                    {["attention"].map((k) => renderFilter(k, choices[k]))}
+                    <label className="filter-field">
+                      筛选
+                      <CompactSelect
+                        aria-label="attention"
+                        title={filters.attention || "筛选"}
+                        value={filters.attention ?? ""}
+                        onChange={(e) => setFilters((s) => ({ ...s, attention: e.target.value }))}
+                      >
+                        <option value="">全部</option>
+                        <option value="red">有红点</option>
+                        <option value="expectation-red">解析不符预期</option>
+                        <option value="approval-red">审批不符预期</option>
+                      </CompactSelect>
+                    </label>
                     <details className="more-filters">
                       <summary aria-label="更多筛选条件" title="更多筛选条件">
                         <svg
@@ -807,15 +787,32 @@ function App() {
                         </svg>
                       </summary>
                       <div>
-                        {[
-                          "attention",
-                          "platform",
-                          "profile",
-                          "expected",
-                          "syntax",
-                          "grade",
-                          "difference",
-                        ].map((k) => renderFilter(k, choices[k]))}
+                        {advancedFilters.map(({ key, name, values }) => (
+                          <fieldset className="advanced-filter" key={key}>
+                            <legend>{name}</legend>
+                            <div className="filter-options">
+                              {["", ...values].map((value) => (
+                                <label key={value}>
+                                  <input
+                                    className="sr-only"
+                                    type="radio"
+                                    name={`case-filter-${key}`}
+                                    value={value}
+                                    checked={(filters[key] ?? "") === value}
+                                    onChange={() => setFilters((s) => ({ ...s, [key]: value }))}
+                                  />
+                                  <span>
+                                    {value === ""
+                                      ? "全部"
+                                      : key === "difference"
+                                        ? value === "true" ? "有已知差异" : "无已知差异"
+                                        : label(value)}
+                                  </span>
+                                </label>
+                              ))}
+                            </div>
+                          </fieldset>
+                        ))}
                       </div>
                     </details>
                     {Object.values(filters).some(Boolean) && (
@@ -864,63 +861,65 @@ function App() {
                     </label>
                   )}
                 </div>
-                {shown.map((x) => (
-                  <article
-                    key={x.id}
-                    className={active === x.id ? "active" : ""}
-                  >
-                    {workMode === "single" && (
-                      <label className="case-check">
-                        <input
-                          aria-label={"选择 " + x.id}
-                          disabled={x.id === "custom"}
-                          type="checkbox"
-                          checked={selected.has(x.id)}
-                          onChange={(e) =>
-                            setSelected((old) => {
-                              const next = new Set(old);
-                              if (e.target.checked) next.add(x.id);
-                              else next.delete(x.id);
-                              return next;
-                            })
-                          }
-                        />
-                        <span className="sr-only">选择用例</span>
-                      </label>
-                    )}
-                    <button
-                      className="case"
-                      data-case-id={x.id}
-                      aria-current={active === x.id ? "true" : undefined}
-                      onClick={() => {
-                        setActive(x.id);
-                      }}
+                <div className="case-list" role="region" aria-label="用例列表" tabIndex={0}>
+                  {shown.map((x) => (
+                    <article
+                      key={x.id}
+                      className={active === x.id ? "active" : ""}
                     >
-                      <span className="case-heading">
-                        <b title={x.id}>{x.id}</b>
-                        {hasApprovalExpectation(x) && judgments(x, results[x.id]).approval.tone === "red" && (
-                          <span className="judgment judgment-red" role="img" aria-label="审批预期有差异" title="审批预期有差异">
-                            <span className="judgment-dot" aria-hidden="true" />
-                          </span>
-                        )}
-                        <small
-                          className="case-environment"
-                          title={`${x.platforms.map(label).join(" / ")} · ${x.dialect} · ${label(x.profile)}`}
-                        >
-                          {label(x.profile)}
-                        </small>
-                      </span>
-                      <code title={x.command}>{x.command}</code>
-                      <div className="item-judgments">
-                        <JudgmentBadge
-                          kind="解析"
-                          value={judgments(x, results[x.id]).parsing}
-                        />
-                        <ApprovalOutcome policy={results[x.id]?.report?.policy ?? results[x.id]?.policy} />
-                      </div>
-                    </button>
-                  </article>
-                ))}
+                      {workMode === "single" && (
+                        <label className="case-check">
+                          <input
+                            aria-label={"选择 " + x.id}
+                            disabled={x.id === "custom"}
+                            type="checkbox"
+                            checked={selected.has(x.id)}
+                            onChange={(e) =>
+                              setSelected((old) => {
+                                const next = new Set(old);
+                                if (e.target.checked) next.add(x.id);
+                                else next.delete(x.id);
+                                return next;
+                              })
+                            }
+                          />
+                          <span className="sr-only">选择用例</span>
+                        </label>
+                      )}
+                      <button
+                        className="case"
+                        data-case-id={x.id}
+                        aria-current={active === x.id ? "true" : undefined}
+                        onClick={() => {
+                          setActive(x.id);
+                        }}
+                      >
+                        <span className="case-heading">
+                          <b title={x.id}>{x.id}</b>
+                          {hasApprovalExpectation(x) && judgments(x, results[x.id]).approval.tone === "red" && (
+                            <span className="judgment judgment-red" role="img" aria-label="审批预期有差异" title="审批预期有差异">
+                              <span className="judgment-dot" aria-hidden="true" />
+                            </span>
+                          )}
+                          <small
+                            className="case-environment"
+                            title={`${x.platforms.map(label).join(" / ")} · ${x.dialect} · ${label(x.profile)}`}
+                          >
+                            {label(x.profile)}
+                          </small>
+                        </span>
+                        <code title={x.command}>{x.command}</code>
+                        <div className="item-judgments">
+                          <JudgmentBadge
+                            kind="解析"
+                            value={judgments(x, results[x.id]).parsing}
+                          />
+                          <ApprovalOutcome policy={results[x.id]?.report?.policy ?? results[x.id]?.policy} />
+                        </div>
+                      </button>
+                    </article>
+                  ))}
+                </div>
               </aside>
               <Inspector
                 key={`${testsetId}:${active}:${runId}`}

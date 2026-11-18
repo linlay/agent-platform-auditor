@@ -205,7 +205,7 @@ export function Inspector({
             )}
           </div>
           {result?.error && <p role="alert">{result.error}</p>}
-          {report && c.id !== "custom" && <PolicyCategories policy={report.policy} />}
+          {c.id !== "custom" && (report || policy) && <PolicyCategories policy={policy} />}
           <nav role="tablist" aria-label="当前命令详情">
             {[
               "解析判断",
@@ -271,7 +271,7 @@ export function Inspector({
             ) : tab === approvalTab ? (
               <>
               {policy ? (
-                <PolicyPanel policy={policy} />
+                <PolicyPanel policy={policy} showCategories={c.id === "custom"} />
               ) : (
                 <p className="empty">
                   {report

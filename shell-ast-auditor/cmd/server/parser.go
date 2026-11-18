@@ -17,8 +17,9 @@ import (
 )
 
 type parserAdapter struct {
-	bin  string
-	info audit.ParserInfo
+	bin                   string
+	info                  audit.ParserInfo
+	powerShellCoreProfile string
 }
 
 func parserArgs(q Request, supportsSyntaxOnly bool) []string {
@@ -44,6 +45,24 @@ func parserArgs(q Request, supportsSyntaxOnly bool) []string {
 	}
 	return args
 }
+func (p *parserAdapter) args(q Request) []string {
+	// Preserve the fixture profile in the run; only map the diagnostic CLI flag.
+	if q.Dialect == "powershell" && q.Profile == "pwsh-7.6" && p.powerShellCoreProfile != "" {
+		q.Profile = p.powerShellCoreProfile
+	}
+	return parserArgs(q, p.info.Mode == "syntax-only")
+}
+
+func advertisedPowerShellCoreProfile(help []byte) string {
+	if bytes.Contains(help, []byte("pwsh-7.6")) {
+		return "pwsh-7.6"
+	}
+	if bytes.Contains(help, []byte("pwsh-7.4+")) {
+		return "pwsh-7.4+"
+	}
+	return ""
+}
+
 func reportContract(raw json.RawMessage, q Request, code int) error {
 	if audit.ReviewMode(q) == "syntax-only" {
 		return syntaxContract(raw)
@@ -133,6 +152,7 @@ func newParser(bin string) (*parserAdapter, error) {
 	if e = cmd.Run(); e != nil {
 		return nil, fmt.Errorf("CLI capability discovery failed: %w", e)
 	}
+	p.powerShellCoreProfile = advertisedPowerShellCoreProfile(help.Bytes())
 	if bytes.Contains(help.Bytes(), []byte("-syntax-only")) {
 		p.info.Mode = "syntax-only"
 		p.info.SupportsPolicy = bytes.Contains(help.Bytes(), []byte("-access-level"))
@@ -224,7 +244,7 @@ func (p *parserAdapter) parse(ctx context.Context, q Request) (json.RawMessage, 
 	if audit.ReviewMode(q) != "syntax-only" && !p.info.SupportsPolicy {
 		return nil, 0, errors.New("configured CLI has no policy support; rebuild from current agent-platform")
 	}
-	args := parserArgs(q, p.info.Mode == "syntax-only")
+	args := p.args(q)
 	keys := []string{}
 	for k := range q.Options {
 		keys = append(keys, k)

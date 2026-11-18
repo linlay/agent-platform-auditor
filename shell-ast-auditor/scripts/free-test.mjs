@@ -45,6 +45,7 @@ try {
   assert.equal(actual.input.command, command);
   await expect(page.getByRole("heading", { name: "解析结果", exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "仅分析行为分类", exact: true })).toBeVisible();
+  await expect(page.locator(".policy-panel").getByRole("region", { name: "审批策略项", exact: true })).toBeVisible();
   assert.equal(await page.locator(".free-test .case-meta").getByText(/预期语法/).count(), 0);
   assert.equal(await page.locator(".free-test .judgment-green").count(), 0);
   assert.equal(fs.existsSync(sentinel), false);

@@ -52,7 +52,7 @@ const sets = await api("/api/testsets");
 assert.ok(sets.some((x) => x.id === "policy-smoke"));
 assert.equal(sets.find((x) => x.id === "shell-core").cases.length, 233);
 assert.equal(sets.find((x) => x.id === "smoke").cases.length, 5);
-assert.equal(sets.find((x) => x.id === "windows-core").cases.length, 108);
+assert.equal(sets.find((x) => x.id === "windows-core").cases.length, 166);
 assert.equal(sets.find((x) => x.id === "windows-smoke").cases.length, 3);
 for (const set of sets) {
   const windows = set.cases[0].platforms.includes("windows");

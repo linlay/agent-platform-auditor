@@ -1,6 +1,6 @@
 # Windows PowerShell 双版本扩展
 
-105 组输入，每组分别声明 `windows-powershell-5.1` 与 `pwsh-7.6`，共 210 条独立 profile 用例。机器维护源为 `cases.jsonl`；[COMMANDS.md](COMMANDS.md) 由 `npm run catalog` 生成。此集在页面 Windows 分组中展示；Windows 核心集另有 108 条，macOS/Linux 核心集为 233 条。
+105 组输入，每组分别声明 `windows-powershell-5.1` 与 `pwsh-7.6`，共 210 条独立 profile 用例。机器维护源为 `cases.jsonl`；[COMMANDS.md](COMMANDS.md) 由 `npm run catalog` 生成。此集在页面 Windows 分组中展示；Windows 核心集另有 166 条，macOS/Linux 核心集为 233 条。
 
 | 覆盖方向 | 输入组 | profile 用例数 |
 | --- | ---: | ---: |

@@ -27,19 +27,25 @@ export function PolicyCategories({ policy }: { policy?: Policy }) {
       </div>
       {policy && policy.categories.length > 0 && (
         <ul className="policy-category-list">
-          {policy.categories.map((category) => (
-            <li key={category}>
-              <code>{category}</code>
-              {label(category) !== category && <span>{label(category)}</span>}
-            </li>
-          ))}
+          {policy.categories.map((category) => {
+            const description = label(category);
+            return (
+              <li key={category}>
+                <code>{category}</code>
+                <span>{description === category ? "暂无中文说明" : description}</span>
+              </li>
+            );
+          })}
         </ul>
       )}
     </section>
   );
 }
 
-export function PolicyPanel({ policy: p }: { policy: Policy }) {
+export function PolicyPanel({ policy: p, showCategories }: {
+  policy: Policy;
+  showCategories: boolean;
+}) {
   const decision = p.decision;
   const tone =
     decision?.value === "block"
@@ -78,7 +84,7 @@ export function PolicyPanel({ policy: p }: { policy: Policy }) {
       ) : !decision ? (
         <p>未设置权限档位，因此未评估是否需要审批。</p>
       ) : null}
-      <PolicyCategories policy={p} />
+      {showCategories && <PolicyCategories policy={p} />}
       <details className="technical-details">
         <summary>预审说明与原始报告</summary>
         <p>

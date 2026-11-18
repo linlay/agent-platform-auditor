@@ -9,6 +9,24 @@ describe("Chinese diagnostic summaries", () => {
     expect(label("exact")).toBe("精确");
     expect(label("classification")).toBe("只看行为分类");
   });
+  it("provides Chinese labels for every current policy category", () => {
+    const categories = {
+      "bash-agent-authored-code": "智能体编写的代码",
+      "bash-complex-filesystem": "复杂文件操作",
+      "bash-opaque-command": "程序行为待确认",
+      "bash-write-in-write-roots": "允许目录内写入",
+      destructive: "可能丢弃数据",
+      "executable-config": "可执行配置变更",
+      "hard-block": "硬性限制",
+      "read-outside-roots": "读取范围外路径",
+      "remote-mutation": "修改远程资源",
+      "shell-syntax": "命令语法需审查",
+      "write-outside-roots": "写入范围外路径",
+    };
+    for (const [category, chinese] of Object.entries(categories)) {
+      expect(label(category), category).toBe(chinese);
+    }
+  });
   it("retains both reasons and exact paths from the production message", () => {
     const raw =
       'bash path is outside allowed roots: /project; bash command "git" may access files internally; approval covers this invocation, content version and cwd "/work"';

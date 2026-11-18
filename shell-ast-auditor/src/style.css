@@ -371,16 +371,11 @@ summary {
 summary:hover {
   color: var(--primary);
 }
-.app-help,
 .parser-info,
 .context-settings,
 .more-filters {
   position: relative;
 }
-.app-help > summary {
-  white-space: nowrap;
-}
-.app-help > div,
 .parser-info > div,
 .context-settings > div,
 .more-filters > div {
@@ -397,7 +392,6 @@ summary:hover {
   max-width: calc(100vw - 24px);
   overflow-wrap: anywhere;
 }
-.app-help > div,
 .parser-info > div {
   right: 0;
 }
@@ -465,7 +459,8 @@ summary:hover {
 .context-settings > summary.is-configured:hover {
   background: var(--primary-hover);
 }
-.directory-dialog {
+.directory-dialog,
+.app-help-dialog {
   width: min(640px, calc(100vw - 32px));
   max-height: calc(100dvh - 32px);
   overflow: auto;
@@ -476,7 +471,18 @@ summary:hover {
   color: var(--text);
   box-sizing: border-box;
 }
-.directory-dialog::backdrop { background: rgba(0, 0, 0, .35); }
+.directory-dialog::backdrop,
+.app-help-dialog::backdrop { background: rgba(0, 0, 0, .35); }
+.app-help-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.app-help-heading h2 { margin: 0; }
+.app-help-dialog section { margin-top: 16px; }
+.app-help-dialog p,
+.app-help-dialog h3 { overflow-wrap: anywhere; }
 .directory-dialog label { display: grid; gap: 8px; }
 .directory-dialog input { width: 100%; min-width: 0; box-sizing: border-box; }
 .directory-dialog p { overflow-wrap: anywhere; }
@@ -498,15 +504,6 @@ summary:hover {
 }
 .search-field input {
   width: 100%;
-}
-.more-filters > div {
-  width: 320px;
-  display: grid;
-  gap: 12px;
-  left: 0;
-}
-.more-filters .filter-field {
-  justify-content: space-between;
 }
 .actions {
   gap: 6px;
@@ -588,13 +585,27 @@ progress {
 aside,
 .inspector {
   height: 100%;
-  overflow: auto;
-  overscroll-behavior: contain;
   min-width: 0;
 }
+.case-list,
+.inspector {
+  overflow: auto;
+  overscroll-behavior: contain;
+}
 aside {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: clip;
   border-right: 1px solid var(--border);
   background: rgba(240, 245, 248, 0.45);
+}
+.case-list {
+  flex: 1;
+  min-height: 0;
+}
+.case-list:focus-visible {
+  outline-offset: -2px;
 }
 .selectall {
   display: flex !important;
@@ -602,10 +613,7 @@ aside {
   gap: 6px;
   padding: 6px 12px;
   border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 0;
   background: var(--raised);
-  z-index: 2;
   min-height: 36px !important;
 }
 article {
@@ -692,6 +700,9 @@ article.active {
   align-items: center;
   flex-wrap: wrap;
   gap: 6px 12px;
+}
+.case-overview {
+  min-height: 28px;
 }
 .inspector-heading h2 {
   font: 600 14px/20px var(--mono);
@@ -1129,7 +1140,8 @@ td code {
   button,
   select,
   input:not([type="checkbox"]),
-  summary {
+  summary,
+  .case-overview {
     min-height: 44px;
     height: auto;
   }
@@ -1239,14 +1251,6 @@ td code {
   .more-filters {
     width: 100%;
   }
-  .more-filters[open] > div {
-    display: grid;
-    grid-template-columns: 1fr;
-  }
-  .more-filters > div .filter-field {
-    display: flex;
-    justify-content: space-between;
-  }
   .actions strong {
     width: 100%;
   }
@@ -1332,12 +1336,6 @@ td code {
   }
   .comparison-table table {
     min-width: 760px;
-  }
-}
-@media (min-width: 761px) and (pointer: fine) {
-  .more-filters .filter-field:has(select[aria-label="platform"]),
-  .more-filters .filter-field:has(select[aria-label="profile"]) {
-    display: none;
   }
 }
 @media (min-width: 761px) and (pointer: fine) {
@@ -1500,19 +1498,11 @@ td code {
   align-items: center;
   margin: 0 0 8px;
 }
-@media (min-width: 761px) and (pointer: fine) {
-  .more-filters .filter-field:has(select[aria-label="attention"]) {
-    display: none;
-  }
-}
 @media (max-width: 760px), (pointer: coarse) {
   .toolbar > .filter-field:has(select[aria-label="attention"]) {
     display: flex;
     width: 100%;
     justify-content: space-between;
-  }
-  .more-filters .filter-field:has(select[aria-label="attention"]) {
-    display: none;
   }
 }
 .clear-results {
@@ -1537,7 +1527,7 @@ td code {
     flex: 1;
   }
 }
-/* One control row above the workspace; list-only filters live in its sticky header. */
+/* One control row above the workspace; list-only filters sit above the scrolling items. */
 .dataset {
   gap: 8px;
   padding: 8px 12px;
@@ -1571,8 +1561,8 @@ main:has(.batch-line) .workspace {
   height: calc(100dvh - 184px);
 }
 .aside-header {
-  position: sticky;
-  top: 0;
+  position: relative;
+  flex: none;
   z-index: 5;
   background: var(--raised);
   border-bottom: 1px solid var(--border);
@@ -1612,20 +1602,12 @@ main:has(.batch-line) .workspace {
   grid-column: 1/-1;
   width: 100%;
 }
-.aside-header .more-filters .filter-field {
-  display: flex !important;
-  margin: 6px 0;
-}
-.aside-header .more-filters .filter-field:has(select[aria-label="attention"]) {
-  display: none !important;
-}
 .list-count strong {
   font-size: 12px;
   font-weight: 500;
   color: var(--muted);
 }
 .aside-header .selectall {
-  position: static;
   border: 0;
   background: none;
   padding: 4px 0 0;
@@ -1820,6 +1802,8 @@ main:has(.batch-line) .workspace {
 }
 .aside-header .more-filters[open] > div {
   position: absolute;
+  display: grid;
+  gap: 8px;
   left: 8px;
   right: 8px;
   top: 44px;
@@ -1828,8 +1812,51 @@ main:has(.batch-line) .workspace {
   background: var(--raised);
   border: 1px solid var(--border);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-  max-height: 320px;
+  max-height: 384px;
   overflow: auto;
+  overscroll-behavior: contain;
+}
+.advanced-filter {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.advanced-filter legend {
+  padding: 0;
+  margin-bottom: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.filter-options label {
+  position: relative;
+  cursor: pointer;
+}
+.filter-options span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  padding: 4px 8px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: var(--field);
+}
+.filter-options label:hover span {
+  background: var(--hover);
+}
+.filter-options input:checked + span {
+  color: var(--primary);
+  background: var(--primary-soft);
+  border-color: var(--primary);
+}
+.filter-options input:focus-visible + span {
+  outline: 2px solid var(--primary);
+  outline-offset: 1px;
 }
 .aside-header .toolbar > button {
   grid-column: 1/-1;
@@ -1882,6 +1909,14 @@ main:has(.batch-line) .workspace {
   }
   .aside-header .more-filters[open] > div {
     top: 56px;
+    max-height: 212px;
+  }
+  .filter-options input {
+    min-height: 0;
+  }
+  .filter-options span {
+    min-width: 44px;
+    min-height: 44px;
   }
   .aside-header .selectall {
     font-size: 11px;

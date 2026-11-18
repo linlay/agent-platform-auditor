@@ -16,6 +16,16 @@ try {
   await page
     .getByRole("heading", { name: "bash.pipeline", exact: true })
     .waitFor();
+  const caseList = page.getByRole("region", { name: "用例列表", exact: true });
+  const caseHeader = page.locator(".aside-header");
+  const headerTop = (await caseHeader.boundingBox()).y;
+  await caseList.hover();
+  await page.mouse.wheel(0, 480);
+  await expect.poll(() => caseList.evaluate(element => element.scrollTop)).toBeGreaterThan(0);
+  assert.equal((await caseHeader.boundingBox()).y, headerTop);
+  assert.equal(await page.locator("aside").evaluate(element => element.scrollTop), 0);
+  await caseList.evaluate(element => { element.scrollTop = 0; });
+  checks.push("mouse wheel scrolls the case list below the fixed sidebar controls");
   const inspector = page.locator(".inspector");
   const approvalTab = inspector.getByRole("tab", { name: "分类与审批", exact: true });
   const parsingTab = inspector.getByRole("tab", { name: "解析判断", exact: true });
@@ -60,6 +70,8 @@ try {
   await choose("bash.and-or");
   await expect(manualMode).toHaveValue("syntax-only");
   const a = await parseCurrent();
+  const caseOverview = inspector.locator(".case-overview");
+  const unmappedOverviewHeight = (await caseOverview.boundingBox()).height;
   await expect(
     inspector
       .getByRole("row", { name: /应识别的程序/ })
@@ -68,6 +80,21 @@ try {
   ).toHaveText("git、echo");
   await choose("bash.pipeline");
   const b = await parseCurrent();
+  await expect(caseOverview.locator(".template-source > summary")).toBeVisible();
+  assert.equal((await caseOverview.boundingBox()).height, unmappedOverviewHeight);
+  checks.push("the judgment row keeps the same height with and without the mapped-source disclosure");
+  await approvalTab.click();
+  const basis = b.cases[0].expect.policyBasis;
+  assert.ok(basis);
+  await expect(inspector.getByText(basis, { exact: true })).toHaveCount(0);
+  const helpButton = page.getByRole("button", { name: "使用说明", exact: true });
+  const help = page.getByRole("dialog", { name: "使用说明", exact: true });
+  await helpButton.click();
+  await expect(help.getByText(basis, { exact: true })).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(help).toBeHidden();
+  await expect(helpButton).toBeFocused();
+  checks.push("usage opens as a modal and shows the selected case's saved approval basis");
   assert.equal(await item("bash.and-or").locator(".judgment-green").count(), 1);
   assert.equal(
     await item("bash.pipeline").locator(".judgment-green").count(),
@@ -113,13 +140,26 @@ try {
   const selector = page.getByLabel("测试集", { exact: true });
   await expect(selector.locator('optgroup[label="Windows"] option')).toHaveCount(3);
   await expect(selector.locator('optgroup[label="macOS / Linux"] option')).toHaveCount(3);
-  await page.getByLabel("更多筛选条件", { exact: true }).click();
-  await page.getByLabel("platform", { exact: true }).selectOption("macos");
+  const moreFilters = page.getByLabel("更多筛选条件", { exact: true });
+  const filterPanel = page.locator(".more-filters > div");
+  const platforms = filterPanel.getByRole("group", { name: "平台", exact: true });
+  const expectedSyntax = filterPanel.getByRole("group", { name: "预期语法", exact: true });
+  await moreFilters.click();
+  await expect(filterPanel.getByRole("combobox")).toHaveCount(0);
+  await platforms.getByText("macOS", { exact: true }).click();
+  await expect(platforms.getByRole("radio", { name: "macOS", exact: true })).toBeChecked();
+  const allExpected = expectedSyntax.getByRole("radio", { name: "全部", exact: true });
+  await allExpected.focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(expectedSyntax.getByRole("radio", { name: "有效", exact: true })).toBeChecked();
+  await page.keyboard.press("ArrowLeft");
+  await expect(allExpected).toBeChecked();
   await selector.selectOption("windows-smoke");
   await expect(page.locator("aside .case")).toHaveCount(3);
-  await expect(page.getByLabel("platform", { exact: true })).toHaveValue("");
-  await expect(page.getByLabel("platform", { exact: true }).locator('option[value="macos"]')).toHaveCount(0);
-  await page.getByLabel("更多筛选条件", { exact: true }).click();
+  await expect(platforms.getByRole("radio", { name: "全部", exact: true })).toBeChecked();
+  await expect(platforms.getByRole("radio", { name: "macOS", exact: true })).toHaveCount(0);
+  await moreFilters.click();
+  checks.push("advanced filters show single-choice options directly and support arrow-key selection");
   await expect(item("bash.pipeline")).toHaveCount(0);
   await expect(item("powershell.switch")).toHaveCount(1);
   await manualMode.selectOption("evaluation");
@@ -244,6 +284,9 @@ try {
   await expect(item("policy.ask-node").locator(".judgment-green")).toHaveCount(1);
   await expect(item("policy.ask-node").locator(".approval-outcome")).toHaveText("审批：需要人工审批");
   await expect(inspector.locator(".expectation-heading")).toContainText("符合预期");
+  await expect(inspector.locator(":scope > .policy-category-summary")).toContainText("bash-opaque-command");
+  await expect(inspector.getByRole("region", { name: "审批策略项", exact: true })).toHaveCount(1);
+  await expect(inspector.getByText("预审说明与原始报告", { exact: true })).toBeVisible();
   await page.screenshot({
     path: "artifacts/ui-whole-batch.png",
     fullPage: true,

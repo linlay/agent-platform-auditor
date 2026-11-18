@@ -88,3 +88,27 @@ func TestPolicyFlagsAreExplicit(t *testing.T) {
 		}
 	}
 }
+
+func TestPowerShellCoreCLIProfileCompatibility(t *testing.T) {
+	for _, tc := range []struct {
+		help string
+		want string
+	}{
+		{"Profiles: windows-powershell-5.1/pwsh-7.4+", "pwsh-7.4+"},
+		{"Profiles: windows-powershell-5.1/pwsh-7.6", "pwsh-7.6"},
+		{"Profiles: windows-powershell-5.1/pwsh-7.4+/pwsh-7.6", "pwsh-7.6"},
+		{"Profiles: windows-powershell-5.1", "pwsh-7.6"},
+	} {
+		p := parserAdapter{powerShellCoreProfile: advertisedPowerShellCoreProfile([]byte(tc.help))}
+		q := Request{Dialect: "powershell", Profile: "pwsh-7.6"}
+		args := p.args(q)
+		if i := slices.Index(args, "--profile"); i == -1 || args[i+1] != tc.want || q.Profile != "pwsh-7.6" {
+			t.Fatalf("%s: args=%q, stored profile=%q", tc.help, args, q.Profile)
+		}
+		q.Profile = "windows-powershell-5.1"
+		args = p.args(q)
+		if i := slices.Index(args, "--profile"); i == -1 || args[i+1] != q.Profile {
+			t.Fatalf("Desktop 5.1 profile changed: %q", args)
+		}
+	}
+}

@@ -10,6 +10,7 @@ const names: Record<string, string> = {
   "remote-mutation": "修改远程资源",
   "hard-block": "硬性限制",
   "executable-config": "可执行配置变更",
+  "shell-syntax": "命令语法需审查",
   ask_for_approval: "按需审批",
   auto_approve: "自动审批",
   full_access: "完全访问",

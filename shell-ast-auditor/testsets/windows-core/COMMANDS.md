@@ -1,6 +1,6 @@
 # Windows 核心测试集
 
-108 条 Windows PowerShell 5.1、PowerShell 7.6 与 CMD/Batch 用例，仅声明解析预期。Windows 原生验证待完成。
+166 条 Windows PowerShell 5.1、PowerShell 7.6 与 CMD/Batch 用例，含 29 组 Host 审查命令的双版本解析覆盖。Windows 原生验证待完成。
 
 本文件由 `npm run catalog` 生成，修改命令请编辑同目录 JSONL，不手工维护此目录。
 
@@ -546,6 +546,472 @@ windows · powershell · windows-powershell-5.1 · 预期 invalid
 
 ```text
 $x ?? "default"
+```
+
+## powershell-host-review.jsonl · 58 条
+
+### powershell.host-review.env-name-filter.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+Get-ChildItem Env: | Where-Object Name -Like 'APP_*' | Select-Object -ExpandProperty Name
+```
+
+### powershell.host-review.env-name-filter.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+Get-ChildItem Env: | Where-Object Name -Like 'APP_*' | Select-Object -ExpandProperty Name
+```
+
+### powershell.host-review.env-name-scriptblock.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+Get-ChildItem Env: | Where-Object { $_.Name -like 'APP_*' } | Select-Object -ExpandProperty Name
+```
+
+### powershell.host-review.env-name-scriptblock.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+Get-ChildItem Env: | Where-Object { $_.Name -like 'APP_*' } | Select-Object -ExpandProperty Name
+```
+
+### powershell.host-review.env-value-read.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+Get-Item Env:APP_MODE | Select-Object -ExpandProperty Value
+```
+
+### powershell.host-review.env-value-read.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+Get-Item Env:APP_MODE | Select-Object -ExpandProperty Value
+```
+
+### powershell.host-review.get-command-imported.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+Get-Command -ListImported -Name Get-ChildItem
+```
+
+### powershell.host-review.get-command-imported.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+Get-Command -ListImported -Name Get-ChildItem
+```
+
+### powershell.host-review.get-command-exact.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+Get-Command -Name Get-ChildItem
+```
+
+### powershell.host-review.get-command-exact.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+Get-Command -Name Get-ChildItem
+```
+
+### powershell.host-review.get-command-application.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+Get-Command -Name 'node*' -CommandType Application
+```
+
+### powershell.host-review.get-command-application.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+Get-Command -Name 'node*' -CommandType Application
+```
+
+### powershell.host-review.test-netconnection-tcp.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+Test-NetConnection -ComputerName example.invalid -Port 443 -InformationLevel Quiet
+```
+
+### powershell.host-review.test-netconnection-tcp.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+Test-NetConnection -ComputerName example.invalid -Port 443 -InformationLevel Quiet
+```
+
+### powershell.host-review.test-netconnection-icmp.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+Test-NetConnection -ComputerName example.invalid -InformationLevel Detailed
+```
+
+### powershell.host-review.test-netconnection-icmp.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+Test-NetConnection -ComputerName example.invalid -InformationLevel Detailed
+```
+
+### powershell.host-review.test-netconnection-routing.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+Test-NetConnection -ComputerName example.invalid -DiagnoseRouting
+```
+
+### powershell.host-review.test-netconnection-routing.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+Test-NetConnection -ComputerName example.invalid -DiagnoseRouting
+```
+
+### powershell.host-review.node-check.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+node --check '.\fixtures\sample file.js'
+```
+
+### powershell.host-review.node-check.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+node --check '.\fixtures\sample file.js'
+```
+
+### powershell.host-review.node-check-explicit.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+& 'C:\Fixture Tools\node.exe' --check '.\fixtures\sample.mjs'
+```
+
+### powershell.host-review.node-check-explicit.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+& 'C:\Fixture Tools\node.exe' --check '.\fixtures\sample.mjs'
+```
+
+### powershell.host-review.node-check-preload.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+node.exe --require '.\fixtures\setup.cjs' --check '.\fixtures\sample.js'
+```
+
+### powershell.host-review.node-check-preload.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+node.exe --require '.\fixtures\setup.cjs' --check '.\fixtures\sample.js'
+```
+
+### powershell.host-review.invoke-webrequest-get.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+Invoke-WebRequest -UseBasicParsing -Method Get -Uri 'https://example.invalid/resource' -MaximumRedirection 0
+```
+
+### powershell.host-review.invoke-webrequest-get.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+Invoke-WebRequest -UseBasicParsing -Method Get -Uri 'https://example.invalid/resource' -MaximumRedirection 0
+```
+
+### powershell.host-review.invoke-webrequest-head.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+Invoke-WebRequest -Method Head -Uri 'https://example.invalid/resource'
+```
+
+### powershell.host-review.invoke-webrequest-head.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+Invoke-WebRequest -Method Head -Uri 'https://example.invalid/resource'
+```
+
+### powershell.host-review.invoke-webrequest-outfile.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+Invoke-WebRequest -UseBasicParsing -Uri 'https://example.invalid/resource' -OutFile '.\download.txt'
+```
+
+### powershell.host-review.invoke-webrequest-outfile.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+Invoke-WebRequest -UseBasicParsing -Uri 'https://example.invalid/resource' -OutFile '.\download.txt'
+```
+
+### powershell.host-review.invoke-webrequest-outdir.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+Invoke-WebRequest -Uri 'https://example.invalid/resource' -OutFile '.\downloads\'
+```
+
+### powershell.host-review.invoke-webrequest-outdir.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+Invoke-WebRequest -Uri 'https://example.invalid/resource' -OutFile '.\downloads\'
+```
+
+### powershell.host-review.invoke-webrequest-infile.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+Invoke-WebRequest -UseBasicParsing -Method Post -Uri 'https://example.invalid/resource' -InFile '.\request.txt'
+```
+
+### powershell.host-review.invoke-webrequest-infile.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+Invoke-WebRequest -UseBasicParsing -Method Post -Uri 'https://example.invalid/resource' -InFile '.\request.txt'
+```
+
+### powershell.host-review.curl-bare.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+curl --version
+```
+
+### powershell.host-review.curl-bare.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+curl --version
+```
+
+### powershell.host-review.curl-exe-version.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+curl.exe --version
+```
+
+### powershell.host-review.curl-exe-version.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+curl.exe --version
+```
+
+### powershell.host-review.curl-exe-get.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+curl.exe --disable 'https://example.invalid/resource'
+```
+
+### powershell.host-review.curl-exe-get.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+curl.exe --disable 'https://example.invalid/resource'
+```
+
+### powershell.host-review.curl-exe-download.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+curl.exe --disable --location --output '.\download.txt' 'https://example.invalid/resource'
+```
+
+### powershell.host-review.curl-exe-download.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+curl.exe --disable --location --output '.\download.txt' 'https://example.invalid/resource'
+```
+
+### powershell.host-review.start-process-exe.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+Start-Process -FilePath 'C:\Fixture Tools\sample.exe' -WorkingDirectory 'C:\Fixture Work' -Wait
+```
+
+### powershell.host-review.start-process-exe.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+Start-Process -FilePath 'C:\Fixture Tools\sample.exe' -WorkingDirectory 'C:\Fixture Work' -Wait
+```
+
+### powershell.host-review.start-process-redirect.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+Start-Process -FilePath '.\sample.exe' -RedirectStandardInput '.\input.txt' -RedirectStandardOutput '.\out.txt' -RedirectStandardError '.\err.txt'
+```
+
+### powershell.host-review.start-process-redirect.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+Start-Process -FilePath '.\sample.exe' -RedirectStandardInput '.\input.txt' -RedirectStandardOutput '.\out.txt' -RedirectStandardError '.\err.txt'
+```
+
+### powershell.host-review.start-process-association.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+Start-Process -FilePath '.\readme.txt'
+```
+
+### powershell.host-review.start-process-association.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+Start-Process -FilePath '.\readme.txt'
+```
+
+### powershell.host-review.python-version.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+python --version
+```
+
+### powershell.host-review.python-version.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+python --version
+```
+
+### powershell.host-review.python-exe-version.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+python.exe --version
+```
+
+### powershell.host-review.python-exe-version.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+python.exe --version
+```
+
+### powershell.host-review.python-inline.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+python.exe -c 'print(1)'
+```
+
+### powershell.host-review.python-inline.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+python.exe -c 'print(1)'
+```
+
+### powershell.host-review.python-inline-embedded-quotes.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+python -c 'print("hello world")'
+```
+
+### powershell.host-review.python-inline-embedded-quotes.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+python -c 'print("hello world")'
+```
+
+### powershell.host-review.python-inline-variable.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+python.exe -c $code
+```
+
+### powershell.host-review.python-inline-variable.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+python.exe -c $code
 ```
 
 ## cmd.jsonl · 42 条

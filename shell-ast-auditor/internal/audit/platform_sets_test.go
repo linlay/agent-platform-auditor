@@ -9,7 +9,7 @@ func TestBundledSetsSeparateWindowsFromMacLinux(t *testing.T) {
 		t.Fatal(err)
 	}
 	windows := map[string]bool{"windows-core": true, "windows-smoke": true, "powershell-compat": true}
-	counts := map[string]int{"shell-core": 233, "smoke": 5, "policy-smoke": 6, "windows-core": 108, "windows-smoke": 3, "powershell-compat": 210}
+	counts := map[string]int{"shell-core": 233, "smoke": 5, "policy-smoke": 6, "windows-core": 166, "windows-smoke": 3, "powershell-compat": 210}
 	unique := map[string]bool{}
 	for _, set := range sets {
 		if len(set.Cases) != counts[set.ID] {
@@ -30,7 +30,7 @@ func TestBundledSetsSeparateWindowsFromMacLinux(t *testing.T) {
 			unique[c.ID] = true
 		}
 	}
-	if len(unique) != 557 {
+	if len(unique) != 615 {
 		t.Fatalf("platform split lost cases: got %d unique IDs", len(unique))
 	}
 }

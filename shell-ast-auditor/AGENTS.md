@@ -36,7 +36,7 @@ flowchart LR
 shell-ast-auditor/
 ├── testsets/                # 人工维护的测试输入、预期；唯一生效来源
 │   ├── shell-core/          # macOS/Linux 233 条：Bash/sh/Zsh
-│   ├── windows-core/        # Windows 108 条：PowerShell/CMD
+│   ├── windows-core/        # Windows 166 条：PowerShell/CMD
 │   ├── windows-smoke/       # 引用 Windows 3 条
 │   ├── powershell-compat/   # 105 组输入 × 5.1/7.6；210 条文档推导用例
 │   ├── smoke/               # 引用 macOS/Linux 5 条已有 caseId
