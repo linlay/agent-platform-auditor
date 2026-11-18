@@ -20,8 +20,9 @@ import { BatchVersion } from "./BatchVersion";
 import { ExportKind } from "./report-data";
 import { ReviewControls } from "./ReviewControls";
 import { label } from "./ui-labels";
-import { judgments } from "./judgments";
+import { hasApprovalExpectation, judgments } from "./judgments";
 import { JudgmentBadge } from "./JudgmentBadge";
+import { ApprovalOutcome } from "./PolicyPanel";
 import {
   Workspaces,
   workspaceKey,
@@ -897,6 +898,11 @@ function App() {
                     >
                       <span className="case-heading">
                         <b title={x.id}>{x.id}</b>
+                        {hasApprovalExpectation(x) && judgments(x, results[x.id]).approval.tone === "red" && (
+                          <span className="judgment judgment-red" role="img" aria-label="审批预期有差异" title="审批预期有差异">
+                            <span className="judgment-dot" aria-hidden="true" />
+                          </span>
+                        )}
                         <small
                           className="case-environment"
                           title={`${x.platforms.map(label).join(" / ")} · ${x.dialect} · ${label(x.profile)}`}
@@ -910,10 +916,7 @@ function App() {
                           kind="解析"
                           value={judgments(x, results[x.id]).parsing}
                         />
-                        <JudgmentBadge
-                          kind="审批"
-                          value={judgments(x, results[x.id]).approval}
-                        />
+                        <ApprovalOutcome policy={results[x.id]?.report?.policy ?? results[x.id]?.policy} />
                       </div>
                     </button>
                   </article>

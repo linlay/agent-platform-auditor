@@ -46,7 +46,7 @@ try {
   await page.getByRole("button", { name: "解析命令", exact: true }).click();
   await page
     .locator(".policy-panel .decision")
-    .filter({ hasText: "需要人工确认" })
+    .filter({ hasText: "需要人工审批" })
     .waitFor();
   assert.ok(
     (await page.locator(".policy-reasons").innerText()).includes("/project"),

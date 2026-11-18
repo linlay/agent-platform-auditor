@@ -2,8 +2,10 @@ import { describe, it, expect } from "vitest";
 import { label, reasonLines } from "./ui-labels";
 describe("Chinese diagnostic summaries", () => {
   it("keeps approval and parsing meanings distinct", () => {
-    expect(label("requires_approval")).toBe("需要人工确认");
-    expect(label("auto_approved")).toBe("可自动审批");
+    expect(label("requires_approval")).toBe("需要人工审批");
+    expect(label("auto_approved")).toBe("已自动批准");
+    expect(label("allow")).toBe("无需人工审批 · 允许");
+    expect(label("block")).toBe("禁止执行");
     expect(label("exact")).toBe("精确");
     expect(label("classification")).toBe("只看行为分类");
   });

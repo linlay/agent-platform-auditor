@@ -102,7 +102,7 @@ export function ExpectationPanel({
       </section>
     );
   const check = kind === "parsing" ? parsingCheck(c, result) : approvalCheck(c, result);
-  const heading = kind === "parsing" ? "解析判断" : "审批判断";
+  const heading = kind === "parsing" ? "解析判断" : "审批预期";
   const verdict = judgments(c, result)[kind];
   return (
     <section className="expectation-panel" aria-label={heading + "对照：" + c.id}>
@@ -126,7 +126,6 @@ export function ExpectationPanel({
       {result?.state === "cancelled" && (
         <p>本条解析已取消，未完成的项目不计为通过。</p>
       )}
-      {kind === "approval" && !expected && !c.expect.policyByLevel && <p>本条用例未设置审批预期。实际预审结论单独展示，不记为符合或不符合预期。</p>}
       {kind === "approval" && c.expect.policyByLevel && (
         <>
           <p>{c.review?.mode === "evaluation" ? `本次按“${label(c.review.accessLevel ?? "")}”的预期比较。` : "已设置三档预期；选择评估审批要求及权限档位后运行。"}</p>
@@ -175,9 +174,6 @@ export function ExpectationPanel({
           <pre>{JSON.stringify(c.knownDifference, null, 2)}</pre>
         </details>
       )}
-      <small>
-        “符合预期”仅表示本项判断满足用例要求。解析预期为语法无效，或审批预期为需要人工确认、禁止执行，也可以符合预期；不表示命令获准执行。
-      </small>
     </section>
   );
 }

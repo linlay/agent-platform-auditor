@@ -156,11 +156,32 @@ describe("human and full reports", () => {
     const c = tc(); c.command = '</pre><img src=x onerror="alert(1)"><script>bad()</script>';
     const d = data([item(c, full())]), html = humanReport(d);
     expect(html).not.toContain("HUGE_TREE"); expect(html).not.toContain("<img src=x"); expect(html).toContain("&lt;img");
-    expect(html).toContain("解析符合预期 1"); expect(html).toContain("审批符合预期 0");
+    expect(html).toContain("解析符合预期 1"); expect(html).toContain("未设置审批预期");
+    expect(html).not.toContain("审批符合预期");
     expect(html).toContain("commit-r"); expect(html).toContain('id="red-only"');
     const raw = rawReport(d);
     expect(raw.results.one?.report?.nativeTree).toEqual({ HUGE_TREE: true });
     expect(raw.sourceRuns.r.parser?.sourceCommit).toBe("commit-r");
+  });
+
+  it("reports the actual approval decision alongside a comparison only when authored", () => {
+    const c = tc(), r = done();
+    c.review = { mode: "evaluation", accessLevel: "ask_for_approval" };
+    r.policy = {
+      mode: "evaluation", accessLevel: "ask_for_approval", categories: [],
+      context: "Host", syntaxSource: "platform", engine: "production",
+      decision: { value: "requires_approval", requiresHITL: true, blocked: false, autoApproved: false, disposition: "hitl", reason: "example" },
+    };
+    const observed = humanReport(data([item(c, r)]));
+    expect(observed).toContain("<strong>需要人工审批</strong>");
+    expect(observed).not.toContain("<small>预期比较</small>");
+
+    c.expect.policy = { mode: "evaluation", accessLevel: "ask_for_approval", decision: "requires_approval" };
+    r.checks!.approval.verdict = "match";
+    const compared = humanReport(data([item(c, r)]));
+    expect(compared).toContain("<strong>需要人工审批</strong>");
+    expect(compared).toContain("<small>预期比较</small>");
+    expect(compared).toContain("审批符合预期 1");
   });
 });
 

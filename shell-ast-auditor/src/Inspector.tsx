@@ -1,8 +1,8 @@
 import { label as zh, statusName } from "./ui-labels";
 import { Tag } from "./Tag";
-import { PolicyCategories, PolicyPanel } from "./PolicyPanel";
+import { ApprovalOutcome, PolicyCategories, PolicyPanel, approvalTab } from "./PolicyPanel";
 import { JudgmentBadge } from "./JudgmentBadge";
-import { judgments } from "./judgments";
+import { hasApprovalExpectation, judgments } from "./judgments";
 import { ExpectationPanel } from "./ExpectationPanel";
 import { useState, useEffect, useId } from "react";
 import { Case, J, Result, obj, byteSlice } from "./domain";
@@ -41,7 +41,7 @@ function Tree({
 export function Inspector({
   c,
   result,
-  defaultTab = "审批判断",
+  defaultTab = approvalTab,
 }: {
   c?: Case;
   result?: Result;
@@ -58,6 +58,7 @@ export function Inspector({
     setPicked(null);
   }, [defaultTab]);
   const report = result?.report;
+  const policy = report?.policy ?? result?.policy;
   const source = result?.input?.command ?? c?.command ?? "";
   useEffect(() => setCopyState("idle"), [source]);
   useEffect(() => {
@@ -74,14 +75,16 @@ export function Inspector({
     <section className="inspector">
       {c && (
         <>
-          <h2>{c.id === "custom" ? "解析结果" : c.id}</h2>
-          <div className="case-meta">
-            <Tag code={c.profile} />
-            <Tag code={c.review?.mode ?? "syntax-only"} />
-            {c.review?.accessLevel && <Tag code={c.review.accessLevel} />}
-            {c.id !== "custom" && <span title={"expect.syntax=" + c.expect.syntax}>
-              预期语法{zh(c.expect.syntax)}
-            </span>}
+          <div className="inspector-row inspector-heading">
+            <h2>{c.id === "custom" ? "解析结果" : c.id}</h2>
+            <div className="case-meta">
+              <Tag code={c.profile} />
+              <Tag code={c.review?.mode ?? "syntax-only"} />
+              {c.review?.accessLevel && <Tag code={c.review.accessLevel} />}
+              {c.id !== "custom" && <span title={"expect.syntax=" + c.expect.syntax}>
+                预期语法{zh(c.expect.syntax)}
+              </span>}
+            </div>
           </div>
           <div className="source-box">
             <pre className="source">
@@ -134,32 +137,29 @@ export function Inspector({
                 ? "复制失败，请选中命令手动复制。"
                 : ""}
           </span>
-          {template && (
-            <details className="template-source">
-              <summary>已映射 /project · 查看用例原文</summary>
-              <pre>{template}</pre>
-              <small>上方为本次实际解析的命令，源码范围与高亮以此为准。映射目录：{result?.input?.projectDir ?? c.projectDir}</small>
-            </details>
+          {(c.id !== "custom" || template) && (
+            <div className="inspector-row case-overview">
+              {c.id !== "custom" && (
+                <div className="judgment-summary">
+                  <JudgmentBadge
+                    kind="解析判断"
+                    value={judgments(c, result).parsing}
+                  />
+                  {tab !== approvalTab && <ApprovalOutcome policy={policy} />}
+                </div>
+              )}
+              {template && (
+                <details className="template-source">
+                  <summary>已映射 /project · 查看用例原文</summary>
+                  <pre>{template}</pre>
+                  <small>上方为本次实际解析的命令，源码范围与高亮以此为准。映射目录：{result?.input?.projectDir ?? c.projectDir}</small>
+                </details>
+              )}
+            </div>
           )}
-          {c.id !== "custom" && <div className="judgment-summary">
-            <JudgmentBadge
-              kind="解析判断"
-              value={judgments(c, result).parsing}
-            />
-            <JudgmentBadge
-              kind="审批判断"
-              value={judgments(c, result).approval}
-            />
-          </div>}
-          <div className="status" title={result?.runId?'结果记录：'+result.runId:undefined}>
-            解析：{zh(result?.state ?? "未运行")} · {result?.durationMs ?? "—"}{" "}
-            ms ·
-            <span title="CLI exit code">退出码 {result?.exitCode ?? "—"}</span>
-            {result?.error && <p role="alert">{result.error}</p>}
-          </div>
-          {report && (
-            <>
-              <div className="parse-status">
+          <div className="inspector-row parse-status">
+            {report && (
+              <>
                 <Tag
                   code={report.status.syntax}
                   text={"语法" + zh(report.status.syntax)}
@@ -183,26 +183,33 @@ export function Inspector({
                     tone="warning"
                   />
                 )}
-                <details className="technical-details">
-                  <summary>全部解析状态</summary>
-                  <div className="chips">
-                    {Object.entries(report.status).map(([k, v]) => (
-                      <Tag
-                        key={k}
-                        code={`${k}=${String(v)}`}
-                        text={`${statusName[k] ?? k}：${zh(String(v))}`}
-                      />
-                    ))}
-                  </div>
-                </details>
-              </div>
-              {c.id !== "custom" && <PolicyCategories policy={report.policy} />}
-            </>
-          )}
+              </>
+            )}
+            <div className="status" title={result?.runId ? "结果记录：" + result.runId : undefined}>
+              解析：{zh(result?.state ?? "未运行")} · {result?.durationMs ?? "—"}{" "}
+              ms · <span title="CLI exit code">退出码 {result?.exitCode ?? "—"}</span>
+            </div>
+            {report && (
+              <details className="technical-details">
+                <summary>全部解析状态</summary>
+                <div className="chips">
+                  {Object.entries(report.status).map(([k, v]) => (
+                    <Tag
+                      key={k}
+                      code={`${k}=${String(v)}`}
+                      text={`${statusName[k] ?? k}：${zh(String(v))}`}
+                    />
+                  ))}
+                </div>
+              </details>
+            )}
+          </div>
+          {result?.error && <p role="alert">{result.error}</p>}
+          {report && c.id !== "custom" && <PolicyCategories policy={report.policy} />}
           <nav role="tablist" aria-label="当前命令详情">
             {[
               "解析判断",
-              "审批判断",
+              approvalTab,
               "执行面",
               "执行点",
               "关系",
@@ -249,7 +256,7 @@ export function Inspector({
                   setPicked(null);
                 }}
               >
-                {c.id === "custom" && t === "审批判断" ? "分类与审批" : t}
+                {t}
               </button>
             ))}
           </nav>
@@ -261,11 +268,10 @@ export function Inspector({
           >
             {tab === "解析判断" ? (
               <ExpectationPanel testCase={c} result={result} />
-            ) : tab === "审批判断" ? (
+            ) : tab === approvalTab ? (
               <>
-              {c.id !== "custom" && <ExpectationPanel testCase={c} result={result} kind="approval" />}
-              {report?.policy ? (
-                <PolicyPanel policy={report.policy} showExpectationHint={c.id !== "custom"} />
+              {policy ? (
+                <PolicyPanel policy={policy} />
               ) : (
                 <p className="empty">
                   {report
@@ -275,6 +281,9 @@ export function Inspector({
                       : "解析后将在此显示当前命令的分类与审批结果。"}
                 </p>
               )}
+              {hasApprovalExpectation(c) ? (
+                <ExpectationPanel testCase={c} result={result} kind="approval" />
+              ) : c.id !== "custom" && <p className="empty">本条用例未设置审批预期。</p>}
               </>
             ) : !report ? (
               <p className="empty">

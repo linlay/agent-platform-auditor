@@ -2,42 +2,50 @@ import { Policy } from "./domain";
 import "./PolicyPanel.css";
 import { Tag } from "./Tag";
 import { label, reasonLines } from "./ui-labels";
+export const approvalTab = "分类与审批";
+
+export function ApprovalOutcome({ policy }: { policy?: Policy }) {
+  return policy?.decision && (
+    <span className="approval-outcome" title={policy.accessLevel ? label(policy.accessLevel) : undefined}>
+      审批：{label(policy.decision.value)}
+    </span>
+  );
+}
+
 export function PolicyCategories({ policy }: { policy?: Policy }) {
   return (
     <section className="policy-category-summary" aria-label="审批策略项">
-      <h4>审批策略项</h4>
-      {policy ? (
-        <>
-          <ul className="policy-category-list">
-            {policy.categories.map((category) => (
-              <li key={category}>
-                <code>{category}</code>
-                {label(category) !== category && <span>{label(category)}</span>}
-              </li>
-            ))}
-          </ul>
-          <small>
-            {policy.categories.length === 0
-              ? "已完成分类，未命中额外策略项。"
-              : "以上为本次命中的行为分类；放行或 HITL 取决于权限档位及策略预审。"}
-          </small>
-        </>
-      ) : (
+      <div className="policy-category-heading">
+        <h4>审批策略项</h4>
         <small>
-          本次报告未包含审批策略项。纯语法模式只拆解命令；选择“只看分类”或“评估审批要求”后重新解析可查看策略项。
+          {policy
+            ? policy.categories.length === 0
+              ? "已完成分类，未命中额外策略项。"
+              : "所列为本次命中的行为分类。放行或人工确认取决于权限档位及策略预审。"
+            : "本次报告未包含审批策略项。纯语法模式只拆解命令；选择“只看分类”或“评估审批要求”后重新解析可查看策略项。"}
         </small>
+      </div>
+      {policy && policy.categories.length > 0 && (
+        <ul className="policy-category-list">
+          {policy.categories.map((category) => (
+            <li key={category}>
+              <code>{category}</code>
+              {label(category) !== category && <span>{label(category)}</span>}
+            </li>
+          ))}
+        </ul>
       )}
     </section>
   );
 }
 
-export function PolicyPanel({ policy: p, showExpectationHint = true }: { policy: Policy; showExpectationHint?: boolean }) {
+export function PolicyPanel({ policy: p }: { policy: Policy }) {
   const decision = p.decision;
   const tone =
     decision?.value === "block"
       ? "danger"
       : decision?.requiresHITL
-        ? "danger"
+        ? "warning"
         : decision
           ? "success"
           : "neutral";
@@ -59,7 +67,6 @@ export function PolicyPanel({ policy: p, showExpectationHint = true }: { policy:
           {p.accessLevel && <Tag code={p.accessLevel} />}
         </div>
       </div>
-      {showExpectationHint && <small>以上为实际预审结论；是否符合用例的审批预期，见上方“审批判断”。</small>}
       {reasons.length > 0 ? (
         <ul className="policy-reasons">
           {reasons.map((r, i) => (

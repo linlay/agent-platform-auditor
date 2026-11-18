@@ -17,7 +17,7 @@ try {
     .getByRole("heading", { name: "bash.pipeline", exact: true })
     .waitFor();
   const inspector = page.locator(".inspector");
-  const approvalTab = inspector.getByRole("tab", { name: "审批判断", exact: true });
+  const approvalTab = inspector.getByRole("tab", { name: "分类与审批", exact: true });
   const parsingTab = inspector.getByRole("tab", { name: "解析判断", exact: true });
   const manualMode = page.getByLabel("单用例模式", { exact: true });
   const manualAccess = page.getByLabel("单用例权限档位", { exact: true });
@@ -33,7 +33,7 @@ try {
     await inspector.getByRole("heading", { name: id, exact: true }).waitFor();
     await expect(approvalTab).toHaveAttribute("aria-selected", "true");
   }
-  async function parseCurrent() {
+  async function parseCurrent(expectParsingMatch = true) {
     const response = page.waitForResponse(
       (r) => r.url().endsWith("/api/runs") && r.request().method() === "POST",
     );
@@ -45,10 +45,12 @@ try {
     await expect(page.getByRole("button", { name: "解析当前", exact: true })).toBeEnabled();
     await expect(approvalTab).toHaveAttribute("aria-selected", "true");
     await parsingTab.click();
-    await inspector
-      .locator(".expectation-panel")
-      .getByText("符合预期", { exact: true })
-      .waitFor();
+    if (expectParsingMatch) {
+      await inspector
+        .locator(".expectation-panel")
+        .getByText("符合预期", { exact: true })
+        .waitFor();
+    }
     return run;
   }
   await expect(manualMode).toHaveValue("evaluation");
@@ -120,6 +122,16 @@ try {
   await page.getByLabel("更多筛选条件", { exact: true }).click();
   await expect(item("bash.pipeline")).toHaveCount(0);
   await expect(item("powershell.switch")).toHaveCount(1);
+  await manualMode.selectOption("evaluation");
+  await manualAccess.selectOption("ask_for_approval");
+  await choose("powershell.switch");
+  await parseCurrent(false);
+  await approvalTab.click();
+  const windowsDecision = inspector.locator(".policy-panel .decision");
+  await expect(windowsDecision).toHaveText(/^(需要人工审批|无需人工审批 · 允许|已自动批准|禁止执行)$/);
+  await expect(item("powershell.switch").locator(".approval-outcome")).toHaveText("审批：" + await windowsDecision.innerText());
+  await expect(inspector.getByText("本条用例未设置审批预期。", { exact: true })).toBeVisible();
+  await expect(inspector.locator(".expectation-panel")).toHaveCount(0);
   checks.push("Windows and macOS/Linux have separate groups and smoke inputs");
   await page.getByLabel("测试集", { exact: true }).selectOption("shell-core");
   await expect(item("bash.and-or").locator(".judgment-green")).toHaveCount(1);
@@ -145,7 +157,8 @@ try {
   assert.equal(multi.kind, "manual");
   assert.equal(multi.cases.length, 2);
   await expect(item("bash.sequence").getByLabel("解析：符合预期", { exact: true })).toBeVisible();
-  await expect(item("bash.sequence").getByLabel("审批：符合预期", { exact: true })).toBeVisible();
+  await expect(item("bash.sequence").locator(".approval-outcome")).toBeVisible();
+  await expect(item("bash.sequence").getByLabel("审批：符合预期", { exact: true })).toHaveCount(0);
   await expect(item("bash.git-stash").getByLabel("解析：符合预期", { exact: true })).toBeVisible();
   assert.equal(await item("bash.and-or").locator(".judgment-green").count(), 1);
   assert.equal(await page.locator(".history").count(), 0);
@@ -226,9 +239,10 @@ try {
   await choose("policy.ask-node");
   await inspector
     .locator(".policy-panel .decision")
-    .filter({ hasText: "需要人工确认" })
+    .filter({ hasText: "需要人工审批" })
     .waitFor();
-  await expect(item("policy.ask-node").locator(".judgment-green")).toHaveCount(2);
+  await expect(item("policy.ask-node").locator(".judgment-green")).toHaveCount(1);
+  await expect(item("policy.ask-node").locator(".approval-outcome")).toHaveText("审批：需要人工审批");
   await expect(inspector.locator(".expectation-heading")).toContainText("符合预期");
   await page.screenshot({
     path: "artifacts/ui-whole-batch.png",

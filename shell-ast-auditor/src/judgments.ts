@@ -10,6 +10,9 @@ export interface Judgments {
   approval: Judgment;
   hasRed: boolean;
 }
+export function hasApprovalExpectation(c: Case): boolean {
+  return c.id !== "custom" && Boolean(c.expect.policy || c.expect.policyByLevel);
+}
 // Old combined failures cannot be safely attributed to either dimension.
 // Full historical results are compared again by the backend when opened.
 export function parsingCheck(c: Case, result?: Result): Check | undefined {

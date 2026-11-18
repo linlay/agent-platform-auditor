@@ -87,6 +87,6 @@ export function FreeTest({ active, projectDir, onBusyChange }: { active: boolean
     </section>
     {error && <p role="alert">{error}</p>}
     {modified && <small className="free-stale">输入已修改，以下为上次解析结果。</small>}
-    {snapshot && <Inspector key={revision} c={snapshot} result={result} defaultTab={snapshot.review?.mode === "syntax-only" ? "执行面" : "审批判断"} />}
+    {snapshot && <Inspector key={revision} c={snapshot} result={result} defaultTab={snapshot.review?.mode === "syntax-only" ? "执行面" : undefined} />}
   </div>;
 }
