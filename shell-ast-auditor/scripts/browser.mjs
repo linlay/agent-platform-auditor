@@ -138,8 +138,8 @@ try {
   await expect(page.locator("aside .case")).toHaveCount(5);
   assert.equal(await item("bash.and-or").locator(".judgment-green").count(), 0);
   const selector = page.getByLabel("测试集", { exact: true });
-  await expect(selector.locator('optgroup[label="Windows"] option')).toHaveCount(3);
-  await expect(selector.locator('optgroup[label="macOS / Linux"] option')).toHaveCount(3);
+  await expect(selector.locator('optgroup[label="Windows"] option')).toHaveCount(4);
+  await expect(selector.locator('optgroup[label="macOS / Linux"] option')).toHaveCount(5);
   const moreFilters = page.getByLabel("更多筛选条件", { exact: true });
   const filterPanel = page.locator(".more-filters > div");
   const platforms = filterPanel.getByRole("group", { name: "平台", exact: true });

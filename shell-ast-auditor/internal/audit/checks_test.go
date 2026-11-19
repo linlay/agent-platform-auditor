@@ -141,7 +141,7 @@ func TestApprovalMatrixSelectsRequestedLevel(t *testing.T) {
 
 func TestBundledApprovalCasesHaveThreeAuthoredApprovalLevels(t *testing.T) {
 	s := &Store{Root: filepath.Join("..", "..")}
-	for _, id := range []string{"shell-core", "smoke", "policy-smoke", "policy-http-regression", "policy-http-windows"} {
+	for _, id := range []string{"shell-core", "smoke", "policy-smoke", "policy-http-regression", "policy-http-windows", "policy-shell-regression"} {
 		set, err := s.Testset(id)
 		if err != nil {
 			t.Fatal(err)

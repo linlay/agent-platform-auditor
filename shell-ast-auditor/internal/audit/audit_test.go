@@ -202,7 +202,7 @@ func TestBundledTestsets(t *testing.T) {
 	if e != nil {
 		t.Fatal(e)
 	}
-	if len(sets) != 8 {
+	if len(sets) != 9 {
 		t.Fatal(len(sets))
 	}
 	core, e := s.Testset("shell-core")
