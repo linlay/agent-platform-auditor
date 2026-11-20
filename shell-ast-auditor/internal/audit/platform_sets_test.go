@@ -8,8 +8,8 @@ func TestBundledSetsSeparateWindowsFromMacLinux(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	windows := map[string]bool{"windows-core": true, "windows-smoke": true, "powershell-compat": true, "policy-http-windows": true}
-	counts := map[string]int{"shell-core": 233, "smoke": 5, "policy-smoke": 9, "policy-http-regression": 19, "policy-npm-regression": 11, "policy-sqlite-regression": 13, "policy-shell-regression": 9, "windows-core": 166, "windows-smoke": 3, "powershell-compat": 210, "policy-http-windows": 20}
+	windows := map[string]bool{"windows-core": true, "windows-smoke": true, "powershell-compat": true, "policy-http-windows": true, "policy-hitl-windows": true}
+	counts := map[string]int{"shell-core": 233, "smoke": 5, "policy-smoke": 9, "policy-http-regression": 19, "policy-npm-regression": 11, "policy-sqlite-regression": 13, "policy-shell-regression": 9, "windows-core": 166, "windows-smoke": 3, "powershell-compat": 210, "policy-http-windows": 20, "policy-hitl-windows": 74}
 	unique := map[string]bool{}
 	for _, set := range sets {
 		if len(set.Cases) != counts[set.ID] {
@@ -19,7 +19,7 @@ func TestBundledSetsSeparateWindowsFromMacLinux(t *testing.T) {
 			if len(c.Platforms) == 0 {
 				t.Fatalf("%s: missing platform", c.ID)
 			}
-			if windows[set.ID] && set.ID != "policy-http-windows" && (ReviewMode(c.Input) != "syntax-only" || c.Expect.Policy != nil || len(c.Expect.PolicyByLevel) != 0 || c.Expect.PolicyBasis != "") {
+			if windows[set.ID] && set.ID != "policy-http-windows" && set.ID != "policy-hitl-windows" && (ReviewMode(c.Input) != "syntax-only" || c.Expect.Policy != nil || len(c.Expect.PolicyByLevel) != 0 || c.Expect.PolicyBasis != "") {
 				t.Fatalf("%s: Windows fixture %s must only assert parsing", set.ID, c.ID)
 			}
 			for _, platform := range c.Platforms {
@@ -30,7 +30,7 @@ func TestBundledSetsSeparateWindowsFromMacLinux(t *testing.T) {
 			unique[c.ID] = true
 		}
 	}
-	if len(unique) != 690 {
+	if len(unique) != 764 {
 		t.Fatalf("platform split lost cases: got %d unique IDs", len(unique))
 	}
 }
