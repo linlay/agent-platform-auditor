@@ -8,12 +8,13 @@
 | Windows | [HTTP 取数审批回归](policy-http-windows/COMMANDS.md) | 20 |
 | macOS / Linux | [核心集](shell-core/COMMANDS.md)：Bash、sh、Zsh | 233 |
 | macOS / Linux | [快速集](smoke/COMMANDS.md)：引用 macOS/Linux 核心用例 | 5 条引用 |
-| macOS / Linux | [分类与权限预审](policy-smoke/COMMANDS.md)（Host 相关） | 6 |
+| macOS / Linux | [分类与权限预审](policy-smoke/COMMANDS.md)（Host 相关） | 9 |
 | macOS | [HTTP 取数审批回归](policy-http-regression/COMMANDS.md) | 19 |
+| macOS | [npm 全局路径审批回归](policy-npm-regression/COMMANDS.md) | 11 |
 | macOS | [SQLite CLI 审批回归](policy-sqlite-regression/COMMANDS.md) | 13 |
 | macOS / Linux | [Bash 审批回归](policy-shell-regression/COMMANDS.md) | 9 |
 
-页面的测试集选择按这两组展示。Windows 共 396 条独立输入/profile 用例，macOS/Linux 共 280 条，快速集只引用、不重复计数。PowerShell 共 354 条（5.1：204；7.6：150）。原 shell-core 版本 3 的 317 条拆分时分为 shell-core 版本 4 的 209 条和 windows-core 的 108 条；稳定 caseId、命令及预期保持不变，旧运行快照不修改。原 smoke 的 8 条拆为 5 + 3 条。版本 5 再新增 24 条用户适配用例，macOS/Linux 核心集现为 233 条。Windows 核心集版本 3 增加 29 组 PowerShell Host 审查相关输入，共 58 条双 profile 用例。网络地址统一使用保留的 example.invalid。
+页面的测试集选择按这两组展示。Windows 共 396 条独立输入/profile 用例，macOS/Linux 共 294 条，快速集只引用、不重复计数。PowerShell 共 354 条（5.1：204；7.6：150）。原 shell-core 版本 3 的 317 条拆分时分为 shell-core 版本 4 的 209 条和 windows-core 的 108 条；稳定 caseId、命令及预期保持不变，旧运行快照不修改。原 smoke 的 8 条拆为 5 + 3 条。版本 5 再新增 24 条用户适配用例，macOS/Linux 核心集现为 233 条。Windows 核心集版本 3 增加 29 组 PowerShell Host 审查相关输入，共 58 条双 profile 用例。网络地址统一使用保留的 example.invalid。
 
 `COMMANDS.md` 是可读目录，由 `npm run catalog` 生成；**机器读取的唯一维护源是 `testset.json` 和 JSONL 文件**。一行 JSONL 是一条完整用例，`command` 紧跟 `id`，不夹带历史实际结果。多行 Shell 命令用 JSON 的 `\n` 原样编码，目录中显示为代码块。
 
@@ -73,11 +74,13 @@ npm test && npm run build
 
 [HTTP 取数审批回归](policy-http-regression/COMMANDS.md) 从 A3 和 B6 日志保留 7 条不同的 Bash 调用，另有 6 条权限边界对照。仅更换行情标的的三条转码管道合为一条。另有两条脱敏的默认重定向命令和四条对照，覆盖显式扩大协议、信任跳转目标、上传和只读输出。使用 macOS Host Bash、可编辑的独立工作区以及默认权限配置进行预审。用例记录目标预期，当前预审偏离时显示差异。内联 Python 用例沿用 Auditor 内置的自写代码策略。
 
+[npm 全局路径审批回归](policy-npm-regression/COMMANDS.md) 保留 CuteJ 原命令，并覆盖输出仅用于显示、条件分支与嵌套替换、环境变量覆盖、字面路径与动态路径对照、只读工作区重定向、全局安装和脚本执行。预期以 macOS Host Bash 3.2、普通 npm 入口、独立工作区和默认权限为准，兼容性由实际 npm 版本决定。
+
 [Windows HTTP 取数审批回归](policy-http-windows/COMMANDS.md) 覆盖请求头与状态输出、Workspace 文件读写、默认 curlrc、PowerShell 文本管道和远端上传。相同命令仅在不同 PowerShell profile 下各保留一次，覆盖 5.1 的 Legacy 与 7.6 的 Standard 原生参数传递。预审需 Windows Host 上已核验的 curl.exe。使用独立测试环境的 Workspace 根作为 cwd。默认配置缺失的用例要求测试环境中无活动 curlrc，也无额外的 curl 环境覆盖。越界读用例的目标还须位于其它读权限根之外。用例只作预审，原生 Windows 运行证据单独记录。
 
 ## 三档审批预期
 
-macOS/Linux 的 280 条独立用例和 Windows HTTP 审批回归的 20 条用例在 `expect.policyByLevel` 同时声明 `ask_for_approval`、`auto_approve`、`full_access`。每档包含 `mode: evaluation`、对应 `accessLevel`、明确的 `decision` 和一致的 `requiresHITL`。以 `policyBasis` 记录规则依据及环境前提。按请求的档位比较，纯语法和只分类时显示“未评估审批”。原 `expect.policy` 用于兼容固定模式预期。
+macOS/Linux 的 294 条独立用例和 Windows HTTP 审批回归的 20 条用例在 `expect.policyByLevel` 同时声明 `ask_for_approval`、`auto_approve`、`full_access`。每档包含 `mode: evaluation`、对应 `accessLevel`、明确的 `decision` 和一致的 `requiresHITL`。以 `policyBasis` 记录规则依据及环境前提。按请求的档位比较，纯语法和只分类时显示“未评估审批”。原 `expect.policy` 用于兼容固定模式预期。
 
 Windows 的 376 条核心和兼容性用例声明解析预期。对它们预审可以收集实际分类和决定，审批判断显示“未设预期”。快速集继承引用用例的预期。预期来自命令语义、策略规则及适用环境条件，运行结果用于差异比较。重新运行读取当前预期，历史记录使用运行时的快照。
 

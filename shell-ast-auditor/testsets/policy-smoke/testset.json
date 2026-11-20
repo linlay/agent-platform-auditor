@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "id": "policy-smoke",
   "title": "macOS / Linux 分类与权限预审测试集",
-  "version": "3",
-  "description": "6 条 Host 相关分类/审批用例；每条声明三档预期，根据本次选择的档位比较，沿用原默认运行模式。",
+  "version": "4",
+  "description": "9 条 Host 相关分类/审批用例；每条声明三档预期，根据本次选择的档位比较，沿用原默认运行模式。",
   "files": [
     "bash.jsonl"
   ]

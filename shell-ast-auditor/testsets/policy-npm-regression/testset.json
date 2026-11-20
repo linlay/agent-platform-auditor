@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "id": "policy-npm-regression",
+  "title": "macOS npm 全局路径审批回归",
+  "version": "1",
+  "description": "11 条用例覆盖 CuteJ 原命令、npm 查询与动态路径、只读工作区重定向、安装及脚本执行。使用 macOS Host Bash 3.2 和默认三档预审。",
+  "files": [
+    "bash.jsonl"
+  ]
+}

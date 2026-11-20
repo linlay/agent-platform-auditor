@@ -139,7 +139,7 @@ try {
   assert.equal(await item("bash.and-or").locator(".judgment-green").count(), 0);
   const selector = page.getByLabel("测试集", { exact: true });
   await expect(selector.locator('optgroup[label="Windows"] option')).toHaveCount(4);
-  await expect(selector.locator('optgroup[label="macOS / Linux"] option')).toHaveCount(5);
+  await expect(selector.locator('optgroup[label="macOS / Linux"] option')).toHaveCount(6);
   const moreFilters = page.getByLabel("更多筛选条件", { exact: true });
   const filterPanel = page.locator(".more-filters > div");
   const platforms = filterPanel.getByRole("group", { name: "平台", exact: true });
@@ -267,15 +267,15 @@ try {
     .click();
   const batch = await (await batchResponse).json();
   assert.equal(batch.kind, "batch");
-  assert.equal(batch.cases.length, 6);
+  assert.equal(batch.cases.length, 9);
   await page
     .getByRole("heading", { name: "批次号：" + batch.id, exact: true })
     .waitFor();
   await page.waitForFunction(() =>
-    document.querySelector(".batch-summary")?.textContent.includes("6/6"),
+    document.querySelector(".batch-summary")?.textContent.includes("9/9"),
   );
   await page.getByLabel("搜索用例", { exact: true }).fill("");
-  assert.equal(await page.locator("aside .case").count(), 6);
+  assert.equal(await page.locator("aside .case").count(), 9);
   await choose("policy.ask-node");
   await inspector
     .locator(".policy-panel .decision")
@@ -295,7 +295,7 @@ try {
     .getByRole("button", { name: "查看本批次报告", exact: true })
     .click();
   await page.getByRole("heading", { name: /实际结果对预期/ }).waitFor();
-  assert.equal(await page.locator(".comparison tbody tr").count(), 6);
+  assert.equal(await page.locator(".comparison tbody tr").count(), 9);
   checks.push(
     "whole-set mode retains 6 testsets, ignores viewing filters for execution, shows batch ID/report and per-case details",
   );
@@ -337,14 +337,14 @@ try {
   );
   const batchHTML = (await exportAs("测试报告", "sample-batch-report.html")).toString("utf8");
   assert.ok(batchHTML.includes(batch.id));
-  assert.equal((batchHTML.match(/<tr data-red=/g) ?? []).length, 6);
+  assert.equal((batchHTML.match(/<tr data-red=/g) ?? []).length, 9);
   await page.getByRole("button", { name: "查看本批次报告", exact: true }).click();
   await page.getByRole("heading", { name: "对比结果集", exact: true }).waitFor();
   const comparisonExport = JSON.parse((await exportAs("完整数据", "sample-comparison-results.json")).toString("utf8"));
   assert.equal(comparisonExport.comparison.targetRunId, batch.id);
-  assert.equal(comparisonExport.cases.length, 6);
+  assert.equal(comparisonExport.cases.length, 9);
   assert.ok(comparisonExport.results["policy.ask-node"].report);
-  checks.push("batch export preserves all 6 frozen cases; comparison export includes the selected target and raw evidence");
+  checks.push("batch export preserves all 9 frozen cases; comparison export includes the selected target and raw evidence");
   assert.equal(errors.length, 0, errors.join("\n"));
   const evidence = {
     at: new Date().toISOString(),

@@ -24,10 +24,10 @@ for(const level of levels){
  const entry={level,testsetId,runId:run.id,counts,differences};outcomes.push(entry);
  console.log(JSON.stringify({level,testsetId,runId:run.id,approvalCounts:counts,differences:differences.map(d=>({id:d.caseId,expected:d.expected.decision,actual:d.actual?.value,state:d.state}))}));
  const policy=await completed({testsetId:"policy-smoke",kind:"batch",projectDir:workspace,review:{mode:"evaluation",accessLevel:level}});
- assert.equal(policy.cases.length,6);
+ assert.equal(policy.cases.length,9);
  for(const [id,r]of Object.entries(policy.results)){assert.equal(r.checks.approval.verdict,"match",id+"/"+level+": "+r.checks.approval.issues.join(";"));}
- outcomes.push({level,testsetId:"policy-smoke",policyRunId:policy.id,matched:6});
+ outcomes.push({level,testsetId:"policy-smoke",policyRunId:policy.id,matched:9});
 }
 assert.equal(fs.existsSync(path.join(workspace,"auditor-policy-sentinel")),false);
 fs.writeFileSync("artifacts/approval-matrix-validation.json",JSON.stringify({workspace,expectationSource:"Authored before running from shipped defaults and source rule/semantic review; never captured from these results",nativeWindowsValidated:false,outcomes},null,2));
-console.log("Compared approval expectations for 239 macOS/Linux fixtures across all 3 levels; recorded mismatches.");
+console.log("Compared approval expectations for 242 macOS/Linux fixtures across all 3 levels; recorded mismatches.");

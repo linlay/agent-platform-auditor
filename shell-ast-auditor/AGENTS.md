@@ -38,11 +38,11 @@ shell-ast-auditor/
 │   ├── shell-core/          # macOS/Linux 233 条：Bash/sh/Zsh
 │   ├── windows-core/        # Windows 166 条：PowerShell/CMD
 │   ├── windows-smoke/       # 引用 Windows 3 条
+│   ├── policy-http-windows/ # 20 条 Windows HTTP 取数审批回归
 │   ├── powershell-compat/   # 105 组输入 × 5.1/7.6；210 条文档推导用例
 │   ├── smoke/               # 引用 macOS/Linux 5 条已有 caseId
-│   ├── policy-smoke/        # 6 条分类/权限预审（Host 相关）
-│   ├── policy-http-regression/ # 19 条 macOS HTTP 取数审批回归
-│   ├── policy-http-windows/ # 20 条 Windows HTTP 取数审批回归
+│   ├── policy-smoke/        # 9 条分类/权限预审（Host 相关）
+│   ├── policy-http-regression/ # 19 条 macOS HTTP 取数审批回归（Host 相关）
 │   └── policy-shell-regression/ # Bash 内建命令审批回归（Host 相关）
 ├── results/                 # 生成数据，运行记录和对比结果，默认 Git 忽略
 │   ├── runs/<runId>/        # run.json + reports/<caseId>.json
@@ -109,7 +109,7 @@ consumer=diagnostic；纯语法 classification=not-run，显式分类/预审为 
 
 ## 分类/预审与进程版本
 
-CLI 适配在 cmd/server/parser.go，启动时探测 --help，纯语法显式 --syntax-only；policy 模式按 Input.review 结构化传参。默认核心用例不调用预审，policy-smoke 覆盖分类和 access level。policy-http-regression 与 policy-http-windows 分别覆盖 macOS Bash 和 Windows PowerShell 的 HTTP 取数与权限边界。review 属于输入身份，模式/权限/上下文变化在运行对比中标为 input-changed。
+CLI 适配在 cmd/server/parser.go，启动时探测 --help，纯语法显式 --syntax-only；policy 模式按 Input.review 结构化传参。默认核心用例不调用预审，policy-smoke 覆盖分类和 access level，policy-http-regression 与 policy-http-windows 分别覆盖 macOS Bash 和 Windows PowerShell 的 HTTP 取数与权限边界。review 属于输入身份，模式/权限/上下文变化在运行对比中标为 input-changed。
 
 Result.checks.parsing 与 Result.checks.approval 分别保存解析和审批预期比较，CheckReportParts 是唯一判断入口；旧 Result.check 保留综合统计。期望选择由 ExpectedPolicy/expectedPolicy 按冻结请求的 accessLevel 选择 expect.policyByLevel 中的一档，旧 expect.policy 仍兼容分类用例。macOS/Linux 内置用例声明完整三档和依据。Windows 核心集与兼容性用例声明解析预期，默认只解析语法。独立 Windows HTTP 回归集声明三档审批预期，默认执行权限预审。只解析/只分类但有矩阵时为 not-evaluated；无审批预期时为 not-set，实际预审决定仍记录于 Result.policy。旧详情由 Store.Result 根据冻结 Case 和原始报告只读补算，不改写历史。Result.policy 保存可比较摘要，原始完整报告保留全部 requirements；CheckReport 同时校验请求模式、预期分类和决定，分类-only 不能生成 accessLevel 或 decision。前端 PolicyPanel 与 ReviewControls 只展示和收集选择，不自行判断 allow。
 

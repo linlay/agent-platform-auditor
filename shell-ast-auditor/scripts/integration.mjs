@@ -90,7 +90,7 @@ if (previous) {
   );
 }
 const policy = await run("policy-smoke");
-assert.equal(policy.counts.match, 6, JSON.stringify(policy.results, null, 2));
+assert.equal(policy.counts.match, 9, JSON.stringify(policy.results, null, 2));
 const classify = await api(
   "/api/runs/" + policy.id + "/cases/policy.classify-node",
 );

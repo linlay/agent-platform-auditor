@@ -14,7 +14,7 @@ Go 1.26 API + React/TypeScript strict 的 Shell 解析诊断与回归应用。�
 
 旧 `data/` 已迁移。目录中没有多份同时生效的 cases/corpus/results。
 
-测试集按 **Windows** 与 **macOS / Linux** 分组。Windows 核心集 166 条（PowerShell 124、CMD/Batch 42），[PowerShell 双版本扩展](testsets/powershell-compat/README.md) 210 条、[Windows HTTP 取数审批回归](testsets/policy-http-windows/COMMANDS.md) 20 条，Windows 快速集引用核心集中的 3 条；macOS/Linux 核心集 233 条（Bash、sh、Zsh），分类预审集 6 条、[macOS HTTP 取数审批回归](testsets/policy-http-regression/COMMANDS.md) 19 条、[Bash 审批回归](testsets/policy-shell-regression/COMMANDS.md) 9 条、[SQLite CLI 审批回归](testsets/policy-sqlite-regression/COMMANDS.md) 13 条，快速集引用核心集中的 5 条。独立用例共 676 条；PowerShell 合计 354 条（5.1：204；7.6：150）。Windows 原生验证待完成。平台与方言、profile 分开；macOS/Linux 公共用例用 platforms 明确复用。原始最初 22 项用户输入仍未取得，不伪造原文。
+测试集按 **Windows** 与 **macOS / Linux** 分组。Windows 核心集 166 条（PowerShell 124、CMD/Batch 42），[PowerShell 双版本扩展](testsets/powershell-compat/README.md) 210 条，[Windows HTTP 取数审批回归](testsets/policy-http-windows/COMMANDS.md) 20 条，Windows 快速集引用核心集中的 3 条；macOS/Linux 核心集 233 条（Bash、sh、Zsh），分类预审集 9 条，macOS HTTP 取数审批回归 19 条，Bash 审批回归 9 条，npm 全局路径审批回归 11 条，SQLite CLI 审批回归 13 条，快速集引用核心集中的 5 条。独立用例共 690 条；PowerShell 合计 354 条（5.1：204；7.6：150）。Windows 原生验证待完成。平台与方言、profile 分开；macOS/Linux 公共用例用 platforms 明确复用。原始最初 22 项用户输入仍未取得，不伪造原文。
 
 页面提供 10 个测试集，提供“单用例测试 / 整集测试”两种运行方式。支持搜索与平台/profile/标签/预期/状态/grade/已知差异筛选，单条、选中、筛选集合及全量运行，取消后创建新运行重跑。运行和比较会保存，刷新后可重新打开。执行面、执行点及词、重定向、关系、opaque、诊断、原生 CST/树、完整 JSON 与 UTF-8 源码高亮保留。自定义面板为临时解析，需加入测试集文件才成为可重复测试。
 
@@ -61,7 +61,7 @@ npm run test:integration:powershell
 npm run test:browser
 # 目录映射的真实 CLI/API、233 条 macOS/Linux 用例与 header 按钮检查
 npm run test:project-mapping
-# 独立解析/审批预期判断：233 条 macOS/Linux 语法、6 条分类/审批与预期偏差验证
+# 独立解析/审批预期判断：233 条 macOS/Linux 语法、9 条分类/审批与预期偏差验证
 npm run test:checks
 # macOS/Linux 核心集与分类集的三档预审矩阵，保留每条差异
 npm run test:approval-matrix
@@ -107,7 +107,7 @@ agent-platform `27fc407c` 新增了默认分类与显式权限预审，审计界
 
 批量运行区可覆盖本次模式，自定义面板可单独选择；不修改原测试集预期。可显式填写 Workspace/cwd 和 editing；空目录字段沿用 CLI 后端当前目录。不读取真实部署的 tools.yml，不提供生产批准消费或执行入口。
 
-单用例测试默认使用“评估审批要求”和“按需审批”。整集测试沿用用例设置时，两平台核心集、快速集和 PowerShell 双版本扩展默认均为纯语法运行。Windows 核心集和兼容性用例声明解析预期，独立的 HTTP 审批回归集默认评估按需审批。macOS/Linux 的 `policy-smoke` 包含 6 条用例，覆盖只分类、三种权限档位、auto_approve 下破坏性操作仍需 HITL、full_access 下只读 Workspace 仍 block。权限预期依赖 Host 和发布默认配置。
+单用例测试默认使用“评估审批要求”和“按需审批”。整集测试沿用用例设置时，两平台核心集、快速集和 PowerShell 双版本扩展默认均为纯语法运行。Windows 核心集和 PowerShell 双版本扩展声明解析预期。独立的 Windows HTTP 回归集默认评估按需审批。macOS/Linux 的 `policy-smoke` 包含 9 条用例，覆盖只分类、三种权限档位、auto_approve 下破坏性操作仍需 HITL、full_access 下只读 Workspace 仍 block。权限预期依赖 Host 和发布默认配置。
 
 界面单列 Platform 分类/权限预审，grade、预期是否匹配和 policy 决定分别显示。policy 来自当前生产 reviewer，**不是新 AST 的 grade 推导的许可**；standalone 预审没有真实 Run/挂载/Skill 证明和批准收据，不是可复用执行许可。新版 CLI 即使 --syntax-only，初始化仍可能只读冻结 Host 程序/临时根快照，不再声称进程初始化零 Host 读取；所有模式均不执行输入正文。
 
@@ -125,7 +125,7 @@ agent-platform `27fc407c` 新增了默认分类与显式权限预审，审计界
 
 用例列表展示解析判断，完成权限预审后显示实际决定，包括“需要人工审批”“无需人工审批 · 允许”“已自动批准”或“禁止执行”。“分类与审批”详情先展示实际决定和运行时的权限档位，再展示用例声明的审批预期及比较结果。列表用红点提示审批预期差异。
 
-macOS/Linux 的 280 条独立用例和 Windows HTTP 审批回归的 20 条用例在 `expect.policyByLevel` 声明 ask_for_approval、auto_approve、full_access 三档预期，共 900 个决定，并用 `policyBasis` 记录规则来源与条件。比较按冻结请求的档位选预期，审批详情标出本次运行档位。导出报告和优化反馈使用同一选择逻辑。
+macOS/Linux 的 294 条独立用例和 Windows HTTP 审批回归的 20 条用例在 `expect.policyByLevel` 声明 ask_for_approval、auto_approve、full_access 三档预期，共 942 个决定，并用 `policyBasis` 记录规则来源与条件。比较按冻结请求的档位选预期，审批详情标出本次运行档位。导出报告和优化反馈使用同一选择逻辑。
 
 这些审批预期依据发布默认策略和对应的 Host 条件编写。前提通常为普通可访问的工作区、cwd 与工作区相同、允许编辑、无已有批准；Git 配置可核验且无外部 helper/活动 hook。sh/Zsh 未验证启动合同按保守规则。程序、目录或配置条件变化以及当前 reviewer 的识别缺口可产生红色差异。
 
