@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "id": "policy-shell-regression",
   "title": "Bash 审批回归",
-  "version": "1",
-  "description": "复现 Bash 内建命令的审批差异，用脱敏日志命令校验权限预审。",
+  "version": "2",
+  "description": "用脱敏日志验证 Bash 只读元数据检查、find 时间筛选及递归删除的三档审批预期。",
   "files": [
     "bash.jsonl"
   ]
