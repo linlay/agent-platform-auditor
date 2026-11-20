@@ -41,7 +41,7 @@ shell-ast-auditor/
 │   ├── powershell-compat/   # 105 组输入 × 5.1/7.6；210 条文档推导用例
 │   ├── smoke/               # 引用 macOS/Linux 5 条已有 caseId
 │   ├── policy-smoke/        # 6 条分类/权限预审（Host 相关）
-│   ├── policy-http-regression/ # 13 条 macOS HTTP 取数审批回归
+│   ├── policy-http-regression/ # 19 条 macOS HTTP 取数审批回归
 │   ├── policy-http-windows/ # 20 条 Windows HTTP 取数审批回归
 │   └── policy-shell-regression/ # Bash 内建命令审批回归（Host 相关）
 ├── results/                 # 生成数据，运行记录和对比结果，默认 Git 忽略

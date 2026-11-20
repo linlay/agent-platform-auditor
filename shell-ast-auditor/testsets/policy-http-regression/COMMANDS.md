@@ -1,10 +1,10 @@
 # macOS HTTP 取数审批回归
 
-7 条脱敏日志用例与 6 条权限边界对照，覆盖 Bash 管道、curl 默认配置、动态值、scutil 和 iconv。
+9 条脱敏日志用例与 10 条权限边界对照，覆盖 Bash 管道、curl 默认配置与重定向、动态值、scutil 和 iconv。
 
 本文件由 `npm run catalog` 生成，修改命令请编辑同目录 JSONL，不手工维护此目录。
 
-## bash.jsonl · 13 条
+## bash.jsonl · 19 条
 
 ### policy.http-curl-config-disjoint
 
@@ -258,3 +258,111 @@ curl -q -o ./auditor-quote-output.fixture https://quotes.example.invalid/market
 | full_access | block |
 
 预期依据：首参 -q 关闭默认配置，只读工作区上的 curl 显式输出在三档都必须阻断。
+
+### policy.http-curl-location-stdout
+
+macos · bash · bash-3.2 · 预期 valid
+
+```text
+curl -4 -s -L --max-time 25 -H "User-Agent: Mozilla/5.0" -H "Referer: https://quote.example.invalid/" "https://quotes.example.invalid/api/qt/ulist/get?fields=f2,f3,f124&secids=index-a,index-b"
+```
+
+精确命令参数预期：`[["curl","-4","-s","-L","--max-time","25","-H","User-Agent: Mozilla/5.0","-H","Referer: https://quote.example.invalid/","https://quotes.example.invalid/api/qt/ulist/get?fields=f2,f3,f124&secids=index-a,index-b"]]`
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | allow |
+| auto_approve | allow |
+| full_access | allow |
+
+预期依据：系统 curl 无外部配置影响时，-L 沿用默认重定向协议，响应输出到 stdout。
+
+### policy.http-curl-location-temp-output
+
+macos · bash · bash-3.2 · 预期 valid
+
+```text
+curl -4 -s -L -m 30 -o /tmp/auditor-curl-location.fixture.json -w "http=%{http_code} url=%{url_effective}\n" -H "User-Agent: Mozilla/5.0" -H "Referer: https://quote.example.invalid/" "https://quotes.example.invalid/api/qt/ulist/get?fields=f2,f3,f124&secids=index-a,index-b"
+```
+
+精确命令参数预期：`[["curl","-4","-s","-L","-m","30","-o","/tmp/auditor-curl-location.fixture.json","-w","http=%{http_code} url=%{url_effective}\\n","-H","User-Agent: Mozilla/5.0","-H","Referer: https://quote.example.invalid/","https://quotes.example.invalid/api/qt/ulist/get?fields=f2,f3,f124&secids=index-a,index-b"]]`
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | allow |
+| auto_approve | allow |
+| full_access | allow |
+
+预期依据：系统 curl 无外部配置影响时，-L 沿用默认重定向协议。响应写入允许的临时根，-w 仅输出状态码与最终 URL。
+
+### policy.http-curl-location-all-protocols
+
+macos · bash · bash-3.2 · 预期 valid
+
+```text
+curl -q -L --proto-redir "=all" "https://quotes.example.invalid/api/qt/ulist/get?fields=f2,f3,f124&secids=index-a,index-b"
+```
+
+精确命令参数预期：`[["curl","-q","-L","--proto-redir","=all","https://quotes.example.invalid/api/qt/ulist/get?fields=f2,f3,f124&secids=index-a,index-b"]]`
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
+
+预期依据：显式开启所有重定向协议，按各档复杂 Shell 策略处理。
+
+### policy.http-curl-location-trusted
+
+macos · bash · bash-3.2 · 预期 valid
+
+```text
+curl -q --location-trusted "https://quotes.example.invalid/api/qt/ulist/get?fields=f2,f3,f124&secids=index-a,index-b"
+```
+
+精确命令参数预期：`[["curl","-q","--location-trusted","https://quotes.example.invalid/api/qt/ulist/get?fields=f2,f3,f124&secids=index-a,index-b"]]`
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
+
+预期依据：允许信任重定向目标的调用继续按各档复杂 Shell 策略处理。
+
+### policy.http-curl-location-upload
+
+macos · bash · bash-3.2 · 预期 valid
+
+```text
+curl -q -L -T /dev/null "https://quotes.example.invalid/api/qt/ulist/get?fields=f2,f3,f124&secids=index-a,index-b"
+```
+
+精确命令参数预期：`[["curl","-q","-L","-T","/dev/null","https://quotes.example.invalid/api/qt/ulist/get?fields=f2,f3,f124&secids=index-a,index-b"]]`
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | requires_approval |
+| auto_approve | requires_approval |
+| full_access | allow |
+
+预期依据：默认重定向可分析，-T 仍是远端写入。ask_for_approval 和 auto_approve 均需人工批准。
+
+### policy.http-curl-location-readonly-output
+
+macos · bash · bash-3.2 · 预期 valid
+
+```text
+curl -q -L -o ./auditor-quote-output.fixture "https://quotes.example.invalid/api/qt/ulist/get?fields=f2,f3,f124&secids=index-a,index-b"
+```
+
+精确命令参数预期：`[["curl","-q","-L","-o","./auditor-quote-output.fixture","https://quotes.example.invalid/api/qt/ulist/get?fields=f2,f3,f124&secids=index-a,index-b"]]`
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | block |
+| auto_approve | block |
+| full_access | block |
+
+预期依据：输出文件位于 editing=false 的 Workspace，三档均硬阻断。
