@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "id": "policy-chat-approval-macos",
+  "title": "macOS 对话实录审批样本（2026-11-24）",
+  "version": "1",
+  "description": "从 113 次 Shell 审批裁决归并出 49 条现场样本，另有 6 条对照，覆盖路径、执行入口及 Bash 语法。",
+  "files": [
+    "paths.jsonl",
+    "execution.jsonl",
+    "shell-form.jsonl"
+  ]
+}

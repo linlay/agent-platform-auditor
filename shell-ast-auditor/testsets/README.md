@@ -17,8 +17,9 @@
 | macOS | [npm 全局路径审批回归](policy-npm-regression/COMMANDS.md) | 11 |
 | macOS | [SQLite CLI 审批回归](policy-sqlite-regression/COMMANDS.md) | 13 |
 | macOS / Linux | [Bash 审批回归](policy-shell-regression/COMMANDS.md) | 24 |
+| macOS | [对话实录审批样本（2026-11-24）](policy-chat-approval-macos/COMMANDS.md)（[来源与运行条件](policy-chat-approval-macos/README.md)） | 55 |
 
-页面的测试集选择按这两组展示。Windows 共 566 条独立输入/profile 用例，macOS/Linux 共 309 条。PowerShell 共 524 条，其中 5.1 有 324 条，7.6 有 200 条。两个 PowerShell 独立入口引用核心集和双版本扩展中对应 profile 的语法用例，版本入口和快速集的引用均不重复计数。原 shell-core 版本 3 的 317 条拆分时分为 shell-core 版本 4 的 209 条和 windows-core 的 108 条；稳定 caseId、命令及预期保持不变，旧运行快照不修改。原 smoke 的 8 条拆为 5 + 3 条。版本 5 再新增 24 条用户适配用例，macOS/Linux 核心集现为 233 条。Windows 核心集版本 3 增加 29 组 PowerShell Host 审查相关输入，共 58 条双 profile 用例。核心集的合成网络地址使用保留的 example.invalid。
+页面的测试集选择按这两组展示。Windows 共 566 条独立输入/profile 用例，macOS/Linux 共 364 条。PowerShell 共 524 条，其中 5.1 有 324 条，7.6 有 200 条。两个 PowerShell 独立入口引用核心集和双版本扩展中对应 profile 的语法用例，版本入口和快速集的引用均不重复计数。原 shell-core 版本 3 的 317 条拆分时分为 shell-core 版本 4 的 209 条和 windows-core 的 108 条；稳定 caseId、命令及预期保持不变，旧运行快照不修改。原 smoke 的 8 条拆为 5 + 3 条。版本 5 再新增 24 条用户适配用例，macOS/Linux 核心集现为 233 条。Windows 核心集版本 3 增加 29 组 PowerShell Host 审查相关输入，共 58 条双 profile 用例。核心集的合成网络地址使用保留的 example.invalid。
 
 `COMMANDS.md` 是可读目录，由 `npm run catalog` 生成；**机器读取的唯一维护源是 `testset.json` 和 JSONL 文件**。一行 JSONL 是一条完整用例，`command` 紧跟 `id`，不夹带历史实际结果。多行 Shell 命令用 JSON 的 `\n` 原样编码，目录中显示为代码块。
 
@@ -90,9 +91,11 @@ npm test && npm run build
 
 从 shell-ast-auditor 根目录启动服务，Go 路径对照的工作区和 cwd 都相对此目录解析。先运行 npm run build 生成 bin/auditor，同一个普通 Go 二进制用于两条路径对照。Go 启动环境使用 GOENV=off、GOTOOLCHAIN=local，无 GOFLAGS 或加载覆盖。使用独立测试账号，其遥测已关闭且 mode 文件处于授权读根内，或用无用户配置目录的隔离诊断进程。区外读取对照要求项目放在临时目录和其他预授权根之外。整集选择「沿用用例设置」会应用每条用例的工作目录。手动切换档位复测区外读取时，工作区和 cwd 均设为该项目下 testsets 的实际路径。 Bash 的六条对照使用两个系统都支持的 3.2 语法。Windows 的十四条按 Desktop 5.1 和 Core 7.6 成对编排，分别在匹配的 Host 开始预审。
 
+[macOS 对话实录审批样本](policy-chat-approval-macos/README.md) 归并 113 条历史裁决并提供合成对照。原始行号、权限档位及裁决保存在 `source.occurrences`。具备可独立构建前提的用例声明三档预期，依赖现场 Run 的样本保留审批观测。
+
 ## 三档审批预期
 
-macOS/Linux 的 309 条独立用例和 Windows HTTP 审批回归的 20 条用例在 `expect.policyByLevel` 同时声明 `ask_for_approval`、`auto_approve`、`full_access`。每档包含 `mode: evaluation`、对应 `accessLevel`、明确的 `decision` 和一致的 `requiresHITL`。以 `policyBasis` 记录规则依据及环境前提。按请求的档位比较，纯语法和只分类时显示“未评估审批”。原 `expect.policy` 用于兼容固定模式预期。
+macOS/Linux 中有 326 条用例，Windows HTTP 审批回归中有 20 条用例在 `expect.policyByLevel` 同时声明 `ask_for_approval`、`auto_approve`、`full_access`。每档包含 `mode: evaluation`、对应 `accessLevel`、明确的 `decision` 和一致的 `requiresHITL`。以 `policyBasis` 记录规则依据及环境前提。按请求的档位比较，纯语法和只分类时显示“未评估审批”。原 `expect.policy` 用于兼容固定模式预期。
 
 Windows 的 376 条核心和兼容性用例声明解析预期。对它们预审可以收集实际分类和决定，审批判断显示“未设预期”。快速集继承引用用例的预期。预期来自命令语义、策略规则及适用环境条件，运行结果用于差异比较。重新运行读取当前预期，历史记录使用运行时的快照。
 
