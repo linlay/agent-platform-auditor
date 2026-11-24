@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "id": "policy-chat-approval-windows",
+  "title": "对话实录审批样本（2026-11-24）",
+  "version": "1",
+  "description": "70 条去重后的 Windows PowerShell 5.1 命令，来自目录和元数据、本地文本及公开 HTTP GET 的 76 次人工审批请求。保留原文与历史档位，用于只读静态预审。",
+  "files": [
+    "directory.jsonl",
+    "text.jsonl",
+    "http-get.jsonl"
+  ]
+}
