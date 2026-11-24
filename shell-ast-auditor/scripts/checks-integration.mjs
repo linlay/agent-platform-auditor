@@ -10,7 +10,7 @@ for(const r of Object.values(core.results)){assert.ok(r.checks);assert.equal(r.c
 const policy=await completed({testsetId:"policy-smoke",kind:"batch"});
 assert.equal(policy.counts.match,9);
 for(const r of Object.values(policy.results)){assert.equal(r.checks.parsing.verdict,"match");assert.equal(r.checks.approval.verdict,"match");}
-assert.equal(policy.results["policy.ask-node"].policy.decision.value,"requires_approval");
+assert.equal(policy.results["policy.ask-node"].policy.decision.value,"allow");
 assert.equal(policy.results["policy.readonly-workspace"].policy.decision.value,"block");
 const changed=await completed({testsetId:"policy-smoke",caseIds:["policy.readonly-workspace"],kind:"manual",review:{mode:"evaluation",accessLevel:"full_access",editing:true}});
 const different=changed.results["policy.readonly-workspace"];

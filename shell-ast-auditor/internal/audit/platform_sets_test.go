@@ -15,9 +15,9 @@ func TestBundledSetsSeparateWindowsFromMacLinux(t *testing.T) {
 	}
 	counts := map[string]int{
 		"shell-core": 233, "smoke": 5, "policy-smoke": 9, "policy-http-regression": 19,
-		"policy-npm-regression": 11, "policy-sqlite-regression": 13, "policy-shell-regression": 9,
+		"policy-npm-regression": 11, "policy-sqlite-regression": 13, "policy-shell-regression": 24,
 		"windows-core": 166, "windows-smoke": 3, "powershell-compat": 210,
-		"powershell-51": 194, "powershell-76": 140, "policy-http-windows": 20, "policy-hitl-windows": 86,
+		"powershell-51": 194, "powershell-76": 140, "policy-http-windows": 20, "policy-hitl-windows": 100,
 	}
 	profiles := map[string]string{"powershell-51": "windows-powershell-5.1", "powershell-76": "pwsh-7.6"}
 	unique := map[string]bool{}
@@ -48,7 +48,7 @@ func TestBundledSetsSeparateWindowsFromMacLinux(t *testing.T) {
 			unique[c.ID] = true
 		}
 	}
-	if len(unique) != 776 {
+	if len(unique) != 805 {
 		t.Fatalf("platform split lost cases: got %d unique IDs", len(unique))
 	}
 }

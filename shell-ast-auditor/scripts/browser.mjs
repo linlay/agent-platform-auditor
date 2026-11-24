@@ -284,12 +284,12 @@ try {
   await choose("policy.ask-node");
   await inspector
     .locator(".policy-panel .decision")
-    .filter({ hasText: "需要人工审批" })
+    .filter({ hasText: "无需人工审批 · 允许" })
     .waitFor();
   await expect(item("policy.ask-node").locator(".judgment-green")).toHaveCount(1);
-  await expect(item("policy.ask-node").locator(".approval-outcome")).toHaveText("审批：需要人工审批");
+  await expect(item("policy.ask-node").locator(".approval-outcome")).toHaveText("审批：无需人工审批 · 允许");
   await expect(inspector.locator(".expectation-heading")).toContainText("符合预期");
-  await expect(inspector.locator(":scope > .policy-category-summary")).toContainText("bash-opaque-command");
+  await expect(inspector.locator(":scope > .policy-category-summary")).not.toContainText("bash-opaque-command");
   await expect(inspector.getByRole("region", { name: "审批策略项", exact: true })).toHaveCount(1);
   await expect(inspector.getByText("预审说明与原始报告", { exact: true })).toBeVisible();
   await page.screenshot({

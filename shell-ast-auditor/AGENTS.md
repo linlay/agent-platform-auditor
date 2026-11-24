@@ -43,7 +43,7 @@ shell-ast-auditor/
 │   ├── smoke/               # 引用 macOS/Linux 5 条已有 caseId
 │   ├── policy-smoke/        # 9 条分类/权限预审（Host 相关）
 │   ├── policy-http-regression/ # 19 条 macOS HTTP 取数审批回归（Host 相关）
-│   └── policy-shell-regression/ # Bash 内建命令审批回归（Host 相关）
+│   └── policy-shell-regression/ # Bash 主机审批回归（含 macOS strings）
 ├── results/                 # 生成数据，运行记录和对比结果，默认 Git 忽略
 │   ├── runs/<runId>/        # run.json + reports/<caseId>.json
 │   └── comparisons/         # expectations-<runId>.json / compare-*.json

@@ -96,11 +96,12 @@ const classify = await api(
 );
 assert.equal(classify.report.status.classification, "platform-review");
 assert.equal(classify.report.policy.mode, "classification");
+assert.ok(!classify.report.policy.categories.includes("bash-opaque-command"));
 assert.equal(classify.report.policy.decision, undefined);
 assert.equal(classify.report.policy.accessLevel, undefined);
 const auto = await api("/api/runs/" + policy.id + "/cases/policy.auto-node");
 assert.equal(auto.report.policy.accessLevel, "auto_approve");
-assert.equal(auto.report.policy.decision.value, "auto_approved");
+assert.equal(auto.report.policy.decision.value, "allow");
 const overrideStart = await api("/api/runs", {
   testsetId: "smoke",
   caseIds: ["bash.pipeline"],

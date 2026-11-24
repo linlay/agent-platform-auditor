@@ -1,0 +1,3 @@
+#!/bin/sh
+# Executable PATH-shadow fixture for review-only inputs.
+exit 0

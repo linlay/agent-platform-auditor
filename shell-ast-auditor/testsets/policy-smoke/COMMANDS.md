@@ -1,6 +1,6 @@
 # 分类与权限预审
 
-9 条 Host 相关分类/审批用例；每条声明三档预期，根据本次选择的档位比较，沿用原默认运行模式。
+9 条 Host 分类和权限预审用例，含受信 Node 版本查询的分类与三档决定。
 
 本文件由 `npm run catalog` 生成，修改命令请编辑同目录 JSONL，不手工维护此目录。
 
@@ -14,13 +14,15 @@ macos / linux · bash · bash-3.2 · 预期 valid
 node --version
 ```
 
+精确命令参数预期：`[["node","--version"]]`
+
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | requires_approval |
-| auto_approve | auto_approved |
+| ask_for_approval | allow |
+| auto_approve | allow |
 | full_access | allow |
 
-预期依据：默认策略与命令语义合同；macOS Host；沿用用例 editing 能力与正常工作区上下文。未完整建模的程序、动态参数或复杂语法：BashOpaqueCommand/BashComplexFilesystem 与运行时包装器按三档默认动作处理。
+预期依据：受信的原生 Node 只接收 --version，启动环境中没有 NODE_OPTIONS 等加载选项。三档都直接允许。
 
 ### policy.ask-node
 
@@ -30,13 +32,15 @@ macos / linux · bash · bash-3.2 · 预期 valid
 node --version
 ```
 
+精确命令参数预期：`[["node","--version"]]`
+
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | requires_approval |
-| auto_approve | auto_approved |
+| ask_for_approval | allow |
+| auto_approve | allow |
 | full_access | allow |
 
-预期依据：默认策略与命令语义合同；macOS Host；沿用用例 editing 能力与正常工作区上下文。未完整建模的程序、动态参数或复杂语法：BashOpaqueCommand/BashComplexFilesystem 与运行时包装器按三档默认动作处理。
+预期依据：受信的原生 Node 只接收 --version，启动环境中没有 NODE_OPTIONS 等加载选项。三档都直接允许。
 
 ### policy.auto-node
 
@@ -46,13 +50,15 @@ macos / linux · bash · bash-3.2 · 预期 valid
 node --version
 ```
 
+精确命令参数预期：`[["node","--version"]]`
+
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | requires_approval |
-| auto_approve | auto_approved |
+| ask_for_approval | allow |
+| auto_approve | allow |
 | full_access | allow |
 
-预期依据：默认策略与命令语义合同；macOS Host；沿用用例 editing 能力与正常工作区上下文。未完整建模的程序、动态参数或复杂语法：BashOpaqueCommand/BashComplexFilesystem 与运行时包装器按三档默认动作处理。
+预期依据：受信的原生 Node 只接收 --version，启动环境中没有 NODE_OPTIONS 等加载选项。三档都直接允许。
 
 ### policy.full-node
 
@@ -62,13 +68,15 @@ macos / linux · bash · bash-3.2 · 预期 valid
 node --version
 ```
 
+精确命令参数预期：`[["node","--version"]]`
+
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | requires_approval |
-| auto_approve | auto_approved |
+| ask_for_approval | allow |
+| auto_approve | allow |
 | full_access | allow |
 
-预期依据：默认策略与命令语义合同；macOS Host；沿用用例 editing 能力与正常工作区上下文。未完整建模的程序、动态参数或复杂语法：BashOpaqueCommand/BashComplexFilesystem 与运行时包装器按三档默认动作处理。
+预期依据：受信的原生 Node 只接收 --version，启动环境中没有 NODE_OPTIONS 等加载选项。三档都直接允许。
 
 ### policy.auto-destructive
 

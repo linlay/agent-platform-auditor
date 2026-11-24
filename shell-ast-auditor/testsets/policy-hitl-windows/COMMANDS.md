@@ -1,6 +1,6 @@
 # HITL 命令审批回归
 
-收录 Windows HITL 审批命令、对照用例、文本处理和文件名筛选回归。PowerShell 5.1 和 7.6 各 43 条，共 86 条。
+包含现场 HITL 样本、文本处理、文件名筛选及版本查询对照。PowerShell 5.1 和 7.6 各 50 条。
 
 本文件由 `npm run catalog` 生成，修改命令请编辑同目录 JSONL，不手工维护此目录。
 
@@ -134,11 +134,11 @@ go version
 
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | requires_approval |
-| auto_approve | requires_approval |
+| ask_for_approval | allow |
+| auto_approve | allow |
 | full_access | allow |
 
-预期依据：当前 Windows PowerShell 原生 CLI 审查未登记 go。Go 自动选择工具链可能执行其他 Go 程序。
+预期依据：已核验的本地 Go 工具链，GOENV=off、GOTOOLCHAIN=local，遥测已关闭且启动配置可读。无文件参数，三档直接允许。
 
 ### policy.hitl-windows.a2-r2-i2.ps76
 
@@ -152,11 +152,11 @@ go version
 
 | 权限档位 | 预期决定 |
 | --- | --- |
-| ask_for_approval | requires_approval |
-| auto_approve | requires_approval |
+| ask_for_approval | allow |
+| auto_approve | allow |
 | full_access | allow |
 
-预期依据：当前 Windows PowerShell 原生 CLI 审查未登记 go。Go 自动选择工具链可能执行其他 Go 程序。
+预期依据：已核验的本地 Go 工具链，GOENV=off、GOTOOLCHAIN=local，遥测已关闭且启动配置可读。无文件参数，三档直接允许。
 
 ### policy.hitl-windows.a2-r2-i3.ps51
 
@@ -1213,3 +1213,257 @@ Get-ChildItem -LiteralPath '.' -Force -Recurse | Where-Object { $_.Name -eq $can
 | full_access | allow |
 
 预期依据：比较操作数来自未经证明的变量，按需审批和自动审批档仍须人工。全权访问按默认未知语义策略处理。使用受支持的 Core Host 启动合同进行权限预审，默认仅检查语法。
+
+## version-queries.jsonl · 14 条
+
+### policy.version.git.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+git --version
+```
+
+精确命令参数预期：`[["git","--version"]]`
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | allow |
+| auto_approve | allow |
+| full_access | allow |
+
+预期依据：受信 Git 的独立版本查询在只读工作区内直接允许。
+
+### policy.version.git.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+git --version
+```
+
+精确命令参数预期：`[["git","--version"]]`
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | allow |
+| auto_approve | allow |
+| full_access | allow |
+
+预期依据：受信 Git 的独立版本查询在只读工作区内直接允许。
+
+### policy.version.node.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+node --version
+```
+
+精确命令参数预期：`[["node","--version"]]`
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | allow |
+| auto_approve | allow |
+| full_access | allow |
+
+预期依据：受信的原生 Node 只接收 --version，启动环境中没有 NODE_OPTIONS 等加载选项。三档都直接允许。
+
+### policy.version.node.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+node --version
+```
+
+精确命令参数预期：`[["node","--version"]]`
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | allow |
+| auto_approve | allow |
+| full_access | allow |
+
+预期依据：受信的原生 Node 只接收 --version，启动环境中没有 NODE_OPTIONS 等加载选项。三档都直接允许。
+
+### policy.version.python.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+python --version
+```
+
+精确命令参数预期：`[["python","--version"]]`
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | allow |
+| auto_approve | allow |
+| full_access | allow |
+
+预期依据：受信的原生 Python 解释器只接收 --version，直接报告版本。
+
+### policy.version.python.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+python --version
+```
+
+精确命令参数预期：`[["python","--version"]]`
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | allow |
+| auto_approve | allow |
+| full_access | allow |
+
+预期依据：受信的原生 Python 解释器只接收 --version，直接报告版本。
+
+### policy.version.node-extra.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+node --version extra.js
+```
+
+精确命令参数预期：`[["node","--version","extra.js"]]`
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
+
+预期依据：附加参数超出单独版本查询的范围，按默认 opaque 程序策略进行审批。
+
+### policy.version.node-extra.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+node --version extra.js
+```
+
+精确命令参数预期：`[["node","--version","extra.js"]]`
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
+
+预期依据：附加参数超出单独版本查询的范围，按默认 opaque 程序策略进行审批。
+
+### policy.version.go-m-inside.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+go version -m bin/auditor
+```
+
+精确命令参数预期：`[["go","version","-m","bin/auditor"]]`
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | allow |
+| auto_approve | allow |
+| full_access | allow |
+
+预期依据：已核验的本地 Go 工具链，GOENV=off、GOTOOLCHAIN=local，遥测已关闭且启动配置可读。目标为可读工作区内已有的普通文件，三档直接允许。
+
+### policy.version.go-m-inside.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+go version -m bin/auditor
+```
+
+精确命令参数预期：`[["go","version","-m","bin/auditor"]]`
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | allow |
+| auto_approve | allow |
+| full_access | allow |
+
+预期依据：已核验的本地 Go 工具链，GOENV=off、GOTOOLCHAIN=local，遥测已关闭且启动配置可读。目标为可读工作区内已有的普通文件，三档直接允许。
+
+### policy.version.go-m-outside.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+go version -m ../bin/auditor
+```
+
+精确命令参数预期：`[["go","version","-m","../bin/auditor"]]`
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
+
+预期依据：已核验的本地 Go 工具链，GOENV=off、GOTOOLCHAIN=local，遥测已关闭且启动配置可读。以 testsets 为工作区和 cwd，同一二进制在其父目录的 bin 下，须按区外读取策略判断。
+
+### policy.version.go-m-outside.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+go version -m ../bin/auditor
+```
+
+精确命令参数预期：`[["go","version","-m","../bin/auditor"]]`
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | requires_approval |
+| auto_approve | auto_approved |
+| full_access | allow |
+
+预期依据：已核验的本地 Go 工具链，GOENV=off、GOTOOLCHAIN=local，遥测已关闭且启动配置可读。以 testsets 为工作区和 cwd，同一二进制在其父目录的 bin 下，须按区外读取策略判断。
+
+### policy.version.go-exec.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+go run -exec=fixture-tool main.go
+```
+
+精确命令参数预期：`[["go","run","-exec=fixture-tool","main.go"]]`
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | requires_approval |
+| auto_approve | requires_approval |
+| full_access | requires_approval |
+
+预期依据：发布的 risk-options.yml 将 Go 的 -exec 列为 require。绑定参数值时三档仍须人工审批。
+
+### policy.version.go-exec.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+go run -exec=fixture-tool main.go
+```
+
+精确命令参数预期：`[["go","run","-exec=fixture-tool","main.go"]]`
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | requires_approval |
+| auto_approve | requires_approval |
+| full_access | requires_approval |
+
+预期依据：发布的 risk-options.yml 将 Go 的 -exec 列为 require。绑定参数值时三档仍须人工审批。
