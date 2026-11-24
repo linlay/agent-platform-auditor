@@ -15,14 +15,16 @@ func TestPrepareProjectMapping(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	command := "git -C /project status | head -20 > result.txt"
+	command := "git -C /project status | head -20 > /project/result.txt"
 	review := &audit.ReviewOptions{Mode: "evaluation", AccessLevel: "ask_for_approval", Workspace: "/project", CWD: "/project"}
 	q := Request{Command: command, ProjectDir: dir, Dialect: "bash", Profile: "bash-3.2", Review: review}
 	prepared, err := prepareInput(q)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if prepared.Command != "git -C "+canonical+" status | head -20 > result.txt" || prepared.TemplateCommand != command || prepared.ProjectDir != canonical {
+	templateDir := filepath.ToSlash(canonical)
+	if prepared.Command != "git -C "+templateDir+" status | head -20 > "+templateDir+"/result.txt" ||
+		prepared.TemplateCommand != command || prepared.ProjectDir != canonical {
 		t.Fatalf("wrong resolved input: %+v", prepared)
 	}
 	if prepared.Review.CWD != canonical || prepared.Review.Workspace != canonical || prepared.Review.AccessLevel != "ask_for_approval" {

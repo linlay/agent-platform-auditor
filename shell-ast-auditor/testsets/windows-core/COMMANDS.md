@@ -1,4 +1,4 @@
-# Windows 核心测试集
+# 核心测试
 
 166 条 Windows PowerShell 5.1、PowerShell 7.6 与 CMD/Batch 用例，含 29 组 Host 审查命令的双版本解析覆盖。Windows 原生验证待完成。
 

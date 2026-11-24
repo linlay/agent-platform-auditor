@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "powershell-compat",
-  "title": "Windows PowerShell 双版本扩展测试集",
-  "version": "2",
-  "description": "105 组相同输入 × Windows PowerShell 5.1 / PowerShell 7.6，共 210 条。覆盖引用、参数、管道、控制流、定义、动态调用、表达式、版本差异与错误语法。仅声明文档推导的解析预期，Windows 原生验证待完成。",
+  "title": "PowerShell 双版本扩展",
+  "version": "3",
+  "description": "105 组相同输入按 PowerShell 5.1 与 7.6 各跑一次，共 210 条。覆盖引用、参数、管道、控制流、定义、动态调用、表达式、版本差异与错误语法。",
   "files": [
     "cases.jsonl"
   ]

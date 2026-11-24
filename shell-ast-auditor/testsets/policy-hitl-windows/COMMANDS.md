@@ -1,10 +1,10 @@
-# Windows HITL 命令审批回归
+# HITL 命令审批回归
 
-收录 31 组 Windows HITL 审批命令、6 组对照及 3 组文本处理审批回归。PowerShell 5.1 和 7.6 各 40 条，共 80 条。
+收录 Windows HITL 审批命令、对照用例、文本处理和文件名筛选回归。PowerShell 5.1 和 7.6 各 43 条，共 86 条。
 
 本文件由 `npm run catalog` 生成，修改命令请编辑同目录 JSONL，不手工维护此目录。
 
-## powershell.jsonl · 80 条
+## powershell.jsonl · 86 条
 
 ### policy.hitl-windows.a1-r2-i1.ps51
 
@@ -1117,3 +1117,99 @@ $file = ".\chat-fixture\sample [text].txt"; $rows = Get-Content -LiteralPath $fi
 | full_access | allow |
 
 预期依据：Core 7.4+ 当前将这类赋值与文本表达式交给未知语义审批。仅在实际执行审查的 Host 为受支持的 pwsh.exe 时比较三档预期，默认运行只检查语法。
+
+### policy.hitl-windows.filename-literal-eq.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+Get-ChildItem -LiteralPath '.' -Force -Recurse | Where-Object { $_.Name -eq '.kbx' } | Select-Object Mode,FullName | Format-Table -AutoSize
+```
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | allow |
+| auto_approve | allow |
+| full_access | allow |
+
+预期依据：核验本地工作目录的递归枚举及读权限，按字面等值筛选已枚举项目的 Name，再显式投影 Mode 和 FullName。使用 Desktop 5.1 的 Host 启动合同及默认权限配置。
+
+### policy.hitl-windows.filename-literal-eq.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+Get-ChildItem -LiteralPath '.' -Force -Recurse | Where-Object { $_.Name -eq '.kbx' } | Select-Object Mode,FullName | Format-Table -AutoSize
+```
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | allow |
+| auto_approve | allow |
+| full_access | allow |
+
+预期依据：核验本地工作目录的递归枚举及读权限，按字面等值筛选已枚举项目的 Name，再显式投影 Mode 和 FullName。使用受支持的 Core Host 启动合同进行权限预审，默认仅检查语法。
+
+### policy.hitl-windows.filename-literal-like.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+Get-ChildItem -LiteralPath '.' -Force -Recurse | Where-Object { $_.Name -like '*kbx*' } | Select-Object Mode,FullName | Format-Table -AutoSize; Write-Output 'search-done'
+```
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | allow |
+| auto_approve | allow |
+| full_access | allow |
+
+预期依据：核验本地工作目录的递归枚举及读权限，按字面通配筛选已枚举项目的 Name，显式投影后执行独立的字面输出。使用 Desktop 5.1 的 Host 启动合同及默认权限配置。
+
+### policy.hitl-windows.filename-literal-like.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+Get-ChildItem -LiteralPath '.' -Force -Recurse | Where-Object { $_.Name -like '*kbx*' } | Select-Object Mode,FullName | Format-Table -AutoSize; Write-Output 'search-done'
+```
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | allow |
+| auto_approve | allow |
+| full_access | allow |
+
+预期依据：核验本地工作目录的递归枚举及读权限，按字面通配筛选已枚举项目的 Name，显式投影后执行独立的字面输出。使用受支持的 Core Host 启动合同进行权限预审，默认仅检查语法。
+
+### policy.hitl-windows.filename-dynamic-predicate.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+Get-ChildItem -LiteralPath '.' -Force -Recurse | Where-Object { $_.Name -eq $candidate } | Select-Object Mode,FullName | Format-Table -AutoSize
+```
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | requires_approval |
+| auto_approve | requires_approval |
+| full_access | allow |
+
+预期依据：比较操作数来自未经证明的变量，按需审批和自动审批档仍须人工。全权访问按默认未知语义策略处理。使用 Desktop 5.1 的 Host 启动合同及默认权限配置。
+
+### policy.hitl-windows.filename-dynamic-predicate.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+Get-ChildItem -LiteralPath '.' -Force -Recurse | Where-Object { $_.Name -eq $candidate } | Select-Object Mode,FullName | Format-Table -AutoSize
+```
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | requires_approval |
+| auto_approve | requires_approval |
+| full_access | allow |
+
+预期依据：比较操作数来自未经证明的变量，按需审批和自动审批档仍须人工。全权访问按默认未知语义策略处理。使用受支持的 Core Host 启动合同进行权限预审，默认仅检查语法。

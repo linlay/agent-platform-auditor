@@ -1,4 +1,4 @@
-# macOS / Linux 核心测试集
+# 核心测试
 
 233 条 macOS/Linux 用例：Bash、sh、Zsh，含 12 组用户命令适配的 Bash 3.2/5.2 用例；Windows 已独立到 windows-core。
 

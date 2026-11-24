@@ -1,6 +1,6 @@
-# Windows PowerShell 双版本扩展测试集
+# PowerShell 双版本扩展
 
-105 组相同输入 × Windows PowerShell 5.1 / PowerShell 7.6，共 210 条。覆盖引用、参数、管道、控制流、定义、动态调用、表达式、版本差异与错误语法。仅声明文档推导的解析预期，Windows 原生验证待完成。
+105 组相同输入按 PowerShell 5.1 与 7.6 各跑一次，共 210 条。覆盖引用、参数、管道、控制流、定义、动态调用、表达式、版本差异与错误语法。
 
 本文件由 `npm run catalog` 生成，修改命令请编辑同目录 JSONL，不手工维护此目录。
 
@@ -918,7 +918,7 @@ class Fixture { [string]$Name; Fixture([string]$name) { $this.Name=$name } }; [F
 
 ### powershell.compat.enum-flags.ps51
 
-windows · powershell · windows-powershell-5.1 · 预期 valid
+windows · powershell · windows-powershell-5.1 · 预期 invalid
 
 ```text
 [Flags()] enum FixtureFlag { None=0; Read=1; Write=2 }; [FixtureFlag]::Read

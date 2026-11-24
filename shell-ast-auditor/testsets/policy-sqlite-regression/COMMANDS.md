@@ -1,4 +1,4 @@
-# macOS SQLite CLI 审批回归
+# SQLite CLI 审批回归
 
 13 条用例覆盖 SQLite schema、目录权限、备份和不透明调用。使用 Apple /usr/bin/sqlite3、默认权限、独立的 Workspace 及没有 SQLite 启动脚本的测试环境。
 

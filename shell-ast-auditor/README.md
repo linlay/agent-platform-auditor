@@ -14,9 +14,9 @@ Go 1.26 API + React/TypeScript strict 的 Shell 解析诊断与回归应用。�
 
 旧 `data/` 已迁移。目录中没有多份同时生效的 cases/corpus/results。
 
-测试集按 **Windows** 与 **macOS / Linux** 分组。Windows 核心集 166 条（PowerShell 124、CMD/Batch 42），[PowerShell 双版本扩展](testsets/powershell-compat/README.md) 210 条，[Windows HTTP 取数审批回归](testsets/policy-http-windows/COMMANDS.md) 20 条，Windows 快速集引用核心集中的 3 条；macOS/Linux 核心集 233 条（Bash、sh、Zsh），分类预审集 9 条，macOS HTTP 取数审批回归 19 条，Bash 审批回归 9 条，npm 全局路径审批回归 11 条，SQLite CLI 审批回归 13 条，快速集引用核心集中的 5 条。独立用例共 690 条；PowerShell 合计 354 条（5.1：204；7.6：150）。Windows 原生验证待完成。平台与方言、profile 分开；macOS/Linux 公共用例用 platforms 明确复用。原始最初 22 项用户输入仍未取得，不伪造原文。
+测试集按 **Windows** 与 **macOS / Linux** 分组。Windows 核心集 166 条（PowerShell 124、CMD/Batch 42），[PowerShell 双版本扩展](testsets/powershell-compat/README.md) 210 条，[Windows HTTP 取数审批回归](testsets/policy-http-windows/COMMANDS.md) 20 条，[Windows HITL 命令审批回归](testsets/policy-hitl-windows/README.md) 86 条，Windows 快速集引用核心集中的 3 条；macOS/Linux 核心集 233 条（Bash、sh、Zsh），分类预审集 9 条，macOS HTTP 取数审批回归 19 条，Bash 审批回归 9 条，npm 全局路径审批回归 11 条，SQLite CLI 审批回归 13 条，快速集引用核心集中的 5 条。独立用例共 776 条（其中 PowerShell 440 条，5.1 为 247 条，7.6 为 193 条）。Windows 原生验证待完成。平台与方言、profile 分开；macOS/Linux 公共用例用 platforms 明确复用。原始最初 22 项用户输入仍未取得，不伪造原文。
 
-页面提供 10 个测试集，提供“单用例测试 / 整集测试”两种运行方式。支持搜索与平台/profile/标签/预期/状态/grade/已知差异筛选，单条、选中、筛选集合及全量运行，取消后创建新运行重跑。运行和比较会保存，刷新后可重新打开。执行面、执行点及词、重定向、关系、opaque、诊断、原生 CST/树、完整 JSON 与 UTF-8 源码高亮保留。自定义面板为临时解析，需加入测试集文件才成为可重复测试。
+页面提供 14 个测试集，提供“单用例测试 / 整集测试”两种运行方式。支持搜索与平台/profile/标签/预期/状态/grade/已知差异筛选，单条、选中、筛选集合及全量运行，取消后创建新运行重跑。运行和比较会保存，刷新后可重新打开。执行面、执行点及词、重定向、关系、opaque、诊断、原生 CST/树、完整 JSON 与 UTF-8 源码高亮保留。自定义面板为临时解析，需加入测试集文件才成为可重复测试。
 
 ## 启动
 
@@ -135,9 +135,11 @@ macOS/Linux 的 294 条独立用例和 Windows HTTP 审批回归的 20 条用例
 
 ## 累计结果与整集批次
 
-提供 10 个测试集。单用例测试支持选一条、多选、全选，不以测试批次展示。每条保存自己的结果和来源记录，后续解析只更新选中的用例。当前浏览器按测试集保存轻量索引，切换集合或刷新也可恢复；完整报告从每条对应的运行文件读取。“清空结果”只重置当前测试集的累计结果，不删除已保存运行文件。自定义临时命令仅在当前页保留。
+单用例测试支持选一条、多选、全选，不以测试批次展示。每条保存自己的结果和来源记录，后续解析只更新选中的用例。当前浏览器按测试集保存轻量索引，切换集合或刷新也可恢复；完整报告从每条对应的运行文件读取。“清空结果”只重置当前测试集的累计结果，不删除已保存运行文件。自定义临时命令仅在当前页保留。
 
 整集测试一次运行当前测试集的全部用例，筛选只影响显示，不改变执行范围。每次生成批次号，提供报告和逐条明细，不提供单条解析按钮。单用例记录不混入批次选择器。桌面批次卡片为一行。
+
+在 Windows 分组选择 [PowerShell 5.1](testsets/powershell-51/COMMANDS.md)（194 条）或 [PowerShell 7.6](testsets/powershell-76/COMMANDS.md)（140 条），点击“运行整个测试集”即可单独运行相应版本并生成报告。两个入口引用核心和双版本扩展里的现有语法用例。要对照相同输入的两个版本，选择“PowerShell 双版本扩展”。
 
 顶部提供独立的“自由测试”：直接输入多行命令，选择 Shell/profile、分类或审批模式后点击“解析命令”，也支持 Ctrl/⌘ + Enter。复用目录设置、详情和三种报告导出；输入及上次结果在本页切换测试方式时保留，与测试集的累计结果及整集批次独立。“清空结果”只清除自由测试结果，保留输入。自由输入没有固定测试预期，不会根据实际审批结论推断为测试通过；它调用诊断解析器，不执行命令正文。`npm run test:free` 独立验证此流程。
 

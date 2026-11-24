@@ -39,13 +39,15 @@ func prepareInput(q Request) (Request, error) {
 		// Literal expansion keeps the original quoting of every dialect. Reject
 		// ambiguous targets rather than changing argument boundaries or inventing
 		// a second Shell parser. Ordinary Unicode directory names are supported.
-		if dir == string(filepath.Separator) || strings.ContainsFunc(dir, func(r rune) bool {
+		// Forward slashes keep Windows paths literal in unquoted Bash inputs.
+		templateDir := filepath.ToSlash(dir)
+		if filepath.Dir(dir) == dir || strings.ContainsFunc(templateDir, func(r rune) bool {
 			return unicode.IsSpace(r) || unicode.IsControl(r) || strings.ContainsRune("\\\"'`$;&|<>()*?[]{}!#~", r)
 		}) {
 			return q, fmt.Errorf("/project 映射目录暂不支持根目录、空白或 Shell 特殊字符，请选择普通目录路径")
 		}
 		q.ProjectDir = dir
-		mapped := audit.MapProjectTemplate(q.Command, dir)
+		mapped := audit.MapProjectTemplate(q.Command, templateDir)
 		if mapped != q.Command {
 			q.TemplateCommand, q.Command = q.Command, mapped
 		}

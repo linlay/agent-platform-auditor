@@ -1,4 +1,4 @@
-# macOS / Linux 快速回归测试集
+# 快速回归
 
 引用 macOS/Linux 核心集中的 5 条用例；不混入 Windows 用例。
 

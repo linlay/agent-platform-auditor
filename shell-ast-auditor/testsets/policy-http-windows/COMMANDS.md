@@ -1,4 +1,4 @@
-# Windows HTTP 取数审批回归
+# HTTP 取数审批回归
 
 10 组 Windows curl.exe 权限场景，分别覆盖 PowerShell 5.1 与 7.6，共 20 条用例。
 

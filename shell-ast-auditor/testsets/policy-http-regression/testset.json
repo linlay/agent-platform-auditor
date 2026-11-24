@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "policy-http-regression",
-  "title": "macOS HTTP 取数审批回归",
+  "title": "HTTP 取数审批回归",
   "version": "2",
   "description": "9 条脱敏日志用例与 10 条权限边界对照，覆盖 Bash 管道、curl 默认配置与重定向、动态值、scutil 和 iconv。",
   "files": [

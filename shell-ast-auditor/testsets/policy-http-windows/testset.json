@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "policy-http-windows",
-  "title": "Windows HTTP 取数审批回归",
+  "title": "HTTP 取数审批回归",
   "version": "1",
   "description": "10 组 Windows curl.exe 权限场景，分别覆盖 PowerShell 5.1 与 7.6，共 20 条用例。",
   "files": [

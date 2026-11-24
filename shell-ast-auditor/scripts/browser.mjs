@@ -138,8 +138,13 @@ try {
   await expect(page.locator("aside .case")).toHaveCount(5);
   assert.equal(await item("bash.and-or").locator(".judgment-green").count(), 0);
   const selector = page.getByLabel("测试集", { exact: true });
-  await expect(selector.locator('optgroup[label="Windows"] option')).toHaveCount(4);
-  await expect(selector.locator('optgroup[label="macOS / Linux"] option')).toHaveCount(6);
+  const windowsOptions = selector.locator('optgroup[label="Windows"] option');
+  await expect(windowsOptions).toHaveCount(7);
+  await expect(selector.locator('optgroup[label="macOS / Linux"] option')).toHaveCount(7);
+  await expect(windowsOptions.filter({ hasText: /^PowerShell 5\.1 \(194\)$/ })).toHaveCount(1);
+  await expect(windowsOptions.filter({ hasText: /^PowerShell 7\.6 \(140\)$/ })).toHaveCount(1);
+  await expect(windowsOptions.filter({ hasText: /^PowerShell 双版本扩展 \(210\)$/ })).toHaveCount(1);
+  assert.ok((await selector.locator("option").allTextContents()).every(title => !/windows|macos/i.test(title)));
   const moreFilters = page.getByLabel("更多筛选条件", { exact: true });
   const filterPanel = page.locator(".more-filters > div");
   const platforms = filterPanel.getByRole("group", { name: "平台", exact: true });
@@ -256,7 +261,7 @@ try {
   assert.equal(await page.getByLabel("自定义命令", { exact: true }).count(), 0);
   assert.equal(
     await page.getByLabel("测试集", { exact: true }).locator("option").count(),
-    6,
+    14,
   );
   await page.getByLabel("搜索用例", { exact: true }).fill("readonly");
   const batchResponse = page.waitForResponse(
@@ -297,7 +302,7 @@ try {
   await page.getByRole("heading", { name: /实际结果对预期/ }).waitFor();
   assert.equal(await page.locator(".comparison tbody tr").count(), 9);
   checks.push(
-    "whole-set mode retains 6 testsets, ignores viewing filters for execution, shows batch ID/report and per-case details",
+    "whole-set mode retains all testsets, ignores viewing filters for execution, shows batch ID/report and per-case details",
   );
   await single.click();
   await page.getByLabel("测试集", { exact: true }).selectOption("shell-core");

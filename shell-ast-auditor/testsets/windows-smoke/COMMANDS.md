@@ -1,4 +1,4 @@
-# Windows 快速回归测试集
+# 快速回归
 
 引用 Windows 核心集中的 3 条 PowerShell/CMD 用例，仅声明解析预期。Windows 原生验证待完成。
 

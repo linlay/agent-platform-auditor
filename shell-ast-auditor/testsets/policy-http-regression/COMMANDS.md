@@ -1,4 +1,4 @@
-# macOS HTTP 取数审批回归
+# HTTP 取数审批回归
 
 9 条脱敏日志用例与 10 条权限边界对照，覆盖 Bash 管道、curl 默认配置与重定向、动态值、scutil 和 iconv。
 

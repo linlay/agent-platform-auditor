@@ -33,7 +33,7 @@ func TestPowerShellPairedCoverage(t *testing.T) {
 			t.Fatalf("%s: unverified fixture claims native evidence or hides parser gaps", c.ID)
 		}
 	}
-	modern, malformed := 0, 0
+	versionDifferences, malformed := 0, 0
 	for key, pair := range pairs {
 		a, okA := pair["windows-powershell-5.1"]
 		b, okB := pair["pwsh-7.6"]
@@ -41,8 +41,11 @@ func TestPowerShellPairedCoverage(t *testing.T) {
 			t.Fatalf("%s: incomplete or unequal-input pair", key)
 		}
 		switch {
-		case strings.Contains(key, ".chain-") || strings.Contains(key, ".ternary-") || strings.Contains(key, ".coalesce-") || strings.Contains(key, ".null-") || strings.Contains(key, ".background-") || strings.Contains(key, ".leading-pipe"):
-			modern++
+		case strings.Contains(key, ".chain-") || strings.Contains(key, ".ternary-") ||
+			strings.Contains(key, ".coalesce-") || strings.Contains(key, ".null-") ||
+			strings.Contains(key, ".background-") || strings.Contains(key, ".leading-pipe") ||
+			key == "powershell.compat.enum-flags":
+			versionDifferences++
 			if a.Expect.Syntax != "invalid" || b.Expect.Syntax != "valid" {
 				t.Fatalf("%s: unsupported 5.1 syntax accepted by expectation", key)
 			}
@@ -57,7 +60,7 @@ func TestPowerShellPairedCoverage(t *testing.T) {
 			}
 		}
 	}
-	if modern != 10 || malformed != 15 {
-		t.Fatalf("lost rejection coverage: version pairs=%d malformed pairs=%d", modern, malformed)
+	if versionDifferences != 11 || malformed != 15 {
+		t.Fatalf("lost rejection coverage: version pairs=%d malformed pairs=%d", versionDifferences, malformed)
 	}
 }

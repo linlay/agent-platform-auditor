@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "policy-hitl-windows",
-  "title": "Windows HITL 命令审批回归",
-  "version": "2",
-  "description": "收录 31 组 Windows HITL 审批命令、6 组对照及 3 组文本处理审批回归。PowerShell 5.1 和 7.6 各 40 条，共 80 条。",
+  "title": "HITL 命令审批回归",
+  "version": "3",
+  "description": "收录 Windows HITL 审批命令、对照用例、文本处理和文件名筛选回归。PowerShell 5.1 和 7.6 各 43 条，共 86 条。",
   "files": [
     "powershell.jsonl"
   ]
