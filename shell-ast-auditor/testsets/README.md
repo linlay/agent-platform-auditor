@@ -6,7 +6,7 @@
 | Windows | [PowerShell 双版本扩展](powershell-compat/COMMANDS.md)（[范围与依据](powershell-compat/README.md)） | 210 |
 | Windows | [快速集](windows-smoke/COMMANDS.md)：引用 Windows 核心用例 | 3 条引用 |
 | Windows | [HTTP 取数审批回归](policy-http-windows/COMMANDS.md) | 20 |
-| Windows | [HITL 命令审批回归](policy-hitl-windows/COMMANDS.md)（[来源与运行条件](policy-hitl-windows/README.md)） | 74 |
+| Windows | [HITL 命令审批回归](policy-hitl-windows/COMMANDS.md)（[来源与运行条件](policy-hitl-windows/README.md)） | 80 |
 | macOS / Linux | [核心集](shell-core/COMMANDS.md)：Bash、sh、Zsh | 233 |
 | macOS / Linux | [快速集](smoke/COMMANDS.md)：引用 macOS/Linux 核心用例 | 5 条引用 |
 | macOS / Linux | [分类与权限预审](policy-smoke/COMMANDS.md)（Host 相关） | 9 |
@@ -79,7 +79,7 @@ npm test && npm run build
 
 [Windows HTTP 取数审批回归](policy-http-windows/COMMANDS.md) 覆盖请求头与状态输出、Workspace 文件读写、默认 curlrc、PowerShell 文本管道和远端上传。相同命令仅在不同 PowerShell profile 下各保留一次，覆盖 5.1 的 Legacy 与 7.6 的 Standard 原生参数传递。预审需 Windows Host 上已核验的 curl.exe。使用独立测试环境的 Workspace 根作为 cwd。默认配置缺失的用例要求测试环境中无活动 curlrc，也无额外的 curl 环境覆盖。越界读用例的目标还须位于其它读权限根之外。用例只作预审，原生 Windows 运行证据单独记录。
 
-[Windows HITL 命令审批回归](policy-hitl-windows/README.md) 收录现场样本中的脚本、内联代码、HTTP/DNS、Git 和 Go 调用，默认以按需审批预审。48 条声明三档预期，另 26 条保留预审观测。
+[Windows HITL 命令审批回归](policy-hitl-windows/README.md) 收录现场样本中的脚本、内联代码、HTTP/DNS、Git 和 Go 调用，默认以按需审批预审。54 条声明三档预期，另 26 条保留预审观测。新增的文本处理用例按 Desktop 5.1 与 Core 7.6 成对收录。
 
 ## 三档审批预期
 

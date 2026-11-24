@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "id": "policy-hitl-windows",
   "title": "Windows HITL 命令审批回归",
-  "version": "1",
-  "description": "收录 Windows HITL 审批样本中的 31 组去重命令，覆盖自写脚本、内联代码、HTTP/DNS、Git 和 Go，另附 6 组对照。PowerShell 5.1 和 7.6 各一套，共 74 条。",
+  "version": "2",
+  "description": "收录 31 组 Windows HITL 审批命令、6 组对照及 3 组文本处理审批回归。PowerShell 5.1 和 7.6 各 40 条，共 80 条。",
   "files": [
     "powershell.jsonl"
   ]

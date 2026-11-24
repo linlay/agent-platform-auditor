@@ -1,10 +1,10 @@
 # Windows HITL 命令审批回归
 
-收录 Windows HITL 审批样本中的 31 组去重命令，覆盖自写脚本、内联代码、HTTP/DNS、Git 和 Go，另附 6 组对照。PowerShell 5.1 和 7.6 各一套，共 74 条。
+收录 31 组 Windows HITL 审批命令、6 组对照及 3 组文本处理审批回归。PowerShell 5.1 和 7.6 各 40 条，共 80 条。
 
 本文件由 `npm run catalog` 生成，修改命令请编辑同目录 JSONL，不手工维护此目录。
 
-## powershell.jsonl · 74 条
+## powershell.jsonl · 80 条
 
 ### policy.hitl-windows.a1-r2-i1.ps51
 
@@ -1021,3 +1021,99 @@ nslookup.exe bridge.example.invalid
 | full_access | allow |
 
 预期依据：已核验 nslookup.exe 的非交互式普通域名查询。
+
+### policy.hitl-windows.text-data-local-length-and-line-count.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+$file = ".\chat-fixture\sample [text].txt"; $rows = Get-Content -LiteralPath $file -Encoding UTF8 | Where-Object { $_ -notmatch '^\s*#' -and $_.Trim() -ne '' }; $body = ($rows -join ''); $hits = ([regex]::Matches($body, '[\u4e00-\u9fff]')).Count; $length = $body.Length; Write-Output "Hits=$hits"; Write-Output "Length=$length"; Write-Output "Rows=$($rows.Count)"
+```
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | allow |
+| auto_approve | allow |
+| full_access | allow |
+
+预期依据：Desktop 5.1、匹配的 Host 启动合同及可读测试工作区。静态局部变量中的单文件路径走 LiteralPath 读取审查，后续仅处理已证明的文本和计数。
+
+### policy.hitl-windows.text-data-local-length-and-line-count.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+$file = ".\chat-fixture\sample [text].txt"; $rows = Get-Content -LiteralPath $file -Encoding UTF8 | Where-Object { $_ -notmatch '^\s*#' -and $_.Trim() -ne '' }; $body = ($rows -join ''); $hits = ([regex]::Matches($body, '[\u4e00-\u9fff]')).Count; $length = $body.Length; Write-Output "Hits=$hits"; Write-Output "Length=$length"; Write-Output "Rows=$($rows.Count)"
+```
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | requires_approval |
+| auto_approve | requires_approval |
+| full_access | allow |
+
+预期依据：Core 7.4+ 当前将这类赋值与文本表达式交给未知语义审批。仅在实际执行审查的 Host 为受支持的 pwsh.exe 时比较三档预期，默认运行只检查语法。
+
+### policy.hitl-windows.text-data-interpolated-length.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+$file = ".\chat-fixture\sample [text].txt"; $rows = Get-Content -LiteralPath $file -Encoding UTF8 | Where-Object { $_ -notmatch '^\s*#' -and $_.Trim() -ne '' }; $body = ($rows -join ''); $hits = ([regex]::Matches($body, '[\u4e00-\u9fff]')).Count; Write-Output "Hits=$hits"; Write-Output "Length=$($body.Length)"
+```
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | allow |
+| auto_approve | allow |
+| full_access | allow |
+
+预期依据：Desktop 5.1、匹配的 Host 启动合同及可读测试工作区。静态局部变量中的单文件路径走 LiteralPath 读取审查，后续仅处理已证明的文本和计数。
+
+### policy.hitl-windows.text-data-interpolated-length.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+$file = ".\chat-fixture\sample [text].txt"; $rows = Get-Content -LiteralPath $file -Encoding UTF8 | Where-Object { $_ -notmatch '^\s*#' -and $_.Trim() -ne '' }; $body = ($rows -join ''); $hits = ([regex]::Matches($body, '[\u4e00-\u9fff]')).Count; Write-Output "Hits=$hits"; Write-Output "Length=$($body.Length)"
+```
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | requires_approval |
+| auto_approve | requires_approval |
+| full_access | allow |
+
+预期依据：Core 7.4+ 当前将这类赋值与文本表达式交给未知语义审批。仅在实际执行审查的 Host 为受支持的 pwsh.exe 时比较三档预期，默认运行只检查语法。
+
+### policy.hitl-windows.text-data-literal-regex-replace.ps51
+
+windows · powershell · windows-powershell-5.1 · 预期 valid
+
+```text
+$file = ".\chat-fixture\sample [text].txt"; $rows = Get-Content -LiteralPath $file -Encoding UTF8 | Where-Object { $_ -notmatch '^\s*#' -and $_.Trim() -ne '' }; $body = ($rows -join ''); $hits = ([regex]::Matches($body, '[\u4e00-\u9fff]')).Count; Write-Output "Hits=$hits"; Write-Output "Length=$($body.Length)"; Write-Output "NoSpace=$((($body -replace '\s','')).Length)"
+```
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | allow |
+| auto_approve | allow |
+| full_access | allow |
+
+预期依据：Desktop 5.1、匹配的 Host 启动合同及可读测试工作区。静态局部变量中的单文件路径走 LiteralPath 读取审查，后续仅处理已证明的文本和计数。
+
+### policy.hitl-windows.text-data-literal-regex-replace.ps76
+
+windows · powershell · pwsh-7.6 · 预期 valid
+
+```text
+$file = ".\chat-fixture\sample [text].txt"; $rows = Get-Content -LiteralPath $file -Encoding UTF8 | Where-Object { $_ -notmatch '^\s*#' -and $_.Trim() -ne '' }; $body = ($rows -join ''); $hits = ([regex]::Matches($body, '[\u4e00-\u9fff]')).Count; Write-Output "Hits=$hits"; Write-Output "Length=$($body.Length)"; Write-Output "NoSpace=$((($body -replace '\s','')).Length)"
+```
+
+| 权限档位 | 预期决定 |
+| --- | --- |
+| ask_for_approval | requires_approval |
+| auto_approve | requires_approval |
+| full_access | allow |
+
+预期依据：Core 7.4+ 当前将这类赋值与文本表达式交给未知语义审批。仅在实际执行审查的 Host 为受支持的 pwsh.exe 时比较三档预期，默认运行只检查语法。
