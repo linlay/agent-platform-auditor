@@ -20,7 +20,7 @@ Go 1.26 API + React/TypeScript strict 的 Shell 解析诊断与回归应用。�
 
 ## 启动
 
-需要 Go 1.26、Node.js 20+、相邻 `agent-platform` 解析器源码（初始来源 commit `6125321e`）。在本目录执行：
+需要 Go 1.26、Node.js 20+。构建解析器还需要 Python 3（Windows 使用 `python`，macOS/Linux 使用 `python3`）和相邻 `agent-platform` 源码（初始来源 commit `6125321e`）。在本目录执行：
 
 ```bash
 npm ci
@@ -83,7 +83,7 @@ npm run server
 
 `server:stop` 只对健康接口确认 app、项目路径和 PID 都属于本项目的服务发送 SIGTERM，不强杀未知进程。停服务会中断活动测试，重启后标为 interrupted。更换端口可设置 `AUDITOR_ADDR=127.0.0.1:8094`；Vite 同时设置 `AUDITOR_API_URL=http://127.0.0.1:8094`。
 
-CLI 构建保存 `bin/parser-build.json`，记录源码 commit、dirty 状态、工作区源码指纹和二进制 SHA-256；未提交改动不会写成已发布版本。旧二进制与服务所使用的版本按摘要保存在 bin/parsers/。运行中的服务固定使用启动时的字节快照；重建 CLI 后需要停止旧服务再启动，才能切换到新解析器。
+CLI 构建在 Windows 产出 `bin/shell-ast.exe`，在 macOS/Linux 产出 `bin/shell-ast`。`bin/parser-build.json` 记录源码 commit、dirty 状态、工作区源码指纹和二进制 SHA-256；未提交改动不会写成已发布版本。旧二进制与服务所使用的版本按摘要保存在 bin/parsers/。运行中的服务固定使用启动时的字节快照；重建 CLI 后需要停止旧服务再启动，才能切换到新解析器。
 
 ## 分类与 access level
 

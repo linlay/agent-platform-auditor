@@ -84,7 +84,7 @@ func routes(bin string, runner *audit.Runner) http.Handler {
 func main() {
 	bin := os.Getenv("SHELL_AST_BIN")
 	if bin == "" {
-		bin = "bin/shell-ast"
+		bin = filepath.Join("bin", parserExecutableName("shell-ast"))
 	}
 	bin, _ = filepath.Abs(bin)
 	addr := os.Getenv("AUDITOR_ADDR")

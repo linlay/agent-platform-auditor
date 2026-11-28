@@ -10,6 +10,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"shell-ast-auditor/internal/audit"
 	"sort"
 	"strings"
@@ -99,15 +100,22 @@ func syntaxContract(raw json.RawMessage) error {
 	}
 	return nil
 }
+func parserExecutableName(name string) string {
+	if runtime.GOOS == "windows" {
+		return name + ".exe"
+	}
+	return name
+}
+
 func newParser(bin string) (*parserAdapter, error) {
 	b, e := os.ReadFile(bin)
 	if e != nil {
 		return nil, fmt.Errorf("parser unavailable; run npm run parser:build: %w", e)
 	}
 	digest := fmt.Sprintf("%x", sha256.Sum256(b))
-	// Pin the bytes used for every run. Rebuilding bin/shell-ast cannot silently
+	// Pin the bytes used for every run. Rebuilding the CLI cannot silently
 	// change a running server's parser while leaving the recorded hash unchanged.
-	archive := filepath.Join("bin", "parsers", "shell-ast-"+digest)
+	archive := filepath.Join("bin", "parsers", parserExecutableName("shell-ast-"+digest))
 	if e = os.MkdirAll(filepath.Dir(archive), 0755); e != nil {
 		return nil, e
 	}

@@ -13,6 +13,8 @@ root = Path(__file__).resolve().parents[1]
 source = Path(os.environ.get('SHELL_AST_SOURCE', root.parent.parent / 'agent-platform')).resolve()
 bindir = root / 'bin'
 bindir.mkdir(exist_ok=True)
+executable_suffix = '.exe' if os.name == 'nt' else ''
+executable_name = 'shell-ast' + executable_suffix
 
 def git(*args):
     return subprocess.check_output(['git', *args], cwd=source)
@@ -31,7 +33,7 @@ def source_fingerprint():
 
 source_hash = source_fingerprint()
 with tempfile.TemporaryDirectory(prefix='parser-build-', dir=bindir) as temp:
-    target = Path(temp) / 'shell-ast'
+    target = Path(temp) / executable_name
     subprocess.run(['go', 'build', '-o', str(target), './cmd/shell-ast'], cwd=source,
                    env={**os.environ, 'CGO_ENABLED': '0'}, check=True)
     if source_hash != source_fingerprint() or commit != git('rev-parse', 'HEAD').decode().strip():
@@ -41,10 +43,10 @@ with tempfile.TemporaryDirectory(prefix='parser-build-', dir=bindir) as temp:
     digest = hashlib.sha256(target.read_bytes()).hexdigest()
     archive = bindir / 'parsers'
     archive.mkdir(exist_ok=True)
-    current = bindir / 'shell-ast'
+    current = bindir / executable_name
     if current.exists():
         old_bytes = current.read_bytes()
-        old = archive / ('shell-ast-' + hashlib.sha256(old_bytes).hexdigest())
+        old = archive / ('shell-ast-' + hashlib.sha256(old_bytes).hexdigest() + executable_suffix)
         if not old.exists():
             old.write_bytes(old_bytes)
             old.chmod(0o755)

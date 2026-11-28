@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "server": "go run ./cmd/server",
-    "parser:build": "python3 scripts/build-parser.py",
+    "parser:build": "node scripts/build-parser.mjs",
     "test": "node scripts/catalog.mjs --check && go test ./... && vitest run",
     "build": "tsc --noEmit && vite build && go build -o bin/auditor ./cmd/server",
     "test:integration": "node scripts/integration.mjs",
