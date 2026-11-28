@@ -1,0 +1,20 @@
+{
+  "name": "catalog-lock-auditor",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "go test ./... && vitest run",
+    "build": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.ui.json && node scripts/build-server.mjs",
+    "target:build": "node scripts/build-targets.mjs",
+    "server": "go run ./cmd/server"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.8.3",
+    "vitest": "^2.1.9"
+  }
+}

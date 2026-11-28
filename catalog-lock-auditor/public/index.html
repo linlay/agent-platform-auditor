@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Catalog Lock Auditor · 文件锁诊断与 A/B 基准台</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2.5" y="7" width="11" height="7" rx="1.5" />
+            <path d="M5 7V5a3 3 0 0 1 6 0v2" />
+          </svg>
+        </div>
+        <div class="brand-text">
+          <strong>Catalog Lock</strong>
+          <span>AUDITOR</span>
+        </div>
+      </div>
+
+      <div class="nav-section">
+        <div class="section-label">工作区</div>
+        <nav class="nav-list" aria-label="主导航">
+          <button type="button" class="nav-btn is-active" data-tab="compare">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 4h10M3 8h6M3 12h10" />
+            </svg>
+            <span>A/B 对照测试</span>
+          </button>
+          <button type="button" class="nav-btn" data-tab="sandbox">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2.5" y="2.5" width="11" height="11" rx="1.5" />
+              <path d="M5.5 6.5l2 1.5-2 1.5M9 10h2" />
+            </svg>
+            <span>实时交互沙盒</span>
+          </button>
+        </nav>
+      </div>
+
+      <div class="history-section">
+        <div class="history-header">
+          <div class="section-label">历史对照</div>
+          <button type="button" id="btn-new-compare" class="btn-new-compare" title="清空当前历史结果，配置并新建一次 A/B 对照">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+              <path d="M8 3.2v9.6M3.2 8h9.6" />
+            </svg>
+            <span>新建</span>
+          </button>
+        </div>
+        <div id="history-list" class="history-list">
+          <div class="empty-hint">暂无历史记录</div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header id="topbar" class="topbar">
+        <div class="topbar-left">
+          <h1 id="page-title">A/B 对照测试</h1>
+          <div class="segmented compare-only" role="radiogroup" aria-label="被测引擎">
+            <label class="seg-item">
+              <input type="radio" name="audit-engine" value="builtin" />
+              <span>内置引擎</span>
+            </label>
+            <label class="seg-item">
+              <input type="radio" name="audit-engine" value="platform" checked />
+              <span>真实 Platform</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <button type="button" id="btn-toggle-logs" class="btn btn-subtle">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="2.5" width="12" height="11" rx="1.5" />
+              <path d="M4.5 6l2 2-2 2M8 10h3.5" />
+            </svg>
+            <span>日志</span>
+            <span id="log-count-pill" class="count-pill">0</span>
+          </button>
+
+          <button type="button" id="btn-export" class="btn btn-subtle compare-only" disabled>
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M8 2.5v7.5M5 7l3 3 3-3M3 13h10" />
+            </svg>
+            <span>导出</span>
+          </button>
+
+          <span class="topbar-sep compare-only" aria-hidden="true"></span>
+
+          <button type="button" id="btn-run-watcher" class="btn btn-subtle compare-only">仅 Watcher</button>
+          <button type="button" id="btn-run-polling" class="btn btn-subtle compare-only">仅 Polling</button>
+          <button type="button" id="btn-compare" class="btn btn-primary compare-only">运行 A/B 对照</button>
+        </div>
+      </header>
+
+      <section id="view-compare" class="view-body">
+        <section id="target-build-panel" class="surface config-strip">
+          <div class="branch-bar">
+            <div class="branch-field is-watcher">
+              <div class="ref-combobox">
+                <div class="ref-input-wrap is-watcher">
+                  <span class="ref-role-prefix">
+                    <span class="mode-dot dot-watcher" aria-hidden="true"></span>
+                    <span>Watcher</span>
+                  </span>
+                  <input id="cfg-watcher-ref" type="text" value="main" placeholder="分支名 / Tag / Commit" aria-label="Watcher 分支" autocomplete="off" />
+                  <span id="watcher-build-icon" class="ref-state-icon is-neutral" title="正在检查构建状态" aria-label="正在检查构建状态"></span>
+                  <button type="button" class="ref-toggle-btn" data-ref-toggle="cfg-watcher-ref" aria-label="展开 Watcher 分支列表">
+                    <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M4 6l4 4 4-4" />
+                    </svg>
+                  </button>
+                </div>
+                <div id="cfg-watcher-ref-menu" class="ref-menu is-hidden" role="listbox"></div>
+              </div>
+              <div id="watcher-ref-preview" class="ref-preview">正在读取 Git 分支信息...</div>
+            </div>
+
+            <div class="vs-tag" aria-hidden="true">VS</div>
+
+            <div class="branch-field is-polling">
+              <div class="ref-combobox">
+                <div class="ref-input-wrap is-polling">
+                  <span class="ref-role-prefix">
+                    <span class="mode-dot dot-polling" aria-hidden="true"></span>
+                    <span>Polling</span>
+                  </span>
+                  <input id="cfg-polling-ref" type="text" value="codex/windows-catalog-polling" placeholder="分支名 / Tag / Commit" aria-label="Polling 分支" autocomplete="off" />
+                  <span id="polling-build-icon" class="ref-state-icon is-neutral" title="正在检查构建状态" aria-label="正在检查构建状态"></span>
+                  <button type="button" class="ref-toggle-btn" data-ref-toggle="cfg-polling-ref" aria-label="展开 Polling 分支列表">
+                    <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M4 6l4 4 4-4" />
+                    </svg>
+                  </button>
+                </div>
+                <div id="cfg-polling-ref-menu" class="ref-menu is-hidden" role="listbox"></div>
+              </div>
+              <div id="polling-ref-preview" class="ref-preview">正在读取 Git 分支信息...</div>
+            </div>
+
+            <div class="branch-actions">
+              <button type="button" id="btn-refresh-refs" class="btn btn-subtle" title="刷新 Git 分支与缓存状态" aria-label="刷新 Git 分支">
+                <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M13.5 8a5.5 5.5 0 1 1-1.35-3.6M13.5 2.5v2.75H10.75" />
+                </svg>
+              </button>
+              <button type="button" id="btn-build-targets" class="btn btn-subtle" title="立即构建当前所选分支">构建</button>
+            </div>
+          </div>
+          <div id="target-meta" class="config-footnote is-hidden"></div>
+        </section>
+
+        <details id="advanced-drawer" class="surface param-strip">
+          <summary id="advanced-summary" class="param-summary">
+            <span class="param-summary-left">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" />
+                <circle cx="5.5" cy="4.5" r="1.25" fill="#ffffff" />
+                <circle cx="10.5" cy="8" r="1.25" fill="#ffffff" />
+                <circle cx="6.5" cy="11.5" r="1.25" fill="#ffffff" />
+              </svg>
+              <span>测试参数</span>
+            </span>
+            <span id="advanced-summary-text" class="param-summary-meta">加载场景参数中...</span>
+          </summary>
+
+          <div class="param-body">
+            <div class="param-group">
+              <div class="field-label">测试场景</div>
+              <div id="scenario-checks" class="scenario-checks"></div>
+            </div>
+
+            <div class="param-inputs">
+              <label class="inline-field">
+                <span>压测轮数</span>
+                <input id="cfg-rounds" type="number" min="10" max="500" step="10" value="50" />
+              </label>
+              <label class="inline-field">
+                <span>目录规模</span>
+                <select id="cfg-scale">
+                  <option value="small">small (8 skills / 7 connectors · 60 文件)</option>
+                  <option value="medium" selected>medium (25 skills / 25 connectors · 400 文件)</option>
+                  <option value="large">large (75 skills / 75 connectors · 1500 文件)</option>
+                  <option value="xlarge">xlarge (200 skills / 200 connectors · 4800 文件)</option>
+                </select>
+              </label>
+              <label class="inline-field">
+                <span>轮询间隔 (ms)</span>
+                <input id="cfg-poll" type="number" min="100" max="10000" step="100" value="500" />
+                <span id="poll-hint" class="field-note">仅对内置引擎生效</span>
+              </label>
+            </div>
+          </div>
+        </details>
+
+        <div id="run-spinner" class="notice-bar is-running is-hidden">
+          <span class="spinner" aria-hidden="true"></span>
+          <span>正在隔离沙盒中依次执行 Watcher 与 Polling 测试...</span>
+        </div>
+
+        <div id="status-banner" class="notice-bar is-hidden"></div>
+
+        <section id="compare-empty-state" class="surface empty-launch is-hidden">
+          <h2 class="empty-launch-title">新建 A/B 对照测试</h2>
+          <p id="empty-launch-meta" class="empty-launch-meta">请在上方确认引擎、分支与测试参数后发起一次全新对照。</p>
+          <div class="empty-launch-actions">
+            <button type="button" id="btn-empty-compare" class="btn btn-primary">开始运行 A/B 对照</button>
+            <button type="button" id="btn-empty-params" class="btn btn-subtle">展开测试参数</button>
+          </div>
+        </section>
+
+        <section id="summary-band" class="surface summary-band is-hidden">
+          <div id="verdict-bar" class="verdict-bar">
+            <div class="verdict-main">
+              <span id="verdict-dot" class="status-dot dot-neutral" aria-hidden="true"></span>
+              <div class="verdict-copy">
+                <h2 id="verdict-title" class="verdict-title">等待执行</h2>
+                <span id="verdict-meta" class="verdict-meta"></span>
+              </div>
+            </div>
+            <div id="verdict-impact" class="status-pill pill-neutral">—</div>
+          </div>
+          <div id="compare-summary" class="metric-strip"></div>
+        </section>
+
+        <section id="results-split" class="results-split is-hidden">
+          <article id="matrix-card" class="surface panel">
+            <header class="panel-header">
+              <div>
+                <h2>场景对照矩阵</h2>
+                <p class="panel-sub">选择任意场景，在右侧查看分步状态与进程日志</p>
+              </div>
+              <span id="matrix-meta" class="panel-meta"></span>
+            </header>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>测试场景</th>
+                    <th><span class="th-role"><span class="mode-dot dot-watcher" aria-hidden="true"></span>Watcher</span></th>
+                    <th><span class="th-role"><span class="mode-dot dot-polling" aria-hidden="true"></span>Polling</span></th>
+                    <th>常驻目录</th>
+                    <th>OS 句柄</th>
+                    <th>重载延迟</th>
+                  </tr>
+                </thead>
+                <tbody id="matrix-tbody"></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article id="detail-card" class="surface panel inspector-panel">
+            <header class="panel-header inspector-header">
+              <div class="inspector-title-wrap">
+                <h2 id="detail-title">场景详情</h2>
+                <p id="detail-subtitle" class="panel-sub"></p>
+              </div>
+              <div class="segmented inspector-tabs" role="tablist" aria-label="详情视图">
+                <button type="button" id="tab-inspector-steps" class="seg-tab is-active" data-inspector-tab="steps" role="tab" aria-selected="true">步骤对比</button>
+                <button type="button" id="tab-inspector-logs" class="seg-tab" data-inspector-tab="logs" role="tab" aria-selected="false">进程日志</button>
+              </div>
+            </header>
+            <div id="detail-telemetry" class="telemetry-strip is-hidden"></div>
+            <div id="detail-content" class="inspector-body">
+              <div class="empty-state">请从左侧场景对照矩阵中选择一行</div>
+            </div>
+          </article>
+        </section>
+      </section>
+
+      <section id="view-sandbox" class="view-body is-hidden">
+        <section class="surface sb-toolbar">
+          <div class="sb-controls">
+            <label class="inline-field">
+              <span>引擎</span>
+              <select id="sb-engine">
+                <option value="platform" selected>真实 agent-platform.exe</option>
+                <option value="builtin">内置 Go 引擎</option>
+              </select>
+            </label>
+            <label class="inline-field">
+              <span>模式</span>
+              <select id="sb-mode">
+                <option value="watcher">Watcher (fsnotify)</option>
+                <option value="polling" selected>Polling (WalkDir)</option>
+              </select>
+            </label>
+            <div id="sb-ref-wrap" class="inline-field">
+              <label for="sb-ref">分支 / Commit</label>
+              <div class="ref-combobox sb-ref-combobox">
+                <div class="ref-input-wrap">
+                  <input id="sb-ref" type="text" value="codex/windows-catalog-polling" placeholder="分支或 commit" autocomplete="off" />
+                  <button type="button" class="ref-toggle-btn" data-ref-toggle="sb-ref" aria-label="展开沙盒分支列表">
+                    <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M4 6l4 4 4-4" />
+                    </svg>
+                  </button>
+                </div>
+                <div id="sb-ref-menu" class="ref-menu is-hidden" role="listbox"></div>
+              </div>
+            </div>
+            <label class="inline-field">
+              <span>轮询间隔 (ms)</span>
+              <input id="sb-poll" type="number" min="100" max="5000" step="100" value="500" />
+            </label>
+          </div>
+          <div class="sb-actions">
+            <span id="sb-status-pill" class="status-pill pill-neutral">未启动</span>
+            <button type="button" id="btn-sb-start" class="btn btn-primary">启动沙盒</button>
+            <button type="button" id="btn-sb-stop" class="btn btn-subtle" disabled>停止</button>
+          </div>
+        </section>
+
+        <section id="sb-metrics" class="surface metric-strip"></section>
+
+        <div id="sb-workspace" class="surface workspace-line">工作目录: 尚未创建（点击「启动沙盒」创建独立临时目录）</div>
+
+        <div class="sandbox-grid">
+          <article class="surface panel">
+            <header class="panel-header">
+              <div>
+                <h2>沙盒文件动作</h2>
+                <p class="panel-sub">向隔离目录写入文件变更，验证目录锁占用与热重载响应</p>
+              </div>
+            </header>
+            <div class="action-list">
+              <button type="button" class="action-item" data-sb-action="rename-skill" disabled>
+                <strong>重命名 Skill 目录</strong>
+                <span>对子目录执行 rename 再改回原名，检测句柄锁定</span>
+              </button>
+              <button type="button" class="action-item" data-sb-action="delete-recreate-connector" disabled>
+                <strong>删除并重建 Connector 目录</strong>
+                <span>删除目录后重建有效 manifest 与 view.json</span>
+              </button>
+              <button type="button" class="action-item" data-sb-action="replace-connector" disabled>
+                <strong>临时目录覆盖替换</strong>
+                <span>模拟安装包卸载并原子重命名上线</span>
+              </button>
+              <button type="button" class="action-item" data-sb-action="edit-skill" disabled>
+                <strong>修改 SKILL.md 内容</strong>
+                <span>触发内容签名变更并检查重载延迟</span>
+              </button>
+              <button type="button" class="action-item" data-sb-action="write-staging" disabled>
+                <strong>写入 .staging 临时文件</strong>
+                <span>验证暂存目录忽略规则，不应触发无效重载</span>
+              </button>
+              <button type="button" class="action-item" data-sb-action="burst-10" disabled>
+                <strong>连续重命名压测（10 轮）</strong>
+                <span>高频连续修改目录，测试抖动防重入与锁冲突</span>
+              </button>
+            </div>
+          </article>
+
+          <article class="surface panel">
+            <header class="panel-header">
+              <div>
+                <h2>沙盒事件流</h2>
+                <p class="panel-sub">实时记录文件操作与热重载回调结果</p>
+              </div>
+            </header>
+            <div id="sb-events" class="event-log">
+              <div class="empty-state">启动沙盒并执行操作后，此处显示事件记录</div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="log-backdrop" class="drawer-backdrop" aria-hidden="true"></div>
+  <aside id="log-drawer" class="log-drawer" aria-hidden="true" aria-label="实时运行日志">
+    <header class="drawer-header">
+      <div class="drawer-title-group">
+        <span id="sse-dot" class="status-dot dot-neutral" aria-hidden="true"></span>
+        <h2>实时运行日志</h2>
+        <div class="drawer-filters" role="group" aria-label="日志过滤">
+          <button type="button" class="filter-chip is-active" data-log-filter="all">全部</button>
+          <button type="button" class="filter-chip" data-log-filter="error">锁错误</button>
+          <button type="button" class="filter-chip" data-log-filter="reload">热重载</button>
+          <button type="button" class="filter-chip" data-log-filter="build">构建</button>
+        </div>
+      </div>
+
+      <div class="drawer-actions">
+        <label class="autoscroll-check">
+          <input id="chk-autoscroll" type="checkbox" checked />
+          <span>自动滚动</span>
+        </label>
+        <button type="button" id="btn-clear-logs" class="btn btn-dark btn-xs">清空</button>
+        <button type="button" id="btn-close-logs" class="btn btn-dark btn-xs" aria-label="关闭日志面板">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+            <path d="M4 4l8 8M12 4l-8 8" />
+          </svg>
+          <span>关闭</span>
+        </button>
+      </div>
+    </header>
+    <div id="live-log-body" class="drawer-log-body"></div>
+  </aside>
+
+  <script type="module" src="/dist/ui/app.js"></script>
+</body>
+</html>
